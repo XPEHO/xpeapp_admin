@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/firebase_options.dart';
 import 'package:xpeapp_admin/presentation/pages/home_page.dart';
 import 'package:xpeapp_admin/presentation/pages/login_page.dart';
+import 'package:xpeapp_admin/presentation/pages/newsletter_detail_page.dart';
+import 'package:xpeapp_admin/presentation/pages/newsletters_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +39,10 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginPage(),
         '/home': (context) => const HomePage(),
+        '/newsletters': (context) => const NewslettersPage(),
+        '/newsletter/detail': (context) => NewsletterDetailPage(
+              id: ModalRoute.of(context)!.settings.arguments as String,
+            ),
       },
     );
   }
