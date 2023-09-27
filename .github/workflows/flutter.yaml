@@ -1,0 +1,26 @@
+on: pull_request
+
+name: Flutter Test
+jobs:
+  build:
+    name: Flutter pub get, format, analyze, and test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.13.1'
+        channel: 'stable'
+
+    - name: Create firebase config file
+      uses: actions/checkout@v3
+    - run: |
+        echo ${{ secrets.FIREBASE_CONFIGURATION }} | base64 -d > lib/firebase_options.dart
+        
+    - name: Flutter pub get, format, analyze, and test
+      run: |
+        dart format lib/firebase_options.dart
+        flutter pub get
+        dart format --set-exit-if-changed .
+        flutter analyze
+        flutter test
