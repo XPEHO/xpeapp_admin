@@ -7,3 +7,4 @@ _Chore_
 _Feat_
 
 - [Issue #1](https://github.com/XPEHO/xpeapp_admin/issues/1) Add the login page
+- [Issue #4](https://github.com/XPEHO/xpeapp_admin/issues/4) Add the newsletters page with the list of newsletters
