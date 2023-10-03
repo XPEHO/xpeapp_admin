@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
+import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
 import 'package:xpeapp_admin/presentation/widgets/newsletter_card.dart';
 
 class NewslettersPage extends StatelessWidget {
@@ -9,17 +9,21 @@ class NewslettersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kDefaultBackgroudColor,
-      appBar: AppBar(
-        backgroundColor: kDefaultBackgroudColor,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),
-        ),
-        title: const Text('Newsletters'),
+    return ScaffoldTemplate(
+      appBarTitle: 'Newsletters',
+      appBarLeading: IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: const Icon(Icons.arrow_back),
       ),
-      body: Column(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, '/newsletter/add'),
+        backgroundColor: Colors.grey,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
+      child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -37,7 +41,10 @@ class NewslettersPage extends StatelessWidget {
                           id: e.id,
                         ),
                       )
-                      .toList();
+                      .toList()
+                    ..sort(
+                      (a, b) => b.date.compareTo(a.date),
+                    );
                   if (docs.isEmpty) {
                     return const Center(
                       child: Text('Aucune newsletter'),
@@ -48,7 +55,6 @@ class NewslettersPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         NewsletterEntity newsletter = docs[index];
                         return NewsletterCard(
-                          title: 'Newsletter ${index + 1}',
                           newsletter: newsletter,
                         );
                       },
@@ -63,16 +69,6 @@ class NewslettersPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-        },
-        backgroundColor: Colors.grey,
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
       ),
     );
   }

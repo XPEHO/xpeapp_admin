@@ -24,8 +24,9 @@ class LoginPage extends ConsumerWidget {
         children: [
           Container(
             margin: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            alignment: Alignment.center,
+            child: ListView(
+              shrinkWrap: true,
               children: [
                 Image.asset(
                   'assets/images/xpeho_logo.jpg',
@@ -33,16 +34,34 @@ class LoginPage extends ConsumerWidget {
                   height: 300,
                 ),
                 const SizedBox(height: 20),
-                InputText(
-                  type: InputTextType.email,
-                  label: 'Adresse email',
-                  controller: emailController,
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: InputText(
+                    type: InputTextType.email,
+                    label: 'Adresse email',
+                    controller: emailController,
+                  ),
                 ),
                 const SizedBox(height: 20),
-                InputText(
-                  type: InputTextType.password,
-                  label: 'Mot de passe',
-                  controller: passwordController,
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: InputText(
+                    type: InputTextType.password,
+                    label: 'Mot de passe',
+                    controller: passwordController,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Button(
@@ -80,9 +99,6 @@ class LoginPage extends ConsumerWidget {
     required WidgetRef ref,
   }) async {
     final loginRepo = ref.read(loginProvider);
-    final authState = ref.watch(
-      loginStateProvider,
-    );
     // Activez le loader ici
     ref.read(loaderStateProvider.notifier).showLoader();
 
@@ -92,20 +108,10 @@ class LoginPage extends ConsumerWidget {
       // Désactivez le loader après la connexion réussie
       ref.read(loaderStateProvider.notifier).hideLoader();
 
-      // Vérifiez si l'authentification a réussi
-      if (authState.hasValue) {
-        // Si l'authentification a réussi, affichez la page d'accueil
-        Navigator.pushNamed(
-          context,
-          '/home',
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Erreur de connexion'),
-          ),
-        );
-      }
+      Navigator.pushNamed(
+        context,
+        '/home',
+      );
     } catch (error) {
       // En cas d'erreur, désactivez également le loader
       ref.read(loaderStateProvider.notifier).hideLoader();
