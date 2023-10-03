@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
+import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
 import 'package:yaki_ui/button.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
@@ -16,17 +16,13 @@ class NewsletterDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kDefaultBackgroudColor,
-      appBar: AppBar(
-        backgroundColor: kDefaultBackgroudColor,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),
-        ),
-        title: const Text('Détail de la newsletter'),
+    return ScaffoldTemplate(
+      appBarTitle: 'Contenu de la newsletter',
+      appBarLeading: IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: const Icon(Icons.arrow_back),
       ),
-      body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
             .collection('newsletters')
             .doc(id)
@@ -42,7 +38,6 @@ class NewsletterDetailPage extends StatelessWidget {
           );
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -61,6 +56,7 @@ class NewsletterDetailPage extends StatelessWidget {
               const SizedBox(height: 20),
               const Text(
                 "Sommaire de la newsletter",
+                textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -69,7 +65,7 @@ class NewsletterDetailPage extends StatelessWidget {
               const SizedBox(height: 20),
               Text(
                 setupPageOfContent(newsletter.summary),
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.start,
                 style: const TextStyle(
                   fontSize: 15,
                 ),

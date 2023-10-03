@@ -3,12 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 
 class NewsletterCard extends StatelessWidget {
-  final String title;
   final NewsletterEntity newsletter;
 
   const NewsletterCard({
     super.key,
-    required this.title,
     required this.newsletter,
   });
 
@@ -37,16 +35,14 @@ class NewsletterCard extends StatelessWidget {
             tileColor: Colors.white,
             style: ListTileStyle.list,
             title: Text(
-              title,
+              'Newsletter du ${DateFormat('dd/MM/yyyy').format(newsletter.date.toDate())}',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
             subtitle: Text(
-              DateFormat('dd/MM/yyyy').format(
-                newsletter.date.toDate(),
-              ),
+              getFirstElement(newsletter.summary),
               style: const TextStyle(
                 fontSize: 12,
                 fontStyle: FontStyle.italic,
@@ -59,5 +55,9 @@ class NewsletterCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getFirstElement(String summary) {
+    return '${summary.split(',')[0]}...';
   }
 }

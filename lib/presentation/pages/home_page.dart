@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/env/extensions/user.dart';
+import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
 
@@ -14,22 +14,17 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userConnectedProvider);
 
-    return Scaffold(
-      backgroundColor: kDefaultBackgroudColor,
-      appBar: AppBar(
-        backgroundColor: kDefaultBackgroudColor,
-        // Disconnect button in the app bar
-        leading: IconButton(
-          onPressed: () async {
-            await ref.read(loginProvider).signOut();
-            // Go to login page
-            Navigator.pushReplacementNamed(context, '/');
-          },
-          icon: const Icon(Icons.logout),
-        ),
-        title: const Text('XpeApp Admin'),
+    return ScaffoldTemplate(
+      appBarTitle: 'XpeApp Admin',
+      appBarLeading: IconButton(
+        onPressed: () async {
+          await ref.read(loginProvider).signOut();
+          // Go to the / route and deconnect the user
+          Navigator.popAndPushNamed(context, '/');
+        },
+        icon: const Icon(Icons.logout),
       ),
-      body: Center(
+      child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
