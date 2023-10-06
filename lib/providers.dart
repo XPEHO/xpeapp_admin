@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/state/loader_state.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/login_repository_impl.dart';
@@ -28,4 +29,8 @@ final cloudFirestoreProvider = Provider<FirebaseFirestore>((ref) {
 
 final newsletterProvider = Provider<NewsletterRepositoryImpl>((ref) {
   return NewsletterRepositoryImpl();
+});
+
+final storageFirebaseProvider = Provider<FirebaseStorage>((ref) {
+  return FirebaseStorage.instance;
 });

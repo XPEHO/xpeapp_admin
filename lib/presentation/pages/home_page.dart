@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/env/extensions/user.dart';
 import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
+import 'package:xpeapp_admin/presentation/widgets/picture_profile.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
 
@@ -29,14 +30,20 @@ class HomePage extends ConsumerWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Bienvenue ${user!.getName()}',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+            PictureProfile(
+              uid: user?.uid,
+              size: 200,
             ),
+            const SizedBox(height: 20),
+            if (user != null)
+              Text(
+                'Bienvenue ${user.getName()}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             const SizedBox(height: 20),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.6,
