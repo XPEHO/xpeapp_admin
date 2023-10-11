@@ -88,7 +88,7 @@ class _NewsletterAddPageState extends ConsumerState<NewsletterAddPage> {
             const SizedBox(height: 20),
             ...titleAndTextField(
               title: 'Saisir le sommaire',
-              subtitle: 'A séparer par des virgules',
+              subtitle: '1 ligne = 1 chapitre',
               hintText: 'Ex: Actualités, Sport, Culture, ...',
               controller: summaryController,
               heightOfTextField: MediaQuery.of(context).size.height * 0.3,
@@ -110,8 +110,12 @@ class _NewsletterAddPageState extends ConsumerState<NewsletterAddPage> {
                         summaryIsNotEmpty &&
                         pdfLinkIsNotEmpty)
                     ? () async {
+                        String summary = summaryController.text.replaceAll(
+                          '\n',
+                          ',',
+                        );
                         NewsletterEntity newsletterEntity = NewsletterEntity(
-                          summary: summaryController.text,
+                          summary: summary,
                           date: Timestamp.fromDate(dateSelected!),
                           pdfUrl: pdfLinkController.text,
                         );
