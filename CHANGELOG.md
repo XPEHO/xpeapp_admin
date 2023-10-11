@@ -1,3 +1,8 @@
+## 0.2.1
+
+_Chore_
+
+- [Issue #6](https://github.com/XPEHO/xpeapp_admin/issues/6) Add git check and changelog CICD
 ## 0.2.0
 
 _Feat_
