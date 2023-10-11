@@ -1,4 +1,8 @@
-## 0.1.1
+## 0.2.0
+
+_Feat_
+
+- [Issue #10](https://github.com/XPEHO/xpeapp_admin/issues/10) Add leading icon in the newsletter card
 
 _Fix_
 
