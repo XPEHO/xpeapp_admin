@@ -1,3 +1,9 @@
+## 0.1.1
+
+_Fix_
+
+- [Issue #9](https://github.com/XPEHO/xpeapp_admin/issues/9) Fix the input of summary (replace the tabulation by ,)
+
 ## 0.1.0
 
 _Feat_
