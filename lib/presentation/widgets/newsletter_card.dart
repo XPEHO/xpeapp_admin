@@ -41,12 +41,8 @@ class NewsletterCard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            subtitle: Text(
-              getFirstElement(newsletter.summary),
-              style: const TextStyle(
-                fontSize: 12,
-                fontStyle: FontStyle.italic,
-              ),
+            leading: const Icon(
+              Icons.newspaper,
             ),
             trailing: const Icon(
               Icons.arrow_forward_ios,
@@ -55,9 +51,5 @@ class NewsletterCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String getFirstElement(String summary) {
-    return '${summary.split(',')[0]}...';
   }
 }
