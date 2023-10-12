@@ -1,11 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
+import 'package:xpeapp_admin/data/enum/admin_access.dart';
+import 'package:xpeapp_admin/presentation/widgets/widget_access.dart';
 import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
 import 'package:xpeapp_admin/presentation/widgets/newsletter_card.dart';
 
 class NewslettersPage extends StatelessWidget {
-  const NewslettersPage({super.key});
+  final String uidUser;
+  const NewslettersPage({
+    super.key,
+    required this.uidUser,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +21,16 @@ class NewslettersPage extends StatelessWidget {
         onPressed: () => Navigator.pop(context),
         icon: const Icon(Icons.arrow_back),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, '/newsletter/add'),
-        backgroundColor: Colors.grey,
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
+      floatingActionButton: WidgetAccess(
+        haveAccess: AdminAccess.addNewsletters,
+        uidUser: uidUser,
+        authorizedWidget: FloatingActionButton(
+          onPressed: () => Navigator.pushNamed(context, '/newsletter/add'),
+          backgroundColor: Colors.grey,
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
       ),
       child: Column(

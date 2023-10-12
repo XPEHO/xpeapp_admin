@@ -49,7 +49,11 @@ class HomePage extends ConsumerWidget {
               width: MediaQuery.of(context).size.width * 0.6,
               child: Button.secondary(
                 text: 'Newsletters',
-                onPressed: () => Navigator.pushNamed(context, '/newsletters'),
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  '/newsletters',
+                  arguments: user?.uid,
+                ),
               ),
             ),
           ],

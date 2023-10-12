@@ -1,8 +1,13 @@
-## 0.2.1
+## 0.3.0
+
+_Feat_
+
+- [Issue #19](https://github.com/XPEHO/xpeapp_admin/issues/19) Add the rights management
 
 _Chore_
 
 - [Issue #6](https://github.com/XPEHO/xpeapp_admin/issues/6) Add git check and changelog CICD
+
 ## 0.2.0
 
 _Feat_
