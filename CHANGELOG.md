@@ -3,6 +3,7 @@
 _Feat_
 
 - [Issue #19](https://github.com/XPEHO/xpeapp_admin/issues/19) Add the rights management
+- [Issue #3](https://github.com/XPEHO/xpeapp_admin/issues/3) Add the newsletter edit page
 
 _Chore_
 

@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/data/enum/admin_access.dart';
 import 'package:xpeapp_admin/presentation/widgets/widget_access.dart';
 import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
 import 'package:xpeapp_admin/presentation/widgets/newsletter_card.dart';
+import 'package:xpeapp_admin/providers.dart';
 
-class NewslettersPage extends StatelessWidget {
-  final String uidUser;
+class NewslettersPage extends ConsumerWidget {
   const NewslettersPage({
     super.key,
-    required this.uidUser,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ScaffoldTemplate(
       appBarTitle: 'Newsletters',
       appBarLeading: IconButton(
@@ -23,7 +23,7 @@ class NewslettersPage extends StatelessWidget {
       ),
       floatingActionButton: WidgetAccess(
         haveAccess: AdminAccess.addNewsletters,
-        uidUser: uidUser,
+        uidUser: ref.read(uidUserProvider),
         authorizedWidget: FloatingActionButton(
           onPressed: () => Navigator.pushNamed(context, '/newsletter/add'),
           backgroundColor: Colors.grey,

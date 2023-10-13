@@ -9,14 +9,28 @@ import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart'
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
 
-class NewsletterAddPage extends ConsumerStatefulWidget {
-  const NewsletterAddPage({super.key});
-
-  @override
-  ConsumerState<NewsletterAddPage> createState() => _NewsletterAddPageState();
+enum NewsletterTypePage {
+  add,
+  edit,
 }
 
-class _NewsletterAddPageState extends ConsumerState<NewsletterAddPage> {
+class NewsletterAddOrEditPage extends ConsumerStatefulWidget {
+  final NewsletterTypePage typePage;
+  final NewsletterEntity? newsletter;
+
+  const NewsletterAddOrEditPage({
+    super.key,
+    required this.typePage,
+    this.newsletter,
+  });
+
+  @override
+  ConsumerState<NewsletterAddOrEditPage> createState() =>
+      _NewsletterAddOrEditPageState();
+}
+
+class _NewsletterAddOrEditPageState
+    extends ConsumerState<NewsletterAddOrEditPage> {
   DateTime? dateSelected;
   bool isDateSelected = false;
   bool summaryIsNotEmpty = false;
@@ -26,9 +40,26 @@ class _NewsletterAddPageState extends ConsumerState<NewsletterAddPage> {
   final TextEditingController pdfLinkController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.typePage == NewsletterTypePage.edit) {
+      setState(() {
+        dateSelected = widget.newsletter!.date.toDate();
+        isDateSelected = true;
+        summaryController.text =
+            widget.newsletter!.summary.replaceAll(',', '\n');
+        summaryIsNotEmpty = true;
+        pdfLinkController.text = widget.newsletter!.pdfUrl;
+        pdfLinkIsNotEmpty = true;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScaffoldTemplate(
-      appBarTitle: 'Ajouter une newsletter',
+      appBarTitle:
+          '${(widget.typePage == NewsletterTypePage.add) ? 'Ajouter' : 'Modifier'} une newsletter',
       appBarLeading: IconButton(
         icon: const Icon(Icons.arrow_back),
         onPressed: () => Navigator.of(context).pop(),
@@ -105,7 +136,8 @@ class _NewsletterAddPageState extends ConsumerState<NewsletterAddPage> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.6,
               child: Button.secondary(
-                text: 'Ajouter la newsletter',
+                text:
+                    '${(widget.typePage == NewsletterTypePage.add) ? 'Ajouter' : 'Modifier'} la newsletter',
                 onPressed: (isDateSelected &&
                         summaryIsNotEmpty &&
                         pdfLinkIsNotEmpty)
@@ -119,7 +151,11 @@ class _NewsletterAddPageState extends ConsumerState<NewsletterAddPage> {
                           date: Timestamp.fromDate(dateSelected!),
                           pdfUrl: pdfLinkController.text,
                         );
-                        sendNewsletter(newsletterEntity);
+                        if (widget.typePage == NewsletterTypePage.add) {
+                          await sendNewsletter(newsletterEntity);
+                        } else {
+                          await updateNewsletter(newsletterEntity);
+                        }
                       }
                     : null,
               ),
@@ -302,5 +338,39 @@ class _NewsletterAddPageState extends ConsumerState<NewsletterAddPage> {
         ),
       ),
     ];
+  }
+
+  Future<void> updateNewsletter(NewsletterEntity newsletterEntity) async {
+    final repo = ref.read(newsletterProvider);
+    // Activez le loader ici
+    ref.read(loaderStateProvider.notifier).showLoader();
+
+    try {
+      await repo.updateNewsletter(newsletterEntity);
+
+      // Désactivez le loader après la connexion réussie
+      ref.read(loaderStateProvider.notifier).hideLoader();
+
+      // Affichez le message de succès
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Newsletter modifié avec succès'),
+        ),
+      );
+
+      Navigator.pop(context);
+    } catch (error) {
+      // En cas d'erreur, désactivez également le loader
+      ref.read(loaderStateProvider.notifier).hideLoader();
+
+      // Affichez le message d'erreur
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            error.toString(),
+          ),
+        ),
+      );
+    }
   }
 }
