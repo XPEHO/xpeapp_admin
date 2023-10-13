@@ -23,6 +23,10 @@ final userConnectedProvider = Provider<User?>((ref) {
   return ref.watch(loginStateProvider).value;
 });
 
+final uidUserProvider = Provider<String>((ref) {
+  return ref.watch(userConnectedProvider)?.uid ?? '';
+});
+
 final cloudFirestoreProvider = Provider<FirebaseFirestore>((ref) {
   return FirebaseFirestore.instance;
 });

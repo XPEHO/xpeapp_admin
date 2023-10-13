@@ -21,4 +21,20 @@ class NewsletterRepositoryImpl extends NewsletterRepository {
       throw Exception('Erreur lors de l\'ajout de la newsletter');
     }
   }
+
+  @override
+  Future<void> updateNewsletter(NewsletterEntity newsletter) async {
+    try {
+      await _firestore.collection('newsletters').doc(newsletter.id).update(
+        {
+          'date': newsletter.date,
+          'summary': newsletter.summary,
+          'pdfUrl': newsletter.pdfUrl,
+        },
+      );
+    } on FirebaseException catch (e) {
+      debugPrint('Error: $e');
+      throw Exception('Erreur lors de l\'ajout de la newsletter');
+    }
+  }
 }

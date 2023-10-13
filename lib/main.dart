@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/firebase_options.dart';
 import 'package:xpeapp_admin/presentation/pages/home_page.dart';
 import 'package:xpeapp_admin/presentation/pages/login_page.dart';
@@ -51,13 +52,18 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginPage(),
         '/home': (context) => const HomePage(),
-        '/newsletters': (context) => NewslettersPage(
-              uidUser: ModalRoute.of(context)!.settings.arguments as String,
-            ),
+        '/newsletters': (context) => const NewslettersPage(),
         '/newsletter/detail': (context) => NewsletterDetailPage(
               id: ModalRoute.of(context)!.settings.arguments as String,
             ),
-        '/newsletter/add': (context) => const NewsletterAddPage(),
+        '/newsletter/add': (context) => const NewsletterAddOrEditPage(
+              typePage: NewsletterTypePage.add,
+            ),
+        '/newsletter/edit': (context) => NewsletterAddOrEditPage(
+              typePage: NewsletterTypePage.edit,
+              newsletter: ModalRoute.of(context)!.settings.arguments
+                  as NewsletterEntity,
+            ),
       },
     );
   }
