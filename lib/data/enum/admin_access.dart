@@ -1,4 +1,5 @@
 enum AdminAccess {
+  updateAccess,
   addNewsletters,
   editNewsletter,
   expenseReport,
