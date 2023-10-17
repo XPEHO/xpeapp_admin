@@ -4,6 +4,7 @@ _Feat_
 
 - [Issue #19](https://github.com/XPEHO/xpeapp_admin/issues/19) Add the rights management
 - [Issue #3](https://github.com/XPEHO/xpeapp_admin/issues/3) Add the newsletter edit page
+- [Issue #22](https://github.com/XPEHO/xpeapp_admin/issues/22) Add the admin access page with the list of admins
 
 _Chore_
 
