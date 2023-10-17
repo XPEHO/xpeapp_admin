@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/firebase_options.dart';
+import 'package:xpeapp_admin/presentation/pages/access/access_detail_page.dart';
+import 'package:xpeapp_admin/presentation/pages/access/access_page.dart';
 import 'package:xpeapp_admin/presentation/pages/home_page.dart';
 import 'package:xpeapp_admin/presentation/pages/login_page.dart';
 import 'package:xpeapp_admin/presentation/pages/newsletters/newsletter_add_page.dart';
@@ -64,6 +66,15 @@ class MyApp extends StatelessWidget {
               newsletter: ModalRoute.of(context)!.settings.arguments
                   as NewsletterEntity,
             ),
+        '/access': (context) => const AccessPage(),
+        '/access/detail': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          return AccessDetailPage(
+            id: args['id'] as String,
+            nameOfAccessUser: args['nameOfAccessUser'] as String,
+          );
+        },
       },
     );
   }

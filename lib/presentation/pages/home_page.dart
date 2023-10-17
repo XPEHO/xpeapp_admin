@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xpeapp_admin/data/enum/admin_access.dart';
 import 'package:xpeapp_admin/env/extensions/user.dart';
 import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
 import 'package:xpeapp_admin/presentation/widgets/picture_profile.dart';
+import 'package:xpeapp_admin/presentation/widgets/widget_access.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
 
@@ -53,6 +55,22 @@ class HomePage extends ConsumerWidget {
                   context,
                   '/newsletters',
                   arguments: user?.uid,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            WidgetAccess(
+              haveAccess: AdminAccess.updateAccess,
+              uidUser: user?.uid ?? '',
+              authorizedWidget: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Button.secondary(
+                  text: 'Droits d\'accès',
+                  onPressed: () => Navigator.pushNamed(
+                    context,
+                    '/access',
+                    arguments: user?.uid,
+                  ),
                 ),
               ),
             ),
