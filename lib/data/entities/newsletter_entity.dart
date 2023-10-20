@@ -14,6 +14,7 @@ class NewsletterEntity with _$NewsletterEntity {
     required String summary,
     String? picture,
     @TimestampConverter() required Timestamp date,
+    @TimestampConverter() required Timestamp publicationDate,
     required String pdfUrl,
   }) = _NewsletterEntity;
 

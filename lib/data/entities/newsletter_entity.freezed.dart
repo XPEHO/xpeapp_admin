@@ -25,6 +25,8 @@ mixin _$NewsletterEntity {
   String? get picture => throw _privateConstructorUsedError;
   @TimestampConverter()
   Timestamp get date => throw _privateConstructorUsedError;
+  @TimestampConverter()
+  Timestamp get publicationDate => throw _privateConstructorUsedError;
   String get pdfUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,6 +46,7 @@ abstract class $NewsletterEntityCopyWith<$Res> {
       String summary,
       String? picture,
       @TimestampConverter() Timestamp date,
+      @TimestampConverter() Timestamp publicationDate,
       String pdfUrl});
 }
 
@@ -64,6 +67,7 @@ class _$NewsletterEntityCopyWithImpl<$Res, $Val extends NewsletterEntity>
     Object? summary = null,
     Object? picture = freezed,
     Object? date = null,
+    Object? publicationDate = null,
     Object? pdfUrl = null,
   }) {
     return _then(_value.copyWith(
@@ -82,6 +86,10 @@ class _$NewsletterEntityCopyWithImpl<$Res, $Val extends NewsletterEntity>
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
+              as Timestamp,
+      publicationDate: null == publicationDate
+          ? _value.publicationDate
+          : publicationDate // ignore: cast_nullable_to_non_nullable
               as Timestamp,
       pdfUrl: null == pdfUrl
           ? _value.pdfUrl
@@ -104,6 +112,7 @@ abstract class _$$_NewsletterEntityCopyWith<$Res>
       String summary,
       String? picture,
       @TimestampConverter() Timestamp date,
+      @TimestampConverter() Timestamp publicationDate,
       String pdfUrl});
 }
 
@@ -122,6 +131,7 @@ class __$$_NewsletterEntityCopyWithImpl<$Res>
     Object? summary = null,
     Object? picture = freezed,
     Object? date = null,
+    Object? publicationDate = null,
     Object? pdfUrl = null,
   }) {
     return _then(_$_NewsletterEntity(
@@ -141,6 +151,10 @@ class __$$_NewsletterEntityCopyWithImpl<$Res>
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as Timestamp,
+      publicationDate: null == publicationDate
+          ? _value.publicationDate
+          : publicationDate // ignore: cast_nullable_to_non_nullable
+              as Timestamp,
       pdfUrl: null == pdfUrl
           ? _value.pdfUrl
           : pdfUrl // ignore: cast_nullable_to_non_nullable
@@ -158,6 +172,7 @@ class _$_NewsletterEntity implements _NewsletterEntity {
       required this.summary,
       this.picture,
       @TimestampConverter() required this.date,
+      @TimestampConverter() required this.publicationDate,
       required this.pdfUrl});
 
   factory _$_NewsletterEntity.fromJson(Map<String, dynamic> json) =>
@@ -173,11 +188,14 @@ class _$_NewsletterEntity implements _NewsletterEntity {
   @TimestampConverter()
   final Timestamp date;
   @override
+  @TimestampConverter()
+  final Timestamp publicationDate;
+  @override
   final String pdfUrl;
 
   @override
   String toString() {
-    return 'NewsletterEntity(id: $id, summary: $summary, picture: $picture, date: $date, pdfUrl: $pdfUrl)';
+    return 'NewsletterEntity(id: $id, summary: $summary, picture: $picture, date: $date, publicationDate: $publicationDate, pdfUrl: $pdfUrl)';
   }
 
   @override
@@ -189,13 +207,15 @@ class _$_NewsletterEntity implements _NewsletterEntity {
             (identical(other.summary, summary) || other.summary == summary) &&
             (identical(other.picture, picture) || other.picture == picture) &&
             (identical(other.date, date) || other.date == date) &&
+            (identical(other.publicationDate, publicationDate) ||
+                other.publicationDate == publicationDate) &&
             (identical(other.pdfUrl, pdfUrl) || other.pdfUrl == pdfUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, summary, picture, date, pdfUrl);
+  int get hashCode => Object.hash(
+      runtimeType, id, summary, picture, date, publicationDate, pdfUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -217,6 +237,7 @@ abstract class _NewsletterEntity implements NewsletterEntity {
       required final String summary,
       final String? picture,
       @TimestampConverter() required final Timestamp date,
+      @TimestampConverter() required final Timestamp publicationDate,
       required final String pdfUrl}) = _$_NewsletterEntity;
 
   factory _NewsletterEntity.fromJson(Map<String, dynamic> json) =
@@ -231,6 +252,9 @@ abstract class _NewsletterEntity implements NewsletterEntity {
   @override
   @TimestampConverter()
   Timestamp get date;
+  @override
+  @TimestampConverter()
+  Timestamp get publicationDate;
   @override
   String get pdfUrl;
   @override
