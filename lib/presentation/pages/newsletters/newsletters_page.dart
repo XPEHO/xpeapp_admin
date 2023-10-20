@@ -33,52 +33,48 @@ class NewslettersPage extends ConsumerWidget {
           ),
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 20),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance
-                  .collection('newsletters')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<NewsletterEntity> docs = snapshot.data!.docs
-                      .map(
-                        (e) => NewsletterEntity.fromJson(e.data()).copyWith(
-                          id: e.id,
-                        ),
-                      )
-                      .toList()
-                    ..sort(
-                      (a, b) => b.date.compareTo(a.date),
-                    );
-                  if (docs.isEmpty) {
-                    return const Center(
-                      child: Text('Aucune newsletter'),
-                    );
-                  } else {
-                    return ListView.builder(
-                      itemCount: docs.length,
-                      itemBuilder: (context, index) {
-                        NewsletterEntity newsletter = docs[index];
-                        return NewsletterCard(
-                          newsletter: newsletter,
-                        );
-                      },
-                    );
-                  }
-                } else {
+      child: Expanded(
+        child: Container(
+          margin: const EdgeInsets.all(10),
+          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: FirebaseFirestore.instance
+                .collection('newsletters')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<NewsletterEntity> docs = snapshot.data!.docs
+                    .map(
+                      (e) => NewsletterEntity.fromJson(e.data()).copyWith(
+                        id: e.id,
+                      ),
+                    )
+                    .toList()
+                  ..sort(
+                    (a, b) => b.date.compareTo(a.date),
+                  );
+                if (docs.isEmpty) {
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: Text('Aucune newsletter'),
+                  );
+                } else {
+                  return ListView.builder(
+                    itemCount: docs.length,
+                    itemBuilder: (context, index) {
+                      NewsletterEntity newsletter = docs[index];
+                      return NewsletterCard(
+                        newsletter: newsletter,
+                      );
+                    },
                   );
                 }
-              },
-            ),
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
           ),
-        ],
+        ),
       ),
     );
   }
