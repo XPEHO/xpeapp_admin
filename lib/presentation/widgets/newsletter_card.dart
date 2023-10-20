@@ -12,40 +12,42 @@ class NewsletterCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => Navigator.pushNamed(
-        context,
-        '/newsletter/detail',
-        arguments: newsletter.id,
-      ),
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 10,
+    return Expanded(
+      child: InkWell(
+        onTap: () => Navigator.pushNamed(
+          context,
+          '/newsletter/detail',
+          arguments: newsletter.id,
         ),
-        child: Card(
-          elevation: 10,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
+        child: Container(
+          margin: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 10,
           ),
-          child: ListTile(
+          child: Card(
+            elevation: 10,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-            tileColor: Colors.white,
-            style: ListTileStyle.list,
-            title: Text(
-              'Newsletter du ${DateFormat('dd/MM/yyyy').format(newsletter.date.toDate())}',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            child: ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
               ),
-            ),
-            leading: const Icon(
-              Icons.newspaper,
-            ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
+              tileColor: Colors.white,
+              style: ListTileStyle.list,
+              title: Text(
+                'Newsletter du ${DateFormat('dd/MM/yyyy').format(newsletter.date.toDate())}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              leading: const Icon(
+                Icons.newspaper,
+              ),
+              trailing: const Icon(
+                Icons.arrow_forward_ios,
+              ),
             ),
           ),
         ),

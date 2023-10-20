@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
+import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
+import 'package:xpeapp_admin/presentation/widgets/newsletter_publication_date_widget.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
 
@@ -57,6 +59,7 @@ class _NewsletterAddOrEditPageState
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width * 0.8;
     return ScaffoldTemplate(
       appBarTitle:
           '${(widget.typePage == NewsletterTypePage.add) ? 'Ajouter' : 'Modifier'} une newsletter',
@@ -65,15 +68,79 @@ class _NewsletterAddOrEditPageState
         onPressed: () => Navigator.of(context).pop(),
       ),
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (!isDateSelected)
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              if (!isDateSelected)
+                SizedBox(
+                  width: width,
+                  child: const ListTile(
+                    title: Text(
+                      'Choisir la date de la newsletter',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: Text(
+                      'Ex : 01/01/2023',
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ),
+              (isDateSelected)
+                  ? TextButton.icon(
+                      onPressed: () => showDatePickerForNewsletter(context),
+                      icon: const Icon(
+                        Icons.calendar_today,
+                        color: Colors.black,
+                      ),
+                      label: Text(
+                        'Date sélectionnée : ${dateSelected!.day}/${dateSelected!.month}/${dateSelected!.year}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  : IconButton.outlined(
+                      onPressed: () => showDatePickerForNewsletter(context),
+                      icon: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.calendar_today),
+                          SizedBox(width: 10),
+                          Text('Choisir une date'),
+                        ],
+                      ),
+                    ),
+              const SizedBox(height: 20),
+              ...titleAndTextField(
+                title: 'Saisir le sommaire',
+                subtitle: '1 ligne = 1 chapitre',
+                hintText: 'Ex: Actualités, Sport, Culture, ...',
+                controller: summaryController,
+                heightOfTextField: MediaQuery.of(context).size.height * 0.3,
+                maxLines: 10,
+              ),
+              const SizedBox(height: 20),
+              ...titleAndTextField(
+                title: 'Saisir le lien du PDF',
+                subtitle: 'Ex: Drive link, ...',
+                hintText: 'Ex: Drive link, ...',
+                controller: pdfLinkController,
+              ),
+              const SizedBox(height: 20),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: width,
                 child: const ListTile(
                   title: Text(
-                    'Choisir la date de la newsletter',
+                    'Choisir la date de publication',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -88,79 +155,46 @@ class _NewsletterAddOrEditPageState
                   ),
                 ),
               ),
-            (isDateSelected)
-                ? TextButton.icon(
-                    onPressed: () => showDatePickerForNewsletter(context),
-                    icon: const Icon(
-                      Icons.calendar_today,
-                      color: Colors.black,
-                    ),
-                    label: Text(
-                      'Date sélectionnée : ${dateSelected!.day}/${dateSelected!.month}/${dateSelected!.year}',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  )
-                : IconButton.outlined(
-                    onPressed: () => showDatePickerForNewsletter(context),
-                    icon: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.calendar_today),
-                        SizedBox(width: 10),
-                        Text('Choisir une date'),
-                      ],
-                    ),
-                  ),
-            const SizedBox(height: 20),
-            ...titleAndTextField(
-              title: 'Saisir le sommaire',
-              subtitle: '1 ligne = 1 chapitre',
-              hintText: 'Ex: Actualités, Sport, Culture, ...',
-              controller: summaryController,
-              heightOfTextField: MediaQuery.of(context).size.height * 0.3,
-              maxLines: 10,
-            ),
-            const SizedBox(height: 20),
-            ...titleAndTextField(
-              title: 'Saisir le lien du PDF',
-              subtitle: 'Ex: Drive link, ...',
-              hintText: 'Ex: Drive link, ...',
-              controller: pdfLinkController,
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.6,
-              child: Button.secondary(
-                text:
-                    '${(widget.typePage == NewsletterTypePage.add) ? 'Ajouter' : 'Modifier'} la newsletter',
-                onPressed: (isDateSelected &&
-                        summaryIsNotEmpty &&
-                        pdfLinkIsNotEmpty)
-                    ? () async {
-                        String summary = summaryController.text.replaceAll(
-                          '\n',
-                          ',',
-                        );
-                        NewsletterEntity newsletterEntity = NewsletterEntity(
-                          summary: summary,
-                          date: Timestamp.fromDate(dateSelected!),
-                          pdfUrl: pdfLinkController.text,
-                        );
-                        if (widget.typePage == NewsletterTypePage.add) {
-                          await sendNewsletter(newsletterEntity);
-                        } else {
-                          await updateNewsletter(newsletterEntity);
-                        }
-                      }
-                    : null,
+              const SizedBox(height: 20),
+              SizedBox(
+                width: width,
+                child: const NewsletterPublicationDateWidget(),
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Button.secondary(
+                  text:
+                      '${(widget.typePage == NewsletterTypePage.add) ? 'Ajouter' : 'Modifier'} la newsletter',
+                  onPressed: (isDateSelected &&
+                          summaryIsNotEmpty &&
+                          pdfLinkIsNotEmpty)
+                      ? () async {
+                          Timestamp? time = await _getPublicationDate();
+                          if (time != null) {
+                            String summary = summaryController.text.replaceAll(
+                              '\n',
+                              ',',
+                            );
+                            NewsletterEntity newsletterEntity =
+                                NewsletterEntity(
+                              summary: summary,
+                              date: Timestamp.fromDate(dateSelected!),
+                              pdfUrl: pdfLinkController.text,
+                              publicationDate: time,
+                            );
+                            if (widget.typePage == NewsletterTypePage.add) {
+                              await sendNewsletter(newsletterEntity);
+                            } else {
+                              await updateNewsletter(newsletterEntity);
+                            }
+                          }
+                        }
+                      : null,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -253,9 +287,10 @@ class _NewsletterAddOrEditPageState
     double? heightOfTextField,
     double? maxLines,
   }) {
+    final width = MediaQuery.of(context).size.width * 0.8;
     return [
       SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: width,
         child: ListTile(
           title: Text(
             title,
@@ -275,7 +310,7 @@ class _NewsletterAddOrEditPageState
       ),
       const SizedBox(height: 20),
       Container(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: width,
         height: heightOfTextField,
         padding: const EdgeInsets.only(
           top: 10,
@@ -371,6 +406,49 @@ class _NewsletterAddOrEditPageState
           ),
         ),
       );
+    }
+  }
+
+  Future<Timestamp?> _getPublicationDate() async {
+    final read = ref.read(newsletterPublicationProvider);
+    if (read.moment == NewsletterPublicationMoment.now) {
+      return Timestamp.now();
+    } else {
+      final DateTime? selected = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2010),
+        lastDate: DateTime(2025),
+        helpText: MediaQuery.of(context).size.width < 600
+            ? 'Choisir la date de publication'
+            : 'Date',
+        fieldHintText: 'Ex: 01/01/2023',
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: Colors.black,
+                onPrimary: kDefaultBackgroudColor,
+                surface: kDefaultBackgroudColor,
+                onSurface: Colors.black,
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: kDefaultBackgroudColor,
+                ),
+              ),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (selected != null) {
+        return Timestamp.fromDate(selected);
+      } else {
+        return null;
+      }
     }
   }
 }

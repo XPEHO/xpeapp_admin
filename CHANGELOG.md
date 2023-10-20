@@ -1,3 +1,9 @@
+## 0.4.0
+
+_Feat_
+
+- [Issue #17](https://github.com/XPEHO/xpeapp_admin/issues/17) Add the publication date for the newsletters
+
 ## 0.3.0
 
 _Feat_

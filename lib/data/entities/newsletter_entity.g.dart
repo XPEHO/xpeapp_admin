@@ -12,6 +12,8 @@ _$_NewsletterEntity _$$_NewsletterEntityFromJson(Map<String, dynamic> json) =>
       summary: json['summary'] as String,
       picture: json['picture'] as String?,
       date: const TimestampConverter().fromJson(json['date']),
+      publicationDate:
+          const TimestampConverter().fromJson(json['publicationDate']),
       pdfUrl: json['pdfUrl'] as String,
     );
 
@@ -21,5 +23,7 @@ Map<String, dynamic> _$$_NewsletterEntityToJson(_$_NewsletterEntity instance) =>
       'summary': instance.summary,
       'picture': instance.picture,
       'date': const TimestampConverter().toJson(instance.date),
+      'publicationDate':
+          const TimestampConverter().toJson(instance.publicationDate),
       'pdfUrl': instance.pdfUrl,
     };

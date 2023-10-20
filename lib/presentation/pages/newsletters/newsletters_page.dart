@@ -33,9 +33,9 @@ class NewslettersPage extends ConsumerWidget {
           ),
         ),
       ),
-      child: Expanded(
-        child: Container(
-          margin: const EdgeInsets.all(10),
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        child: Expanded(
           child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance
                 .collection('newsletters')

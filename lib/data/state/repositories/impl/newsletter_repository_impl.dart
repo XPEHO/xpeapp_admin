@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/data/state/repositories/newsletter_repository.dart';
+import 'package:xpeapp_admin/env/extensions/newsletter.dart';
 
 class NewsletterRepositoryImpl extends NewsletterRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -10,12 +11,8 @@ class NewsletterRepositoryImpl extends NewsletterRepository {
   Future<void> addNewsletter(NewsletterEntity newsletter) async {
     try {
       await _firestore.collection('newsletters').add(
-        {
-          'date': newsletter.date,
-          'summary': newsletter.summary,
-          'pdfUrl': newsletter.pdfUrl,
-        },
-      );
+            newsletter.toFirebase(),
+          );
     } on FirebaseException catch (e) {
       debugPrint('Error: $e');
       throw Exception('Erreur lors de l\'ajout de la newsletter');
