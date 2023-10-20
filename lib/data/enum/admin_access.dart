@@ -5,4 +5,5 @@ enum AdminAccess {
   expenseReport,
   vacation,
   cra,
+  wordpressUsers,
 }

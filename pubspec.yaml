@@ -29,6 +29,8 @@ dependencies:
   url_launcher: ^6.1.14
   flutter_localization: ^0.1.14
   firebase_storage: ^11.2.8
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
