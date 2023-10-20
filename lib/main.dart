@@ -10,8 +10,8 @@ import 'package:xpeapp_admin/presentation/pages/login_page.dart';
 import 'package:xpeapp_admin/presentation/pages/newsletters/newsletter_add_page.dart';
 import 'package:xpeapp_admin/presentation/pages/newsletters/newsletter_detail_page.dart';
 import 'package:xpeapp_admin/presentation/pages/newsletters/newsletters_page.dart';
-// ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:xpeapp_admin/presentation/pages/users/wordpress_users_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,6 +75,7 @@ class MyApp extends StatelessWidget {
             nameOfAccessUser: args['nameOfAccessUser'] as String,
           );
         },
+        '/users': (context) => const WordpressUsersPage(),
       },
     );
   }

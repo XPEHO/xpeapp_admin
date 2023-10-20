@@ -74,6 +74,21 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 20),
+            WidgetAccess(
+              haveAccess: AdminAccess.wordpressUsers,
+              uidUser: user?.uid ?? '',
+              authorizedWidget: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Button.secondary(
+                  text: 'Utilisateurs Wordpress',
+                  onPressed: () => Navigator.pushNamed(
+                    context,
+                    '/users',
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
