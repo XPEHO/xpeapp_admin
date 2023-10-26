@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
 import 'package:xpeapp_admin/presentation/widgets/picture_profile.dart';
+import 'package:xpeapp_admin/providers.dart';
 
-class AccessPage extends StatelessWidget {
+class AccessPage extends ConsumerWidget {
   const AccessPage({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Gestion des accès'),
@@ -40,9 +42,26 @@ class AccessPage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    PictureProfile(
-                      uid: user.uid,
-                      size: 80,
+                    StreamBuilder(
+                      stream: ref
+                          .watch(cloudFirestoreProvider)
+                          .collection('users')
+                          .doc(user.uid)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        String imagePath =
+                            snapshot.data?.data()?['image'] as String? ?? '';
+                        return PictureProfile(
+                          imagePath: ref
+                              .watch(storageFirebaseProvider)
+                              .ref()
+                              .child(
+                                imagePath,
+                              )
+                              .getDownloadURL(),
+                          size: 80,
+                        );
+                      },
                     ),
                     Expanded(
                       child: ListTile(

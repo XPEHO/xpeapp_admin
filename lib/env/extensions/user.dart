@@ -12,17 +12,11 @@ extension GetNameOfUser on User {
       // Split the email by @ and then by . to get the name parts
       List<String> nameParts = email.split('@')[0].split('.');
 
-      if (nameParts.isNotEmpty) {
-        // Set the first name to the first part of the nameParts and capitalize it
-        String firstName = nameParts[0].capitalize();
-        String lastName =
-            nameParts.length > 1 ? nameParts[1].toUpperCase() : '';
+      // Set the first name to the first part of the nameParts and capitalize it
+      String firstName = nameParts[0].capitalize();
+      String lastName = nameParts.length > 1 ? nameParts[1].toUpperCase() : '';
 
-        return '$firstName $lastName'.trim();
-      } else {
-        // If the nameParts is empty, capitalize the first letter of the email
-        return email[0].toUpperCase() + email.substring(1);
-      }
+      return '$firstName $lastName'.trim();
     }
   }
 }

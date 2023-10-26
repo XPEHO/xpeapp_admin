@@ -5,12 +5,14 @@ import 'package:xpeapp_admin/data/state/repositories/newsletter_repository.dart'
 import 'package:xpeapp_admin/env/extensions/newsletter.dart';
 
 class NewsletterRepositoryImpl extends NewsletterRepository {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore firestore;
+
+  NewsletterRepositoryImpl(this.firestore);
 
   @override
   Future<void> addNewsletter(NewsletterEntity newsletter) async {
     try {
-      await _firestore.collection('newsletters').add(
+      await firestore.collection('newsletters').add(
             newsletter.toFirebase(),
           );
     } on FirebaseException catch (e) {
@@ -22,16 +24,12 @@ class NewsletterRepositoryImpl extends NewsletterRepository {
   @override
   Future<void> updateNewsletter(NewsletterEntity newsletter) async {
     try {
-      await _firestore.collection('newsletters').doc(newsletter.id).update(
-        {
-          'date': newsletter.date,
-          'summary': newsletter.summary,
-          'pdfUrl': newsletter.pdfUrl,
-        },
-      );
+      await firestore.collection('newsletters').doc(newsletter.id).update(
+            newsletter.toFirebase(),
+          );
     } on FirebaseException catch (e) {
       debugPrint('Error: $e');
-      throw Exception('Erreur lors de l\'ajout de la newsletter');
+      throw Exception('Erreur lors de la modification de la newsletter');
     }
   }
 }

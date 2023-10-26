@@ -3,6 +3,7 @@
 _Feat_
 
 - [Issue #17](https://github.com/XPEHO/xpeapp_admin/issues/17) Add the publication date for the newsletters
+- [Issue #29](https://github.com/XPEHO/xpeapp_admin/issues/29) Add units tests for the project
 
 _Fix_
 

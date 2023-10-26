@@ -14,7 +14,9 @@ final loaderStateProvider = StateNotifierProvider<LoaderState, bool>((ref) {
 });
 
 final loginProvider = Provider<LoginRepositoryImpl>((ref) {
-  return LoginRepositoryImpl();
+  return LoginRepositoryImpl(
+    FirebaseAuth.instance,
+  );
 });
 
 final loginStateProvider = StreamProvider<User?>((ref) {
@@ -34,7 +36,9 @@ final cloudFirestoreProvider = Provider<FirebaseFirestore>((ref) {
 });
 
 final newsletterProvider = Provider<NewsletterRepositoryImpl>((ref) {
-  return NewsletterRepositoryImpl();
+  return NewsletterRepositoryImpl(
+    ref.watch(cloudFirestoreProvider),
+  );
 });
 
 final storageFirebaseProvider = Provider<FirebaseStorage>((ref) {

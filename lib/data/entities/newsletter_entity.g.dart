@@ -6,8 +6,9 @@ part of 'newsletter_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_NewsletterEntity _$$_NewsletterEntityFromJson(Map<String, dynamic> json) =>
-    _$_NewsletterEntity(
+_$NewsletterEntityImpl _$$NewsletterEntityImplFromJson(
+        Map<String, dynamic> json) =>
+    _$NewsletterEntityImpl(
       id: json['id'] as String?,
       summary: json['summary'] as String,
       picture: json['picture'] as String?,
@@ -17,7 +18,8 @@ _$_NewsletterEntity _$$_NewsletterEntityFromJson(Map<String, dynamic> json) =>
       pdfUrl: json['pdfUrl'] as String,
     );
 
-Map<String, dynamic> _$$_NewsletterEntityToJson(_$_NewsletterEntity instance) =>
+Map<String, dynamic> _$$NewsletterEntityImplToJson(
+        _$NewsletterEntityImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'summary': instance.summary,

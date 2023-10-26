@@ -100,11 +100,11 @@ class _$NewsletterEntityCopyWithImpl<$Res, $Val extends NewsletterEntity>
 }
 
 /// @nodoc
-abstract class _$$_NewsletterEntityCopyWith<$Res>
+abstract class _$$NewsletterEntityImplCopyWith<$Res>
     implements $NewsletterEntityCopyWith<$Res> {
-  factory _$$_NewsletterEntityCopyWith(
-          _$_NewsletterEntity value, $Res Function(_$_NewsletterEntity) then) =
-      __$$_NewsletterEntityCopyWithImpl<$Res>;
+  factory _$$NewsletterEntityImplCopyWith(_$NewsletterEntityImpl value,
+          $Res Function(_$NewsletterEntityImpl) then) =
+      __$$NewsletterEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -117,11 +117,11 @@ abstract class _$$_NewsletterEntityCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_NewsletterEntityCopyWithImpl<$Res>
-    extends _$NewsletterEntityCopyWithImpl<$Res, _$_NewsletterEntity>
-    implements _$$_NewsletterEntityCopyWith<$Res> {
-  __$$_NewsletterEntityCopyWithImpl(
-      _$_NewsletterEntity _value, $Res Function(_$_NewsletterEntity) _then)
+class __$$NewsletterEntityImplCopyWithImpl<$Res>
+    extends _$NewsletterEntityCopyWithImpl<$Res, _$NewsletterEntityImpl>
+    implements _$$NewsletterEntityImplCopyWith<$Res> {
+  __$$NewsletterEntityImplCopyWithImpl(_$NewsletterEntityImpl _value,
+      $Res Function(_$NewsletterEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -134,7 +134,7 @@ class __$$_NewsletterEntityCopyWithImpl<$Res>
     Object? publicationDate = null,
     Object? pdfUrl = null,
   }) {
-    return _then(_$_NewsletterEntity(
+    return _then(_$NewsletterEntityImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -166,8 +166,8 @@ class __$$_NewsletterEntityCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$_NewsletterEntity implements _NewsletterEntity {
-  const _$_NewsletterEntity(
+class _$NewsletterEntityImpl implements _NewsletterEntity {
+  const _$NewsletterEntityImpl(
       {this.id,
       required this.summary,
       this.picture,
@@ -175,8 +175,8 @@ class _$_NewsletterEntity implements _NewsletterEntity {
       @TimestampConverter() required this.publicationDate,
       required this.pdfUrl});
 
-  factory _$_NewsletterEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_NewsletterEntityFromJson(json);
+  factory _$NewsletterEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NewsletterEntityImplFromJson(json);
 
   @override
   final String? id;
@@ -202,7 +202,7 @@ class _$_NewsletterEntity implements _NewsletterEntity {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_NewsletterEntity &&
+            other is _$NewsletterEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.summary, summary) || other.summary == summary) &&
             (identical(other.picture, picture) || other.picture == picture) &&
@@ -220,12 +220,13 @@ class _$_NewsletterEntity implements _NewsletterEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_NewsletterEntityCopyWith<_$_NewsletterEntity> get copyWith =>
-      __$$_NewsletterEntityCopyWithImpl<_$_NewsletterEntity>(this, _$identity);
+  _$$NewsletterEntityImplCopyWith<_$NewsletterEntityImpl> get copyWith =>
+      __$$NewsletterEntityImplCopyWithImpl<_$NewsletterEntityImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NewsletterEntityToJson(
+    return _$$NewsletterEntityImplToJson(
       this,
     );
   }
@@ -238,10 +239,10 @@ abstract class _NewsletterEntity implements NewsletterEntity {
       final String? picture,
       @TimestampConverter() required final Timestamp date,
       @TimestampConverter() required final Timestamp publicationDate,
-      required final String pdfUrl}) = _$_NewsletterEntity;
+      required final String pdfUrl}) = _$NewsletterEntityImpl;
 
   factory _NewsletterEntity.fromJson(Map<String, dynamic> json) =
-      _$_NewsletterEntity.fromJson;
+      _$NewsletterEntityImpl.fromJson;
 
   @override
   String? get id;
@@ -259,6 +260,6 @@ abstract class _NewsletterEntity implements NewsletterEntity {
   String get pdfUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_NewsletterEntityCopyWith<_$_NewsletterEntity> get copyWith =>
+  _$$NewsletterEntityImplCopyWith<_$NewsletterEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

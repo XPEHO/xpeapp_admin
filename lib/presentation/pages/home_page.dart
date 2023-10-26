@@ -32,9 +32,26 @@ class HomePage extends ConsumerWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            PictureProfile(
-              uid: user?.uid,
-              size: 200,
+            StreamBuilder(
+              stream: ref
+                  .watch(cloudFirestoreProvider)
+                  .collection('users')
+                  .doc(user?.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                String imagePath =
+                    snapshot.data?.data()?['image'] as String? ?? '';
+                return PictureProfile(
+                  imagePath: ref
+                      .watch(storageFirebaseProvider)
+                      .ref()
+                      .child(
+                        imagePath,
+                      )
+                      .getDownloadURL(),
+                  size: 200,
+                );
+              },
             ),
             const SizedBox(height: 20),
             if (user != null)
@@ -60,8 +77,12 @@ class HomePage extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             WidgetAccess(
+              stream: ref
+                  .watch(cloudFirestoreProvider)
+                  .collection('users')
+                  .doc(user?.uid)
+                  .snapshots(),
               haveAccess: AdminAccess.wordpressUsers,
-              uidUser: user?.uid ?? '',
               authorizedWidget: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
                 child: Button.secondary(
@@ -75,8 +96,12 @@ class HomePage extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             WidgetAccess(
+              stream: ref
+                  .watch(cloudFirestoreProvider)
+                  .collection('users')
+                  .doc(user?.uid)
+                  .snapshots(),
               haveAccess: AdminAccess.updateAccess,
-              uidUser: user?.uid ?? '',
               authorizedWidget: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
                 child: Button.secondary(
