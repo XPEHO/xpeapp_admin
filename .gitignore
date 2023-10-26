@@ -51,7 +51,9 @@ config.json
 /linux/**
 /macos/**
 
+# Coverage
 coverage/
+docs/
 
 # Firebase
 /.firebase

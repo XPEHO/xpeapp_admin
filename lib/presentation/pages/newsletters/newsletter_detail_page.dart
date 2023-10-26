@@ -41,8 +41,12 @@ class NewsletterDetailPage extends ConsumerWidget {
               icon: const Icon(Icons.arrow_back),
             ),
             floatingActionButton: WidgetAccess(
+              stream: ref
+                  .watch(cloudFirestoreProvider)
+                  .collection('users')
+                  .doc(ref.read(uidUserProvider))
+                  .snapshots(),
               haveAccess: AdminAccess.editNewsletter,
-              uidUser: ref.read(uidUserProvider),
               authorizedWidget: FloatingActionButton(
                 onPressed: () => Navigator.pushNamed(
                   context,

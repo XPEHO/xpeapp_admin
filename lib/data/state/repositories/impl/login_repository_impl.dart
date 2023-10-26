@@ -3,15 +3,16 @@ import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
 import 'package:xpeapp_admin/data/state/repositories/login_repository.dart';
 
 class LoginRepositoryImpl extends LoginRepository {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth;
 
-  Stream<User?> get authStateChange => _auth.authStateChanges();
+  Stream<User?> get authStateChange => auth.authStateChanges();
 
-  LoginRepositoryImpl();
+  LoginRepositoryImpl(this.auth);
+
   @override
   Future<void> signIn(XpehoUser user) async {
     try {
-      await _auth.signInWithEmailAndPassword(
+      await auth.signInWithEmailAndPassword(
         email: user.email,
         password: user.password,
       );
@@ -31,6 +32,6 @@ class LoginRepositoryImpl extends LoginRepository {
 
   @override
   Future<void> signOut() async {
-    await _auth.signOut();
+    await auth.signOut();
   }
 }

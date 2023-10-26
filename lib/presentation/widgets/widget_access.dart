@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/enum/admin_access.dart';
-import 'package:xpeapp_admin/providers.dart';
 
-class WidgetAccess extends ConsumerWidget {
+class WidgetAccess extends StatelessWidget {
+  final Stream stream;
   final AdminAccess haveAccess;
-  final String uidUser;
   final Widget authorizedWidget;
   final Widget? unauthorizedWidget;
 
   const WidgetAccess({
     super.key,
+    required this.stream,
     required this.haveAccess,
-    required this.uidUser,
     required this.authorizedWidget,
     this.unauthorizedWidget,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: ref
-          .watch(cloudFirestoreProvider)
-          .collection('users')
-          .doc(uidUser)
-          .snapshots(),
+      stream: stream,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasError) {
           return const Icon(Icons.error);
