@@ -4,6 +4,10 @@ _Feat_
 
 - [Issue #17](https://github.com/XPEHO/xpeapp_admin/issues/17) Add the publication date for the newsletters
 
+_Fix_
+
+- Fix the newsletter page and card with expanded removing
+
 ## 0.3.0
 
 _Feat_
