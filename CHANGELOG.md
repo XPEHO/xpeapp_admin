@@ -1,3 +1,9 @@
+## 0.4.1
+
+_Chore_
+
+- Use the Github worflows from Xpeho Workflows repository
+
 ## 0.4.0
 
 _Feat_
