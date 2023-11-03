@@ -1,4 +1,8 @@
-## 0.4.1
+## 0.5.0
+
+_Feat_
+
+- [Issue #35](https://github.com/XPEHO/xpeapp_admin/issues/35) Add feature flipping admin
 
 _Chore_
 
