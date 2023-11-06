@@ -5,6 +5,10 @@ _Chore_
 - Use the Github worflows from Xpeho Workflows repository
 - [Issue #33](https://github.com/XPEHO/xpeapp_admin/issues/33) Update icon and name of the app
 
+_Fix_
+
+- Add the feature flipping admin access in list of enum
+
 ## 0.4.0
 
 _Feat_

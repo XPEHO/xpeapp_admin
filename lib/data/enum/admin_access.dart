@@ -6,4 +6,5 @@ enum AdminAccess {
   vacation,
   cra,
   wordpressUsers,
+  featureFlipping,
 }
