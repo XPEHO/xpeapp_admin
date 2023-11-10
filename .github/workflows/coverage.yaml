@@ -4,7 +4,7 @@ name: Coverage Report
 
 jobs:
   xpeho_workflows_flutter_coverage:
-    uses: XPEHO/Xpeho-Workflows/.github/workflows/coverage.yaml@fix/workflows
+    uses: XPEHO/Xpeho-Workflows/.github/workflows/coverage.yaml@main
     with:
       FLUTTER_VERSION: '3.13.1'
       MIN_COVERAGE: 80
