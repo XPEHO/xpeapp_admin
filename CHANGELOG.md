@@ -1,3 +1,13 @@
+## 0.5.1
+
+_Fix_
+
+- [Issue #43](https://github.com/XPEHO/xpeapp_admin/issues/43) Fix the access detail page with tabView
+
+_Chore_
+
+- Use the Github worflows from Xpeho Workflows repository (branch main)
+
 ## 0.5.0
 
 _Feat_

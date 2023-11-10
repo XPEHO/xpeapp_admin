@@ -1,6 +1,6 @@
 {
-    "name": "xpeapp_admin",
-    "short_name": "xpeapp_admin",
+    "name": "XpeApp Admin",
+    "short_name": "XpeApp Admin",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#A0CE4E",
