@@ -1,3 +1,9 @@
+## 0.5.2
+
+_Fix_
+
+- Expanded missing on wordpress users page
+
 ## 0.5.1
 
 _Fix_
