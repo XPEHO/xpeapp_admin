@@ -1,12 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xpeapp_admin/data/backend_api.dart';
+import 'package:xpeapp_admin/data/entities/config.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/data/state/loader_state.dart';
 import 'package:xpeapp_admin/data/state/newsletter_publication_state.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/login_repository_impl.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/newsletter_repository_impl.dart';
+
+final configProvider = Provider<Config>((ref) {
+  return Config(baseUrl: ''); // Valeur par défaut
+});
+
+// Backend
+final backendApiProvider = Provider<BackendApi>((ref) {
+  return BackendApi(
+    Dio(),
+    baseUrl: ref.watch(configProvider).baseUrl,
+  );
+});
 
 // Loader
 final loaderStateProvider = StateNotifierProvider<LoaderState, bool>((ref) {
@@ -37,7 +52,8 @@ final cloudFirestoreProvider = Provider<FirebaseFirestore>((ref) {
 
 final newsletterProvider = Provider<NewsletterRepositoryImpl>((ref) {
   return NewsletterRepositoryImpl(
-    ref.watch(cloudFirestoreProvider),
+    firestore: ref.watch(cloudFirestoreProvider),
+    backendApi: ref.watch(backendApiProvider),
   );
 });
 

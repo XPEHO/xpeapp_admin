@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
+import 'package:xpeapp_admin/data/service/config_service.dart';
 import 'package:xpeapp_admin/firebase_options.dart';
 import 'package:xpeapp_admin/presentation/pages/access/access_detail_page.dart';
 import 'package:xpeapp_admin/presentation/pages/access/access_page.dart';
@@ -12,6 +13,7 @@ import 'package:xpeapp_admin/presentation/pages/newsletters/newsletter_detail_pa
 import 'package:xpeapp_admin/presentation/pages/newsletters/newsletters_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:xpeapp_admin/presentation/pages/users/wordpress_users_page.dart';
+import 'package:xpeapp_admin/providers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,9 +23,15 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  final configService = ConfigService();
+  final configuration = await configService.initConfig();
+
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      overrides: [
+        configProvider.overrideWithValue(configuration),
+      ],
+      child: const MyApp(),
     ),
   );
 }

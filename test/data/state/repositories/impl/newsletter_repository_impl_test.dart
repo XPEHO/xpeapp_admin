@@ -26,7 +26,8 @@ void main() {
       mockCollectionReference = MockCollectionReference();
       mockDocumentReference = MockDocumentReference();
       newsletterRepositoryImpl = NewsletterRepositoryImpl(
-        mockFirebaseFirestore,
+        firestore: mockFirebaseFirestore,
+        backendApi: null,
       );
     });
     test('addNewsletter success', () async {

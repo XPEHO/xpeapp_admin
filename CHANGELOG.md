@@ -1,3 +1,9 @@
+## 0.6.0
+
+_Feat_
+
+- [Issue #49](https://github.com/XPEHO/xpeapp_admin/issues/49) Notification call
+
 ## 0.5.2
 
 _Fix_
