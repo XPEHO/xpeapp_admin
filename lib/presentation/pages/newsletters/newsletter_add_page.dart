@@ -7,7 +7,6 @@ import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
-import 'package:xpeapp_admin/presentation/widgets/newsletter_publication_date_widget.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
 
@@ -135,6 +134,7 @@ class _NewsletterAddOrEditPageState
                 hintText: 'Ex: Drive link, ...',
                 controller: pdfLinkController,
               ),
+              /* TODO: Activate this function when the backend is ready
               const SizedBox(height: 20),
               SizedBox(
                 width: width,
@@ -159,7 +159,7 @@ class _NewsletterAddOrEditPageState
               SizedBox(
                 width: width,
                 child: const NewsletterPublicationDateWidget(),
-              ),
+              ), */
               const SizedBox(height: 20),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,

@@ -16,6 +16,7 @@ jobs:
       uses: actions/checkout@v3
     - run: |
         echo ${{ secrets.FIREBASE_CONFIGURATION }} | base64 -d > lib/firebase_options.dart
+        echo ${{ secrets.CONFIG_JSON }} | base64 -d > assets/config.json
         
     - name: Flutter pub get, format, analyze, and test
       run: |
