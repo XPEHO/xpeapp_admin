@@ -4,6 +4,10 @@ _Feat_
 
 - [Issue #49](https://github.com/XPEHO/xpeapp_admin/issues/49) Notification call
 
+_Fix_
+
+- [Issue #47](https://github.com/XPEHO/xpeapp_admin/issues/47) Change newsletter hint text
+
 ## 0.5.2
 
 _Fix_
