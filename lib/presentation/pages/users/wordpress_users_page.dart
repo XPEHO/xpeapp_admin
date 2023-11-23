@@ -17,71 +17,67 @@ class WordpressUsersPage extends ConsumerWidget {
       ),
       child: Container(
         margin: const EdgeInsets.all(10),
-        child: Expanded(
-          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance
-                .collection('wordpressUsers')
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (snapshot.hasData && snapshot.data != null) {
-                List<XpehoUser> users = snapshot.data!.docs
-                    .map(
-                      (e) => XpehoUser.fromJson(
-                        e.data()
-                          ..addAll({
-                            'uid': e.id,
-                          }),
-                      ),
-                    )
-                    .toList();
-                if (users.isEmpty) {
-                  return const Center(
-                    child: Text('Aucun utilisateur'),
-                  );
-                } else {
-                  return ListView.builder(
-                    itemCount: users.length,
-                    itemBuilder: (context, index) {
-                      XpehoUser user = users[index];
-                      return Expanded(
-                        child: ListTile(
-                          title: Text(user.name!),
-                          subtitle: Text(user.email),
-                          trailing: IconButton(
-                            onPressed: () => showDeleteUserDialog(
-                              context,
-                              user,
-                            ),
-                            icon: const Icon(
-                              Icons.delete,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }
-              } else if (snapshot.hasError) {
-                return const Center(
-                  child: Text(
-                    'Erreur lors du chargement des utilisateurs',
-                    style: TextStyle(
-                      color: Colors.red,
+        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: FirebaseFirestore.instance
+              .collection('wordpressUsers')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData && snapshot.data != null) {
+              List<XpehoUser> users = snapshot.data!.docs
+                  .map(
+                    (e) => XpehoUser.fromJson(
+                      e.data()
+                        ..addAll({
+                          'uid': e.id,
+                        }),
                     ),
-                  ),
-                );
-              } else {
+                  )
+                  .toList();
+              if (users.isEmpty) {
                 return const Center(
                   child: Text('Aucun utilisateur'),
                 );
+              } else {
+                return ListView.builder(
+                  itemCount: users.length,
+                  itemBuilder: (context, index) {
+                    XpehoUser user = users[index];
+                    return ListTile(
+                      title: Text(user.name!),
+                      subtitle: Text(user.email),
+                      trailing: IconButton(
+                        onPressed: () => showDeleteUserDialog(
+                          context,
+                          user,
+                        ),
+                        icon: const Icon(
+                          Icons.delete,
+                        ),
+                      ),
+                    );
+                  },
+                );
               }
-            },
-          ),
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: Text(
+                  'Erreur lors du chargement des utilisateurs',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              );
+            } else {
+              return const Center(
+                child: Text('Aucun utilisateur'),
+              );
+            }
+          },
         ),
       ),
     );

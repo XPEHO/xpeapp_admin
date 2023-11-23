@@ -7,6 +7,7 @@ _Feat_
 _Fix_
 
 - [Issue #47](https://github.com/XPEHO/xpeapp_admin/issues/47) Change newsletter hint text
+- Fix users list page
 
 ## 0.5.2
 
