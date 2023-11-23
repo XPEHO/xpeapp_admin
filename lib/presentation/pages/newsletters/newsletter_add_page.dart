@@ -122,7 +122,7 @@ class _NewsletterAddOrEditPageState
               ...titleAndTextField(
                 title: 'Saisir le sommaire',
                 subtitle: '1 ligne = 1 chapitre',
-                hintText: 'Ex: Actualités, Sport, Culture, ...',
+                hintText: 'Actualités\nSport\nCulture\n...',
                 controller: summaryController,
                 heightOfTextField: MediaQuery.of(context).size.height * 0.3,
                 maxLines: 10,
