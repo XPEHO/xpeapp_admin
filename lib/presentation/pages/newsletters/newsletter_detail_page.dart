@@ -6,7 +6,6 @@ import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/data/enum/admin_access.dart';
 import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
 import 'package:xpeapp_admin/presentation/widgets/widget_access.dart';
-import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
@@ -41,11 +40,6 @@ class NewsletterDetailPage extends ConsumerWidget {
               icon: const Icon(Icons.arrow_back),
             ),
             floatingActionButton: WidgetAccess(
-              stream: ref
-                  .watch(cloudFirestoreProvider)
-                  .collection('users')
-                  .doc(ref.read(uidUserProvider))
-                  .snapshots(),
               haveAccess: AdminAccess.editNewsletter,
               authorizedWidget: FloatingActionButton(
                 onPressed: () => Navigator.pushNamed(

@@ -16,7 +16,6 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userConnectedProvider);
-
     return ScaffoldTemplate(
       appBarTitle: 'XpeApp Admin',
       appBarLeading: IconButton(
@@ -77,11 +76,6 @@ class HomePage extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             WidgetAccess(
-              stream: ref
-                  .watch(cloudFirestoreProvider)
-                  .collection('users')
-                  .doc(user?.uid)
-                  .snapshots(),
               haveAccess: AdminAccess.wordpressUsers,
               authorizedWidget: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
@@ -96,11 +90,6 @@ class HomePage extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             WidgetAccess(
-              stream: ref
-                  .watch(cloudFirestoreProvider)
-                  .collection('users')
-                  .doc(user?.uid)
-                  .snapshots(),
               haveAccess: AdminAccess.updateAccess,
               authorizedWidget: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
@@ -110,6 +99,20 @@ class HomePage extends ConsumerWidget {
                     context,
                     '/access',
                     arguments: user?.uid,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            WidgetAccess(
+              haveAccess: AdminAccess.qvst,
+              authorizedWidget: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Button.secondary(
+                  text: 'QVST',
+                  onPressed: () => Navigator.pushNamed(
+                    context,
+                    '/qvst',
                   ),
                 ),
               ),

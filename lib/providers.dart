@@ -5,9 +5,16 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/config.dart';
+import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/resume/qvst_resume_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
+import 'package:xpeapp_admin/data/service/qvst_service.dart';
 import 'package:xpeapp_admin/data/state/loader_state.dart';
-import 'package:xpeapp_admin/data/state/newsletter_publication_state.dart';
+import 'package:xpeapp_admin/data/state/newsletter_publication_notifier.dart';
+import 'package:xpeapp_admin/data/state/qvst_response_list_form_notifier.dart';
+import 'package:xpeapp_admin/data/state/qvst_theme_notifier.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/login_repository_impl.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/newsletter_repository_impl.dart';
 
@@ -23,6 +30,11 @@ final backendApiProvider = Provider<BackendApi>((ref) {
   );
 });
 
+final qvstServiceProvider = Provider<QvstService>((ref) {
+  return QvstService(
+    ref.watch(backendApiProvider),
+  );
+});
 // Loader
 final loaderStateProvider = StateNotifierProvider<LoaderState, bool>((ref) {
   return LoaderState();
@@ -67,3 +79,34 @@ final newsletterPublicationProvider =
 );
 
 final newsletterPublicationDateProvider = Provider<Timestamp?>((ref) => null);
+
+final qvstQuestionsListProvider =
+    FutureProvider<List<QvstQuestionEntity>>((ref) async {
+  return ref.watch(qvstServiceProvider).getAllQvst();
+});
+
+final qvstResumeProvider =
+    FutureProvider.family<QvstResumeEntity, String>((ref, id) async {
+  return ref.watch(qvstServiceProvider).getQvstResumeById(id);
+});
+
+final qvstQuestionProvider =
+    FutureProvider.family<QvstQuestionEntity, String>((ref, id) async {
+  return ref.watch(qvstServiceProvider).getQvstById(id);
+});
+
+final qvstThemesListProvider =
+    FutureProvider<List<QvstThemeEntity>>((ref) async {
+  return ref.watch(qvstServiceProvider).getAllQvstThemes();
+});
+
+final qvstNotifierProvider =
+    StateNotifierProvider<QvstThemeNotifier, QvstThemeEntity?>((ref) {
+  return QvstThemeNotifier();
+});
+
+final qvstResponseListFormProvider =
+    StateNotifierProvider<QvstResponseListFormNotifier, List<QvstAnswerEntity>>(
+        (ref) {
+  return QvstResponseListFormNotifier();
+});
