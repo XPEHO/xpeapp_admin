@@ -1,3 +1,9 @@
+## 0.7.1
+
+_Fix_
+
+- Fix qvst feature
+
 ## 0.7.0
 
 _Feat_

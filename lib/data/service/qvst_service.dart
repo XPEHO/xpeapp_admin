@@ -1,4 +1,5 @@
 import 'package:xpeapp_admin/data/backend_api.dart';
+import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/resume/qvst_resume_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
@@ -11,18 +12,14 @@ class QvstService {
   Future<List<QvstQuestionEntity>> getAllQvst() async {
     final response = await _backendApi.getAllQvst();
     if (response.response.statusCode == 200) {
-      final data = Map.from(response.data);
-      final List<QvstQuestionEntity> qvstQuestions = [];
-      data.forEach(
-        (key, value) {
-          qvstQuestions.add(
-            QvstQuestionEntity.fromJson(value).copyWith(
-              id: key,
+      final data = response.data as List<dynamic>;
+      return data
+          .map(
+            (e) => QvstQuestionEntity.fromJson(
+              e,
             ),
-          );
-        },
-      );
-      return qvstQuestions;
+          )
+          .toList();
     } else {
       throw Exception('Erreur lors de la récupération des QVST');
     }
@@ -63,6 +60,20 @@ class QvstService {
     }
   }
 
+  Future<List<QvstQuestionEntity>> getAllQvstQuestionsByThemeId(
+      String id) async {
+    final response = await _backendApi.getAllQvstQuestionsByThemeId(id);
+    if (response.response.statusCode == 200) {
+      return (response.data as List<dynamic>)
+          .map(
+            (e) => QvstQuestionEntity.fromJson(e),
+          )
+          .toList();
+    } else {
+      throw Exception('Erreur lors de la récupération des questions du QVST');
+    }
+  }
+
   Future<bool> addQvst(QvstQuestionEntity questionEntity) async {
     final response = await _backendApi.addQvst(
       questionEntity.toJson(),
@@ -80,6 +91,19 @@ class QvstService {
       return true;
     } else {
       throw Exception('Erreur lors de la suppression du QVST');
+    }
+  }
+
+  Future<List<QvstAnswerRepoEntity>> getQvstAnswersRepo() async {
+    final response = await _backendApi.getQvstAnswersRepo();
+    if (response.response.statusCode == 200) {
+      return (response.data as List<dynamic>)
+          .map(
+            (e) => QvstAnswerRepoEntity.fromJson(e),
+          )
+          .toList();
+    } else {
+      throw Exception('Erreur lors de la récupération des réponses');
     }
   }
 }

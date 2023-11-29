@@ -4,7 +4,7 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.7.0+12
+version: 0.7.1+13
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
@@ -60,11 +60,12 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/fonts/
 
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: SF Pro Rounded
+      fonts:
+        - asset: assets/fonts/SF-Pro-Rounded-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

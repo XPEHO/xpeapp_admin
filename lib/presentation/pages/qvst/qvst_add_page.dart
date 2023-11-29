@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_choice_theme.dart';
@@ -12,7 +11,9 @@ import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/yaki_ui.dart';
 
 class QvstAddPage extends ConsumerStatefulWidget {
-  const QvstAddPage({super.key});
+  const QvstAddPage({
+    super.key,
+  });
 
   @override
   ConsumerState<QvstAddPage> createState() => _QvstAddPageState();
@@ -75,7 +76,7 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
                     height: 20,
                   ),
                   const Text(
-                    'Ajouter la liste des réponses',
+                    'Choisissez le référentiel de réponses',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -93,7 +94,8 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
                     child: Button.secondary(
                       text: 'Ajouter la question',
                       onPressed: (ref.watch(qvstNotifierProvider) == null ||
-                              ref.watch(qvstResponseListFormProvider).isEmpty ||
+                              ref.watch(qvstAnswerRepoSelectedProvider) ==
+                                  null ||
                               controller.text.isEmpty)
                           ? null
                           : () => sendQvst(),
@@ -119,12 +121,12 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
     ref.read(loaderStateProvider.notifier).showLoader();
 
     QvstThemeEntity? theme = ref.read(qvstNotifierProvider);
-    List<QvstAnswerEntity> answers = ref.read(qvstResponseListFormProvider);
+    String? idAnswerRepo = ref.watch(qvstAnswerRepoSelectedProvider)?.id;
     QvstQuestionEntity question = QvstQuestionEntity(
       question: controller.text,
       theme: theme?.theme ?? '',
       idTheme: theme?.id ?? '',
-      answers: answers,
+      answerRepoId: idAnswerRepo,
     );
     final response = await ref.read(qvstServiceProvider).addQvst(
           question,
@@ -133,9 +135,11 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
       ref.read(loaderStateProvider.notifier).hideLoader();
       controller.clear();
       ref.read(qvstNotifierProvider.notifier).setTheme(null);
-      ref.read(qvstResponseListFormProvider.notifier).clear();
+      ref.read(qvstAnswerRepoSelectedProvider.notifier).clearAnswerRepo();
       // ignore: unused_result
-      ref.refresh(qvstQuestionsListProvider);
+      ref.refresh(
+        qvstQuestionsByThemesListProvider(theme?.id ?? ''),
+      );
       if (!context.mounted) return;
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(

@@ -31,17 +31,21 @@ void main() {
         when(mockBackendApi.getAllQvst()).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
-              {
-                "1": {
-                  "question": "Etes vous heureux ?",
-                  "theme": "Le travail",
-                  "id_theme": "1",
+              [
+                {
+                  "question_id": "4",
+                  "question": "Comment te sens-tu dans l'entreprise ?",
+                  "theme": "L’environnement de travail",
+                  "theme_id": "4",
                   "answers": [
-                    {"answer": "Oui", "value": "1"},
-                    {"answer": "Non", "value": "2"},
+                    {"answer": "Pas du tout", "value": "1"},
+                    {"answer": "Plutôt non", "value": "2"},
+                    {"answer": "Cela dépend", "value": "3"},
+                    {"answer": "Plutôt oui", "value": "4"},
+                    {"answer": "Tout à fait", "value": "5"}
                   ]
                 },
-              },
+              ],
               Response(
                 statusCode: 200,
                 requestOptions: RequestOptions(path: ''),
@@ -228,7 +232,11 @@ void main() {
       };
       final question = QvstQuestionEntity.fromJson(map);
       test('Success', () async {
-        when(mockBackendApi.addQvst(question.toJson())).thenAnswer((_) async {
+        when(
+          mockBackendApi.addQvst(
+            question.toJson(),
+          ),
+        ).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
               {},

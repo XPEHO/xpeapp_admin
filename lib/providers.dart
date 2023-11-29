@@ -5,15 +5,18 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/config.dart';
-import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/qvst_menu_selected.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/resume/qvst_resume_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
+import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 import 'package:xpeapp_admin/data/state/loader_state.dart';
 import 'package:xpeapp_admin/data/state/newsletter_publication_notifier.dart';
-import 'package:xpeapp_admin/data/state/qvst_response_list_form_notifier.dart';
+import 'package:xpeapp_admin/data/state/qvst_answer_repo_notifier.dart';
+import 'package:xpeapp_admin/data/state/qvst_menu_notifier.dart';
 import 'package:xpeapp_admin/data/state/qvst_theme_notifier.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/login_repository_impl.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/newsletter_repository_impl.dart';
@@ -100,13 +103,41 @@ final qvstThemesListProvider =
   return ref.watch(qvstServiceProvider).getAllQvstThemes();
 });
 
+final qvstQuestionsByThemesListProvider =
+    FutureProvider.family<List<QvstQuestionEntity>, String>((ref, id) async {
+  return ref.watch(qvstServiceProvider).getAllQvstQuestionsByThemeId(id);
+});
+
 final qvstNotifierProvider =
     StateNotifierProvider<QvstThemeNotifier, QvstThemeEntity?>((ref) {
   return QvstThemeNotifier();
 });
 
-final qvstResponseListFormProvider =
-    StateNotifierProvider<QvstResponseListFormNotifier, List<QvstAnswerEntity>>(
-        (ref) {
-  return QvstResponseListFormNotifier();
+final qvstAnswerRepoListProvider =
+    FutureProvider<List<QvstAnswerRepoEntity>>((ref) async {
+  return ref.watch(qvstServiceProvider).getQvstAnswersRepo();
+});
+
+final qvstAnswerRepoSelectedProvider =
+    StateNotifierProvider<QvstAnswerRepoNotifier, QvstAnswerRepoEntity?>((ref) {
+  return QvstAnswerRepoNotifier();
+});
+
+final qvstMenuSelectedProvider = StateProvider<QvstMenu?>((ref) {
+  return null;
+});
+
+final qvstMenuProvider =
+    StateNotifierProvider<QvstMenuNotifier, QvstMenuSelected?>((ref) {
+  return QvstMenuNotifier();
+});
+
+final qvstDeleteQuestionProvider =
+    FutureProvider.family<bool, String?>((ref, id) async {
+  try {
+    await ref.watch(qvstServiceProvider).deleteQvst(id ?? '');
+    return true;
+  } catch (e) {
+    return false;
+  }
 });
