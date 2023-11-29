@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_entity.dart';
-import 'package:xpeapp_admin/presentation/widgets/custom_text_field.dart';
+import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class QvstResponseListForm extends ConsumerStatefulWidget {
@@ -18,54 +18,38 @@ class _QvstResponseListFormState extends ConsumerState<QvstResponseListForm> {
 
   @override
   Widget build(BuildContext context) {
-    final responsesList = ref.watch(qvstResponseListFormProvider);
+    final responsesList = ref.watch(qvstAnswerRepoListProvider);
+    final repoSelected = ref.watch(qvstAnswerRepoSelectedProvider);
     return Column(
       children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomTextField(
-              width: MediaQuery.of(context).size.width * 0.4,
-              hintText: 'Réponse',
-              controller: responseController,
-              keyboardType: TextInputType.text,
+        Container(
+          margin: const EdgeInsets.all(20),
+          child: responsesList.when(
+            data: (data) => DropdownButton<QvstAnswerRepoEntity>(
+              value: repoSelected,
+              onChanged: (QvstAnswerRepoEntity? newValue) {
+                ref
+                    .watch(qvstAnswerRepoSelectedProvider.notifier)
+                    .setAnswerRepo(newValue!);
+              },
+              items: data
+                  .map<DropdownMenuItem<QvstAnswerRepoEntity>>(
+                    (QvstAnswerRepoEntity value) =>
+                        DropdownMenuItem<QvstAnswerRepoEntity>(
+                      value: value,
+                      child: Text(value.repoName),
+                    ),
+                  )
+                  .toList(),
             ),
-            const SizedBox(
-              width: 20,
-            ),
-            CustomTextField(
-              width: MediaQuery.of(context).size.width * 0.3,
-              hintText: 'Valeur (chiffre)',
-              hintSize: 12.5,
-              controller: valueController,
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.black,
-              child: IconButton(
-                onPressed: () {
-                  QvstAnswerEntity answer = QvstAnswerEntity(
-                    answer: responseController.text,
-                    value: valueController.text,
-                  );
-                  ref.watch(qvstResponseListFormProvider.notifier).addResponse(
-                        answer,
-                      );
-                  responseController.clear();
-                  valueController.clear();
-                },
-                icon: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
+            error: (error, stack) => Text(
+              error.toString(),
+              style: const TextStyle(
+                color: Colors.red,
               ),
             ),
-          ],
+            loading: () => const CircularProgressIndicator(),
+          ),
         ),
         const SizedBox(
           height: 20,
@@ -88,7 +72,7 @@ class _QvstResponseListFormState extends ConsumerState<QvstResponseListForm> {
               color: Colors.black,
             ),
           ),
-          child: (responsesList.isEmpty)
+          child: (repoSelected == null)
               ? const Center(
                   child: Text(
                     'Aucune réponse',
@@ -99,9 +83,9 @@ class _QvstResponseListFormState extends ConsumerState<QvstResponseListForm> {
                   ),
                 )
               : ListView.builder(
-                  itemCount: responsesList.length,
+                  itemCount: repoSelected.answers.length,
                   itemBuilder: (context, index) {
-                    QvstAnswerEntity answer = responsesList[index];
+                    QvstAnswerEntity answer = repoSelected.answers[index];
                     return ListTile(
                       title: Text(
                         "Réponse: ${answer.answer}",
@@ -117,17 +101,6 @@ class _QvstResponseListFormState extends ConsumerState<QvstResponseListForm> {
                         style: const TextStyle(
                           fontSize: 13,
                           fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                      trailing: IconButton(
-                        onPressed: () {
-                          ref
-                              .watch(qvstResponseListFormProvider.notifier)
-                              .removeResponse(answer);
-                        },
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
                         ),
                       ),
                     );

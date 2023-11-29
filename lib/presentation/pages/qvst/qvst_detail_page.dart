@@ -21,12 +21,12 @@ class QvstDetailPage extends ConsumerWidget {
         title: const Text('Détail du QVST'),
         actions: [
           IconButton(
-            onPressed: () {
-              ref.read(qvstServiceProvider).deleteQvst(id);
-              // ignore: unused_result
-              ref.refresh(qvstQuestionsListProvider);
-              Navigator.of(context).pop();
-            },
+            onPressed: () => _showConfirmationDialog(
+              context: context,
+              title: 'Supprimer la question',
+              content: 'Êtes-vous sûr de vouloir supprimer cette question ?',
+              ref: ref,
+            ),
             icon: const Icon(Icons.delete),
           )
         ],
@@ -143,5 +143,52 @@ class QvstDetailPage extends ConsumerWidget {
       default:
         return Colors.white;
     }
+  }
+
+  _showConfirmationDialog({
+    required BuildContext context,
+    required String title,
+    required String content,
+    required WidgetRef ref,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Annuler'),
+            ),
+            TextButton(
+              onPressed: () async {
+                ref.read(loaderStateProvider.notifier).showLoader();
+                bool result =
+                    await ref.read(qvstServiceProvider).deleteQvst(id);
+                if (result) {
+                  // ignore: unused_result
+                  ref.refresh(qvstQuestionsListProvider);
+                  ref.read(loaderStateProvider.notifier).hideLoader();
+                  if (!context.mounted) return;
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                } else {
+                  ref.read(loaderStateProvider.notifier).hideLoader();
+                  if (!context.mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Erreur lors de la suppression du QVST'),
+                    ),
+                  );
+                }
+              },
+              child: const Text('Supprimer'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

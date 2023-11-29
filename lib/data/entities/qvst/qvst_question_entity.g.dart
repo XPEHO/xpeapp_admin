@@ -9,21 +9,24 @@ part of 'qvst_question_entity.dart';
 _$QvstQuestionEntityImpl _$$QvstQuestionEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$QvstQuestionEntityImpl(
-      id: json['id'] as String?,
-      theme: json['theme'] as String,
-      idTheme: json['idTheme'] as String?,
+      id: json['question_id'] as String?,
       question: json['question'] as String,
-      answers: (json['answers'] as List<dynamic>)
-          .map((e) => QvstAnswerEntity.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      theme: json['theme'] as String,
+      idTheme: json['theme_id'] as String?,
+      answerRepoId: json['answer_repo_id'] as String?,
+      answers: (json['answers'] as List<dynamic>?)
+              ?.map((e) => QvstAnswerEntity.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$QvstQuestionEntityImplToJson(
         _$QvstQuestionEntityImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'theme': instance.theme,
-      'idTheme': instance.idTheme,
+      'question_id': instance.id,
       'question': instance.question,
+      'theme': instance.theme,
+      'theme_id': instance.idTheme,
+      'answer_repo_id': instance.answerRepoId,
       'answers': instance.answers,
     };

@@ -31,6 +31,11 @@ abstract class BackendApi {
   @GET("xpeho/v1/qvst/themes")
   Future<HttpResponse> getAllQvstThemes();
 
+  @GET("xpeho/v1/qvst/themes/{id}/questions")
+  Future<HttpResponse> getAllQvstQuestionsByThemeId(
+    @Path("id") String id,
+  );
+
   @POST("xpeho/v1/qvst:add")
   Future<HttpResponse> addQvst(
     @Body() Map<String, dynamic> body,
@@ -40,4 +45,7 @@ abstract class BackendApi {
   Future<HttpResponse> deleteQvst(
     @Path("id") String id,
   );
+
+  @GET("xpeho/v1/qvst/answers_repo")
+  Future<HttpResponse> getQvstAnswersRepo();
 }

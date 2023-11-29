@@ -6,15 +6,17 @@ import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_entity.dart';
 part 'qvst_question_entity.freezed.dart';
 part 'qvst_question_entity.g.dart';
 
-@Freezed()
+@Freezed(makeCollectionsUnmodifiable: true)
 class QvstQuestionEntity with _$QvstQuestionEntity {
   factory QvstQuestionEntity({
-    String? id,
-    required String theme,
-    String? idTheme,
+    @JsonKey(name: 'question_id') String? id,
     required String question,
+    required String theme,
+    @JsonKey(name: 'theme_id') String? idTheme,
+    @JsonKey(name: 'answer_repo_id') String? answerRepoId,
     @JsonSerializable(explicitToJson: true)
-    required List<QvstAnswerEntity> answers,
+    @Default([])
+    List<QvstAnswerEntity> answers,
   }) = _QvstQuestionEntity;
 
   factory QvstQuestionEntity.fromJson(Map<String, dynamic> json) =>
