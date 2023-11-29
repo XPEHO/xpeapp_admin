@@ -6,7 +6,6 @@ import 'package:xpeapp_admin/data/enum/admin_access.dart';
 import 'package:xpeapp_admin/presentation/widgets/widget_access.dart';
 import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
 import 'package:xpeapp_admin/presentation/widgets/newsletter_card.dart';
-import 'package:xpeapp_admin/providers.dart';
 
 class NewslettersPage extends ConsumerWidget {
   const NewslettersPage({
@@ -22,11 +21,6 @@ class NewslettersPage extends ConsumerWidget {
         icon: const Icon(Icons.arrow_back),
       ),
       floatingActionButton: WidgetAccess(
-        stream: ref
-            .watch(cloudFirestoreProvider)
-            .collection('users')
-            .doc(ref.read(uidUserProvider))
-            .snapshots(),
         haveAccess: AdminAccess.addNewsletters,
         authorizedWidget: FloatingActionButton(
           onPressed: () => Navigator.pushNamed(context, '/newsletter/add'),

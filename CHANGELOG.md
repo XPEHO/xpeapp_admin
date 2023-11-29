@@ -1,3 +1,9 @@
+## 0.7.0
+
+_Feat_
+
+- [Issue #53](https://github.com/XPEHO/xpeapp_admin/issues/53) Add QVST gestion
+
 ## 0.6.0
 
 _Feat_

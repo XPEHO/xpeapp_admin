@@ -7,4 +7,6 @@ enum AdminAccess {
   cra,
   wordpressUsers,
   featureFlipping,
+  qvst,
+  addQvstQuestion,
 }
