@@ -20,6 +20,7 @@ QvstAnswerEntity _$QvstAnswerEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$QvstAnswerEntity {
+  String get id => throw _privateConstructorUsedError;
   String get answer => throw _privateConstructorUsedError;
   String get value => throw _privateConstructorUsedError;
 
@@ -35,7 +36,7 @@ abstract class $QvstAnswerEntityCopyWith<$Res> {
           QvstAnswerEntity value, $Res Function(QvstAnswerEntity) then) =
       _$QvstAnswerEntityCopyWithImpl<$Res, QvstAnswerEntity>;
   @useResult
-  $Res call({String answer, String value});
+  $Res call({String id, String answer, String value});
 }
 
 /// @nodoc
@@ -51,10 +52,15 @@ class _$QvstAnswerEntityCopyWithImpl<$Res, $Val extends QvstAnswerEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? answer = null,
     Object? value = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       answer: null == answer
           ? _value.answer
           : answer // ignore: cast_nullable_to_non_nullable
@@ -75,7 +81,7 @@ abstract class _$$QvstAnswerEntityImplCopyWith<$Res>
       __$$QvstAnswerEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String answer, String value});
+  $Res call({String id, String answer, String value});
 }
 
 /// @nodoc
@@ -89,10 +95,15 @@ class __$$QvstAnswerEntityImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? answer = null,
     Object? value = null,
   }) {
     return _then(_$QvstAnswerEntityImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       answer: null == answer
           ? _value.answer
           : answer // ignore: cast_nullable_to_non_nullable
@@ -108,11 +119,14 @@ class __$$QvstAnswerEntityImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$QvstAnswerEntityImpl implements _QvstAnswerEntity {
-  _$QvstAnswerEntityImpl({required this.answer, required this.value});
+  _$QvstAnswerEntityImpl(
+      {required this.id, required this.answer, required this.value});
 
   factory _$QvstAnswerEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$QvstAnswerEntityImplFromJson(json);
 
+  @override
+  final String id;
   @override
   final String answer;
   @override
@@ -120,7 +134,7 @@ class _$QvstAnswerEntityImpl implements _QvstAnswerEntity {
 
   @override
   String toString() {
-    return 'QvstAnswerEntity(answer: $answer, value: $value)';
+    return 'QvstAnswerEntity(id: $id, answer: $answer, value: $value)';
   }
 
   @override
@@ -128,13 +142,14 @@ class _$QvstAnswerEntityImpl implements _QvstAnswerEntity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QvstAnswerEntityImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.answer, answer) || other.answer == answer) &&
             (identical(other.value, value) || other.value == value));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, answer, value);
+  int get hashCode => Object.hash(runtimeType, id, answer, value);
 
   @JsonKey(ignore: true)
   @override
@@ -153,12 +168,15 @@ class _$QvstAnswerEntityImpl implements _QvstAnswerEntity {
 
 abstract class _QvstAnswerEntity implements QvstAnswerEntity {
   factory _QvstAnswerEntity(
-      {required final String answer,
+      {required final String id,
+      required final String answer,
       required final String value}) = _$QvstAnswerEntityImpl;
 
   factory _QvstAnswerEntity.fromJson(Map<String, dynamic> json) =
       _$QvstAnswerEntityImpl.fromJson;
 
+  @override
+  String get id;
   @override
   String get answer;
   @override

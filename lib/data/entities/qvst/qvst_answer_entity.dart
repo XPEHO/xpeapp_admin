@@ -13,6 +13,7 @@ part 'qvst_answer_entity.g.dart';
 @Freezed()
 class QvstAnswerEntity with _$QvstAnswerEntity {
   factory QvstAnswerEntity({
+    required String id,
     required String answer,
     required String value,
   }) = _QvstAnswerEntity;

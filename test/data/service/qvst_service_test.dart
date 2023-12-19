@@ -4,6 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
+import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 
@@ -38,11 +39,11 @@ void main() {
                   "theme": "L’environnement de travail",
                   "theme_id": "4",
                   "answers": [
-                    {"answer": "Pas du tout", "value": "1"},
-                    {"answer": "Plutôt non", "value": "2"},
-                    {"answer": "Cela dépend", "value": "3"},
-                    {"answer": "Plutôt oui", "value": "4"},
-                    {"answer": "Tout à fait", "value": "5"}
+                    {"id": "1", "answer": "Pas du tout", "value": "1"},
+                    {"id": "2", "answer": "Plutôt non", "value": "2"},
+                    {"id": "3", "answer": "Cela dépend", "value": "3"},
+                    {"id": "4", "answer": "Plutôt oui", "value": "4"},
+                    {"id": "5", "answer": "Tout à fait", "value": "5"}
                   ]
                 },
               ],
@@ -87,8 +88,8 @@ void main() {
           "id_theme": "1",
           "question": "Etes vous heureux ?",
           "answers": [
-            {"answer": "Oui", "value": "1"},
-            {"answer": "Non", "value": "2"},
+            {"id": "1", "answer": "Oui", "value": "1"},
+            {"id": "2", "answer": "Non", "value": "2"},
           ]
         };
 
@@ -226,8 +227,8 @@ void main() {
         "id_theme": "1",
         "question": "Etes vous heureux ?",
         "answers": [
-          {"answer": "Oui", "value": "1"},
-          {"answer": "Non", "value": "2"},
+          {"id": "1", "answer": "Oui", "value": "1"},
+          {"id": "2", "answer": "Non", "value": "2"},
         ]
       };
       final question = QvstQuestionEntity.fromJson(map);
@@ -308,6 +309,163 @@ void main() {
         });
 
         expect(() => service.deleteQvst(id), throwsException);
+      });
+    });
+
+    group('getAllQvstQuestionsByThemeId', () {
+      const id = '1';
+      test('Success', () async {
+        Map<String, dynamic> response = {
+          "question_id": "4",
+          "question": "Comment te sens-tu dans l'entreprise ?",
+          "theme": "L’environnement de travail",
+          "theme_id": "4",
+          "answers": [
+            {"id": "1", "answer": "Pas du tout", "value": "1"},
+            {"id": "2", "answer": "Plutôt non", "value": "2"},
+            {"id": "3", "answer": "Cela dépend", "value": "3"},
+            {"id": "4", "answer": "Plutôt oui", "value": "4"},
+            {"id": "5", "answer": "Tout à fait", "value": "5"}
+          ]
+        };
+
+        when(mockBackendApi.getAllQvstQuestionsByThemeId(id)).thenAnswer(
+          (_) async {
+            return Future.value(
+              HttpResponse(
+                [response],
+                Response(
+                  statusCode: 200,
+                  requestOptions: RequestOptions(path: ''),
+                ),
+              ),
+            );
+          },
+        );
+
+        final result = await service.getAllQvstQuestionsByThemeId(
+          id,
+        );
+
+        expect(result.length, 1);
+      });
+
+      test('Failed', () async {
+        when(mockBackendApi.getAllQvstQuestionsByThemeId(id)).thenAnswer(
+          (_) async {
+            return Future.value(
+              HttpResponse(
+                {},
+                Response(
+                  statusCode: 500,
+                  requestOptions: RequestOptions(path: ''),
+                ),
+              ),
+            );
+          },
+        );
+
+        expect(() => service.getAllQvstQuestionsByThemeId(id), throwsException);
+      });
+    });
+
+    group('getQvstAnswersRepo', () {
+      test('Success', () async {
+        Map<String, dynamic> response = {
+          "id": "1",
+          "repoName": "repoName",
+          "answers": [
+            {"id": "1", "answer": "answer", "value": "value"},
+          ]
+        };
+
+        when(mockBackendApi.getQvstAnswersRepo()).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              [response],
+              Response(
+                statusCode: 200,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        final result = await service.getQvstAnswersRepo();
+
+        expect(result.length, 1);
+      });
+
+      test('Failed', () async {
+        when(mockBackendApi.getQvstAnswersRepo()).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 500,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        expect(() => service.getQvstAnswersRepo(), throwsException);
+      });
+    });
+
+    group('updateQvstAnswersRepo', () {
+      Map<String, dynamic> map = {
+        "id": "1",
+        "repoName": "repoName",
+        "answers": [
+          {"id": "1", "answer": "answer", "value": "value"},
+        ]
+      };
+      final repo = QvstAnswerRepoEntity.fromJson(map);
+      test('Success', () async {
+        when(
+          mockBackendApi.updateQvstAnswersRepo(
+            repo.id,
+            repo.toJson(),
+          ),
+        ).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 201,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        final result = await service.updateQvstAnswersRepo(
+          repo,
+        );
+
+        expect(result, true);
+      });
+
+      test('Failed', () async {
+        when(
+          mockBackendApi.updateQvstAnswersRepo(
+            repo.id,
+            repo.toJson(),
+          ),
+        ).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 500,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        expect(() => service.updateQvstAnswersRepo(repo), throwsException);
       });
     });
   });
