@@ -48,4 +48,10 @@ abstract class BackendApi {
 
   @GET("xpeho/v1/qvst/answers_repo")
   Future<HttpResponse> getQvstAnswersRepo();
+
+  @POST("xpeho/v1/qvst/answers_repo/{id}:update")
+  Future<HttpResponse> updateQvstAnswersRepo(
+    @Path("id") String id,
+    @Body() Map<String, dynamic> body,
+  );
 }

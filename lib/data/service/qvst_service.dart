@@ -106,4 +106,18 @@ class QvstService {
       throw Exception('Erreur lors de la récupération des réponses');
     }
   }
+
+  Future<bool> updateQvstAnswersRepo(
+    QvstAnswerRepoEntity qvstAnswerRepoEntity,
+  ) async {
+    final response = await _backendApi.updateQvstAnswersRepo(
+      qvstAnswerRepoEntity.id,
+      qvstAnswerRepoEntity.toJson(),
+    );
+    if (response.response.statusCode == 201) {
+      return true;
+    } else {
+      throw Exception('Erreur lors de la mise à jour des réponses');
+    }
+  }
 }

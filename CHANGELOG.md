@@ -1,3 +1,9 @@
+## 0.8.0
+
+_Feat_
+
+- [Issue #60](https://github.com/XPEHO/xpeapp_admin/issues/60) QVST responses repo
+
 ## 0.7.1
 
 _Fix_

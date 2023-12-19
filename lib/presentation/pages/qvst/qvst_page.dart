@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_home.dart';
+import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_responses.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_theme.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_themes_list_widget.dart';
 import 'package:xpeapp_admin/presentation/widgets/user_profile_widget.dart';
@@ -136,7 +137,7 @@ class _QvstPageState extends ConsumerState<QvstPage> {
       case QvstMenu.stats:
         return const Text('Stats');
       case QvstMenu.responses:
-        return const Text('Réponses');
+        return const QvstContentResponses();
       default:
         return const QvstContentHome();
     }

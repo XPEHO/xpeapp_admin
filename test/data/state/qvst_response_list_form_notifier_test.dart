@@ -8,6 +8,7 @@ void main() {
 
     notifier.addResponse(
       QvstAnswerEntity(
+        id: 'id',
         answer: 'answer1',
         value: 'value',
       ),
@@ -18,6 +19,7 @@ void main() {
 
     notifier.addResponse(
       QvstAnswerEntity(
+        id: 'id',
         answer: 'answer2',
         value: 'value',
       ),
@@ -28,6 +30,7 @@ void main() {
 
     notifier.removeResponse(
       QvstAnswerEntity(
+        id: 'id',
         answer: 'answer1',
         value: 'value',
       ),

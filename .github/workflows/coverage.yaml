@@ -3,8 +3,22 @@ on: pull_request
 name: Coverage Report
 
 jobs:
-  xpeho_workflows_flutter_coverage:
-    uses: XPEHO/Xpeho-Workflows/.github/workflows/coverage.yaml@main
-    with:
-      FLUTTER_VERSION: '3.13.1'
-      MIN_COVERAGE: 80
+  build:
+    name: 🧑‍🔬 Coverage Report
+    runs-on: ubuntu-latest
+            
+    steps:
+    - name: 🦋 Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.13.6'
+        channel: 'stable'
+    - name: Create config file and Check the coverage of the project
+      uses: actions/checkout@v3
+    - run: |
+        echo ${{ secrets.CONFIG_JSON }} | base64 -d > assets/config.json
+        flutter pub get
+        dart pub global activate very_good_cli
+        very_good test --coverage \
+          --exclude-coverage "{**/*.g.dart,**/*.freezed.dart,**/entities/**,**/*_state.dart,**/core/**,**/providers.dart}" \
+          --min-coverage 80
