@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/config.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_menu_selected.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/resume/qvst_resume_entity.dart';
@@ -17,6 +18,7 @@ import 'package:xpeapp_admin/data/state/loader_state.dart';
 import 'package:xpeapp_admin/data/state/newsletter_publication_notifier.dart';
 import 'package:xpeapp_admin/data/state/qvst_answer_repo_notifier.dart';
 import 'package:xpeapp_admin/data/state/qvst_menu_notifier.dart';
+import 'package:xpeapp_admin/data/state/qvst_questions_selected_for_campaign.dart';
 import 'package:xpeapp_admin/data/state/qvst_theme_notifier.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/login_repository_impl.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/newsletter_repository_impl.dart';
@@ -140,4 +142,14 @@ final qvstDeleteQuestionProvider =
   } catch (e) {
     return false;
   }
+});
+
+final qvstCampaignsProvider =
+    FutureProvider<List<QvstCampaignEntity>>((ref) async {
+  return ref.watch(qvstServiceProvider).getAllQvstCampaigns();
+});
+
+final qvstQuestionsForCampaignProvider = StateNotifierProvider<
+    QvstQuestionsSelectedForCampaign, List<QvstQuestionEntity>>((ref) {
+  return QvstQuestionsSelectedForCampaign();
 });

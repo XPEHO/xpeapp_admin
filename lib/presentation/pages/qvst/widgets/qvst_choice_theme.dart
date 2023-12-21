@@ -24,7 +24,7 @@ class _QvstChoiceThemeState extends ConsumerState<QvstChoiceTheme> {
             .map<DropdownMenuItem<QvstThemeEntity>>(
               (QvstThemeEntity value) => DropdownMenuItem<QvstThemeEntity>(
                 value: value,
-                child: Text(value.theme),
+                child: Text(value.name),
               ),
             )
             .toList(),

@@ -11,10 +11,10 @@ void main() {
 
     qvstThemeNotifier.setTheme(QvstThemeEntity(
       id: '1',
-      theme: 'Le travail',
+      name: 'Le travail',
     ));
     expect(qvstThemeNotifier.state, isNotNull);
     expect(qvstThemeNotifier.state!.id, '1');
-    expect(qvstThemeNotifier.state!.theme, 'Le travail');
+    expect(qvstThemeNotifier.state!.name, 'Le travail');
   });
 }

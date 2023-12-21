@@ -21,7 +21,7 @@ QvstThemeEntity _$QvstThemeEntityFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$QvstThemeEntity {
   String get id => throw _privateConstructorUsedError;
-  String get theme => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $QvstThemeEntityCopyWith<$Res> {
           QvstThemeEntity value, $Res Function(QvstThemeEntity) then) =
       _$QvstThemeEntityCopyWithImpl<$Res, QvstThemeEntity>;
   @useResult
-  $Res call({String id, String theme});
+  $Res call({String id, String name});
 }
 
 /// @nodoc
@@ -52,16 +52,16 @@ class _$QvstThemeEntityCopyWithImpl<$Res, $Val extends QvstThemeEntity>
   @override
   $Res call({
     Object? id = null,
-    Object? theme = null,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      theme: null == theme
-          ? _value.theme
-          : theme // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -75,7 +75,7 @@ abstract class _$$QvstThemeEntityImplCopyWith<$Res>
       __$$QvstThemeEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String theme});
+  $Res call({String id, String name});
 }
 
 /// @nodoc
@@ -90,16 +90,16 @@ class __$$QvstThemeEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? theme = null,
+    Object? name = null,
   }) {
     return _then(_$QvstThemeEntityImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      theme: null == theme
-          ? _value.theme
-          : theme // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -108,7 +108,7 @@ class __$$QvstThemeEntityImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$QvstThemeEntityImpl implements _QvstThemeEntity {
-  _$QvstThemeEntityImpl({required this.id, required this.theme});
+  _$QvstThemeEntityImpl({required this.id, required this.name});
 
   factory _$QvstThemeEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$QvstThemeEntityImplFromJson(json);
@@ -116,11 +116,11 @@ class _$QvstThemeEntityImpl implements _QvstThemeEntity {
   @override
   final String id;
   @override
-  final String theme;
+  final String name;
 
   @override
   String toString() {
-    return 'QvstThemeEntity(id: $id, theme: $theme)';
+    return 'QvstThemeEntity(id: $id, name: $name)';
   }
 
   @override
@@ -129,12 +129,12 @@ class _$QvstThemeEntityImpl implements _QvstThemeEntity {
         (other.runtimeType == runtimeType &&
             other is _$QvstThemeEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.theme, theme) || other.theme == theme));
+            (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, theme);
+  int get hashCode => Object.hash(runtimeType, id, name);
 
   @JsonKey(ignore: true)
   @override
@@ -154,7 +154,7 @@ class _$QvstThemeEntityImpl implements _QvstThemeEntity {
 abstract class _QvstThemeEntity implements QvstThemeEntity {
   factory _QvstThemeEntity(
       {required final String id,
-      required final String theme}) = _$QvstThemeEntityImpl;
+      required final String name}) = _$QvstThemeEntityImpl;
 
   factory _QvstThemeEntity.fromJson(Map<String, dynamic> json) =
       _$QvstThemeEntityImpl.fromJson;
@@ -162,7 +162,7 @@ abstract class _QvstThemeEntity implements QvstThemeEntity {
   @override
   String get id;
   @override
-  String get theme;
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$$QvstThemeEntityImplCopyWith<_$QvstThemeEntityImpl> get copyWith =>

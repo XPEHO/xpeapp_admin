@@ -1,10 +1,3 @@
-/*
-{
-        "id": "1",
-        "theme": "Le contenu du travail"
-    },
-    */
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'qvst_theme_entity.freezed.dart';
@@ -14,7 +7,7 @@ part 'qvst_theme_entity.g.dart';
 class QvstThemeEntity with _$QvstThemeEntity {
   factory QvstThemeEntity({
     required String id,
-    required String theme,
+    required String name,
   }) = _QvstThemeEntity;
 
   factory QvstThemeEntity.fromJson(Map<String, dynamic> json) =>

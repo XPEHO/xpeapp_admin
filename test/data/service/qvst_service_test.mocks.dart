@@ -218,4 +218,39 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
           ),
         )),
       ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i4.Future<_i2.HttpResponse<dynamic>> getAllQvstCampaigns() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllQvstCampaigns,
+          [],
+        ),
+        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getAllQvstCampaigns,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i4.Future<_i2.HttpResponse<dynamic>> addQvstCampaign(
+          Map<String, dynamic>? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addQvstCampaign,
+          [body],
+        ),
+        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #addQvstCampaign,
+            [body],
+          ),
+        )),
+      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
 }

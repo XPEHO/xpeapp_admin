@@ -11,4 +11,8 @@ class QvstMenuNotifier extends StateNotifier<QvstMenuSelected?> {
       id: id,
     );
   }
+
+  void clearMenu() {
+    state = null;
+  }
 }

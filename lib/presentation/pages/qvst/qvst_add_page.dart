@@ -124,7 +124,7 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
     String? idAnswerRepo = ref.watch(qvstAnswerRepoSelectedProvider)?.id;
     QvstQuestionEntity question = QvstQuestionEntity(
       question: controller.text,
-      theme: theme?.theme ?? '',
+      theme: theme?.name ?? '',
       idTheme: theme?.id ?? '',
       answerRepoId: idAnswerRepo,
     );

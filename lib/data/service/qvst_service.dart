@@ -1,5 +1,6 @@
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/resume/qvst_resume_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
@@ -118,6 +119,30 @@ class QvstService {
       return true;
     } else {
       throw Exception('Erreur lors de la mise à jour des réponses');
+    }
+  }
+
+  Future<List<QvstCampaignEntity>> getAllQvstCampaigns() async {
+    final response = await _backendApi.getAllQvstCampaigns();
+    if (response.response.statusCode == 200) {
+      return (response.data as List<dynamic>)
+          .map(
+            (e) => QvstCampaignEntity.fromJson(e),
+          )
+          .toList();
+    } else {
+      throw Exception('Erreur lors de la récupération des campagnes');
+    }
+  }
+
+  Future<bool> addQvstCampaign(Map<String, dynamic> campaignJson) async {
+    final response = await _backendApi.addQvstCampaign(
+      campaignJson,
+    );
+    if (response.response.statusCode == 201) {
+      return true;
+    } else {
+      throw Exception('Erreur lors de l\'ajout de la campagne');
     }
   }
 }

@@ -10,12 +10,12 @@ _$QvstThemeEntityImpl _$$QvstThemeEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$QvstThemeEntityImpl(
       id: json['id'] as String,
-      theme: json['theme'] as String,
+      name: json['name'] as String,
     );
 
 Map<String, dynamic> _$$QvstThemeEntityImplToJson(
         _$QvstThemeEntityImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'theme': instance.theme,
+      'name': instance.name,
     };
