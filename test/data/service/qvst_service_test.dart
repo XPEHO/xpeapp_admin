@@ -183,7 +183,7 @@ void main() {
       test('Success', () async {
         Map<String, dynamic> response = {
           "id": "1",
-          "theme": "Le travail",
+          "name": "Le travail",
         };
 
         when(mockBackendApi.getAllQvstThemes()).thenAnswer((_) async {
@@ -316,16 +316,13 @@ void main() {
       const id = '1';
       test('Success', () async {
         Map<String, dynamic> response = {
-          "question_id": "4",
-          "question": "Comment te sens-tu dans l'entreprise ?",
-          "theme": "L’environnement de travail",
-          "theme_id": "4",
+          "id": "1",
+          "theme": "Le travail",
+          "id_theme": "1",
+          "question": "Etes vous heureux ?",
           "answers": [
-            {"id": "1", "answer": "Pas du tout", "value": "1"},
-            {"id": "2", "answer": "Plutôt non", "value": "2"},
-            {"id": "3", "answer": "Cela dépend", "value": "3"},
-            {"id": "4", "answer": "Plutôt oui", "value": "4"},
-            {"id": "5", "answer": "Tout à fait", "value": "5"}
+            {"id": "1", "answer": "Oui", "value": "1"},
+            {"id": "2", "answer": "Non", "value": "2"},
           ]
         };
 
@@ -373,9 +370,10 @@ void main() {
       test('Success', () async {
         Map<String, dynamic> response = {
           "id": "1",
-          "repoName": "repoName",
+          "repoName": "Le travail",
           "answers": [
-            {"id": "1", "answer": "answer", "value": "value"},
+            {"id": "1", "answer": "Oui", "value": "1"},
+            {"id": "2", "answer": "Non", "value": "2"},
           ]
         };
 
@@ -466,6 +464,108 @@ void main() {
         });
 
         expect(() => service.updateQvstAnswersRepo(repo), throwsException);
+      });
+    });
+
+    group('getAllQvstCampaigns', () {
+      test('Success', () async {
+        Map<String, dynamic> response = {
+          "id": "1",
+          "name": "Première campagne",
+          "theme": {"id": "1", "name": "Le contenu du travail"},
+          "status": "DRAFT",
+          "start_date": "2023-12-24",
+          "end_date": "2024-01-01",
+          "participation_rate": "33.3333"
+        };
+
+        when(mockBackendApi.getAllQvstCampaigns()).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              [response],
+              Response(
+                statusCode: 200,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        final result = await service.getAllQvstCampaigns();
+
+        expect(result.length, 1);
+      });
+
+      test('Failed', () async {
+        when(mockBackendApi.getAllQvstCampaigns()).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 500,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        expect(() => service.getAllQvstCampaigns(), throwsException);
+      });
+    });
+
+    group('addQvstCampaign', () {
+      Map<String, dynamic> map = {
+        "id": "1",
+        "theme": "Le travail",
+        "id_theme": "1",
+        "question": "Etes vous heureux ?",
+        "answers": [
+          {"id": "1", "answer": "Oui", "value": "1"},
+          {"id": "2", "answer": "Non", "value": "2"},
+        ]
+      };
+      final question = QvstQuestionEntity.fromJson(map);
+      test('Success', () async {
+        when(
+          mockBackendApi.addQvstCampaign(
+            question.toJson(),
+          ),
+        ).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 201,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        final result = await service.addQvstCampaign(
+          question.toJson(),
+        );
+
+        expect(result, true);
+      });
+
+      test('Failed', () async {
+        when(mockBackendApi.addQvstCampaign(question.toJson())).thenAnswer(
+          (_) async {
+            return Future.value(
+              HttpResponse(
+                {},
+                Response(
+                  statusCode: 500,
+                  requestOptions: RequestOptions(path: ''),
+                ),
+              ),
+            );
+          },
+        );
+
+        expect(
+            () => service.addQvstCampaign(question.toJson()), throwsException);
       });
     });
   });

@@ -54,4 +54,12 @@ abstract class BackendApi {
     @Path("id") String id,
     @Body() Map<String, dynamic> body,
   );
+
+  @GET("xpeho/v1/qvst/campaigns")
+  Future<HttpResponse> getAllQvstCampaigns();
+
+  @POST("xpeho/v1/qvst/campaigns:add")
+  Future<HttpResponse> addQvstCampaign(
+    @Body() Map<String, dynamic> body,
+  );
 }

@@ -6,12 +6,27 @@ void main() {
   test('qvst menu notifier ...', () async {
     final notifier = QvstMenuNotifier();
 
-    expect(notifier.state, isNull);
+    const menu = QvstMenu.campaign;
 
-    notifier.changeMenu(
-      QvstMenu.campaign,
+    expect(
+      notifier.state,
+      null,
     );
 
-    expect(notifier.state, isNotNull);
+    notifier.changeMenu(
+      menu,
+    );
+
+    expect(
+      notifier.state?.menu,
+      menu,
+    );
+
+    notifier.clearMenu();
+
+    expect(
+      notifier.state,
+      null,
+    );
   });
 }

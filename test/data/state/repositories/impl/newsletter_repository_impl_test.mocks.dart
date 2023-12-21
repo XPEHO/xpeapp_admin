@@ -4,14 +4,16 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
-import 'dart:typed_data' as _i6;
+import 'dart:typed_data' as _i7;
 
 import 'package:cloud_firestore/cloud_firestore.dart' as _i4;
 import 'package:cloud_firestore_platform_interface/cloud_firestore_platform_interface.dart'
     as _i3;
 import 'package:firebase_core/firebase_core.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:mockito/src/dummies.dart' as _i8;
+import 'package:retrofit/retrofit.dart' as _i6;
+import 'package:xpeapp_admin/data/backend_api.dart' as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -163,6 +165,17 @@ class _FakeSnapshotMetadata_12 extends _i1.SmartFake
         );
 }
 
+class _FakeHttpResponse_13<T> extends _i1.SmartFake
+    implements _i6.HttpResponse<T> {
+  _FakeHttpResponse_13(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [FirebaseFirestore].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -283,7 +296,7 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
       ) as _i5.Future<void>);
 
   @override
-  _i4.LoadBundleTask loadBundle(_i6.Uint8List? bundle) => (super.noSuchMethod(
+  _i4.LoadBundleTask loadBundle(_i7.Uint8List? bundle) => (super.noSuchMethod(
         Invocation.method(
           #loadBundle,
           [bundle],
@@ -445,8 +458,8 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
             #maxAttempts: maxAttempts,
           },
         ),
-        returnValue: _i7.ifNotNull(
-              _i7.dummyValueOrNull<T>(
+        returnValue: _i8.ifNotNull(
+              _i8.dummyValueOrNull<T>(
                 this,
                 Invocation.method(
                   #runTransaction,
@@ -1096,4 +1109,228 @@ class MockDocumentSnapshot<T extends Object?> extends _i1.Mock
         #[],
         [field],
       ));
+}
+
+/// A class which mocks [BackendApi].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
+  MockBackendApi() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> sendNotification(
+          Map<String, dynamic>? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #sendNotification,
+          [body],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #sendNotification,
+            [body],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> getAllQvst() => (super.noSuchMethod(
+        Invocation.method(
+          #getAllQvst,
+          [],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #getAllQvst,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> getQvstById(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getQvstById,
+          [id],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #getQvstById,
+            [id],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> getQvstResumeById(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getQvstResumeById,
+          [id],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #getQvstResumeById,
+            [id],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> getAllQvstThemes() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllQvstThemes,
+          [],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #getAllQvstThemes,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> getAllQvstQuestionsByThemeId(
+          String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllQvstQuestionsByThemeId,
+          [id],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #getAllQvstQuestionsByThemeId,
+            [id],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> addQvst(Map<String, dynamic>? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addQvst,
+          [body],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #addQvst,
+            [body],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> deleteQvst(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteQvst,
+          [id],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #deleteQvst,
+            [id],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> getQvstAnswersRepo() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getQvstAnswersRepo,
+          [],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #getQvstAnswersRepo,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> updateQvstAnswersRepo(
+    String? id,
+    Map<String, dynamic>? body,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateQvstAnswersRepo,
+          [
+            id,
+            body,
+          ],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #updateQvstAnswersRepo,
+            [
+              id,
+              body,
+            ],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> getAllQvstCampaigns() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllQvstCampaigns,
+          [],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #getAllQvstCampaigns,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> addQvstCampaign(
+          Map<String, dynamic>? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addQvstCampaign,
+          [body],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #addQvstCampaign,
+            [body],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
 }

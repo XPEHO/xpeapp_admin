@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:retrofit/retrofit.dart';
+import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/newsletter_repository_impl.dart';
 import 'package:xpeapp_admin/env/extensions/newsletter.dart';
@@ -13,6 +16,7 @@ import 'newsletter_repository_impl_test.mocks.dart';
   CollectionReference,
   DocumentReference,
   DocumentSnapshot,
+  BackendApi,
 ])
 void main() {
   group('NewsletterRepositoryImpl', () {
@@ -20,14 +24,16 @@ void main() {
     late MockFirebaseFirestore mockFirebaseFirestore;
     late MockCollectionReference<Map<String, dynamic>> mockCollectionReference;
     late MockDocumentReference<Map<String, dynamic>> mockDocumentReference;
+    late MockBackendApi mockBackendApi;
 
     setUpAll(() {
       mockFirebaseFirestore = MockFirebaseFirestore();
       mockCollectionReference = MockCollectionReference();
       mockDocumentReference = MockDocumentReference();
+      mockBackendApi = MockBackendApi();
       newsletterRepositoryImpl = NewsletterRepositoryImpl(
         firestore: mockFirebaseFirestore,
-        backendApi: null,
+        backendApi: mockBackendApi,
       );
     });
     test('addNewsletter success', () async {
@@ -42,6 +48,23 @@ void main() {
           .thenReturn(mockCollectionReference);
       when(mockCollectionReference.add(any)).thenAnswer(
         (_) => Future.value(mockDocumentReference),
+      );
+      when(
+        mockBackendApi.sendNotification(
+          {
+            'title': 'Une nouvelle newsletter est disponible !',
+            'message': newsletterTest.summary,
+          },
+        ),
+      ).thenAnswer(
+        (_) => Future.value(
+          HttpResponse(
+            null,
+            Response(
+              requestOptions: RequestOptions(path: ''),
+            ),
+          ),
+        ),
       );
 
       // Act

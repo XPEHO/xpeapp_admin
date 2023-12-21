@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
+import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_campaign.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_home.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_responses.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_theme.dart';
@@ -133,7 +134,7 @@ class _QvstPageState extends ConsumerState<QvstPage> {
           id: ref.watch(qvstMenuProvider)?.id ?? '',
         );
       case QvstMenu.campaign:
-        return const Text('Campagnes');
+        return const QvstContentCampaign();
       case QvstMenu.stats:
         return const Text('Stats');
       case QvstMenu.responses:

@@ -24,7 +24,7 @@ class QvstThemesListWidget extends ConsumerWidget {
                     );
               },
               title: Text(
-                '- ${theme.theme}',
+                '- ${theme.name}',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,

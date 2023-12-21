@@ -47,7 +47,7 @@ class QvstContentTheme extends ConsumerWidget {
         ),
         Center(
           child: Text(
-            'Thème : ${theme?.theme}',
+            'Thème : ${theme?.name}',
             style: const TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,

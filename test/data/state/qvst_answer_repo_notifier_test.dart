@@ -7,30 +7,32 @@ void main() {
   test('qvst answer repo notifier ...', () async {
     final notifier = QvstAnswerRepoNotifier();
 
-    notifier.setAnswerRepo(
-      QvstAnswerRepoEntity(
-        id: 'id',
-        repoName: 'repoName',
-        answers: [
-          QvstAnswerEntity(
-            id: 'id',
-            answer: 'answer',
-            value: 'value',
-          ),
-        ],
-      ),
+    final answer = QvstAnswerRepoEntity(
+      id: 'answer1',
+      repoName: 'repo1',
+      answers: [
+        QvstAnswerEntity(
+          id: 'answer1',
+          answer: 'answer1',
+          value: 'value',
+        ),
+      ],
     );
 
-    expect(notifier.state, isNotNull);
+    notifier.setAnswerRepo(
+      answer,
+    );
+
+    expect(
+      notifier.state,
+      answer,
+    );
 
     notifier.clearAnswerRepo();
 
-    expect(notifier.state, isNull);
-
-    notifier.setAnswerRepo(
+    expect(
+      notifier.state,
       null,
     );
-
-    expect(notifier.state, isNull);
   });
 }
