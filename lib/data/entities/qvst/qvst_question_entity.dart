@@ -14,6 +14,7 @@ class QvstQuestionEntity with _$QvstQuestionEntity {
     required String theme,
     @JsonKey(name: 'theme_id') String? idTheme,
     @JsonKey(name: 'answer_repo_id') String? answerRepoId,
+    int? numberAsked,
     @JsonSerializable(explicitToJson: true)
     @Default([])
     List<QvstAnswerEntity> answers,

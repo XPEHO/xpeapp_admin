@@ -4,6 +4,7 @@ _Feat_
 
 - [Issue #60](https://github.com/XPEHO/xpeapp_admin/issues/60) QVST responses repo
 - [Issue #62](https://github.com/XPEHO/xpeapp_admin/issues/62) Add campaign feature
+- [Issue #66](https://github.com/XPEHO/xpeapp_admin/issues/66) Get the number of times the QVST question was asked
 
 ## 0.7.1
 
