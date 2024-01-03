@@ -75,7 +75,9 @@ class QvstTableView extends ConsumerWidget {
                   ),
                 ),
                 TableCell(
-                  child: _getText('0'),
+                  child: _getText(
+                    (e.numberAsked ?? 0).toString(),
+                  ),
                 ),
                 TableCell(
                   child: IconButton(

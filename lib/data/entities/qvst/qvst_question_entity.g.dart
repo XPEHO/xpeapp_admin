@@ -14,6 +14,7 @@ _$QvstQuestionEntityImpl _$$QvstQuestionEntityImplFromJson(
       theme: json['theme'] as String,
       idTheme: json['theme_id'] as String?,
       answerRepoId: json['answer_repo_id'] as String?,
+      numberAsked: json['numberAsked'] as int?,
       answers: (json['answers'] as List<dynamic>?)
               ?.map((e) => QvstAnswerEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -28,5 +29,6 @@ Map<String, dynamic> _$$QvstQuestionEntityImplToJson(
       'theme': instance.theme,
       'theme_id': instance.idTheme,
       'answer_repo_id': instance.answerRepoId,
+      'numberAsked': instance.numberAsked,
       'answers': instance.answers,
     };
