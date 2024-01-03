@@ -15,6 +15,10 @@ class WordpressUsersPage extends ConsumerWidget {
         onPressed: () => Navigator.pop(context),
         icon: const Icon(Icons.arrow_back),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => showAddUserDialog(context),
+        child: const Icon(Icons.add),
+      ),
       child: Container(
         margin: const EdgeInsets.all(10),
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -110,6 +114,71 @@ class WordpressUsersPage extends ConsumerWidget {
                 Navigator.pop(context);
               },
               child: const Text('Supprimer'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  showAddUserDialog(BuildContext context) {
+    TextEditingController nameController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Ajouter un utilisateur'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Nom',
+                ),
+              ),
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Annuler'),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (nameController.text.isEmpty ||
+                    emailController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Veuillez remplir tous les champs'),
+                    ),
+                  );
+                  return;
+                }
+                await FirebaseFirestore.instance
+                    .collection('wordpressUsers')
+                    .add(
+                  {
+                    'name': nameController.text,
+                    'email': emailController.text,
+                  },
+                );
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Utilisateur ajouté'),
+                  ),
+                );
+                Navigator.pop(context);
+              },
+              child: const Text('Ajouter'),
             ),
           ],
         );

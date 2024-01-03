@@ -4,6 +4,7 @@ _Feat_
 
 - [Issue #60](https://github.com/XPEHO/xpeapp_admin/issues/60) QVST responses repo
 - [Issue #62](https://github.com/XPEHO/xpeapp_admin/issues/62) Add campaign feature
+- [Issue #56](https://github.com/XPEHO/xpeapp_admin/issues/56) Add new wordpress user
 
 ## 0.7.1
 
