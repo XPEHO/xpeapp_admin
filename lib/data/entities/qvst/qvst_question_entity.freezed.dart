@@ -28,6 +28,7 @@ mixin _$QvstQuestionEntity {
   String? get idTheme => throw _privateConstructorUsedError;
   @JsonKey(name: 'answer_repo_id')
   String? get answerRepoId => throw _privateConstructorUsedError;
+  int? get numberAsked => throw _privateConstructorUsedError;
   @JsonSerializable(explicitToJson: true)
   List<QvstAnswerEntity> get answers => throw _privateConstructorUsedError;
 
@@ -49,6 +50,7 @@ abstract class $QvstQuestionEntityCopyWith<$Res> {
       String theme,
       @JsonKey(name: 'theme_id') String? idTheme,
       @JsonKey(name: 'answer_repo_id') String? answerRepoId,
+      int? numberAsked,
       @JsonSerializable(explicitToJson: true) List<QvstAnswerEntity> answers});
 }
 
@@ -70,6 +72,7 @@ class _$QvstQuestionEntityCopyWithImpl<$Res, $Val extends QvstQuestionEntity>
     Object? theme = null,
     Object? idTheme = freezed,
     Object? answerRepoId = freezed,
+    Object? numberAsked = freezed,
     Object? answers = null,
   }) {
     return _then(_value.copyWith(
@@ -93,6 +96,10 @@ class _$QvstQuestionEntityCopyWithImpl<$Res, $Val extends QvstQuestionEntity>
           ? _value.answerRepoId
           : answerRepoId // ignore: cast_nullable_to_non_nullable
               as String?,
+      numberAsked: freezed == numberAsked
+          ? _value.numberAsked
+          : numberAsked // ignore: cast_nullable_to_non_nullable
+              as int?,
       answers: null == answers
           ? _value.answers
           : answers // ignore: cast_nullable_to_non_nullable
@@ -115,6 +122,7 @@ abstract class _$$QvstQuestionEntityImplCopyWith<$Res>
       String theme,
       @JsonKey(name: 'theme_id') String? idTheme,
       @JsonKey(name: 'answer_repo_id') String? answerRepoId,
+      int? numberAsked,
       @JsonSerializable(explicitToJson: true) List<QvstAnswerEntity> answers});
 }
 
@@ -134,6 +142,7 @@ class __$$QvstQuestionEntityImplCopyWithImpl<$Res>
     Object? theme = null,
     Object? idTheme = freezed,
     Object? answerRepoId = freezed,
+    Object? numberAsked = freezed,
     Object? answers = null,
   }) {
     return _then(_$QvstQuestionEntityImpl(
@@ -157,6 +166,10 @@ class __$$QvstQuestionEntityImplCopyWithImpl<$Res>
           ? _value.answerRepoId
           : answerRepoId // ignore: cast_nullable_to_non_nullable
               as String?,
+      numberAsked: freezed == numberAsked
+          ? _value.numberAsked
+          : numberAsked // ignore: cast_nullable_to_non_nullable
+              as int?,
       answers: null == answers
           ? _value._answers
           : answers // ignore: cast_nullable_to_non_nullable
@@ -174,6 +187,7 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
       required this.theme,
       @JsonKey(name: 'theme_id') this.idTheme,
       @JsonKey(name: 'answer_repo_id') this.answerRepoId,
+      this.numberAsked,
       @JsonSerializable(explicitToJson: true)
       final List<QvstAnswerEntity> answers = const []})
       : _answers = answers;
@@ -194,6 +208,8 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
   @override
   @JsonKey(name: 'answer_repo_id')
   final String? answerRepoId;
+  @override
+  final int? numberAsked;
   final List<QvstAnswerEntity> _answers;
   @override
   @JsonKey()
@@ -206,7 +222,7 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
 
   @override
   String toString() {
-    return 'QvstQuestionEntity(id: $id, question: $question, theme: $theme, idTheme: $idTheme, answerRepoId: $answerRepoId, answers: $answers)';
+    return 'QvstQuestionEntity(id: $id, question: $question, theme: $theme, idTheme: $idTheme, answerRepoId: $answerRepoId, numberAsked: $numberAsked, answers: $answers)';
   }
 
   @override
@@ -221,13 +237,15 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
             (identical(other.idTheme, idTheme) || other.idTheme == idTheme) &&
             (identical(other.answerRepoId, answerRepoId) ||
                 other.answerRepoId == answerRepoId) &&
+            (identical(other.numberAsked, numberAsked) ||
+                other.numberAsked == numberAsked) &&
             const DeepCollectionEquality().equals(other._answers, _answers));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, question, theme, idTheme,
-      answerRepoId, const DeepCollectionEquality().hash(_answers));
+      answerRepoId, numberAsked, const DeepCollectionEquality().hash(_answers));
 
   @JsonKey(ignore: true)
   @override
@@ -251,6 +269,7 @@ abstract class _QvstQuestionEntity implements QvstQuestionEntity {
       required final String theme,
       @JsonKey(name: 'theme_id') final String? idTheme,
       @JsonKey(name: 'answer_repo_id') final String? answerRepoId,
+      final int? numberAsked,
       @JsonSerializable(explicitToJson: true)
       final List<QvstAnswerEntity> answers}) = _$QvstQuestionEntityImpl;
 
@@ -270,6 +289,8 @@ abstract class _QvstQuestionEntity implements QvstQuestionEntity {
   @override
   @JsonKey(name: 'answer_repo_id')
   String? get answerRepoId;
+  @override
+  int? get numberAsked;
   @override
   @JsonSerializable(explicitToJson: true)
   List<QvstAnswerEntity> get answers;
