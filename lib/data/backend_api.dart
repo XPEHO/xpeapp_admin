@@ -62,4 +62,10 @@ abstract class BackendApi {
   Future<HttpResponse> addQvstCampaign(
     @Body() Map<String, dynamic> body,
   );
+
+  @POST("xpeho/v1/qvst/{id}:update")
+  Future<HttpResponse> updateQvst(
+    @Path("id") String id,
+    @Body() Map<String, dynamic> body,
+  );
 }
