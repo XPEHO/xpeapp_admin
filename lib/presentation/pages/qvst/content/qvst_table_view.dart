@@ -55,11 +55,11 @@ class QvstTableView extends ConsumerWidget {
             ],
           ),
           ...questions.map(
-            (e) => TableRow(
+            (question) => TableRow(
               children: [
                 TableCell(
                   child: _getText(
-                    e.question,
+                    question.question,
                   ),
                 ),
                 TableCell(
@@ -70,20 +70,21 @@ class QvstTableView extends ConsumerWidget {
                       right: 20,
                     ),
                     child: ResponseReferenceWidget(
-                      referenceId: e.answerRepoId ?? '',
+                      qvstId: question.id ?? '',
+                      referenceId: question.answerRepoId ?? '',
                     ),
                   ),
                 ),
                 TableCell(
                   child: _getText(
-                    (e.numberAsked ?? 0).toString(),
+                    (question.numberAsked ?? 0).toString(),
                   ),
                 ),
                 TableCell(
                   child: IconButton(
                     onPressed: () => _showConfirmDialog(
                       context,
-                      e,
+                      question,
                       ref: ref,
                     ),
                     icon: const Icon(

@@ -145,4 +145,16 @@ class QvstService {
       throw Exception('Erreur lors de l\'ajout de la campagne');
     }
   }
+
+  Future<bool> updateQvst(String id, Map<String, dynamic> qvstJson) async {
+    final response = await _backendApi.updateQvst(
+      id,
+      qvstJson,
+    );
+    if (response.response.statusCode == 201) {
+      return true;
+    } else {
+      throw Exception('Erreur lors de la mise à jour du QVST');
+    }
+  }
 }
