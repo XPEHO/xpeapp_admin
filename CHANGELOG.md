@@ -5,6 +5,10 @@ _Feat_
 - [Issue #60](https://github.com/XPEHO/xpeapp_admin/issues/60) QVST responses repo
 - [Issue #62](https://github.com/XPEHO/xpeapp_admin/issues/62) Add campaign feature
 
+_Chore_
+
+- [Issue #59](https://github.com/XPEHO/xpeapp_admin/issues/59) Sonar CICD
+
 ## 0.7.1
 
 _Fix_
