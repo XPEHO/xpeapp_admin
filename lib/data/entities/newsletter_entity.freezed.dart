@@ -199,7 +199,7 @@ class _$NewsletterEntityImpl implements _NewsletterEntity {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NewsletterEntityImpl &&
