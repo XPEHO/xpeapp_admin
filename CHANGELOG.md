@@ -11,6 +11,10 @@ _Chore_
 
 - [Issue #59](https://github.com/XPEHO/xpeapp_admin/issues/59) Sonar CICD
 
+_Fix_
+
+- [Issue 73](https://github.com/XPEHO/xpeapp_admin/issues/73) Returns unauthorized widget if userUid is empty
+
 ## 0.7.1
 
 _Fix_

@@ -17,34 +17,39 @@ class WidgetAccess extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return StreamBuilder(
-      stream: ref
-          .watch(cloudFirestoreProvider)
-          .collection('users')
-          .doc(ref.read(uidUserProvider))
-          .snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.hasError) {
-          return const Icon(Icons.error);
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
-        }
-        final Map<AdminAccess, bool> data = Map<AdminAccess, bool>.from(
-            (snapshot.data['access'] as Map<String, dynamic>).map(
-          (key, value) => MapEntry(
-            AdminAccess.values.firstWhere(
-                (element) => element.toString() == 'AdminAccess.$key'),
-            value,
-          ),
-        ));
+    final userUid = ref.read(uidUserProvider);
+    if (userUid.isEmpty) {
+      return unauthorizedWidget ?? Container();
+    } else {
+      return StreamBuilder(
+        stream: ref
+            .watch(cloudFirestoreProvider)
+            .collection('users')
+            .doc(userUid)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasError) {
+            return const Icon(Icons.error);
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          }
+          final Map<AdminAccess, bool> data = Map<AdminAccess, bool>.from(
+              (snapshot.data['access'] as Map<String, dynamic>).map(
+            (key, value) => MapEntry(
+              AdminAccess.values.firstWhere(
+                  (element) => element.toString() == 'AdminAccess.$key'),
+              value,
+            ),
+          ));
 
-        if (data[haveAccess] == true) {
-          return authorizedWidget;
-        } else {
-          return unauthorizedWidget ?? const SizedBox();
-        }
-      },
-    );
+          if (data[haveAccess] == true) {
+            return authorizedWidget;
+          } else {
+            return unauthorizedWidget ?? const SizedBox();
+          }
+        },
+      );
+    }
   }
 }
