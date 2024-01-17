@@ -5,6 +5,7 @@ import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_campaign.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_home.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_responses.dart';
+import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_stats.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_theme.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_themes_list_widget.dart';
 import 'package:xpeapp_admin/presentation/widgets/user_profile_widget.dart';
@@ -136,7 +137,9 @@ class _QvstPageState extends ConsumerState<QvstPage> {
       case QvstMenu.campaign:
         return const QvstContentCampaign();
       case QvstMenu.stats:
-        return const Text('Stats');
+        return QvstContentStats(
+          campaignId: menu?.id ?? '',
+        );
       case QvstMenu.responses:
         return const QvstContentResponses();
       default:

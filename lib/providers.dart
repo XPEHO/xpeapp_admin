@@ -10,6 +10,7 @@ import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_menu_selected.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/resume/qvst_resume_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
@@ -153,3 +154,10 @@ final qvstQuestionsForCampaignProvider = StateNotifierProvider<
     QvstQuestionsSelectedForCampaign, List<QvstQuestionEntity>>((ref) {
   return QvstQuestionsSelectedForCampaign();
 });
+
+final qvstCampaignStatsProvider =
+    FutureProvider.family<QvstStatsEntity, String>(
+  (ref, id) async {
+    return ref.watch(qvstServiceProvider).getQvstCampaignStatsById(id);
+  },
+);

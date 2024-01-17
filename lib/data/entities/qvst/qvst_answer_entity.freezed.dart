@@ -23,6 +23,7 @@ mixin _$QvstAnswerEntity {
   String get id => throw _privateConstructorUsedError;
   String get answer => throw _privateConstructorUsedError;
   String get value => throw _privateConstructorUsedError;
+  int? get numberAnswered => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +37,7 @@ abstract class $QvstAnswerEntityCopyWith<$Res> {
           QvstAnswerEntity value, $Res Function(QvstAnswerEntity) then) =
       _$QvstAnswerEntityCopyWithImpl<$Res, QvstAnswerEntity>;
   @useResult
-  $Res call({String id, String answer, String value});
+  $Res call({String id, String answer, String value, int? numberAnswered});
 }
 
 /// @nodoc
@@ -55,6 +56,7 @@ class _$QvstAnswerEntityCopyWithImpl<$Res, $Val extends QvstAnswerEntity>
     Object? id = null,
     Object? answer = null,
     Object? value = null,
+    Object? numberAnswered = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -69,6 +71,10 @@ class _$QvstAnswerEntityCopyWithImpl<$Res, $Val extends QvstAnswerEntity>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
+      numberAnswered: freezed == numberAnswered
+          ? _value.numberAnswered
+          : numberAnswered // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -81,7 +87,7 @@ abstract class _$$QvstAnswerEntityImplCopyWith<$Res>
       __$$QvstAnswerEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String answer, String value});
+  $Res call({String id, String answer, String value, int? numberAnswered});
 }
 
 /// @nodoc
@@ -98,6 +104,7 @@ class __$$QvstAnswerEntityImplCopyWithImpl<$Res>
     Object? id = null,
     Object? answer = null,
     Object? value = null,
+    Object? numberAnswered = freezed,
   }) {
     return _then(_$QvstAnswerEntityImpl(
       id: null == id
@@ -112,6 +119,10 @@ class __$$QvstAnswerEntityImplCopyWithImpl<$Res>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
+      numberAnswered: freezed == numberAnswered
+          ? _value.numberAnswered
+          : numberAnswered // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -120,7 +131,10 @@ class __$$QvstAnswerEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$QvstAnswerEntityImpl implements _QvstAnswerEntity {
   _$QvstAnswerEntityImpl(
-      {required this.id, required this.answer, required this.value});
+      {required this.id,
+      required this.answer,
+      required this.value,
+      this.numberAnswered});
 
   factory _$QvstAnswerEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$QvstAnswerEntityImplFromJson(json);
@@ -131,10 +145,12 @@ class _$QvstAnswerEntityImpl implements _QvstAnswerEntity {
   final String answer;
   @override
   final String value;
+  @override
+  final int? numberAnswered;
 
   @override
   String toString() {
-    return 'QvstAnswerEntity(id: $id, answer: $answer, value: $value)';
+    return 'QvstAnswerEntity(id: $id, answer: $answer, value: $value, numberAnswered: $numberAnswered)';
   }
 
   @override
@@ -144,12 +160,15 @@ class _$QvstAnswerEntityImpl implements _QvstAnswerEntity {
             other is _$QvstAnswerEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.answer, answer) || other.answer == answer) &&
-            (identical(other.value, value) || other.value == value));
+            (identical(other.value, value) || other.value == value) &&
+            (identical(other.numberAnswered, numberAnswered) ||
+                other.numberAnswered == numberAnswered));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, answer, value);
+  int get hashCode =>
+      Object.hash(runtimeType, id, answer, value, numberAnswered);
 
   @JsonKey(ignore: true)
   @override
@@ -170,7 +189,8 @@ abstract class _QvstAnswerEntity implements QvstAnswerEntity {
   factory _QvstAnswerEntity(
       {required final String id,
       required final String answer,
-      required final String value}) = _$QvstAnswerEntityImpl;
+      required final String value,
+      final int? numberAnswered}) = _$QvstAnswerEntityImpl;
 
   factory _QvstAnswerEntity.fromJson(Map<String, dynamic> json) =
       _$QvstAnswerEntityImpl.fromJson;
@@ -181,6 +201,8 @@ abstract class _QvstAnswerEntity implements QvstAnswerEntity {
   String get answer;
   @override
   String get value;
+  @override
+  int? get numberAnswered;
   @override
   @JsonKey(ignore: true)
   _$$QvstAnswerEntityImplCopyWith<_$QvstAnswerEntityImpl> get copyWith =>

@@ -4,8 +4,7 @@ _Feat_
 
 - [Issue #55](https://github.com/XPEHO/xpeapp_admin/issues/55) Bulk import of QVST questions
 - Add info icon on the response reference widget
-
-## 0.8.1
+- [Issue #72](https://github.com/XPEHO/xpeapp_admin/issues/72) Qvst detail stats of campaign
 
 _Fix_
 
