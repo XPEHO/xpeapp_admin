@@ -73,4 +73,9 @@ abstract class BackendApi {
   Future<HttpResponse> importQvstFile(
     @Body() Map<String, dynamic> body,
   );
+
+  @GET("xpeho/v1/qvst/campaigns/{id}:stats")
+  Future<HttpResponse> getQvstCampaignStatsById(
+    @Path("id") String id,
+  );
 }

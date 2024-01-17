@@ -5,6 +5,7 @@ import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/resume/qvst_resume_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 
 class QvstService {
@@ -187,6 +188,17 @@ class QvstService {
       return true;
     } else {
       throw Exception('Erreur lors de l\'import du fichier');
+    }
+  }
+
+  Future<QvstStatsEntity> getQvstCampaignStatsById(String id) async {
+    final response = await _backendApi.getQvstCampaignStatsById(id);
+    if (response.response.statusCode == 200) {
+      return QvstStatsEntity.fromJson(
+        response.data as Map<String, dynamic>,
+      );
+    } else {
+      throw Exception('Erreur lors de la récupération des stats');
     }
   }
 }

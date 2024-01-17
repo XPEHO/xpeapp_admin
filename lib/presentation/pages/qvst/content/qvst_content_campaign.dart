@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/colors.dart';
+import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_create_campaign.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
@@ -147,7 +148,14 @@ class _QvstContentCampaignState extends ConsumerState<QvstContentCampaign> {
                               ),
                               TableCell(
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () => ref
+                                      .watch(
+                                        qvstMenuProvider.notifier,
+                                      )
+                                      .changeMenu(
+                                        QvstMenu.stats,
+                                        id: campaign.id,
+                                      ),
                                   icon: const Icon(Icons.bar_chart),
                                 ),
                               ),

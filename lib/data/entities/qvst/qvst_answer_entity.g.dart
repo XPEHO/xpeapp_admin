@@ -12,6 +12,7 @@ _$QvstAnswerEntityImpl _$$QvstAnswerEntityImplFromJson(
       id: json['id'] as String,
       answer: json['answer'] as String,
       value: json['value'] as String,
+      numberAnswered: json['numberAnswered'] as int?,
     );
 
 Map<String, dynamic> _$$QvstAnswerEntityImplToJson(
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$QvstAnswerEntityImplToJson(
       'id': instance.id,
       'answer': instance.answer,
       'value': instance.value,
+      'numberAnswered': instance.numberAnswered,
     };
