@@ -68,4 +68,9 @@ abstract class BackendApi {
     @Path("id") String id,
     @Body() Map<String, dynamic> body,
   );
+
+  @POST("xpeho/v1/qvst:import")
+  Future<HttpResponse> importQvstFile(
+    @Body() Map<String, dynamic> body,
+  );
 }

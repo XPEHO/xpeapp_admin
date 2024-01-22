@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
@@ -155,6 +157,36 @@ class QvstService {
       return true;
     } else {
       throw Exception('Erreur lors de la mise à jour du QVST');
+    }
+  }
+
+  Future<bool> importCsv(Uint8List file) async {
+    final stringFile = utf8.decode(file).split('\n');
+    final csvFileJson = <Map<String, dynamic>>[];
+    for (var i = 0; i < stringFile.length; i++) {
+      final question = stringFile[i].split(';');
+      if (question.length == 4 && question[0] != 'Id theme') {
+        csvFileJson.add(
+          {
+            'id_theme': question[0],
+            'question': question[2],
+            'response_repo': question[3],
+          },
+        );
+      }
+    }
+
+    final body = <String, dynamic>{
+      'questions': csvFileJson,
+    };
+
+    final response = await _backendApi.importQvstFile(
+      body,
+    );
+    if (response.response.statusCode == 201) {
+      return true;
+    } else {
+      throw Exception('Erreur lors de l\'import du fichier');
     }
   }
 }
