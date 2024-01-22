@@ -2,52 +2,86 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_table_view.dart';
+import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_import_question_file_dialog.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
 
-class QvstContentTheme extends ConsumerWidget {
-  final String id;
+class QvstContentTheme extends ConsumerStatefulWidget {
+  final String? id;
   const QvstContentTheme({super.key, required this.id});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<QvstContentTheme> createState() => _QvstContentThemeState();
+}
+
+class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
+  @override
+  Widget build(BuildContext context) {
     final questions = ref.watch(
-      qvstQuestionsByThemesListProvider(id),
+      (widget.id != null)
+          ? qvstQuestionsByThemesListProvider(widget.id!)
+          : qvstQuestionsListProvider,
     );
-    final theme = ref.read(qvstThemesListProvider).asData?.value.firstWhere(
-          (element) => element.id == id,
-        );
+    final theme = (widget.id != null)
+        ? ref.read(qvstThemesListProvider).asData?.value.firstWhere(
+              (element) => element.id == widget.id!,
+            )
+        : null;
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Container(
-            width: 300,
-            margin: const EdgeInsets.only(
-              top: 50,
-              left: 50,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Container(
+                width: 300,
+                margin: const EdgeInsets.only(
+                  top: 50,
+                  left: 50,
+                ),
+                child: Button(
+                  text: '+ Ajouter une question',
+                  onPressed: () {
+                    ref.watch(qvstNotifierProvider.notifier).setTheme(theme);
+                    Navigator.pushNamed(
+                      context,
+                      '/qvst/add',
+                    );
+                  },
+                  color: kDefaultXpehoColor,
+                ),
+              ),
             ),
-            child: Button(
-              text: '+ Ajouter une question',
-              onPressed: () {
-                ref.watch(qvstNotifierProvider.notifier).setTheme(theme);
-                Navigator.pushNamed(
-                  context,
-                  '/qvst/add',
-                );
-              },
-              color: kDefaultXpehoColor,
-            ),
-          ),
+            if (widget.id == null)
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  width: 300,
+                  margin: const EdgeInsets.only(
+                    top: 50,
+                    right: 50,
+                  ),
+                  child: Button(
+                    text: 'Importer des questions',
+                    onPressed: () => showImportQuestionByCsvFileDialog(
+                      context,
+                      ref,
+                    ),
+                    color: kDefaultXpehoColor,
+                  ),
+                ),
+              ),
+          ],
         ),
         const SizedBox(
           height: 50,
         ),
         Center(
           child: Text(
-            'Thème : ${theme?.name}',
+            (widget.id != null) ? 'Thème : ${theme?.name}' : 'Tous les thèmes',
             style: const TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
@@ -62,7 +96,7 @@ class QvstContentTheme extends ConsumerWidget {
             child: questions.when(
               data: (data) => (data.isNotEmpty)
                   ? QvstTableView(
-                      themeId: id,
+                      themeId: widget.id,
                       questions: data,
                     )
                   : const Text(

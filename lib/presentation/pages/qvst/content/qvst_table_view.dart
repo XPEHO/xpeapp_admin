@@ -5,11 +5,12 @@ import 'package:xpeapp_admin/presentation/pages/qvst/widgets/response_reference_
 import 'package:xpeapp_admin/providers.dart';
 
 class QvstTableView extends ConsumerWidget {
-  final String themeId;
+  final String? themeId;
   final List<QvstQuestionEntity> questions;
+
   const QvstTableView({
     super.key,
-    required this.themeId,
+    this.themeId,
     required this.questions,
   });
 
@@ -28,6 +29,13 @@ class QvstTableView extends ConsumerWidget {
         children: [
           TableRow(
             children: [
+              if (themeId == null)
+                TableCell(
+                  child: _getText(
+                    'Thème',
+                    title: true,
+                  ),
+                ),
               TableCell(
                 child: _getText(
                   'Question',
@@ -57,6 +65,12 @@ class QvstTableView extends ConsumerWidget {
           ...questions.map(
             (question) => TableRow(
               children: [
+                if (themeId == null)
+                  TableCell(
+                    child: _getText(
+                      question.theme,
+                    ),
+                  ),
                 TableCell(
                   child: _getText(
                     question.question,
@@ -146,9 +160,11 @@ class QvstTableView extends ConsumerWidget {
                 if (result) {
                   // ignore: unused_result
                   ref.refresh(
-                    qvstQuestionsByThemesListProvider(
-                      themeId,
-                    ),
+                    (themeId != null)
+                        ? qvstQuestionsByThemesListProvider(
+                            themeId!,
+                          )
+                        : qvstQuestionsListProvider,
                   );
                   ref.read(loaderStateProvider.notifier).hideLoader();
                   if (!context.mounted) return;

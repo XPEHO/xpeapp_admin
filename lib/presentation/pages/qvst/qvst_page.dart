@@ -131,7 +131,7 @@ class _QvstPageState extends ConsumerState<QvstPage> {
         return const QvstContentHome();
       case QvstMenu.theme:
         return QvstContentTheme(
-          id: ref.watch(qvstMenuProvider)?.id ?? '',
+          id: ref.watch(qvstMenuProvider)?.id,
         );
       case QvstMenu.campaign:
         return const QvstContentCampaign();

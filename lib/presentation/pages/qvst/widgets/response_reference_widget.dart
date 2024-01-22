@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xpeapp_admin/data/colors.dart';
+import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/providers.dart';
 
@@ -57,6 +59,52 @@ class _ResponseReferenceWidgetState
                         ),
                       )
                       .toList(),
+                ),
+              ),
+              IconButton(
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    backgroundColor: kDefaultXpehoColor,
+                    title: Text(
+                      (_selectedRepo ?? repo).repoName,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    content: Container(
+                      width: 300,
+                      height: 300,
+                      margin: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                      ),
+                      child: ListView.builder(
+                        itemCount: (_selectedRepo ?? repo).answers.length,
+                        itemBuilder: (context, index) {
+                          QvstAnswerEntity answerEntity =
+                              (_selectedRepo ?? repo).answers[index];
+                          return ListTile(
+                            title: Text(
+                              "${answerEntity.answer} (${answerEntity.value})",
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          'Fermer',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                icon: const Icon(
+                  Icons.info,
+                  color: Colors.black,
                 ),
               ),
               if (_selectedRepo != null)
