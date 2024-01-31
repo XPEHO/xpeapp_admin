@@ -4,7 +4,6 @@ import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
-import 'package:xpeapp_admin/data/entities/qvst/resume/qvst_resume_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 
@@ -36,16 +35,6 @@ class QvstService {
       return QvstQuestionEntity.fromJson(
         data,
       );
-    } else {
-      throw Exception('Erreur lors de la récupération du QVST');
-    }
-  }
-
-  Future<QvstResumeEntity> getQvstResumeById(String id) async {
-    final response = await _backendApi.getQvstResumeById(id);
-    if (response.response.statusCode == 200) {
-      final data = response.data as Map<String, dynamic>;
-      return QvstResumeEntity.fromJson(data);
     } else {
       throw Exception('Erreur lors de la récupération du QVST');
     }

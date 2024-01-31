@@ -1304,23 +1304,6 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);
 
   @override
-  _i5.Future<_i6.HttpResponse<dynamic>> getQvstResumeById(String? id) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getQvstResumeById,
-          [id],
-        ),
-        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
-          this,
-          Invocation.method(
-            #getQvstResumeById,
-            [id],
-          ),
-        )),
-      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
-
-  @override
   _i5.Future<_i6.HttpResponse<dynamic>> getAllQvstThemes() =>
       (super.noSuchMethod(
         Invocation.method(

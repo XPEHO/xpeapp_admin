@@ -9,7 +9,6 @@ import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_menu_selected.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
-import 'package:xpeapp_admin/data/entities/qvst/resume/qvst_resume_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
@@ -89,11 +88,6 @@ final newsletterPublicationDateProvider = Provider<Timestamp?>((ref) => null);
 final qvstQuestionsListProvider =
     FutureProvider<List<QvstQuestionEntity>>((ref) async {
   return ref.watch(qvstServiceProvider).getAllQvst();
-});
-
-final qvstResumeProvider =
-    FutureProvider.family<QvstResumeEntity, String>((ref, id) async {
-  return ref.watch(qvstServiceProvider).getQvstResumeById(id);
 });
 
 final qvstQuestionProvider =

@@ -1,12 +1,3 @@
-/*
-{
-    "theme": "L’environnement de travail",
-    "question": "Comment te sens-tu dans l'entreprise ?",
-    "numberOfAnswers": "3",
-    "averageAnswer": "4",
-    "maxValueAnswer": "5"
-}
-*/
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'qvst_resume_entity.freezed.dart';
