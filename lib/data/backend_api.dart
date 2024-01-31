@@ -23,11 +23,6 @@ abstract class BackendApi {
     @Path("id") String id,
   );
 
-  @GET("xpeho/v1/qvst/{id}:resume")
-  Future<HttpResponse> getQvstResumeById(
-    @Path("id") String id,
-  );
-
   @GET("xpeho/v1/qvst/themes")
   Future<HttpResponse> getAllQvstThemes();
 

@@ -1,15 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xpeapp_admin/data/entities/feature_flipping_entity.dart';
+
+enum FeatureFlippingType { uat, prod }
 
 class FeatureFlippingSwitchWidget extends ConsumerWidget {
-  final FeatureFlippingEntity feature;
+  final FeatureFlippingType type;
+  final String featureId;
+  final bool featureEnabled;
   final bool isActivated;
 
   const FeatureFlippingSwitchWidget({
     super.key,
-    required this.feature,
+    required this.type,
+    required this.featureId,
+    required this.featureEnabled,
     required this.isActivated,
   });
 
@@ -19,14 +24,15 @@ class FeatureFlippingSwitchWidget extends ConsumerWidget {
       return SizedBox(
         width: 100,
         child: Switch(
-          value: feature.enabled,
+          value: featureEnabled,
           onChanged: (bool value) async {
             DocumentReference reference = FirebaseFirestore.instance
                 .collection('featureFlipping')
-                .doc(feature.idFeature);
+                .doc(featureId);
             await reference.update(
               {
-                'enabled': value,
+                type == FeatureFlippingType.uat ? 'uatEnabled' : 'prodEnabled':
+                    value,
               },
             );
           },

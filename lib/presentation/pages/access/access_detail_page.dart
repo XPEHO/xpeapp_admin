@@ -127,36 +127,108 @@ class AccessDetailPage extends ConsumerWidget {
                         },
                       );
 
-                      return ListView.builder(
-                        itemCount: features.length,
-                        itemBuilder: (context, index) {
-                          FeatureFlippingEntity feature = features[index];
-                          return ListTile(
-                            title: Text(feature.name),
-                            subtitle: Text(feature.description),
-                            trailing: StreamBuilder(
-                              stream: ref
-                                  .watch(cloudFirestoreProvider)
-                                  .collection('users')
-                                  .doc(id)
-                                  .snapshots(),
-                              builder: (context, snapshot) {
-                                bool isActivated =
-                                    (snapshot.data?.data())?['access']
-                                            ['featureFlipping'] as bool? ??
-                                        false;
-                                return FeatureFlippingSwitchWidget(
-                                  feature: feature,
-                                  isActivated: isActivated,
-                                );
-                              },
-                            ),
-                          );
-                        },
+                      return Table(
+                        children: [
+                          const TableRow(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Fonctionnalité',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 50,
+                                child: Text(
+                                  'UAT',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 50,
+                                child: Text(
+                                  'PROD',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          ...features
+                              .map(
+                                (e) => TableRow(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ListTile(
+                                        title: Text(e.name),
+                                        subtitle: Text(e.description),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 50,
+                                      child: StreamBuilder(
+                                        stream: ref
+                                            .watch(cloudFirestoreProvider)
+                                            .collection('users')
+                                            .doc(id)
+                                            .snapshots(),
+                                        builder: (context, snapshot) {
+                                          bool isActivated =
+                                              (snapshot.data?.data())?['access']
+                                                          ['featureFlipping']
+                                                      as bool? ??
+                                                  false;
+                                          return FeatureFlippingSwitchWidget(
+                                            featureId: e.idFeature,
+                                            type: FeatureFlippingType.uat,
+                                            featureEnabled: e.uatEnabled,
+                                            isActivated: isActivated,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 50,
+                                      child: StreamBuilder(
+                                        stream: ref
+                                            .watch(cloudFirestoreProvider)
+                                            .collection('users')
+                                            .doc(id)
+                                            .snapshots(),
+                                        builder: (context, snapshot) {
+                                          bool isActivated =
+                                              (snapshot.data?.data())?['access']
+                                                          ['featureFlipping']
+                                                      as bool? ??
+                                                  false;
+                                          return FeatureFlippingSwitchWidget(
+                                            featureId: e.idFeature,
+                                            type: FeatureFlippingType.prod,
+                                            featureEnabled: e.prodEnabled,
+                                            isActivated: isActivated,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                              .toList(),
+                        ],
                       );
                     },
                   ),
-                )
+                ),
               ],
             )
           ],

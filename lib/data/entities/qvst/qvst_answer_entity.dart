@@ -1,10 +1,3 @@
-/*
-{
-                "answer": "Mal",
-                "value": "1"
-            },
-            */
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'qvst_answer_entity.freezed.dart';

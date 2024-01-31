@@ -129,56 +129,6 @@ void main() {
       });
     });
 
-    group('getQvstResumeById', () {
-      test('Success', () async {
-        const id = '1';
-
-        Map<String, dynamic> response = {
-          "id": "1",
-          "theme": "Le travail",
-          "question": "Comment te sens-tu dans l'entreprise ?",
-          "numberOfAnswers": "5",
-          "averageAnswer": "5",
-          "maxValueAnswer": "5"
-        };
-
-        when(mockBackendApi.getQvstResumeById(id)).thenAnswer((_) async {
-          return Future.value(
-            HttpResponse(
-              response,
-              Response(
-                statusCode: 200,
-                requestOptions: RequestOptions(path: ''),
-              ),
-            ),
-          );
-        });
-
-        final result = await service.getQvstResumeById(id);
-
-        expect(result.question, response['question']);
-        expect(result.theme, response['theme']);
-      });
-
-      test('Failed', () async {
-        const id = '1';
-
-        when(mockBackendApi.getQvstResumeById(id)).thenAnswer((_) async {
-          return Future.value(
-            HttpResponse(
-              {},
-              Response(
-                statusCode: 404,
-                requestOptions: RequestOptions(path: ''),
-              ),
-            ),
-          );
-        });
-
-        expect(() => service.getQvstResumeById(id), throwsException);
-      });
-    });
-
     group('getAllQvstThemes', () {
       test('Success', () async {
         Map<String, dynamic> response = {

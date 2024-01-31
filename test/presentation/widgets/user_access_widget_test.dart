@@ -56,11 +56,6 @@ void main() async {
 
           final switchWidget = find.byType(Switch).first;
           expect(tester.widget<Switch>(switchWidget).value, true);
-
-          /*await tester.tap(switchWidget);
-          await tester.pumpAndSettle();
-
-          expect(tester.widget<Switch>(switchWidget).value, false);*/
         },
       );
     },

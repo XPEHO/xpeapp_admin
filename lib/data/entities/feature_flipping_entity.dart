@@ -2,13 +2,15 @@ class FeatureFlippingEntity {
   final String idFeature;
   final String name;
   final String description;
-  final bool enabled;
+  final bool uatEnabled;
+  final bool prodEnabled;
 
   FeatureFlippingEntity({
     required this.idFeature,
     required this.name,
     required this.description,
-    required this.enabled,
+    required this.uatEnabled,
+    required this.prodEnabled,
   });
 
   factory FeatureFlippingEntity.fromJson(Map<String, dynamic> json) {
@@ -16,7 +18,8 @@ class FeatureFlippingEntity {
       idFeature: json['idFeature'],
       name: json['name'],
       description: json['description'],
-      enabled: json['enabled'],
+      uatEnabled: json['uatEnabled'],
+      prodEnabled: json['prodEnabled'],
     );
   }
 
@@ -25,7 +28,8 @@ class FeatureFlippingEntity {
       'idFeature': idFeature,
       'name': name,
       'description': description,
-      'enabled': enabled,
+      'uatEnabled': uatEnabled,
+      'prodEnabled': prodEnabled,
     };
   }
 }

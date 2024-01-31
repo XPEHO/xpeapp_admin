@@ -3,8 +3,9 @@
 _Feat_
 
 - [Issue #55](https://github.com/XPEHO/xpeapp_admin/issues/55) Bulk import of QVST questions
-- Add info icon on the response reference widget
 - [Issue #72](https://github.com/XPEHO/xpeapp_admin/issues/72) Qvst detail stats of campaign
+- Add info icon on the response reference widget
+- Add uat and prod feature flipping
 
 _Fix_
 
