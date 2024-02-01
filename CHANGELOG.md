@@ -1,3 +1,10 @@
+## 1.0.0
+
+_Breaking changes_
+
+- Update the version of the project to 1.0.0
+- Update all design of the project
+
 ## 0.9.0
 
 _Feat_

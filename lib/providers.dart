@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/config.dart';
+import 'package:xpeapp_admin/data/entities/menu_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_menu_selected.dart';
@@ -15,6 +17,7 @@ import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 import 'package:xpeapp_admin/data/state/loader_state.dart';
+import 'package:xpeapp_admin/data/state/menu_notifier.dart';
 import 'package:xpeapp_admin/data/state/newsletter_publication_notifier.dart';
 import 'package:xpeapp_admin/data/state/qvst_answer_repo_notifier.dart';
 import 'package:xpeapp_admin/data/state/qvst_menu_notifier.dart';
@@ -153,5 +156,36 @@ final qvstCampaignStatsProvider =
     FutureProvider.family<QvstStatsEntity, String>(
   (ref, id) async {
     return ref.watch(qvstServiceProvider).getQvstCampaignStatsById(id);
+  },
+);
+
+final listOfMenuProvider = Provider<List<MenuEntity>>((ref) {
+  return [
+    MenuEntity(
+      id: 1,
+      title: 'Newsletters',
+      asset: Icons.email_outlined,
+    ),
+    MenuEntity(
+      id: 2,
+      title: 'Utilisateurs Wordpress',
+      asset: Icons.person_outline,
+    ),
+    MenuEntity(
+      id: 3,
+      title: 'Droits d\'accès',
+      asset: Icons.lock_outline,
+    ),
+    MenuEntity(
+      id: 4,
+      title: 'QVST',
+      asset: Icons.question_answer_outlined,
+    ),
+  ];
+});
+
+final menuSelectedProvider = StateNotifierProvider<MenuNotifier, MenuEntity?>(
+  (ref) {
+    return MenuNotifier();
   },
 );
