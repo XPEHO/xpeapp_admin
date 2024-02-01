@@ -27,80 +27,83 @@ class _QvstPageState extends ConsumerState<QvstPage> {
       body: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.2,
-            color: kDefaultXpehoColor,
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(
-                          Icons.home,
-                          color: Colors.white,
-                          size: 40,
+          Expanded(
+            flex: 1,
+            child: Container(
+              color: kDefaultXpehoColor,
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(
+                            Icons.home,
+                            color: Colors.white,
+                            size: 40,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Image.asset(
-                      'assets/images/xpeapp.png',
-                      width: 200,
-                      height: 200,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(height: 20),
-                    drawerText(
-                      text: 'Thèmes',
-                      onPressed: () {
-                        setState(() {
-                          themeWidgetVisible = !themeWidgetVisible;
-                        });
-                      },
-                    ),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 500),
-                      height: themeWidgetVisible ? 400 : 0,
-                      child: const QvstThemesListWidget(),
-                    ),
-                    const SizedBox(height: 20),
-                    drawerText(
-                      text: 'Campagnes',
-                      onPressed: () =>
-                          ref.read(qvstMenuProvider.notifier).changeMenu(
-                                QvstMenu.campaign,
-                              ),
-                    ),
-                    const SizedBox(height: 20),
-                    drawerText(
-                      text: 'Stats',
-                      onPressed: () =>
-                          ref.read(qvstMenuProvider.notifier).changeMenu(
-                                QvstMenu.stats,
-                              ),
-                    ),
-                    const SizedBox(height: 20),
-                    drawerText(
-                      text: 'Réponses',
-                      onPressed: () =>
-                          ref.read(qvstMenuProvider.notifier).changeMenu(
-                                QvstMenu.responses,
-                              ),
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-                const Positioned(
-                  bottom: 0,
-                  child: UserProfileWidget(),
-                ),
-              ],
+                      const SizedBox(height: 20),
+                      Image.asset(
+                        'assets/images/xpeapp.png',
+                        width: 200,
+                        height: 200,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(height: 20),
+                      drawerText(
+                        text: 'Thèmes',
+                        onPressed: () {
+                          setState(() {
+                            themeWidgetVisible = !themeWidgetVisible;
+                          });
+                        },
+                      ),
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 500),
+                        height: themeWidgetVisible ? 400 : 0,
+                        child: const QvstThemesListWidget(),
+                      ),
+                      const SizedBox(height: 20),
+                      drawerText(
+                        text: 'Campagnes',
+                        onPressed: () =>
+                            ref.read(qvstMenuProvider.notifier).changeMenu(
+                                  QvstMenu.campaign,
+                                ),
+                      ),
+                      const SizedBox(height: 20),
+                      drawerText(
+                        text: 'Stats',
+                        onPressed: () =>
+                            ref.read(qvstMenuProvider.notifier).changeMenu(
+                                  QvstMenu.stats,
+                                ),
+                      ),
+                      const SizedBox(height: 20),
+                      drawerText(
+                        text: 'Réponses',
+                        onPressed: () =>
+                            ref.read(qvstMenuProvider.notifier).changeMenu(
+                                  QvstMenu.responses,
+                                ),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                  const Positioned(
+                    bottom: 0,
+                    child: UserProfileWidget(),
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(
+            flex: 4,
             child: getContentOfQvst(ref),
           ),
         ],

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
 import 'package:xpeapp_admin/presentation/widgets/app_loader.dart';
 import 'package:xpeapp_admin/providers.dart';
@@ -66,6 +67,7 @@ class LoginPage extends ConsumerWidget {
                 const SizedBox(height: 20),
                 Button(
                   text: 'Se connecter',
+                  color: kDefaultXpehoColor,
                   onPressed: () async {
                     final user = XpehoUser(
                       email: emailController.text,

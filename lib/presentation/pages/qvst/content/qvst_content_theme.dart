@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
+import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_table_view.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_import_question_file_dialog.dart';
 import 'package:xpeapp_admin/providers.dart';
@@ -90,6 +91,61 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
         ),
         const SizedBox(
           height: 50,
+        ),
+        // Add dropdown to select theme
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Thème : ',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(
+              width: 50,
+            ),
+            DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: widget.id,
+                onChanged: (value) {
+                  ref.read(qvstMenuProvider.notifier).changeMenu(
+                        QvstMenu.theme,
+                        id: value,
+                      );
+                },
+                items: ref
+                    .watch(qvstThemesListProvider)
+                    .asData
+                    ?.value
+                    .map(
+                      (e) => DropdownMenuItem<String>(
+                        value: e.id,
+                        child: Text(e.name),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+            const SizedBox(
+              width: 50,
+            ),
+            // Icon to suppr theme (only if theme selected)
+            if (widget.id != null)
+              IconButton(
+                onPressed: () {
+                  ref.read(qvstMenuProvider.notifier).changeMenu(
+                        QvstMenu.theme,
+                      );
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+              ),
+          ],
         ),
         Expanded(
           child: Center(
