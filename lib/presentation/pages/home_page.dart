@@ -160,6 +160,7 @@ class HomePage extends ConsumerWidget {
     }
 
     return FloatingActionButton(
+      backgroundColor: kDefaultXpehoColor,
       onPressed: () {
         switch (menuSelected.id) {
           case 1:
@@ -172,7 +173,10 @@ class HomePage extends ConsumerWidget {
             break;
         }
       },
-      child: const Icon(Icons.add),
+      child: const Icon(
+        Icons.add,
+        color: Colors.white,
+      ),
     );
   }
 }

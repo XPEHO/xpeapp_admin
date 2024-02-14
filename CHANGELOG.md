@@ -1,3 +1,10 @@
+## 1.0.1
+
+_Fix_
+
+- Fix color on floating action button
+- Add the loader in the newsletter add page
+
 ## 1.0.0
 
 _Breaking changes_
