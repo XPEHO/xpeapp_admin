@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 
 class AppLoader extends StatelessWidget {
   final Color? color;
+  final double? size;
   const AppLoader({
     Key? key,
     this.color,
+    this.size,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: 25,
-        height: 25,
+        width: size ?? 25,
+        height: size ?? 25,
         child: CircularProgressIndicator(
           color: color ?? Colors.white,
         ),

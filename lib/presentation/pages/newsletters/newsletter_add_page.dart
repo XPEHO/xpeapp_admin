@@ -7,6 +7,7 @@ import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
+import 'package:xpeapp_admin/presentation/widgets/app_loader.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
 
@@ -163,35 +164,42 @@ class _NewsletterAddOrEditPageState
               const SizedBox(height: 20),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
-                child: Button.secondary(
-                  text:
-                      '${(widget.typePage == NewsletterTypePage.add) ? 'Ajouter' : 'Modifier'} la newsletter',
-                  onPressed: (isDateSelected &&
-                          summaryIsNotEmpty &&
-                          pdfLinkIsNotEmpty)
-                      ? () async {
-                          Timestamp? time = await _getPublicationDate();
-                          if (time != null) {
-                            String summary = summaryController.text.replaceAll(
-                              '\n',
-                              ',',
-                            );
-                            NewsletterEntity newsletterEntity =
-                                NewsletterEntity(
-                              summary: summary,
-                              date: Timestamp.fromDate(dateSelected!),
-                              pdfUrl: pdfLinkController.text,
-                              publicationDate: time,
-                            );
-                            if (widget.typePage == NewsletterTypePage.add) {
-                              await sendNewsletter(newsletterEntity);
-                            } else {
-                              await updateNewsletter(newsletterEntity);
-                            }
-                          }
-                        }
-                      : null,
-                ),
+                child: (ref.watch(loaderStateProvider))
+                    ? const AppLoader(
+                        color: kDefaultXpehoColor,
+                        size: 60,
+                      )
+                    : Button.secondary(
+                        text:
+                            '${(widget.typePage == NewsletterTypePage.add) ? 'Ajouter' : 'Modifier'} la newsletter',
+                        onPressed: (isDateSelected &&
+                                summaryIsNotEmpty &&
+                                pdfLinkIsNotEmpty)
+                            ? () async {
+                                Timestamp? time = await _getPublicationDate();
+                                if (time != null) {
+                                  String summary =
+                                      summaryController.text.replaceAll(
+                                    '\n',
+                                    ',',
+                                  );
+                                  NewsletterEntity newsletterEntity =
+                                      NewsletterEntity(
+                                    summary: summary,
+                                    date: Timestamp.fromDate(dateSelected!),
+                                    pdfUrl: pdfLinkController.text,
+                                    publicationDate: time,
+                                  );
+                                  if (widget.typePage ==
+                                      NewsletterTypePage.add) {
+                                    await sendNewsletter(newsletterEntity);
+                                  } else {
+                                    await updateNewsletter(newsletterEntity);
+                                  }
+                                }
+                              }
+                            : null,
+                      ),
               ),
             ],
           ),
