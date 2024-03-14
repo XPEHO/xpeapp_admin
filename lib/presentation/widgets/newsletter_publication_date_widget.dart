@@ -4,7 +4,7 @@ import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class NewsletterPublicationDateWidget extends ConsumerWidget {
-  const NewsletterPublicationDateWidget({Key? key}) : super(key: key);
+  const NewsletterPublicationDateWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

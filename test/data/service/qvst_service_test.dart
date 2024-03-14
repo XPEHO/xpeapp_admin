@@ -6,6 +6,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 
 import 'qvst_service_test.mocks.dart';
@@ -464,22 +465,15 @@ void main() {
     });
 
     group('addQvstCampaign', () {
-      Map<String, dynamic> map = {
-        "id": "1",
-        "theme": "Le travail",
-        "id_theme": "1",
-        "question": "Etes vous heureux ?",
-        "answers": [
-          {"id": "1", "answer": "Oui", "value": "1"},
-          {"id": "2", "answer": "Non", "value": "2"},
-        ]
-      };
-      final question = QvstQuestionEntity.fromJson(map);
       test('Success', () async {
         when(
-          mockBackendApi.addQvstCampaign(
-            question.toJson(),
-          ),
+          mockBackendApi.addQvstCampaign({
+            'name': 'campaignName',
+            'theme_id': '1',
+            'start_date': '2023-12-24',
+            'end_date': '2024-01-01',
+            'questions': [],
+          }),
         ).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
@@ -493,14 +487,26 @@ void main() {
         });
 
         final result = await service.addQvstCampaign(
-          question.toJson(),
+          campaignName: 'campaignName',
+          themeSelected: QvstThemeEntity(id: '1', name: 'Le travail'),
+          startDate: DateTime.parse('2023-12-24'),
+          endDate: DateTime.parse('2024-01-01'),
+          questions: [],
         );
 
         expect(result, true);
       });
 
       test('Failed', () async {
-        when(mockBackendApi.addQvstCampaign(question.toJson())).thenAnswer(
+        when(mockBackendApi.addQvstCampaign(
+          {
+            'name': '',
+            'theme_id': '99',
+            'start_date': '2023-12-24',
+            'end_date': '2024-01-01',
+            'questions': [],
+          },
+        )).thenAnswer(
           (_) async {
             return Future.value(
               HttpResponse(
@@ -515,7 +521,15 @@ void main() {
         );
 
         expect(
-            () => service.addQvstCampaign(question.toJson()), throwsException);
+          () => service.addQvstCampaign(
+            campaignName: '',
+            themeSelected: QvstThemeEntity(id: '99', name: ''),
+            startDate: DateTime.parse('2023-12-24'),
+            endDate: DateTime.parse('2024-01-01'),
+            questions: [],
+          ),
+          throwsException,
+        );
       });
     });
   });

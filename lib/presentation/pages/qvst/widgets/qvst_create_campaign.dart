@@ -245,23 +245,13 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
     }
     final themeSelected = ref.watch(qvstNotifierProvider);
     ref.read(loaderStateProvider.notifier).showLoader();
-    final campaignJson = {
-      'name': campaignNameController.text,
-      'theme_id': themeSelected!.id,
-      'start_date': DateFormat('yyyy-MM-dd').format(startDate!),
-      'end_date': DateFormat('yyyy-MM-dd').format(endDate!),
-      'questions': ref
-          .watch(qvstQuestionsForCampaignProvider)
-          .map(
-            (e) => {
-              "id": e.id,
-            },
-          )
-          .toList(),
-    };
 
     final response = await ref.read(qvstServiceProvider).addQvstCampaign(
-          campaignJson,
+          campaignName: campaignNameController.text,
+          themeSelected: themeSelected!,
+          startDate: startDate!,
+          endDate: endDate!,
+          questions: ref.watch(qvstQuestionsForCampaignProvider),
         );
     if (response) {
       ref.read(loaderStateProvider.notifier).hideLoader();

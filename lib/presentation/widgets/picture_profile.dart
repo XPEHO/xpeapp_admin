@@ -6,10 +6,10 @@ class PictureProfile extends ConsumerWidget {
   final double size;
 
   const PictureProfile({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
