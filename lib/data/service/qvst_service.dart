@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
@@ -127,7 +128,26 @@ class QvstService {
     }
   }
 
-  Future<bool> addQvstCampaign(Map<String, dynamic> campaignJson) async {
+  Future<bool> addQvstCampaign({
+    required String campaignName,
+    required QvstThemeEntity themeSelected,
+    required DateTime startDate,
+    required DateTime endDate,
+    required List<QvstQuestionEntity> questions,
+  }) async {
+    final campaignJson = {
+      'name': campaignName,
+      'theme_id': themeSelected.id,
+      'start_date': DateFormat('yyyy-MM-dd').format(startDate),
+      'end_date': DateFormat('yyyy-MM-dd').format(endDate),
+      'questions': questions
+          .map(
+            (e) => {
+              "id": e.id,
+            },
+          )
+          .toList(),
+    };
     final response = await _backendApi.addQvstCampaign(
       campaignJson,
     );

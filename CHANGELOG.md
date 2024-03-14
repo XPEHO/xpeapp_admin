@@ -1,3 +1,9 @@
+## 1.0.2
+
+_Fix_
+
+- [Issue #81](https://github.com/XPEHO/xpeapp_admin/issues/81) Fix calcul of the percent of satisfaction in the qvst detail page
+
 ## 1.0.1
 
 _Fix_

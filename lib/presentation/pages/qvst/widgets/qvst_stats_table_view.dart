@@ -122,6 +122,8 @@ class QvstStatsTableView extends StatelessWidget {
     double percentage = mapToPercentage(average, minValue, maxValue);
 
     // Arrondir le pourcentage à 2 décimales
-    return "${percentage.toStringAsFixed(2)} %";
+    return (percentage.isNegative)
+        ? '0 %'
+        : "${percentage.toStringAsFixed(2)} %";
   }
 }

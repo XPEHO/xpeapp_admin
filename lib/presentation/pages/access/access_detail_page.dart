@@ -163,67 +163,63 @@ class AccessDetailPage extends ConsumerWidget {
                               ),
                             ],
                           ),
-                          ...features
-                              .map(
-                                (e) => TableRow(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ListTile(
-                                        title: Text(e.name),
-                                        subtitle: Text(e.description),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 50,
-                                      child: StreamBuilder(
-                                        stream: ref
-                                            .watch(cloudFirestoreProvider)
-                                            .collection('users')
-                                            .doc(id)
-                                            .snapshots(),
-                                        builder: (context, snapshot) {
-                                          bool isActivated =
-                                              (snapshot.data?.data())?['access']
-                                                          ['featureFlipping']
-                                                      as bool? ??
-                                                  false;
-                                          return FeatureFlippingSwitchWidget(
-                                            featureId: e.idFeature,
-                                            type: FeatureFlippingType.uat,
-                                            featureEnabled: e.uatEnabled,
-                                            isActivated: isActivated,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 50,
-                                      child: StreamBuilder(
-                                        stream: ref
-                                            .watch(cloudFirestoreProvider)
-                                            .collection('users')
-                                            .doc(id)
-                                            .snapshots(),
-                                        builder: (context, snapshot) {
-                                          bool isActivated =
-                                              (snapshot.data?.data())?['access']
-                                                          ['featureFlipping']
-                                                      as bool? ??
-                                                  false;
-                                          return FeatureFlippingSwitchWidget(
-                                            featureId: e.idFeature,
-                                            type: FeatureFlippingType.prod,
-                                            featureEnabled: e.prodEnabled,
-                                            isActivated: isActivated,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
+                          ...features.map(
+                            (e) => TableRow(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListTile(
+                                    title: Text(e.name),
+                                    subtitle: Text(e.description),
+                                  ),
                                 ),
-                              )
-                              .toList(),
+                                SizedBox(
+                                  height: 50,
+                                  child: StreamBuilder(
+                                    stream: ref
+                                        .watch(cloudFirestoreProvider)
+                                        .collection('users')
+                                        .doc(id)
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      bool isActivated = (snapshot.data
+                                                  ?.data())?['access']
+                                              ['featureFlipping'] as bool? ??
+                                          false;
+                                      return FeatureFlippingSwitchWidget(
+                                        featureId: e.idFeature,
+                                        type: FeatureFlippingType.uat,
+                                        featureEnabled: e.uatEnabled,
+                                        isActivated: isActivated,
+                                      );
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50,
+                                  child: StreamBuilder(
+                                    stream: ref
+                                        .watch(cloudFirestoreProvider)
+                                        .collection('users')
+                                        .doc(id)
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      bool isActivated = (snapshot.data
+                                                  ?.data())?['access']
+                                              ['featureFlipping'] as bool? ??
+                                          false;
+                                      return FeatureFlippingSwitchWidget(
+                                        featureId: e.idFeature,
+                                        type: FeatureFlippingType.prod,
+                                        featureEnabled: e.prodEnabled,
+                                        isActivated: isActivated,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       );
                     },
