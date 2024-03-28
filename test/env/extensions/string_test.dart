@@ -19,4 +19,19 @@ void main() {
       'Hello World',
     );
   });
+
+  test('isArchived', () {
+    const archived = 'archived';
+    const draft = 'draft';
+
+    expect(
+      archived.isArchived,
+      true,
+    );
+
+    expect(
+      draft.isArchived,
+      false,
+    );
+  });
 }

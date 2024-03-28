@@ -12,7 +12,7 @@ part of 'qvst_stats_entity.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 QvstStatsEntity _$QvstStatsEntityFromJson(Map<String, dynamic> json) {
   return _QvstStatsEntity.fromJson(json);
@@ -22,6 +22,7 @@ QvstStatsEntity _$QvstStatsEntityFromJson(Map<String, dynamic> json) {
 mixin _$QvstStatsEntity {
   String get campaignId => throw _privateConstructorUsedError;
   String get campaignName => throw _privateConstructorUsedError;
+  String get campaignStatus => throw _privateConstructorUsedError;
   String get startDate => throw _privateConstructorUsedError;
   String get endDate => throw _privateConstructorUsedError;
   List<QvstQuestionEntity> get questions => throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ abstract class $QvstStatsEntityCopyWith<$Res> {
   $Res call(
       {String campaignId,
       String campaignName,
+      String campaignStatus,
       String startDate,
       String endDate,
       List<QvstQuestionEntity> questions});
@@ -61,6 +63,7 @@ class _$QvstStatsEntityCopyWithImpl<$Res, $Val extends QvstStatsEntity>
   $Res call({
     Object? campaignId = null,
     Object? campaignName = null,
+    Object? campaignStatus = null,
     Object? startDate = null,
     Object? endDate = null,
     Object? questions = null,
@@ -73,6 +76,10 @@ class _$QvstStatsEntityCopyWithImpl<$Res, $Val extends QvstStatsEntity>
       campaignName: null == campaignName
           ? _value.campaignName
           : campaignName // ignore: cast_nullable_to_non_nullable
+              as String,
+      campaignStatus: null == campaignStatus
+          ? _value.campaignStatus
+          : campaignStatus // ignore: cast_nullable_to_non_nullable
               as String,
       startDate: null == startDate
           ? _value.startDate
@@ -101,6 +108,7 @@ abstract class _$$QvstStatsEntityImplCopyWith<$Res>
   $Res call(
       {String campaignId,
       String campaignName,
+      String campaignStatus,
       String startDate,
       String endDate,
       List<QvstQuestionEntity> questions});
@@ -119,6 +127,7 @@ class __$$QvstStatsEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? campaignId = null,
     Object? campaignName = null,
+    Object? campaignStatus = null,
     Object? startDate = null,
     Object? endDate = null,
     Object? questions = null,
@@ -131,6 +140,10 @@ class __$$QvstStatsEntityImplCopyWithImpl<$Res>
       campaignName: null == campaignName
           ? _value.campaignName
           : campaignName // ignore: cast_nullable_to_non_nullable
+              as String,
+      campaignStatus: null == campaignStatus
+          ? _value.campaignStatus
+          : campaignStatus // ignore: cast_nullable_to_non_nullable
               as String,
       startDate: null == startDate
           ? _value.startDate
@@ -154,6 +167,7 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
   const _$QvstStatsEntityImpl(
       {required this.campaignId,
       required this.campaignName,
+      required this.campaignStatus,
       required this.startDate,
       required this.endDate,
       required final List<QvstQuestionEntity> questions})
@@ -166,6 +180,8 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
   final String campaignId;
   @override
   final String campaignName;
+  @override
+  final String campaignStatus;
   @override
   final String startDate;
   @override
@@ -180,7 +196,7 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
 
   @override
   String toString() {
-    return 'QvstStatsEntity(campaignId: $campaignId, campaignName: $campaignName, startDate: $startDate, endDate: $endDate, questions: $questions)';
+    return 'QvstStatsEntity(campaignId: $campaignId, campaignName: $campaignName, campaignStatus: $campaignStatus, startDate: $startDate, endDate: $endDate, questions: $questions)';
   }
 
   @override
@@ -192,6 +208,8 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
                 other.campaignId == campaignId) &&
             (identical(other.campaignName, campaignName) ||
                 other.campaignName == campaignName) &&
+            (identical(other.campaignStatus, campaignStatus) ||
+                other.campaignStatus == campaignStatus) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
@@ -201,8 +219,14 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, campaignId, campaignName,
-      startDate, endDate, const DeepCollectionEquality().hash(_questions));
+  int get hashCode => Object.hash(
+      runtimeType,
+      campaignId,
+      campaignName,
+      campaignStatus,
+      startDate,
+      endDate,
+      const DeepCollectionEquality().hash(_questions));
 
   @JsonKey(ignore: true)
   @override
@@ -223,6 +247,7 @@ abstract class _QvstStatsEntity implements QvstStatsEntity {
   const factory _QvstStatsEntity(
           {required final String campaignId,
           required final String campaignName,
+          required final String campaignStatus,
           required final String startDate,
           required final String endDate,
           required final List<QvstQuestionEntity> questions}) =
@@ -235,6 +260,8 @@ abstract class _QvstStatsEntity implements QvstStatsEntity {
   String get campaignId;
   @override
   String get campaignName;
+  @override
+  String get campaignStatus;
   @override
   String get startDate;
   @override

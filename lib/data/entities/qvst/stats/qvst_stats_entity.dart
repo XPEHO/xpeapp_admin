@@ -9,6 +9,7 @@ class QvstStatsEntity with _$QvstStatsEntity {
   const factory QvstStatsEntity({
     required String campaignId,
     required String campaignName,
+    required String campaignStatus,
     required String startDate,
     required String endDate,
     required List<QvstQuestionEntity> questions,

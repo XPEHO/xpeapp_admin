@@ -9,4 +9,6 @@ extension StringExtension on String {
       '',
     );
   }
+
+  bool get isArchived => toLowerCase() == 'archived';
 }

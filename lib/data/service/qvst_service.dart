@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
@@ -10,8 +11,12 @@ import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 
 class QvstService {
   final BackendApi _backendApi;
+  final FirebaseFirestore _firestore;
 
-  QvstService(this._backendApi);
+  QvstService(
+    this._backendApi,
+    this._firestore,
+  );
 
   Future<List<QvstQuestionEntity>> getAllQvst() async {
     final response = await _backendApi.getAllQvst();
@@ -209,5 +214,34 @@ class QvstService {
     } else {
       throw Exception('Erreur lors de la récupération des stats');
     }
+  }
+
+  Future<bool> updateStatusOfCampaign(String id, String status) async {
+    final response = await _backendApi.updateQvstCampaignStatus(
+      id,
+      {
+        'status': status,
+      },
+    );
+    if (response.response.statusCode == 201) {
+      // Give access to the campaign menu when the campaign is open, activate the feature flipping in Firebase
+      if (status == 'OPEN') {
+        updateDataInFirebase(true);
+        return true;
+      } else if (status == 'CLOSED') {
+        updateDataInFirebase(false);
+        return true;
+      } else {
+        return true;
+      }
+    } else {
+      throw Exception('Erreur lors de la mise à jour du statut de la campagne');
+    }
+  }
+
+  Future<void> updateDataInFirebase(bool value) async {
+    await _firestore.collection('featureFlipping').doc('campaign').update({
+      'uatEnabled': value,
+    });
   }
 }

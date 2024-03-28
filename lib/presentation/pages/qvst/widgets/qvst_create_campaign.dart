@@ -210,7 +210,16 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
                     startDate == null ||
                     endDate == null)
                 ? null
-                : () => _creationOfCampaign(),
+                : () => _creationOfCampaign(
+                      onError: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Erreur lors de la création de la campagne'),
+                          ),
+                        );
+                      },
+                    ),
           ),
         )
       ],
@@ -234,7 +243,9 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
         ),
       );
 
-  _creationOfCampaign() async {
+  _creationOfCampaign({
+    required VoidCallback onError,
+  }) async {
     if (startDate!.isAfter(endDate!)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -260,12 +271,7 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
       widget.onDismissed();
     } else {
       ref.read(loaderStateProvider.notifier).hideLoader();
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Erreur lors de la création de la campagne'),
-        ),
-      );
+      onError();
     }
   }
 }

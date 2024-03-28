@@ -41,6 +41,7 @@ final backendApiProvider = Provider<BackendApi>((ref) {
 final qvstServiceProvider = Provider<QvstService>((ref) {
   return QvstService(
     ref.watch(backendApiProvider),
+    ref.watch(cloudFirestoreProvider),
   );
 });
 // Loader
