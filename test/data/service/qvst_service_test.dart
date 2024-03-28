@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -7,6 +11,7 @@ import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 
 import 'qvst_service_test.mocks.dart';
@@ -18,11 +23,17 @@ void main() {
   late QvstService service;
   late MockBackendApi mockBackendApi;
 
+  final firestore = FakeFirebaseFirestore();
+
   setUpAll(
     () {
+      firestore.collection('featureFlipping').doc('campaign').set({
+        'uatEnabled': false,
+      });
       mockBackendApi = MockBackendApi();
       service = QvstService(
         mockBackendApi,
+        firestore,
       );
     },
   );
@@ -527,6 +538,311 @@ void main() {
             startDate: DateTime.parse('2023-12-24'),
             endDate: DateTime.parse('2024-01-01'),
             questions: [],
+          ),
+          throwsException,
+        );
+      });
+    });
+
+    group('updateQvst', () {
+      test('Success', () async {
+        const id = '1';
+        Map<String, dynamic> map = {
+          "id": "1",
+          "theme": "Le travail",
+          "id_theme": "1",
+          "question": "Etes vous heureux ?",
+          "answers": [
+            {"id": "1", "answer": "Oui", "value": "1"},
+            {"id": "2", "answer": "Non", "value": "2"},
+          ]
+        };
+        final question = QvstQuestionEntity.fromJson(map);
+
+        when(
+          mockBackendApi.updateQvst(
+            id,
+            question.toJson(),
+          ),
+        ).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 201,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        final result = await service.updateQvst(
+          id,
+          question.toJson(),
+        );
+
+        expect(result, true);
+      });
+
+      test('Failed', () {
+        const id = '1';
+        Map<String, dynamic> map = {
+          "id": "1",
+          "theme": "Le travail",
+          "id_theme": "1",
+          "question": "Etes vous heureux ?",
+          "answers": [
+            {"id": "1", "answer": "Oui", "value": "1"},
+            {"id": "2", "answer": "Non", "value": "2"},
+          ]
+        };
+        final question = QvstQuestionEntity.fromJson(map);
+
+        when(mockBackendApi.updateQvst(id, question.toJson())).thenAnswer(
+          (_) async {
+            return Future.value(
+              HttpResponse(
+                {},
+                Response(
+                  statusCode: 500,
+                  requestOptions: RequestOptions(path: ''),
+                ),
+              ),
+            );
+          },
+        );
+
+        expect(
+          () => service.updateQvst(id, question.toJson()),
+          throwsException,
+        );
+      });
+    });
+
+    group('importCsv', () {
+      test('Success', () async {
+        PlatformFile fileTest = PlatformFile(
+          name: 'test.csv',
+          size: 100,
+          bytes: utf8.encode(
+              'Id theme;Id question;Question;Réponse\n1;1;Question 1;Réponse 1\n1;2;Question 2;Réponse 2\n'),
+        );
+
+        when(mockBackendApi.importQvstFile(any)).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 201,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        final result = await service.importCsv(
+          fileTest.bytes!,
+        );
+
+        expect(result, true);
+      });
+
+      test('Failed', () {
+        PlatformFile fileTest = PlatformFile(
+          name: 'test.csv',
+          size: 100,
+          bytes: utf8.encode(
+              'Id theme;Id question;Question;Réponse\n1;1;Question 1;Réponse 1\n1;2;Question 2;Réponse 2\n'),
+        );
+
+        when(mockBackendApi.importQvstFile(any)).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 500,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        expect(() => service.importCsv(fileTest.bytes!), throwsException);
+      });
+    });
+
+    group('getQvstCampaignStatsById', () {
+      test('Success', () async {
+        const id = '1';
+        Map<String, dynamic> response = {
+          "campaignId": "1",
+          "campaignName": "Première campagne",
+          "theme": {"id": "1", "name": "Le contenu du travail"},
+          "campaignStatus": "DRAFT",
+          "startDate": "2023-12-24",
+          "endDate": "2024-01-01",
+          "questions": []
+        };
+
+        when(mockBackendApi.getQvstCampaignStatsById(id)).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              response,
+              Response(
+                statusCode: 200,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        final result = await service.getQvstCampaignStatsById(id);
+
+        expect(result, isA<QvstStatsEntity>());
+      });
+
+      test('Failed', () {
+        const id = '1';
+
+        when(mockBackendApi.getQvstCampaignStatsById(id)).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 500,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        expect(() => service.getQvstCampaignStatsById(id), throwsException);
+      });
+    });
+
+    group('updateStatusOfCampaign', () {
+      final bodyDraft = {
+        'status': 'DRAFT',
+      };
+      final bodyOpen = {
+        'status': 'OPEN',
+      };
+      final bodyClosed = {
+        'status': 'CLOSED',
+      };
+
+      test('Success with draft status', () async {
+        const id = '1';
+        const status = 'DRAFT';
+
+        when(mockBackendApi.updateQvstCampaignStatus(
+          id,
+          bodyDraft,
+        )).thenAnswer(
+          (_) async {
+            return Future.value(
+              HttpResponse(
+                {},
+                Response(
+                  statusCode: 201,
+                  requestOptions: RequestOptions(path: ''),
+                ),
+              ),
+            );
+          },
+        );
+
+        final result = await service.updateStatusOfCampaign(
+          id,
+          status,
+        );
+
+        expect(result, true);
+      });
+
+      test('Success with open status', () async {
+        const id = '1';
+        const status = 'OPEN';
+
+        when(mockBackendApi.updateQvstCampaignStatus(
+          id,
+          bodyOpen,
+        )).thenAnswer(
+          (_) async {
+            return Future.value(
+              HttpResponse(
+                {},
+                Response(
+                  statusCode: 201,
+                  requestOptions: RequestOptions(path: ''),
+                ),
+              ),
+            );
+          },
+        );
+
+        final result = await service.updateStatusOfCampaign(
+          id,
+          status,
+        );
+
+        expect(result, true);
+      });
+
+      test('Success with closed status', () async {
+        const id = '1';
+        const status = 'CLOSED';
+
+        when(mockBackendApi.updateQvstCampaignStatus(
+          id,
+          bodyClosed,
+        )).thenAnswer(
+          (_) async {
+            return Future.value(
+              HttpResponse(
+                {},
+                Response(
+                  statusCode: 201,
+                  requestOptions: RequestOptions(path: ''),
+                ),
+              ),
+            );
+          },
+        );
+
+        final result = await service.updateStatusOfCampaign(
+          id,
+          status,
+        );
+
+        expect(result, true);
+      });
+
+      test('Failed', () async {
+        const id = '1';
+        const status = 'OPEN';
+
+        when(mockBackendApi.updateQvstCampaignStatus(
+          id,
+          bodyOpen,
+        )).thenAnswer(
+          (_) async {
+            return Future.value(
+              HttpResponse(
+                {},
+                Response(
+                  statusCode: 500,
+                  requestOptions: RequestOptions(path: ''),
+                ),
+              ),
+            );
+          },
+        );
+
+        expect(
+          () => service.updateStatusOfCampaign(
+            id,
+            status,
           ),
           throwsException,
         );

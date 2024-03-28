@@ -98,7 +98,24 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
                                   null ||
                               controller.text.isEmpty)
                           ? null
-                          : () => sendQvst(),
+                          : () => sendQvst(
+                                onSuccess: () {
+                                  Navigator.of(context).pop();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('QVST ajouté'),
+                                    ),
+                                  );
+                                },
+                                onError: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Erreur lors de l\'ajout du QVST'),
+                                    ),
+                                  );
+                                },
+                              ),
                     ),
                   ),
                 ],
@@ -116,7 +133,10 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
     );
   }
 
-  Future<void> sendQvst() async {
+  Future<void> sendQvst({
+    required VoidCallback onSuccess,
+    required VoidCallback onError,
+  }) async {
     // Init loader
     ref.read(loaderStateProvider.notifier).showLoader();
 
@@ -140,21 +160,10 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
       ref.refresh(
         qvstQuestionsByThemesListProvider(theme?.id ?? ''),
       );
-      if (!context.mounted) return;
-      Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('QVST ajouté'),
-        ),
-      );
+      onSuccess();
     } else {
       ref.read(loaderStateProvider.notifier).hideLoader();
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Erreur lors de l\'ajout du QVST'),
-        ),
-      );
+      onError();
     }
   }
 }

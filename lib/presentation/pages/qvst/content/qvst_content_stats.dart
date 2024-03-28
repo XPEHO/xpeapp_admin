@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_stats_table_view.dart';
+import 'package:xpeapp_admin/presentation/widgets/qvst/qvst_status_of_campaign_and_button.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class QvstContentStats extends ConsumerWidget {
@@ -48,6 +49,10 @@ class QvstContentStats extends ConsumerWidget {
 
             return Column(
               children: [
+                QvstStatusOfCampaignAndButton(
+                  campaignId: campaignId!,
+                  campaignStatus: data.campaignStatus,
+                ),
                 Text(
                   "Campagne : ${data.campaignName}",
                   style: Theme.of(context).textTheme.titleLarge,
