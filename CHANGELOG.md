@@ -4,6 +4,7 @@ _Feat_
 
 - [Issue #83](https://github.com/XPEHO/xpeapp_admin/issues/83) Possibility to open campaign
 - [Issue #82](https://github.com/XPEHO/xpeapp_admin/issues/82) Possibility to close campaign
+- [Issue #89](https://github.com/XPEHO/xpeapp_admin/issues/89) SSO Authentication with google
 
 _Fix_
 
