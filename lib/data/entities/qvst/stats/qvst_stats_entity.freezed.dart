@@ -26,6 +26,7 @@ mixin _$QvstStatsEntity {
   String get startDate => throw _privateConstructorUsedError;
   String get endDate => throw _privateConstructorUsedError;
   List<QvstQuestionEntity> get questions => throw _privateConstructorUsedError;
+  String? get campaignAction => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,7 +46,8 @@ abstract class $QvstStatsEntityCopyWith<$Res> {
       String campaignStatus,
       String startDate,
       String endDate,
-      List<QvstQuestionEntity> questions});
+      List<QvstQuestionEntity> questions,
+      String? campaignAction});
 }
 
 /// @nodoc
@@ -67,6 +69,7 @@ class _$QvstStatsEntityCopyWithImpl<$Res, $Val extends QvstStatsEntity>
     Object? startDate = null,
     Object? endDate = null,
     Object? questions = null,
+    Object? campaignAction = freezed,
   }) {
     return _then(_value.copyWith(
       campaignId: null == campaignId
@@ -93,6 +96,10 @@ class _$QvstStatsEntityCopyWithImpl<$Res, $Val extends QvstStatsEntity>
           ? _value.questions
           : questions // ignore: cast_nullable_to_non_nullable
               as List<QvstQuestionEntity>,
+      campaignAction: freezed == campaignAction
+          ? _value.campaignAction
+          : campaignAction // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -111,7 +118,8 @@ abstract class _$$QvstStatsEntityImplCopyWith<$Res>
       String campaignStatus,
       String startDate,
       String endDate,
-      List<QvstQuestionEntity> questions});
+      List<QvstQuestionEntity> questions,
+      String? campaignAction});
 }
 
 /// @nodoc
@@ -131,6 +139,7 @@ class __$$QvstStatsEntityImplCopyWithImpl<$Res>
     Object? startDate = null,
     Object? endDate = null,
     Object? questions = null,
+    Object? campaignAction = freezed,
   }) {
     return _then(_$QvstStatsEntityImpl(
       campaignId: null == campaignId
@@ -157,6 +166,10 @@ class __$$QvstStatsEntityImplCopyWithImpl<$Res>
           ? _value._questions
           : questions // ignore: cast_nullable_to_non_nullable
               as List<QvstQuestionEntity>,
+      campaignAction: freezed == campaignAction
+          ? _value.campaignAction
+          : campaignAction // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -170,7 +183,8 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
       required this.campaignStatus,
       required this.startDate,
       required this.endDate,
-      required final List<QvstQuestionEntity> questions})
+      required final List<QvstQuestionEntity> questions,
+      this.campaignAction})
       : _questions = questions;
 
   factory _$QvstStatsEntityImpl.fromJson(Map<String, dynamic> json) =>
@@ -195,8 +209,11 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
   }
 
   @override
+  final String? campaignAction;
+
+  @override
   String toString() {
-    return 'QvstStatsEntity(campaignId: $campaignId, campaignName: $campaignName, campaignStatus: $campaignStatus, startDate: $startDate, endDate: $endDate, questions: $questions)';
+    return 'QvstStatsEntity(campaignId: $campaignId, campaignName: $campaignName, campaignStatus: $campaignStatus, startDate: $startDate, endDate: $endDate, questions: $questions, campaignAction: $campaignAction)';
   }
 
   @override
@@ -214,7 +231,9 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
             const DeepCollectionEquality()
-                .equals(other._questions, _questions));
+                .equals(other._questions, _questions) &&
+            (identical(other.campaignAction, campaignAction) ||
+                other.campaignAction == campaignAction));
   }
 
   @JsonKey(ignore: true)
@@ -226,7 +245,8 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
       campaignStatus,
       startDate,
       endDate,
-      const DeepCollectionEquality().hash(_questions));
+      const DeepCollectionEquality().hash(_questions),
+      campaignAction);
 
   @JsonKey(ignore: true)
   @override
@@ -245,13 +265,13 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
 
 abstract class _QvstStatsEntity implements QvstStatsEntity {
   const factory _QvstStatsEntity(
-          {required final String campaignId,
-          required final String campaignName,
-          required final String campaignStatus,
-          required final String startDate,
-          required final String endDate,
-          required final List<QvstQuestionEntity> questions}) =
-      _$QvstStatsEntityImpl;
+      {required final String campaignId,
+      required final String campaignName,
+      required final String campaignStatus,
+      required final String startDate,
+      required final String endDate,
+      required final List<QvstQuestionEntity> questions,
+      final String? campaignAction}) = _$QvstStatsEntityImpl;
 
   factory _QvstStatsEntity.fromJson(Map<String, dynamic> json) =
       _$QvstStatsEntityImpl.fromJson;
@@ -268,6 +288,8 @@ abstract class _QvstStatsEntity implements QvstStatsEntity {
   String get endDate;
   @override
   List<QvstQuestionEntity> get questions;
+  @override
+  String? get campaignAction;
   @override
   @JsonKey(ignore: true)
   _$$QvstStatsEntityImplCopyWith<_$QvstStatsEntityImpl> get copyWith =>

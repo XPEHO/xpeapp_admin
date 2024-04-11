@@ -48,7 +48,7 @@ class QvstStatsTableView extends StatelessWidget {
               cells: [
                 DataCell(
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
+                    width: MediaQuery.of(context).size.width * 0.3,
                     child: Text(
                       question.question,
                       style: const TextStyle(

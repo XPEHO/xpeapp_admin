@@ -21,7 +21,7 @@ class _BackendApi implements BackendApi {
   @override
   Future<HttpResponse<dynamic>> sendNotification(
       Map<String, dynamic> body) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -50,10 +50,10 @@ class _BackendApi implements BackendApi {
 
   @override
   Future<HttpResponse<dynamic>> getAllQvst() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'GET',
@@ -78,10 +78,10 @@ class _BackendApi implements BackendApi {
 
   @override
   Future<HttpResponse<dynamic>> getQvstById(String id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'GET',
@@ -106,10 +106,10 @@ class _BackendApi implements BackendApi {
 
   @override
   Future<HttpResponse<dynamic>> getAllQvstThemes() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'GET',
@@ -134,10 +134,10 @@ class _BackendApi implements BackendApi {
 
   @override
   Future<HttpResponse<dynamic>> getAllQvstQuestionsByThemeId(String id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'GET',
@@ -162,7 +162,7 @@ class _BackendApi implements BackendApi {
 
   @override
   Future<HttpResponse<dynamic>> addQvst(Map<String, dynamic> body) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -191,10 +191,10 @@ class _BackendApi implements BackendApi {
 
   @override
   Future<HttpResponse<dynamic>> deleteQvst(String id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'DELETE',
@@ -219,10 +219,10 @@ class _BackendApi implements BackendApi {
 
   @override
   Future<HttpResponse<dynamic>> getQvstAnswersRepo() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'GET',
@@ -250,7 +250,7 @@ class _BackendApi implements BackendApi {
     String id,
     Map<String, dynamic> body,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -279,10 +279,10 @@ class _BackendApi implements BackendApi {
 
   @override
   Future<HttpResponse<dynamic>> getAllQvstCampaigns() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'GET',
@@ -308,7 +308,7 @@ class _BackendApi implements BackendApi {
   @override
   Future<HttpResponse<dynamic>> addQvstCampaign(
       Map<String, dynamic> body) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -340,7 +340,7 @@ class _BackendApi implements BackendApi {
     String id,
     Map<String, dynamic> body,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -370,7 +370,7 @@ class _BackendApi implements BackendApi {
   @override
   Future<HttpResponse<dynamic>> importQvstFile(
       Map<String, dynamic> body) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -399,10 +399,10 @@ class _BackendApi implements BackendApi {
 
   @override
   Future<HttpResponse<dynamic>> getQvstCampaignStatsById(String id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'GET',
@@ -430,7 +430,7 @@ class _BackendApi implements BackendApi {
     String id,
     Map<String, dynamic> body,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
