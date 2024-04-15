@@ -194,6 +194,8 @@ class _NewsletterAddOrEditPageState
                                       NewsletterTypePage.add) {
                                     await sendNewsletter(newsletterEntity);
                                   } else {
+                                    newsletterEntity = newsletterEntity
+                                        .copyWith(id: widget.newsletter?.id);
                                     await updateNewsletter(newsletterEntity);
                                   }
                                 }

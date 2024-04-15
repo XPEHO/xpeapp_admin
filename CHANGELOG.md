@@ -5,10 +5,12 @@ _Feat_
 - [Issue #83](https://github.com/XPEHO/xpeapp_admin/issues/83) Possibility to open campaign
 - [Issue #82](https://github.com/XPEHO/xpeapp_admin/issues/82) Possibility to close campaign
 - [Issue #89](https://github.com/XPEHO/xpeapp_admin/issues/89) SSO Authentication with google
+- [Issue #84](https://github.com/XPEHO/xpeapp_admin/issues/84) Add action comment when campaign is archived
 
 _Fix_
 
 - [Issue #81](https://github.com/XPEHO/xpeapp_admin/issues/81) Fix calcul of the percent of satisfaction in the qvst detail page
+- [Issue #93](https://github.com/XPEHO/xpeapp_admin/issues/93) Fix null newsletter id on edit attempt
 
 ## 1.0.1
 

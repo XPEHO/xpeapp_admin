@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:xpeapp_admin/env/extensions/string.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_stats_table_view.dart';
 import 'package:xpeapp_admin/presentation/widgets/qvst/qvst_status_of_campaign_and_button.dart';
 import 'package:xpeapp_admin/providers.dart';
@@ -77,6 +78,17 @@ class QvstContentStats extends ConsumerWidget {
                 QvstStatsTableView(
                   stats: data,
                 ),
+                const SizedBox(height: 20),
+                (data.campaignStatus.isArchived)
+                    ? Text(
+                        "Commentaire : ${data.campaignAction ?? ''}",
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 20,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             );
           },
