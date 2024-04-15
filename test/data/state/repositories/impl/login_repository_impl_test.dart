@@ -22,7 +22,8 @@ void main() {
       );
     });
 
-    test('signIn should sign in with email and password', () async {
+    test('usernamePasswordSignIn should sign in with email and password',
+        () async {
       // Arrange
       const email = 'test@example.com';
       const password = 'password';
@@ -38,7 +39,7 @@ void main() {
       });
 
       // Act
-      await loginRepository.signIn(user);
+      await loginRepository.usernamePasswordSignIn(user);
 
       // Assert
       verify(mockFirebaseAuth.signInWithEmailAndPassword(
@@ -47,7 +48,8 @@ void main() {
       )).called(1);
     });
 
-    test('signIn should throw an exception for invalid email', () async {
+    test('usernamePasswordSignIn should throw an exception for invalid email',
+        () async {
       // Arrange
       const email = 'invalid-email';
       const password = 'password';
@@ -58,10 +60,12 @@ void main() {
       )).thenThrow(FirebaseAuthException(code: 'invalid-email'));
 
       // Act & Assert
-      expect(() => loginRepository.signIn(user), throwsException);
+      expect(
+          () => loginRepository.usernamePasswordSignIn(user), throwsException);
     });
 
-    test('signIn should throw an exception for user not found', () async {
+    test('usernamePasswordSignIn should throw an exception for user not found',
+        () async {
       // Arrange
       const email = 'test@example.com';
       const password = 'password';
@@ -72,10 +76,12 @@ void main() {
       )).thenThrow(FirebaseAuthException(code: 'user-not-found'));
 
       // Act & Assert
-      expect(() => loginRepository.signIn(user), throwsException);
+      expect(
+          () => loginRepository.usernamePasswordSignIn(user), throwsException);
     });
 
-    test('signIn should throw an exception for wrong password', () async {
+    test('usernamePasswordSignIn should throw an exception for wrong password',
+        () async {
       // Arrange
       const email = 'test@example.com';
       const password = 'wrong-password';
@@ -86,10 +92,12 @@ void main() {
       )).thenThrow(FirebaseAuthException(code: 'wrong-password'));
 
       // Act & Assert
-      expect(() => loginRepository.signIn(user), throwsException);
+      expect(
+          () => loginRepository.usernamePasswordSignIn(user), throwsException);
     });
 
-    test('signIn should throw an exception for other errors', () async {
+    test('usernamePasswordSignIn should throw an exception for other errors',
+        () async {
       // Arrange
       const email = 'test@example.com';
       const password = 'password';
@@ -100,7 +108,8 @@ void main() {
       )).thenThrow(FirebaseAuthException(code: 'other-error'));
 
       // Act & Assert
-      expect(() => loginRepository.signIn(user), throwsException);
+      expect(
+          () => loginRepository.usernamePasswordSignIn(user), throwsException);
     });
 
     test('signOut should sign out', () async {
