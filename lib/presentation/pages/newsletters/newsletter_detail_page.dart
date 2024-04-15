@@ -32,7 +32,7 @@ class NewsletterDetailPage extends ConsumerWidget {
           }
           NewsletterEntity newsletter = NewsletterEntity.fromJson(
             snapshot.data!.data()!,
-          );
+          ).copyWith(id: id);
           return ScaffoldTemplate(
             appBarTitle: 'Contenu de la newsletter',
             appBarLeading: IconButton(
