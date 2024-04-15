@@ -723,12 +723,15 @@ void main() {
     group('updateStatusOfCampaign', () {
       final bodyDraft = {
         'status': 'DRAFT',
+        'action': null,
       };
       final bodyOpen = {
         'status': 'OPEN',
+        'action': null,
       };
       final bodyClosed = {
         'status': 'CLOSED',
+        'action': 'test action',
       };
 
       test('Success with draft status', () async {
@@ -753,8 +756,8 @@ void main() {
         );
 
         final result = await service.updateStatusOfCampaign(
-          id,
-          status,
+          id: id,
+          status: status,
         );
 
         expect(result, true);
@@ -782,8 +785,8 @@ void main() {
         );
 
         final result = await service.updateStatusOfCampaign(
-          id,
-          status,
+          id: id,
+          status: status,
         );
 
         expect(result, true);
@@ -811,8 +814,9 @@ void main() {
         );
 
         final result = await service.updateStatusOfCampaign(
-          id,
-          status,
+          id: id,
+          status: status,
+          action: 'test action',
         );
 
         expect(result, true);
@@ -841,8 +845,8 @@ void main() {
 
         expect(
           () => service.updateStatusOfCampaign(
-            id,
-            status,
+            id: id,
+            status: status,
           ),
           throwsException,
         );

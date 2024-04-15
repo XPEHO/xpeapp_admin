@@ -216,11 +216,16 @@ class QvstService {
     }
   }
 
-  Future<bool> updateStatusOfCampaign(String id, String status) async {
+  Future<bool> updateStatusOfCampaign({
+    required String id,
+    required String status,
+    String? action,
+  }) async {
     final response = await _backendApi.updateQvstCampaignStatus(
       id,
       {
         'status': status,
+        'action': action,
       },
     );
     if (response.response.statusCode == 201) {
@@ -228,7 +233,7 @@ class QvstService {
       if (status == 'OPEN') {
         updateDataInFirebase(true);
         return true;
-      } else if (status == 'CLOSED') {
+      } else if (status == 'CLOSED' || status == 'ARCHIVED') {
         updateDataInFirebase(false);
         return true;
       } else {

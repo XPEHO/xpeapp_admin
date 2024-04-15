@@ -6,7 +6,7 @@ import 'package:xpeapp_admin/env/extensions/string.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
 
-class QvstStatusOfCampaignAndButton extends ConsumerWidget {
+class QvstStatusOfCampaignAndButton extends ConsumerStatefulWidget {
   final String campaignId;
   final String campaignStatus;
 
@@ -17,7 +17,16 @@ class QvstStatusOfCampaignAndButton extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<QvstStatusOfCampaignAndButton> createState() =>
+      _QvstStatusOfCampaignAndButtonState();
+}
+
+class _QvstStatusOfCampaignAndButtonState
+    extends ConsumerState<QvstStatusOfCampaignAndButton> {
+  String commentOfCampaign = "";
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(
         top: 20,
@@ -28,16 +37,16 @@ class QvstStatusOfCampaignAndButton extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Statut de la campagne : $campaignStatus",
+            "Statut de la campagne : ${widget.campaignStatus}",
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(width: 50),
-          if (!campaignStatus.isArchived)
+          if (!widget.campaignStatus.isArchived)
             buttonForCampaignStatus(
               ref: ref,
               context: context,
-              campaignId: campaignId,
-              campaignStatus: campaignStatus,
+              campaignId: widget.campaignId,
+              campaignStatus: widget.campaignStatus,
             ),
         ],
       ),
@@ -51,6 +60,7 @@ class QvstStatusOfCampaignAndButton extends ConsumerWidget {
     required String campaignStatus,
   }) {
     String buttonText = "";
+    TextEditingController commentController = TextEditingController();
 
     switch (campaignStatus.toUpperCase()) {
       case draftCampaignStatus:
@@ -77,35 +87,98 @@ class QvstStatusOfCampaignAndButton extends ConsumerWidget {
       child: Button(
         text: buttonText,
         onPressed: () async {
-          try {
-            final qvstService = ref.read(qvstServiceProvider);
-            final bool campaignUpdated =
-                await qvstService.updateStatusOfCampaign(
-              campaignId,
-              statusUpdated,
+          if (statusUpdated == QvstCampaignStatusEnum.archived.name) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Archiver la campagne'),
+                  content: TextField(
+                    controller: commentController,
+                    decoration: const InputDecoration(
+                      hintText: 'Commentaire',
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Annuler'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        updateApiCall(
+                          context: context,
+                          ref: ref,
+                          campaignId: campaignId,
+                          statusUpdated: statusUpdated,
+                          action: commentController.text,
+                        );
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Confirmer'),
+                    ),
+                  ],
+                );
+              },
             );
-            if (campaignUpdated) {
-              if (!context.mounted) return;
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Statut de la campagne mis à jour'),
-                ),
-              );
-              // ignore: unused_result
-              ref.refresh(qvstCampaignsProvider);
-              // ignore: unused_result
-              ref.refresh(qvstCampaignStatsProvider(campaignId));
-            } else {
-              throw Exception('Erreur lors de la mise à jour du statut');
-            }
-          } catch (e) {
-            debugPrint(
-              e.toString(),
+          } else {
+            updateApiCall(
+              context: context,
+              ref: ref,
+              campaignId: campaignId,
+              statusUpdated: statusUpdated,
             );
           }
         },
         color: kDefaultXpehoColor,
       ),
     );
+  }
+
+  Future<void> updateApiCall({
+    required BuildContext context,
+    required WidgetRef ref,
+    required String campaignId,
+    required String statusUpdated,
+    String? action,
+  }) async {
+    try {
+      final qvstService = ref.read(qvstServiceProvider);
+      final bool campaignUpdated = await qvstService.updateStatusOfCampaign(
+        id: campaignId,
+        status: statusUpdated,
+        action: action,
+      );
+      if (campaignUpdated) {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Statut de la campagne mis à jour'),
+          ),
+        );
+        // ignore: unused_result
+        ref.refresh(qvstCampaignsProvider);
+        // ignore: unused_result
+        ref.refresh(
+          qvstCampaignStatsProvider(
+            campaignId,
+          ),
+        );
+      } else {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+                Text('Erreur lors de la mise à jour du statut de la campagne'),
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint(
+        e.toString(),
+      );
+    }
   }
 }
