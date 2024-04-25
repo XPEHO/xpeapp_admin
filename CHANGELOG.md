@@ -12,6 +12,10 @@ _Fix_
 - [Issue #81](https://github.com/XPEHO/xpeapp_admin/issues/81) Fix calcul of the percent of satisfaction in the qvst detail page
 - [Issue #93](https://github.com/XPEHO/xpeapp_admin/issues/93) Fix null newsletter id on edit attempt
 
+_Doc_
+
+- [Issue #90](https://github.com/XPEHO/xpeapp_admin/issues/90) Add the PUML diagram of the project
+
 ## 1.0.1
 
 _Fix_
