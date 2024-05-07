@@ -640,11 +640,16 @@ void main() {
           );
         });
 
-        final result = await service.importCsv(
-          fileTest.bytes!,
-        );
+        var throwsException = false;
+        try {
+          await service.importCsv(
+            fileTest.bytes!,
+          );
+        } catch (e) {
+          throwsException = true;
+        }
 
-        expect(result, true);
+        expect(throwsException, false);
       });
 
       test('Failed', () {

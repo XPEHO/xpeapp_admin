@@ -175,20 +175,33 @@ class QvstService {
     }
   }
 
-  Future<bool> importCsv(Uint8List file) async {
-    final stringFile = utf8.decode(file).split('\n');
+  Future<void> importCsv(Uint8List file) async {
+    final stringFile = utf8
+        .decode(file)
+        .split('\n')
+        .where((line) => line.isNotEmpty)
+        .map((line) => line.split(';'))
+        .toList();
     final csvFileJson = <Map<String, dynamic>>[];
+
+    // Note: We try to ensure correct structure of the csv file
+    if (!stringFile.every((element) => element.length == 4)) {
+      throw Exception('Erreur lors de l\'import du fichier: le fichier doit '
+          'contenir 4 colonnes délimitées de \';\'');
+    }
+    if (int.tryParse(stringFile[0][0]) != null) {
+      throw Exception('Erreur lors de l\'import du fichier: la première ligne '
+          'doit contenir les noms des colonnes');
+    }
+
     for (var i = 0; i < stringFile.length; i++) {
-      final question = stringFile[i].split(';');
-      if (question.length == 4 && question[0] != 'Id theme') {
-        csvFileJson.add(
-          {
-            'id_theme': question[0],
-            'question': question[2],
-            'response_repo': question[3],
-          },
-        );
-      }
+      csvFileJson.add(
+        {
+          'id_theme': stringFile[i][0],
+          'question': stringFile[i][2],
+          'response_repo': stringFile[i][3],
+        },
+      );
     }
 
     final body = <String, dynamic>{
@@ -198,10 +211,9 @@ class QvstService {
     final response = await _backendApi.importQvstFile(
       body,
     );
-    if (response.response.statusCode == 201) {
-      return true;
-    } else {
-      throw Exception('Erreur lors de l\'import du fichier');
+    if (response.response.statusCode != 201) {
+      throw Exception(
+          'Erreur lors de l\'import du fichier: ${response.toString()}');
     }
   }
 
