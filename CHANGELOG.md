@@ -6,6 +6,7 @@ _Feat_
 - [Issue #82](https://github.com/XPEHO/xpeapp_admin/issues/82) Possibility to close campaign
 - [Issue #89](https://github.com/XPEHO/xpeapp_admin/issues/89) SSO Authentication with google
 - [Issue #84](https://github.com/XPEHO/xpeapp_admin/issues/84) Add action comment when campaign is archived
+- [Issue #100](https://github.com/XPEHO/xpeapp_admin/issues/100) Make QVST table scrollable, add error messages on incorrect csv import format
 
 _Fix_
 
