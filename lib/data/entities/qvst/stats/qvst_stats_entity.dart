@@ -13,7 +13,7 @@ class QvstStatsEntity with _$QvstStatsEntity {
     required String startDate,
     required String endDate,
     required List<QvstQuestionEntity> questions,
-    String? campaignAction,
+    String? action,
   }) = _QvstStatsEntity;
 
   factory QvstStatsEntity.fromJson(Map<String, dynamic> json) =>

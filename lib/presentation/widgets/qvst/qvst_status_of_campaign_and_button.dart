@@ -60,7 +60,6 @@ class _QvstStatusOfCampaignAndButtonState
     required String campaignStatus,
   }) {
     String buttonText = "";
-    TextEditingController commentController = TextEditingController();
 
     switch (campaignStatus.toUpperCase()) {
       case draftCampaignStatus:
@@ -87,50 +86,12 @@ class _QvstStatusOfCampaignAndButtonState
       child: Button(
         text: buttonText,
         onPressed: () async {
-          if (statusUpdated == QvstCampaignStatusEnum.archived.name) {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: const Text('Archiver la campagne'),
-                  content: TextField(
-                    controller: commentController,
-                    decoration: const InputDecoration(
-                      hintText: 'Commentaire',
-                    ),
-                  ),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Annuler'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        updateApiCall(
-                          context: context,
-                          ref: ref,
-                          campaignId: campaignId,
-                          statusUpdated: statusUpdated,
-                          action: commentController.text,
-                        );
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Confirmer'),
-                    ),
-                  ],
-                );
-              },
-            );
-          } else {
-            updateApiCall(
-              context: context,
-              ref: ref,
-              campaignId: campaignId,
-              statusUpdated: statusUpdated,
-            );
-          }
+          updateApiCall(
+            context: context,
+            ref: ref,
+            campaignId: campaignId,
+            statusUpdated: statusUpdated,
+          );
         },
         color: kDefaultXpehoColor,
       ),
@@ -142,10 +103,10 @@ class _QvstStatusOfCampaignAndButtonState
     required WidgetRef ref,
     required String campaignId,
     required String statusUpdated,
-    String? action,
   }) async {
     try {
       final qvstService = ref.read(qvstServiceProvider);
+      final action = ref.read(commentForCampaignNotifier);
       final bool campaignUpdated = await qvstService.updateStatusOfCampaign(
         id: campaignId,
         status: statusUpdated,

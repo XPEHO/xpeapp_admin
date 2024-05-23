@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/env/extensions/string.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_stats_table_view.dart';
+import 'package:xpeapp_admin/presentation/widgets/custom_text_field.dart';
 import 'package:xpeapp_admin/presentation/widgets/qvst/qvst_status_of_campaign_and_button.dart';
 import 'package:xpeapp_admin/providers.dart';
 
@@ -27,6 +28,7 @@ class QvstContentStats extends ConsumerWidget {
     final stats = ref.watch(
       qvstCampaignStatsProvider(campaignId!),
     );
+    final TextEditingController controller = TextEditingController();
     return Column(
       children: [
         const SizedBox(height: 20),
@@ -79,9 +81,51 @@ class QvstContentStats extends ConsumerWidget {
                   stats: data,
                 ),
                 const SizedBox(height: 20),
+                if (data.campaignStatus.isClosed)
+                  Container(
+                    margin: const EdgeInsets.only(
+                      top: 20,
+                      bottom: 20,
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Commentaire à rajouter : ",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        CustomTextField(
+                          width: 300,
+                          hintText: "Commentaire",
+                          controller: controller,
+                          onChanged: (value) {
+                            ref
+                                .read(commentForCampaignNotifier.notifier)
+                                .setComment(
+                                  value,
+                                );
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                else
+                  const SizedBox(),
                 (data.campaignStatus.isArchived)
                     ? Text(
-                        "Commentaire : ${data.campaignAction ?? ''}",
+                        "Commentaire : ${data.action ?? ''}",
                         style: const TextStyle(
                           color: Colors.red,
                           fontSize: 20,

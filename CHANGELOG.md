@@ -11,6 +11,7 @@ _Fix_
 
 - [Issue #81](https://github.com/XPEHO/xpeapp_admin/issues/81) Fix calcul of the percent of satisfaction in the qvst detail page
 - [Issue #93](https://github.com/XPEHO/xpeapp_admin/issues/93) Fix null newsletter id on edit attempt
+- Fix the send of action when the campaign is archived
 
 ## 1.0.1
 
