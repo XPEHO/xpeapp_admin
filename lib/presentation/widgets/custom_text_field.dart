@@ -6,6 +6,7 @@ class CustomTextField extends StatelessWidget {
   final double hintSize;
   final TextEditingController controller;
   final TextInputType? keyboardType;
+  final Function(String)? onChanged;
 
   const CustomTextField({
     super.key,
@@ -14,6 +15,7 @@ class CustomTextField extends StatelessWidget {
     this.hintSize = 16,
     required this.controller,
     this.keyboardType,
+    this.onChanged,
   });
 
   @override
@@ -33,7 +35,9 @@ class CustomTextField extends StatelessWidget {
         ),
       ),
       child: TextFormField(
-        onChanged: (String value) {},
+        onChanged: (String value) {
+          onChanged?.call(value);
+        },
         controller: controller,
         keyboardType: keyboardType,
         decoration: InputDecoration(

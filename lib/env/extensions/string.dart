@@ -11,4 +11,10 @@ extension StringExtension on String {
   }
 
   bool get isArchived => toLowerCase() == 'archived';
+
+  bool get isDraft => toLowerCase() == 'draft';
+
+  bool get isOpen => toLowerCase() == 'open';
+
+  bool get isClosed => toLowerCase() == 'closed';
 }

@@ -16,6 +16,7 @@ import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
+import 'package:xpeapp_admin/data/state/comment_for_campaign_notifier.dart';
 import 'package:xpeapp_admin/data/state/loader_state.dart';
 import 'package:xpeapp_admin/data/state/menu_notifier.dart';
 import 'package:xpeapp_admin/data/state/newsletter_publication_notifier.dart';
@@ -190,3 +191,8 @@ final menuSelectedProvider = StateNotifierProvider<MenuNotifier, MenuEntity?>(
     return MenuNotifier();
   },
 );
+
+final commentForCampaignNotifier =
+    StateNotifierProvider<CommentForCampaignNotifier, String?>((ref) {
+  return CommentForCampaignNotifier();
+});
