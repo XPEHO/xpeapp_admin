@@ -79,25 +79,24 @@ class QvstImportQuestionFileDialogState
               ? () async {
                   try {
                     final qvstService = ref.read(qvstServiceProvider);
-                    final bool importSuccess = await qvstService
+                    await qvstService
                         .importCsv(csvFileToImport!.files.first.bytes!);
-                    if (importSuccess) {
-                      if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Fichier importé !'),
-                        ),
-                      );
-                      Navigator.pop(context);
-                      // ignore: unused_result
-                      ref.refresh(qvstQuestionsListProvider);
-                    } else {
-                      throw Exception('Erreur lors de l\'import du fichier');
-                    }
-                  } catch (e) {
-                    debugPrint(
-                      e.toString(),
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Fichier importé !'),
+                      ),
                     );
+                    Navigator.pop(context);
+                    // ignore: unused_result
+                    ref.refresh(qvstQuestionsListProvider);
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(e.toString()),
+                      ),
+                    );
+                    Navigator.pop(context);
                   }
                 }
               : null,

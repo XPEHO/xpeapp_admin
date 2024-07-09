@@ -46,7 +46,7 @@ dev_dependencies:
   retrofit_generator: ^8.1.0
   build_runner: ^2.4.6
   json_serializable: ^6.6.1
-  mockito: ^5.4.2
+  mockito: ^5.4.4
   flutter_launcher_icons: ^0.13.1
 
 flutter_launcher_icons:

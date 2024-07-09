@@ -16,100 +16,102 @@ class QvstTableView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: 40,
-        right: 40,
-      ),
-      child: Table(
-        border: TableBorder.all(
-          color: Colors.black,
-          width: 1,
+    return SingleChildScrollView(
+      child: Container(
+        margin: const EdgeInsets.only(
+          left: 40,
+          right: 40,
         ),
-        children: [
-          TableRow(
-            children: [
-              if (themeId == null)
-                TableCell(
-                  child: _getText(
-                    'Thème',
-                    title: true,
-                  ),
-                ),
-              TableCell(
-                child: _getText(
-                  'Question',
-                  title: true,
-                ),
-              ),
-              TableCell(
-                child: _getText(
-                  'Référentiel de réponses',
-                  title: true,
-                ),
-              ),
-              TableCell(
-                child: _getText(
-                  'Question posé x fois',
-                  title: true,
-                ),
-              ),
-              TableCell(
-                child: _getText(
-                  'Action',
-                  title: true,
-                ),
-              ),
-            ],
+        child: Table(
+          border: TableBorder.all(
+            color: Colors.black,
+            width: 1,
           ),
-          ...questions.map(
-            (question) => TableRow(
+          children: [
+            TableRow(
               children: [
                 if (themeId == null)
                   TableCell(
                     child: _getText(
-                      question.theme,
+                      'Thème',
+                      title: true,
                     ),
                   ),
                 TableCell(
                   child: _getText(
-                    question.question,
-                  ),
-                ),
-                TableCell(
-                  child: Container(
-                    width: 100,
-                    margin: const EdgeInsets.only(
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: ResponseReferenceWidget(
-                      qvstId: question.id ?? '',
-                      referenceId: question.answerRepoId ?? '',
-                    ),
+                    'Question',
+                    title: true,
                   ),
                 ),
                 TableCell(
                   child: _getText(
-                    (question.numberAsked ?? 0).toString(),
+                    'Référentiel de réponses',
+                    title: true,
                   ),
                 ),
                 TableCell(
-                  child: IconButton(
-                    onPressed: () => _showConfirmDialog(
-                      context,
-                      question,
-                      ref: ref,
-                    ),
-                    icon: const Icon(
-                      Icons.delete,
-                    ),
+                  child: _getText(
+                    'Question posé x fois',
+                    title: true,
+                  ),
+                ),
+                TableCell(
+                  child: _getText(
+                    'Action',
+                    title: true,
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            ...questions.map(
+              (question) => TableRow(
+                children: [
+                  if (themeId == null)
+                    TableCell(
+                      child: _getText(
+                        question.theme,
+                      ),
+                    ),
+                  TableCell(
+                    child: _getText(
+                      question.question,
+                    ),
+                  ),
+                  TableCell(
+                    child: Container(
+                      width: 100,
+                      margin: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                      ),
+                      child: ResponseReferenceWidget(
+                        qvstId: question.id ?? '',
+                        referenceId: question.answerRepoId ?? '',
+                      ),
+                    ),
+                  ),
+                  TableCell(
+                    child: _getText(
+                      (question.numberAsked ?? 0).toString(),
+                    ),
+                  ),
+                  TableCell(
+                    child: IconButton(
+                      onPressed: () => _showConfirmDialog(
+                        context,
+                        question,
+                        ref: ref,
+                      ),
+                      icon: const Icon(
+                        Icons.delete,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
