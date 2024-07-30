@@ -1,0 +1,17 @@
+@startuml XpeApp Admin
+!includeurl https://raw.githubusercontent.com/gnodux/C4-PlantUML/master/C4_Container.puml
+
+actor "Xpeho Admin" as admin
+
+System_Boundary(c1, "XpeApp Admin") {
+    Container(web_app, "Web Application", "Flutter", "The web application for XpeApp")
+}
+System(firebase, "Firebase")
+System(wordpressApi, "Wordpress API")
+System(wordpressDatabase, "Wordpress Database")
+
+Rel(admin, web_app, "Uses", "HTTPS")
+Rel(web_app, firebase, "Uses", "HTTPS")
+Rel(web_app, wordpressApi, "HTTPS", "CRUD")
+Rel(wordpressApi, wordpressDatabase, "Reads/Writes", "SQL")
+@enduml
