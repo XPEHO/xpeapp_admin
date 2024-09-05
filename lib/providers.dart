@@ -168,7 +168,7 @@ final listOfMenuProvider = Provider<List<MenuEntity>>((ref) {
       id: 1,
       title: 'Newsletters',
       asset: Icons.email_outlined,
-      access: AdminAccess.addNewsletters,
+      access: AdminAccess.newsletters,
     ),
     MenuEntity(
       id: 2,
