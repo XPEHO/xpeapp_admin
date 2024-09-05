@@ -1,10 +1,9 @@
 name: xpeapp_admin
 description: A new Flutter project.
 
-
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.2+18
+version: 1.2.0+20
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
@@ -52,12 +51,11 @@ dev_dependencies:
 flutter_launcher_icons:
   web:
     generate: true
-    image_path: "assets/images/logo_xpeappAdmin.jpg"
-    background_color: "#A0CE4E"
-    theme_color: "#A0CE4E"
+    image_path: 'assets/images/logo_xpeappAdmin.jpg'
+    background_color: '#A0CE4E'
+    theme_color: '#A0CE4E'
 
 flutter:
-
   uses-material-design: true
 
   assets:
