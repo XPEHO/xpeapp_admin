@@ -1,4 +1,8 @@
-## 1.1.1
+## 1.2.0
+
+_Feat_
+
+- Add new admin access Newsletters
 
 _Fix_
 
