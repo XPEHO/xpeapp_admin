@@ -34,7 +34,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/notifications',
+              'xpeho/v1workaround/notifications',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -62,7 +62,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst',
+              'xpeho/v1workaround/qvst',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -90,7 +90,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst/${id}',
+              'xpeho/v1workaround/qvst/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -118,7 +118,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst/themes',
+              'xpeho/v1workaround/qvst/themes',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -146,7 +146,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst/themes/${id}/questions',
+              'xpeho/v1workaround/qvst/themes/${id}/questions',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -175,7 +175,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst:add',
+              'xpeho/v1workaround/qvst:add',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -203,7 +203,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst/${id}:delete',
+              'xpeho/v1workaround/qvst/${id}:delete',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -231,7 +231,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst/answers_repo',
+              'xpeho/v1workaround/qvst/answers_repo',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -263,7 +263,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst/answers_repo/${id}:update',
+              'xpeho/v1workaround/qvst/answers_repo/${id}:update',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -291,7 +291,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst/campaigns',
+              'xpeho/v1workaround/qvst/campaigns',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -321,7 +321,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst/campaigns:add',
+              'xpeho/v1workaround/qvst/campaigns:add',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -353,7 +353,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst/${id}:update',
+              'xpeho/v1workaround/qvst/${id}:update',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -383,7 +383,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst:import',
+              'xpeho/v1workaround/qvst:import',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -411,7 +411,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst/campaigns/${id}:stats',
+              'xpeho/v1workaround/qvst/campaigns/${id}:stats',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -443,7 +443,7 @@ class _BackendApi implements BackendApi {
     )
             .compose(
               _dio.options,
-              'xpeho/v1/qvst/campaigns/${id}/status:update',
+              'xpeho/v1workaround/qvst/campaigns/${id}/status:update',
               queryParameters: queryParameters,
               data: _data,
             )

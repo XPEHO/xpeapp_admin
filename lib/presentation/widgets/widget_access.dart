@@ -4,20 +4,20 @@ import 'package:xpeapp_admin/data/enum/admin_access.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class WidgetAccess extends ConsumerWidget {
-  final AdminAccess haveAccess;
+  final AdminAccess? haveAccess;
   final Widget authorizedWidget;
   final Widget? unauthorizedWidget;
 
   const WidgetAccess({
     super.key,
-    required this.haveAccess,
+    this.haveAccess,
     required this.authorizedWidget,
     this.unauthorizedWidget,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userUid = ref.read(uidUserProvider);
+    final userUid = ref.watch(uidUserProvider);
     if (userUid.isEmpty) {
       return unauthorizedWidget ?? Container();
     } else {

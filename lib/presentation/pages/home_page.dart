@@ -8,6 +8,7 @@ import 'package:xpeapp_admin/presentation/pages/newsletters/newsletters_page.dar
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_home.dart';
 import 'package:xpeapp_admin/presentation/pages/users/wordpress_users_page.dart';
 import 'package:xpeapp_admin/presentation/widgets/user_profile_widget.dart';
+import 'package:xpeapp_admin/presentation/widgets/widget_access.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class HomePage extends ConsumerWidget {
@@ -38,7 +39,7 @@ class HomePage extends ConsumerWidget {
                     child: IconButton(
                       onPressed: () => Navigator.pop(context),
                       icon: const Icon(
-                        Icons.home,
+                        Icons.logout,
                         color: Colors.white,
                         size: 40,
                       ),
@@ -57,35 +58,38 @@ class HomePage extends ConsumerWidget {
                       itemCount: menus.length,
                       itemBuilder: (context, index) {
                         final menu = menus[index];
-                        return Container(
-                          margin: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: (menuSelected?.id == menu.id)
-                                ? Colors.white
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ListTile(
-                            onTap: () {
-                              ref
-                                  .read(menuSelectedProvider.notifier)
-                                  .setMenu(menu);
-                            },
-                            title: Text(
-                              menu.title,
-                              style: TextStyle(
+                        return WidgetAccess(
+                          haveAccess: menu.access,
+                          authorizedWidget: Container(
+                            margin: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: (menuSelected?.id == menu.id)
+                                  ? Colors.white
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: ListTile(
+                              onTap: () {
+                                ref
+                                    .read(menuSelectedProvider.notifier)
+                                    .setMenu(menu);
+                              },
+                              title: Text(
+                                menu.title,
+                                style: TextStyle(
+                                  color: (menuSelected?.id == menu.id)
+                                      ? kDefaultXpehoColor
+                                      : Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              leading: Icon(
+                                menu.asset,
                                 color: (menuSelected?.id == menu.id)
                                     ? kDefaultXpehoColor
                                     : Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
                               ),
-                            ),
-                            leading: Icon(
-                              menu.asset,
-                              color: (menuSelected?.id == menu.id)
-                                  ? kDefaultXpehoColor
-                                  : Colors.white,
                             ),
                           ),
                         );
@@ -154,28 +158,32 @@ class HomePage extends ConsumerWidget {
     }
   }
 
-  _getFloatingActionButton(MenuEntity? menuSelected, BuildContext context) {
+  Widget? _getFloatingActionButton(
+      MenuEntity? menuSelected, BuildContext context) {
     if (menuSelected == null || menuSelected.id == 3 || menuSelected.id == 4) {
       return null;
     }
 
-    return FloatingActionButton(
-      backgroundColor: kDefaultXpehoColor,
-      onPressed: () {
-        switch (menuSelected.id) {
-          case 1:
-            Navigator.pushNamed(context, '/newsletter/add');
-            break;
-          case 2:
-            showAddUserDialog(context);
-            break;
-          default:
-            break;
-        }
-      },
-      child: const Icon(
-        Icons.add,
-        color: Colors.white,
+    return WidgetAccess(
+      haveAccess: menuSelected.access,
+      authorizedWidget: FloatingActionButton(
+        backgroundColor: kDefaultXpehoColor,
+        onPressed: () {
+          switch (menuSelected.id) {
+            case 1:
+              Navigator.pushNamed(context, '/newsletter/add');
+              break;
+            case 2:
+              showAddUserDialog(context);
+              break;
+            default:
+              break;
+          }
+        },
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
