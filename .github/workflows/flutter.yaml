@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.19.0'
+        flutter-version: '3.22.3'
         channel: 'stable'
 
     - name: Create firebase config file
