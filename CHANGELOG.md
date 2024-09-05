@@ -1,3 +1,10 @@
+## 1.1.1
+
+_Fix_
+
+- Fix endpoints
+- Fix the feature flipping widget
+
 ## 1.1.0
 
 _Feat_
