@@ -13,6 +13,7 @@ import 'package:xpeapp_admin/data/entities/qvst/qvst_menu_selected.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
+import 'package:xpeapp_admin/data/enum/admin_access.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
@@ -167,21 +168,25 @@ final listOfMenuProvider = Provider<List<MenuEntity>>((ref) {
       id: 1,
       title: 'Newsletters',
       asset: Icons.email_outlined,
+      access: AdminAccess.addNewsletters,
     ),
     MenuEntity(
       id: 2,
       title: 'Utilisateurs Wordpress',
       asset: Icons.person_outline,
+      access: AdminAccess.wordpressUsers,
     ),
     MenuEntity(
       id: 3,
       title: 'Droits d\'accès',
       asset: Icons.lock_outline,
+      access: AdminAccess.updateAccess,
     ),
     MenuEntity(
       id: 4,
       title: 'QVST',
       asset: Icons.question_answer_outlined,
+      access: AdminAccess.qvst,
     ),
   ];
 });
