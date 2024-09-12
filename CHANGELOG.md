@@ -9,6 +9,10 @@ _Fix_
 - Fix endpoints
 - Fix the feature flipping widget
 
+_Chore_
+
+- Migrate to Sonar XPEHO
+
 ## 1.1.0
 
 _Feat_
