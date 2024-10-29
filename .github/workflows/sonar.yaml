@@ -3,9 +3,9 @@ name: SonarQube Scan
 on:
   push:
     branches:
-      - '**'
+      - "**"
   pull_request:
-      types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -16,12 +16,12 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-            echo ${{ secrets.FIREBASE_CONFIGURATION }} | base64 -d > lib/firebase_options.dart
-            echo ${{ secrets.CONFIG_JSON }} | base64 -d > assets/config.json
+          echo ${{ secrets.FIREBASE_CONFIGURATION }} | base64 -d > lib/firebase_options.dart
+          echo ${{ secrets.CONFIG_JSON }} | base64 -d > assets/config.json
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0'
-          channel: 'stable'
+          flutter-version: "3.22.0"
+          channel: "stable"
       - name: Run tests with coverage
         run: |
           # Download dependencies 
