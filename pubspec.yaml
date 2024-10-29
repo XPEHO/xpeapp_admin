@@ -1,59 +1,59 @@
 name: xpeapp_admin
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.2.0+20
 
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ">=3.4.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  cloud_firestore: ^4.9.2
-  firebase_core: ^2.16.0
+  cloud_firestore: ^5.4.4
+  firebase_core: ^3.6.0
   flutter_riverpod: ^2.4.0
   yaki_ui:
     git:
       url: https://github.com/XPEHO/yaki_ui.git
       path: flutter
       ref: 0.4.4
-  firebase_auth: ^4.10.0
+  firebase_auth: ^5.3.1
   freezed: ^2.3.2
   freezed_annotation: ^2.2.0
-  intl: ^0.18.1
+  intl: ^0.19.0
   url_launcher: ^6.1.14
   flutter_localization: ^0.2.0
-  firebase_storage: ^11.2.8
+  firebase_storage: ^12.3.4
   flutter_localizations:
     sdk: flutter
   http: ^1.1.0
-  fake_cloud_firestore: ^2.4.3
+  fake_cloud_firestore: ^3.0.3
   dio: ^5.3.3
   retrofit: ^4.0.3
-  file_picker: ^6.1.1
+  file_picker: ^8.1.3
   google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
   retrofit_generator: ^8.1.0
   build_runner: ^2.4.6
   json_serializable: ^6.6.1
   mockito: ^5.4.4
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.1
 
 flutter_launcher_icons:
   web:
     generate: true
-    image_path: 'assets/images/logo_xpeappAdmin.jpg'
-    background_color: '#A0CE4E'
-    theme_color: '#A0CE4E'
+    image_path: "assets/images/logo_xpeappAdmin.jpg"
+    background_color: "#A0CE4E"
+    theme_color: "#A0CE4E"
 
 flutter:
   uses-material-design: true

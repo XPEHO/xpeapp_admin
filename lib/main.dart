@@ -12,7 +12,7 @@ Future<void> main() async {
 
   // Init Firebase with configuration
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.web,
   );
 
   final configService = ConfigService();
