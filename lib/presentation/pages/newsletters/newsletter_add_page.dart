@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
@@ -37,6 +38,7 @@ class _NewsletterAddOrEditPageState
   bool isDateSelected = false;
   bool summaryIsNotEmpty = false;
   bool pdfLinkIsNotEmpty = false;
+  String? previewImagePath;
 
   final TextEditingController summaryController = TextEditingController();
   final TextEditingController pdfLinkController = TextEditingController();
@@ -120,6 +122,26 @@ class _NewsletterAddOrEditPageState
                       ),
                     ),
               const SizedBox(height: 20),
+              ...titleAndButton(
+                title: 'Ajouter une image de prévisualisation',
+                subtitle: 'Choisissez une image pour la prévisualisation',
+                buttonText: 'Ajouter une image',
+                onPressed: () async {
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles(
+                    type: FileType.image,
+                  );
+
+                  if (result != null) {
+                    PlatformFile file = result.files.first;
+
+                    setState(() {
+                      previewImagePath = file.path;
+                    });
+                  } else {}
+                },
+              ),
+              const SizedBox(height: 15),
               ...titleAndTextField(
                 title: 'Saisir le sommaire',
                 subtitle: '1 ligne = 1 chapitre',
@@ -460,5 +482,60 @@ class _NewsletterAddOrEditPageState
         return null;
       }
     }
+  }
+
+  List<Widget> titleAndButton({
+    required String title,
+    required String subtitle,
+    required String buttonText,
+    required VoidCallback onPressed,
+  }) {
+    final width = MediaQuery.of(context).size.width * 0.8;
+    return [
+      SizedBox(
+        width: width,
+        child: ListTile(
+          title: Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          subtitle: Text(
+            subtitle,
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+              fontSize: 12,
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(height: 20),
+      Container(
+        width: width,
+        padding: const EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 20,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: TextButton.icon(
+          onPressed: onPressed,
+          icon: const Icon(Icons.image),
+          label: Text(buttonText),
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.black,
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'SF Pro Rounded',
+            ),
+          ),
+        ),
+      ),
+    ];
   }
 }
