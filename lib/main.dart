@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xpeapp_admin/data/service/admin_users_service.dart';
 import 'package:xpeapp_admin/data/service/config_service.dart';
 import 'package:xpeapp_admin/firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,16 +13,19 @@ Future<void> main() async {
 
   // Init Firebase with configuration
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.web,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
 
   final configService = ConfigService();
   final configuration = await configService.initConfig();
+  final adminUsersService = AdminUsersService();
+  final adminUsers = await adminUsersService.initAdminUsers();
 
   runApp(
     ProviderScope(
       overrides: [
         configProvider.overrideWithValue(configuration),
+        adminProvider.overrideWithValue(adminUsers),
       ],
       child: const MyApp(),
     ),

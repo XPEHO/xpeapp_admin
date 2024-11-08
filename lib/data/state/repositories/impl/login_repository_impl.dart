@@ -1,96 +1,65 @@
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:xpeapp_admin/data/entities/admin_users.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
+import 'package:xpeapp_admin/data/service/auth_service.dart';
 import 'package:xpeapp_admin/data/state/repositories/login_repository.dart';
 
 class LoginRepositoryImpl extends LoginRepository {
   final FirebaseAuth auth;
+  final FirebaseFirestore firestore;
+  final AuthService authService;
+  final AdminUsers adminUsers;
 
-  Stream<User?> get authStateChange => auth.authStateChanges();
+  XpehoUser? _user;
 
-  LoginRepositoryImpl(this.auth);
+  LoginRepositoryImpl(
+      this.auth, this.firestore, this.authService, this.adminUsers);
 
-  /// Sign in with google, calls the platform specific google authentication
-  /// UI. If the user cancels the operation, an [Exception] is thrown.
-  /// If an error occurs during the operation, a [FirebaseAuthException] is thrown.
   @override
-  Future<void> googleSignIn() async {
-    if (kIsWeb) {
-      GoogleAuthProvider googleProvider = GoogleAuthProvider();
-      googleProvider
-          .addScope('https://www.googleapis.com/auth/contacts.readonly');
+  XpehoUser? get user => _user;
 
-      try {
-        await FirebaseAuth.instance.signInWithPopup(googleProvider);
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'popup-closed-by-user') {
-          // this exception occurs a few seconds after a popup has been closed
-          throw Exception('Connexion annulée.');
-        }
-        if (e.code == 'cancelled-popup-request') {
-          // this exception occurs when a new popup is open while
-          // the last one still wasn't cancelled (even if it was closed)
-          throw Exception('connexion annulée');
-        } else {
-          rethrow;
-        }
-      }
-    } else {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      try {
-        await FirebaseAuth.instance.signInWithCredential(credential);
-      } on FirebaseAuthException catch (e) {
-        switch (e.code) {
-          case 'account-exists-with-different-credential':
-            throw Exception('Un compte existe déjà avec cette adresse email.');
-          case 'invalid-credential':
-            throw Exception('Les informations de connexion sont invalides.');
-          case 'user-disabled':
-            throw Exception('Cet utilisateur a été désactivé.');
-          case 'user-not-found':
-            throw Exception('Aucun utilisateur trouvé avec cet email.');
-          case 'wrong-password':
-            throw Exception('Mot de passe incorrect.');
-          default:
-            rethrow;
-        }
-      }
-    }
+  @override
+  bool isUserLoggedIn() {
+    return _user != null && _user?.token != null;
   }
 
   @override
   Future<void> usernamePasswordSignIn(XpehoUser user) async {
     try {
-      await auth.signInWithEmailAndPassword(
-        email: user.email,
-        password: user.password,
+      if (user.email == null || user.password == null) {
+        throw Exception('Email and password are required');
+      }
+
+      // Login to firebase
+      await auth.signInAnonymously();
+
+      // Check user email is in config email list, that means it's an admin
+      if (!adminUsers.users.contains(user.email)) {
+        throw Exception('User is not an admin');
+      }
+
+      // Login to wordpress
+      _user = user;
+      _user?.token = await authService.getToken(
+        user.email!,
+        user.password!,
       );
     } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case 'invalid-email':
-          throw Exception('Email invalide.');
-        case 'user-not-found':
-          throw Exception('Aucun utilisateur trouvé avec cet email.');
-        case 'wrong-password':
-          throw Exception('Mot de passe incorrect.');
-        default:
-          throw Exception('Une erreur est survenue. ${e.code}; ${e.message}');
-      }
+      // Handle Firebase Auth specific errors
+      throw Exception('Firebase Auth Error: ${e.message}');
+    } on FirebaseException catch (e) {
+      // Handle Firebase Firestore specific errors
+      throw Exception('Firebase Firestore Error: ${e.message}');
+    } on Exception catch (e) {
+      // Handle other exceptions
+      throw Exception('Connection Error: $e');
     }
   }
 
   @override
   Future<void> signOut() async {
     await auth.signOut();
+    _user = null;
   }
 }

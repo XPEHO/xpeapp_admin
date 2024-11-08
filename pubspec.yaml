@@ -60,6 +60,7 @@ flutter:
 
   assets:
     - assets/config.json
+    - assets/admin.json
     - assets/images/
     - assets/fonts/
 

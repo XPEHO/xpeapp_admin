@@ -10,6 +10,16 @@ abstract class BackendApi {
     String baseUrl,
   }) = _BackendApi;
 
+  @POST("jwt-auth/v1/token")
+  Future<HttpResponse> getToken(
+    @Body() Map<String, dynamic> body,
+  );
+
+  @POST("jwt-auth/v1/token/validate")
+  Future<HttpResponse> validateToken(
+    @Header("Authorization") String token,
+  );
+
   @POST("xpeho/v1/notifications")
   Future<HttpResponse> sendNotification(
     @Body() Map<String, dynamic> body,

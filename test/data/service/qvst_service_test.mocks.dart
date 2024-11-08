@@ -42,6 +42,40 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
   }
 
   @override
+  _i4.Future<_i2.HttpResponse<dynamic>> getToken(Map<String, dynamic>? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getToken,
+          [body],
+        ),
+        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getToken,
+            [body],
+          ),
+        )),
+      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i4.Future<_i2.HttpResponse<dynamic>> validateToken(String? token) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #validateToken,
+          [token],
+        ),
+        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #validateToken,
+            [token],
+          ),
+        )),
+      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
   _i4.Future<_i2.HttpResponse<dynamic>> sendNotification(
           Map<String, dynamic>? body) =>
       (super.noSuchMethod(

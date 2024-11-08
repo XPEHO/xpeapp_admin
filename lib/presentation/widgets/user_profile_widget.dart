@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/presentation/widgets/picture_profile.dart';
 import 'package:xpeapp_admin/providers.dart';
-import 'package:xpeapp_admin/env/extensions/user.dart';
 
 class UserProfileWidget extends ConsumerWidget {
   const UserProfileWidget({super.key});
@@ -10,6 +9,7 @@ class UserProfileWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userConnectedProvider);
+
     return Container(
       margin: const EdgeInsets.only(
         top: 10,
@@ -25,7 +25,7 @@ class UserProfileWidget extends ConsumerWidget {
             stream: ref
                 .watch(cloudFirestoreProvider)
                 .collection('users')
-                .doc(user?.uid)
+                .doc(user?.email)
                 .snapshots(),
             builder: (context, snapshot) {
               String imagePath =
@@ -46,8 +46,8 @@ class UserProfileWidget extends ConsumerWidget {
             width: 20,
           ),
           Text(
-            (user?.getName() ?? 'Utilisateur').replaceAll(' ', '\n'),
-            textAlign: TextAlign.center,
+            (user?.token?.displayName ?? 'Utilisateur').replaceAll(' ', '\n'),
+            textAlign: TextAlign.right,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 16,

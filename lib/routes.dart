@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
-import 'package:xpeapp_admin/presentation/pages/access/access_detail_page.dart';
-import 'package:xpeapp_admin/presentation/pages/access/access_page.dart';
+import 'package:xpeapp_admin/presentation/pages/access/feature_flipping_page.dart';
 import 'package:xpeapp_admin/presentation/pages/home_page.dart';
 import 'package:xpeapp_admin/presentation/pages/login_page.dart';
 import 'package:xpeapp_admin/presentation/pages/newsletters/newsletter_add_page.dart';
@@ -10,7 +9,6 @@ import 'package:xpeapp_admin/presentation/pages/newsletters/newsletters_page.dar
 import 'package:xpeapp_admin/presentation/pages/qvst/qvst_add_page.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/qvst_detail_page.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/qvst_page.dart';
-import 'package:xpeapp_admin/presentation/pages/users/wordpress_users_page.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   '/': (context) => const LoginPage(),
@@ -27,16 +25,7 @@ Map<String, Widget Function(BuildContext)> routes = {
         newsletter:
             ModalRoute.of(context)!.settings.arguments as NewsletterEntity,
       ),
-  '/access': (context) => const AccessPage(),
-  '/access/detail': (context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    return AccessDetailPage(
-      id: args['id'] as String,
-      nameOfAccessUser: args['nameOfAccessUser'] as String,
-    );
-  },
-  '/users': (context) => const WordpressUsersPage(),
+  '/featureFlipping': (context) => const FeatureFlippingPage(),
   '/qvst': (context) => const QvstPage(),
   '/qvst/detail': (context) {
     final args =
