@@ -13,13 +13,15 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isConnected = ref.watch(loginProvider).isUserLoggedIn();
+    final loginRepo = ref.watch(loginProvider);
+    final isConnected = loginRepo.isUserLoggedIn();
     final menus = ref.watch(listOfMenuProvider);
     final menuSelected = ref.watch(menuSelectedProvider);
 
     if (!isConnected) {
-      // Redirect to login page if not authenticated
+      // Redirect to login page if not authenticated and sign out
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        loginRepo.signOut();
         Navigator.pushReplacementNamed(context, '/');
       });
       return const SizedBox.shrink();

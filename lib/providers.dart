@@ -65,7 +65,7 @@ final qvstServiceProvider = Provider<QvstService>((ref) {
 });
 
 // Firebase
-final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
+final authFirebaseProvider = Provider<FirebaseAuth>((ref) {
   return FirebaseAuth.instance;
 });
 
@@ -85,7 +85,7 @@ final loaderStateProvider = StateNotifierProvider<LoaderState, bool>((ref) {
 // Login
 final loginProvider = Provider<LoginRepositoryImpl>((ref) {
   return LoginRepositoryImpl(
-    FirebaseAuth.instance,
+    ref.watch(authFirebaseProvider),
     ref.watch(cloudFirestoreProvider),
     ref.watch(authServiceProvider),
     ref.watch(adminProvider),
