@@ -78,16 +78,9 @@ class QvstTableView extends ConsumerWidget {
                     ),
                   ),
                   TableCell(
-                    child: Container(
-                      width: 100,
-                      margin: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                      ),
-                      child: ResponseReferenceWidget(
-                        qvstId: question.id ?? '',
-                        referenceId: question.answerRepoId ?? '',
-                      ),
+                    child: ResponseReferenceWidget(
+                      qvstId: question.id ?? '',
+                      referenceId: question.answerRepoId ?? '',
                     ),
                   ),
                   TableCell(

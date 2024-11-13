@@ -24,7 +24,7 @@ class NewsletterCard extends StatelessWidget {
           vertical: 10,
         ),
         child: Card(
-          elevation: 10,
+          elevation: 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),

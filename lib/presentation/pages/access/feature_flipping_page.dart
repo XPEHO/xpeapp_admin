@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/feature_flipping_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/access/widgets/feature_flipping_switch_widget.dart';
+import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class FeatureFlippingPage extends ConsumerWidget {
@@ -11,8 +12,11 @@ class FeatureFlippingPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Feature Flipping'),
+        backgroundColor: Colors.white,
       ),
+      backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -44,99 +48,81 @@ class FeatureFlippingPage extends ConsumerWidget {
                   },
                 );
 
-                return Table(
-                  children: [
-                    const TableRow(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'Fonctionnalité',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 50,
-                          child: Text(
-                            'UAT',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 50,
-                          child: Text(
-                            'PROD',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    ...features.map(
-                      (e) => TableRow(
+                return SingleChildScrollView(
+                  child: Table(
+                    children: [
+                      const TableRow(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              title: Text(e.name),
-                              subtitle: Text(e.description),
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Fonctionnalité',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           SizedBox(
                             height: 50,
-                            child: FeatureFlippingSwitchWidget(
-                              featureId: e.idFeature,
-                              type: FeatureFlippingType.uat,
-                              featureEnabled: e.uatEnabled,
-                              isActivated: true,
+                            child: Text(
+                              'UAT',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           SizedBox(
                             height: 50,
-                            child: FeatureFlippingSwitchWidget(
-                              featureId: e.idFeature,
-                              type: FeatureFlippingType.prod,
-                              featureEnabled: e.prodEnabled,
-                              isActivated: true,
+                            child: Text(
+                              'PROD',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      ...features.map(
+                        (e) => TableRow(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                title: Text(e.name),
+                                subtitle: Text(e.description),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 50,
+                              child: FeatureFlippingSwitchWidget(
+                                featureId: e.idFeature,
+                                type: FeatureFlippingType.uat,
+                                featureEnabled: e.uatEnabled,
+                                isActivated: true,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 50,
+                              child: FeatureFlippingSwitchWidget(
+                                featureId: e.idFeature,
+                                type: FeatureFlippingType.prod,
+                                featureEnabled: e.prodEnabled,
+                                isActivated: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget subtitleWidget(String title) {
-    return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.only(
-        left: 16,
-        right: 16,
-        top: 16,
-        bottom: 8,
-      ),
-      child: Text(
-        title,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 14,
-          fontStyle: FontStyle.italic,
-        ),
       ),
     );
   }

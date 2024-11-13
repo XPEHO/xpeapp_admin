@@ -12,17 +12,17 @@ class QvstContentResponses extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final responsesRepo = ref.watch(qvstAnswerRepoListProvider);
-    return SingleChildScrollView(
-      child: responsesRepo.when(
-        data: (data) {
-          return Column(
+    return responsesRepo.when(
+      data: (data) {
+        return SingleChildScrollView(
+          child: Column(
             children: [
               const SizedBox(
                 height: 50,
               ),
               const Center(
                 child: Text(
-                  'Le référentiel des réponses',
+                  'Les référentiels de réponses',
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
@@ -34,136 +34,140 @@ class QvstContentResponses extends ConsumerWidget {
               ),
               Container(
                 margin: const EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width * 0.5,
-                height: MediaQuery.of(context).size.height * 0.8,
+                width: MediaQuery.of(context).size.width,
                 child: Center(
-                  child: GridView.count(
-                    childAspectRatio: 0.95,
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    children: List.generate(
-                      data.length,
-                      (index) {
-                        QvstAnswerRepoEntity qvstAnswerRepoEntity = data[index];
-                        return Container(
-                          margin: const EdgeInsets.all(10),
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.grey,
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(10),
+                    child: Wrap(
+                      spacing: 8.0,
+                      runSpacing: 8.0,
+                      children: List.generate(
+                        data.length,
+                        (index) {
+                          QvstAnswerRepoEntity qvstAnswerRepoEntity =
+                              data[index];
+                          return Container(
+                            margin: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
+                            constraints: const BoxConstraints(
+                              maxWidth: 400,
                             ),
-                          ),
-                          child: Card(
-                            color: Colors.white,
-                            elevation: 0,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  qvstAnswerRepoEntity.repoName,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            child: Card(
+                              color: Colors.white,
+                              elevation: 0,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  const SizedBox(
+                                    height: 20,
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Table(
-                                  border: TableBorder.all(
-                                    color: Colors.grey,
-                                  ),
-                                  children: [
-                                    TableRow(
-                                      children: [
-                                        TableCell(
-                                          child: Center(
-                                            child: _getTextWidget(
-                                              'Réponse',
-                                              bold: true,
-                                            ),
-                                          ),
-                                        ),
-                                        TableCell(
-                                          child: Center(
-                                            child: _getTextWidget(
-                                              'Valeur',
-                                              bold: true,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                  Text(
+                                    qvstAnswerRepoEntity.repoName,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    ...qvstAnswerRepoEntity.answers.map(
-                                      (e) {
-                                        return TableRow(
-                                          children: [
-                                            TableCell(
-                                              child: Center(
-                                                child: _getTextWidget(
-                                                  e.answer,
-                                                ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Table(
+                                    border: TableBorder.all(
+                                      color: Colors.grey,
+                                    ),
+                                    children: [
+                                      TableRow(
+                                        children: [
+                                          TableCell(
+                                            child: Center(
+                                              child: _getTextWidget(
+                                                'Réponse',
+                                                bold: true,
                                               ),
                                             ),
-                                            TableCell(
-                                              child: Center(
-                                                child: _getTextWidget(
-                                                  e.value,
-                                                ),
+                                          ),
+                                          TableCell(
+                                            child: Center(
+                                              child: _getTextWidget(
+                                                'Valeur',
+                                                bold: true,
                                               ),
                                             ),
-                                          ],
+                                          ),
+                                        ],
+                                      ),
+                                      ...qvstAnswerRepoEntity.answers.map(
+                                        (e) {
+                                          return TableRow(
+                                            children: [
+                                              TableCell(
+                                                child: Center(
+                                                  child: _getTextWidget(
+                                                    e.answer,
+                                                  ),
+                                                ),
+                                              ),
+                                              TableCell(
+                                                child: Center(
+                                                  child: _getTextWidget(
+                                                    e.value,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  SizedBox(
+                                    width: 100,
+                                    height: 60,
+                                    child: Button(
+                                      text: 'Modifier',
+                                      color: kDefaultXpehoColor,
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return QvstContentUpdateResponseRepo(
+                                              qvstAnswerRepoEntity:
+                                                  qvstAnswerRepoEntity,
+                                            );
+                                          },
                                         );
                                       },
                                     ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                SizedBox(
-                                  width: 100,
-                                  height: 60,
-                                  child: Button(
-                                    text: 'Modifier',
-                                    color: kDefaultXpehoColor,
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return QvstContentUpdateResponseRepo(
-                                            qvstAnswerRepoEntity:
-                                                qvstAnswerRepoEntity,
-                                          );
-                                        },
-                                      );
-                                    },
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
             ],
-          );
-        },
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        error: (error, stack) => Center(
-          child: Text(error.toString()),
-        ),
+          ),
+        );
+      },
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
+      ),
+      error: (error, stack) => Center(
+        child: Text(error.toString()),
       ),
     );
   }

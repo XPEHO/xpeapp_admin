@@ -8,6 +8,10 @@ class QvstQuestionsSelectedForCampaign
           [],
         );
 
+  void reset() {
+    state = [];
+  }
+
   void toggleQuestion(QvstQuestionEntity question) {
     if (state.contains(question)) {
       state = state.where((element) => element != question).toList();

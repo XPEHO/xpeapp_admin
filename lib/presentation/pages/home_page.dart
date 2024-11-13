@@ -13,8 +13,18 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isConnected = ref.watch(loginProvider).isUserLoggedIn();
     final menus = ref.watch(listOfMenuProvider);
     final menuSelected = ref.watch(menuSelectedProvider);
+
+    if (!isConnected) {
+      // Redirect to login page if not authenticated
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacementNamed(context, '/');
+      });
+      return const SizedBox.shrink();
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       // Floating action button in function of menu selected
@@ -34,7 +44,12 @@ class HomePage extends ConsumerWidget {
                   Align(
                     alignment: Alignment.topLeft,
                     child: IconButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => {
+                        // Sign out
+                        ref.watch(loginProvider).signOut(),
+                        // Redirect to login page
+                        Navigator.pushNamed(context, '/')
+                      },
                       icon: const Icon(
                         Icons.logout,
                         color: Colors.white,

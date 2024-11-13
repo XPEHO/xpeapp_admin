@@ -33,10 +33,6 @@ class QvstContentHome extends ConsumerWidget {
         menu: QvstMenu.campaign,
       ),
       QvstContentMenu(
-        title: 'Statistiques',
-        menu: QvstMenu.stats,
-      ),
-      QvstContentMenu(
         title: 'Réponses',
         menu: QvstMenu.responses,
       ),
