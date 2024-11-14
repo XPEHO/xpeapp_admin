@@ -8,7 +8,6 @@ class UserProfileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: See why state of the user is not updated
     final user = ref.watch(userConnectedProvider);
 
     return Container(

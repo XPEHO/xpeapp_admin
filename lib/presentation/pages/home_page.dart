@@ -21,7 +21,7 @@ class HomePage extends ConsumerWidget {
     if (!isConnected) {
       // Redirect to login page if not authenticated and sign out
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        loginRepo.signOut();
+        ref.read(userProvider.notifier).signOut();
         Navigator.pushReplacementNamed(context, '/');
       });
       return const SizedBox.shrink();

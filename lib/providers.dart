@@ -29,6 +29,7 @@ import 'package:xpeapp_admin/data/state/qvst_questions_selected_for_campaign.dar
 import 'package:xpeapp_admin/data/state/qvst_theme_notifier.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/login_repository_impl.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/newsletter_repository_impl.dart';
+import 'package:xpeapp_admin/data/state/user_notifier.dart';
 import 'package:xpeapp_admin/data/token_interceptor.dart';
 
 // Config
@@ -92,13 +93,13 @@ final loginProvider = Provider<LoginRepositoryImpl>((ref) {
   );
 });
 
-final loginStateProvider = Provider<bool>((ref) {
-  return ref.watch(loginProvider).isUserLoggedIn();
+final userProvider = StateNotifierProvider<UserNotifier, XpehoUser?>((ref) {
+  return UserNotifier(ref.watch(loginProvider));
 });
 
 final userConnectedProvider = Provider<XpehoUser?>((ref) {
   // Get user from loginProvider
-  var user = ref.watch(loginProvider).user;
+  var user = ref.watch(userProvider);
 
   // Interceptor to add token to request
   var dio = ref.watch(dioProvider);

@@ -23,7 +23,7 @@ class LoginRepositoryImpl extends LoginRepository {
   }
 
   @override
-  Future<void> usernamePasswordSignIn(XpehoUser userToSignIn) async {
+  Future<XpehoUser> usernamePasswordSignIn(XpehoUser userToSignIn) async {
     try {
       if (userToSignIn.email == null || userToSignIn.password == null) {
         throw Exception('Email and password are required');
@@ -39,10 +39,12 @@ class LoginRepositoryImpl extends LoginRepository {
 
       // Login to wordpress
       user = userToSignIn;
-      user?.token = await authService.getToken(
+      user!.token = await authService.getToken(
         userToSignIn.email!,
         userToSignIn.password!,
       );
+
+      return user!;
     } on FirebaseAuthException catch (e) {
       // Handle Firebase Auth specific errors
       throw Exception('Firebase Auth Error: ${e.message}');

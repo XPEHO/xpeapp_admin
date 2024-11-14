@@ -32,6 +32,10 @@ The XpeHo mobile administration application.
 
      This command will guide you through the process of selecting your Firebase project and platforms. It will automatically generate the _firebase_options.dart_ file in the lib directory.
 
+## Admin
+
+The way to define the admin list is documented in the bookstack of XpeApp.
+
 ## Used library :
 
 - [state management library](https://pub.dev/packages/flutter_riverpod) : State management

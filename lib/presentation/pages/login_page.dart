@@ -100,16 +100,17 @@ class LoginPage extends ConsumerWidget {
     required XpehoUser user,
     required WidgetRef ref,
   }) async {
-    final loginRepo = ref.read(loginProvider);
     // Activez le loader ici
     ref.read(loaderStateProvider.notifier).showLoader();
 
     try {
-      await loginRepo.usernamePasswordSignIn(user);
+      await ref.read(userProvider.notifier).tryToLogin(user);
 
       // Désactivez le loader après la connexion réussie
       ref.read(loaderStateProvider.notifier).hideLoader();
 
+      // Naviguez vers la page d'accueil en réinitialisant le menu
+      ref.read(menuSelectedProvider.notifier).reset();
       Navigator.pushNamed(
         context,
         '/home',
