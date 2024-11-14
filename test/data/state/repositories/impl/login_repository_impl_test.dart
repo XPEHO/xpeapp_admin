@@ -30,6 +30,50 @@ void main() {
           mockFirebaseFirestore, mockAuthService, mockAdminUsers);
     });
 
+    test(
+        'isUserLoggedIn should return true when user is logged in and has a token',
+        () {
+      // Arrange
+      final user = XpehoUser(email: 'test@example.com', password: 'password');
+      user.token = Token(
+          token: 'token',
+          email: 'test@example.com',
+          nicename: 'nicename',
+          displayName: 'displayName');
+      loginRepository.user = user;
+
+      // Act
+      final result = loginRepository.isUserLoggedIn();
+
+      // Assert
+      expect(result, isTrue);
+    });
+
+    test('isUserLoggedIn should return false when user is not logged in', () {
+      // Arrange
+      loginRepository.user = null;
+
+      // Act
+      final result = loginRepository.isUserLoggedIn();
+
+      // Assert
+      expect(result, isFalse);
+    });
+
+    test(
+        'isUserLoggedIn should return false when user is logged in but does not have a token',
+        () {
+      // Arrange
+      final user = XpehoUser(email: 'test@example.com', password: 'password');
+      loginRepository.user = user;
+
+      // Act
+      final result = loginRepository.isUserLoggedIn();
+
+      // Assert
+      expect(result, isFalse);
+    });
+
     test('usernamePasswordSignIn should sign in with email and password',
         () async {
       // GIVEN

@@ -5,7 +5,7 @@ abstract class LoginRepository {
 
   bool isUserLoggedIn();
 
-  Future<void> usernamePasswordSignIn(XpehoUser user);
+  Future<void> usernamePasswordSignIn(XpehoUser userToSignIn);
 
   Future<void> signOut();
 }

@@ -11,23 +11,21 @@ class LoginRepositoryImpl extends LoginRepository {
   final AuthService authService;
   final AdminUsers adminUsers;
 
-  XpehoUser? _user;
+  @override
+  XpehoUser? user;
 
   LoginRepositoryImpl(
       this.auth, this.firestore, this.authService, this.adminUsers);
 
   @override
-  XpehoUser? get user => _user;
-
-  @override
   bool isUserLoggedIn() {
-    return _user != null && _user?.token != null;
+    return user != null && user?.token != null;
   }
 
   @override
-  Future<void> usernamePasswordSignIn(XpehoUser user) async {
+  Future<void> usernamePasswordSignIn(XpehoUser userToSignIn) async {
     try {
-      if (user.email == null || user.password == null) {
+      if (userToSignIn.email == null || userToSignIn.password == null) {
         throw Exception('Email and password are required');
       }
 
@@ -35,15 +33,15 @@ class LoginRepositoryImpl extends LoginRepository {
       await auth.signInAnonymously();
 
       // Check user email is in config email list, that means it's an admin
-      if (!adminUsers.users.contains(user.email)) {
+      if (!adminUsers.users.contains(userToSignIn.email)) {
         throw Exception('User is not an admin');
       }
 
       // Login to wordpress
-      _user = user;
-      _user?.token = await authService.getToken(
-        user.email!,
-        user.password!,
+      user = userToSignIn;
+      user?.token = await authService.getToken(
+        userToSignIn.email!,
+        userToSignIn.password!,
       );
     } on FirebaseAuthException catch (e) {
       // Handle Firebase Auth specific errors
@@ -60,6 +58,6 @@ class LoginRepositoryImpl extends LoginRepository {
   @override
   Future<void> signOut() async {
     await auth.signOut();
-    _user = null;
+    user = null;
   }
 }
