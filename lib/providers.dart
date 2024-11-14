@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
+import 'package:xpeapp_admin/data/entities/admin_users.dart';
 import 'package:xpeapp_admin/data/entities/config.dart';
 import 'package:xpeapp_admin/data/entities/menu_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
@@ -13,9 +14,10 @@ import 'package:xpeapp_admin/data/entities/qvst/qvst_menu_selected.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
-import 'package:xpeapp_admin/data/enum/admin_access.dart';
+import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
+import 'package:xpeapp_admin/data/service/auth_service.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 import 'package:xpeapp_admin/data/state/comment_for_campaign_notifier.dart';
 import 'package:xpeapp_admin/data/state/loader_state.dart';
@@ -27,61 +29,95 @@ import 'package:xpeapp_admin/data/state/qvst_questions_selected_for_campaign.dar
 import 'package:xpeapp_admin/data/state/qvst_theme_notifier.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/login_repository_impl.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/newsletter_repository_impl.dart';
+import 'package:xpeapp_admin/data/state/user_notifier.dart';
+import 'package:xpeapp_admin/data/token_interceptor.dart';
 
+// Config
 final configProvider = Provider<Config>((ref) {
   return Config(baseUrl: ''); // Valeur par défaut
 });
 
-// Backend
+final adminProvider = Provider<AdminUsers>((ref) {
+  return AdminUsers(users: []); // Valeur par défaut
+});
+
+// Backend et services
+final dioProvider = Provider<Dio>((ref) {
+  return Dio();
+});
+
 final backendApiProvider = Provider<BackendApi>((ref) {
   return BackendApi(
-    Dio(),
+    ref.watch(dioProvider),
     baseUrl: ref.watch(configProvider).baseUrl,
+  );
+});
+
+final authServiceProvider = Provider<AuthService>((ref) {
+  return AuthService(
+    ref.watch(backendApiProvider),
   );
 });
 
 final qvstServiceProvider = Provider<QvstService>((ref) {
   return QvstService(
     ref.watch(backendApiProvider),
-    ref.watch(cloudFirestoreProvider),
-  );
-});
-// Loader
-final loaderStateProvider = StateNotifierProvider<LoaderState, bool>((ref) {
-  return LoaderState();
-});
-
-final loginProvider = Provider<LoginRepositoryImpl>((ref) {
-  return LoginRepositoryImpl(
-    FirebaseAuth.instance,
   );
 });
 
-final loginStateProvider = StreamProvider<User?>((ref) {
-  return ref.read(loginProvider).authStateChange;
-});
-
-final userConnectedProvider = Provider<User?>((ref) {
-  return ref.watch(loginStateProvider).value;
-});
-
-final uidUserProvider = Provider<String>((ref) {
-  return ref.watch(userConnectedProvider)?.uid ?? '';
+// Firebase
+final authFirebaseProvider = Provider<FirebaseAuth>((ref) {
+  return FirebaseAuth.instance;
 });
 
 final cloudFirestoreProvider = Provider<FirebaseFirestore>((ref) {
   return FirebaseFirestore.instance;
 });
 
+final storageFirebaseProvider = Provider<FirebaseStorage>((ref) {
+  return FirebaseStorage.instance;
+});
+
+// Loader
+final loaderStateProvider = StateNotifierProvider<LoaderState, bool>((ref) {
+  return LoaderState();
+});
+
+// Login
+final loginProvider = Provider<LoginRepositoryImpl>((ref) {
+  return LoginRepositoryImpl(
+    ref.watch(authFirebaseProvider),
+    ref.watch(cloudFirestoreProvider),
+    ref.watch(authServiceProvider),
+    ref.watch(adminProvider),
+  );
+});
+
+final userProvider = StateNotifierProvider<UserNotifier, XpehoUser?>((ref) {
+  return UserNotifier(ref.watch(loginProvider));
+});
+
+final userConnectedProvider = Provider<XpehoUser?>((ref) {
+  // Get user from loginProvider
+  var user = ref.watch(userProvider);
+
+  // Interceptor to add token to request
+  var dio = ref.watch(dioProvider);
+  dio.interceptors.clear();
+  dio.interceptors.add(
+    TokenInterceptor(user),
+  );
+
+  // Return user
+  return user;
+});
+
+// Newsletter
 final newsletterProvider = Provider<NewsletterRepositoryImpl>((ref) {
   return NewsletterRepositoryImpl(
     firestore: ref.watch(cloudFirestoreProvider),
     backendApi: ref.watch(backendApiProvider),
   );
-});
-
-final storageFirebaseProvider = Provider<FirebaseStorage>((ref) {
-  return FirebaseStorage.instance;
 });
 
 final newsletterPublicationProvider =
@@ -91,6 +127,7 @@ final newsletterPublicationProvider =
 
 final newsletterPublicationDateProvider = Provider<Timestamp?>((ref) => null);
 
+// QVST
 final qvstQuestionsListProvider =
     FutureProvider<List<QvstQuestionEntity>>((ref) async {
   return ref.watch(qvstServiceProvider).getAllQvst();
@@ -162,31 +199,23 @@ final qvstCampaignStatsProvider =
   },
 );
 
+// Menu
 final listOfMenuProvider = Provider<List<MenuEntity>>((ref) {
   return [
     MenuEntity(
       id: 1,
       title: 'Newsletters',
       asset: Icons.email_outlined,
-      access: AdminAccess.newsletters,
     ),
     MenuEntity(
       id: 2,
-      title: 'Utilisateurs Wordpress',
-      asset: Icons.person_outline,
-      access: AdminAccess.wordpressUsers,
+      title: 'Feature Flipping',
+      asset: Icons.toggle_on_outlined,
     ),
     MenuEntity(
       id: 3,
-      title: 'Droits d\'accès',
-      asset: Icons.lock_outline,
-      access: AdminAccess.updateAccess,
-    ),
-    MenuEntity(
-      id: 4,
       title: 'QVST',
       asset: Icons.question_answer_outlined,
-      access: AdminAccess.qvst,
     ),
   ];
 });

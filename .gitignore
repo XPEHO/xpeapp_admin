@@ -48,6 +48,7 @@ app.*.map.json
 
 
 config.json
+admin.json
 
 /linux/**
 /macos/**

@@ -33,7 +33,6 @@ void main() {
       mockBackendApi = MockBackendApi();
       service = QvstService(
         mockBackendApi,
-        firestore,
       );
     },
   );

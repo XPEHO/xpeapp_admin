@@ -1,111 +1,162 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:xpeapp_admin/data/entities/admin_users.dart';
+import 'package:xpeapp_admin/data/entities/token.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
+import 'package:xpeapp_admin/data/service/auth_service.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/login_repository_impl.dart';
 
 import 'login_repository_impl_test.mocks.dart';
 
-@GenerateMocks([FirebaseAuth, User, UserCredential])
+@GenerateMocks(
+    [FirebaseAuth, FirebaseFirestore, AuthService, AdminUsers, UserCredential])
 void main() {
   group('LoginRepositoryImpl', () {
     late LoginRepositoryImpl loginRepository;
     late MockFirebaseAuth mockFirebaseAuth;
-    late MockUser mockUser;
+    late MockFirebaseFirestore mockFirebaseFirestore;
+    late MockAuthService mockAuthService;
+    late MockAdminUsers mockAdminUsers;
 
     setUpAll(() {
       mockFirebaseAuth = MockFirebaseAuth();
-      mockUser = MockUser();
-      loginRepository = LoginRepositoryImpl(
-        mockFirebaseAuth,
-      );
+      mockFirebaseFirestore = MockFirebaseFirestore();
+      mockAuthService = MockAuthService();
+      mockAdminUsers = MockAdminUsers();
+      loginRepository = LoginRepositoryImpl(mockFirebaseAuth,
+          mockFirebaseFirestore, mockAuthService, mockAdminUsers);
+    });
+
+    test(
+        'isUserLoggedIn should return true when user is logged in and has a token',
+        () {
+      // Arrange
+      final user = XpehoUser(email: 'test@example.com', password: 'password');
+      user.token = Token(
+          token: 'token',
+          email: 'test@example.com',
+          nicename: 'nicename',
+          displayName: 'displayName');
+      loginRepository.user = user;
+
+      // Act
+      final result = loginRepository.isUserLoggedIn();
+
+      // Assert
+      expect(result, isTrue);
+    });
+
+    test('isUserLoggedIn should return false when user is not logged in', () {
+      // Arrange
+      loginRepository.user = null;
+
+      // Act
+      final result = loginRepository.isUserLoggedIn();
+
+      // Assert
+      expect(result, isFalse);
+    });
+
+    test(
+        'isUserLoggedIn should return false when user is logged in but does not have a token',
+        () {
+      // Arrange
+      final user = XpehoUser(email: 'test@example.com', password: 'password');
+      loginRepository.user = user;
+
+      // Act
+      final result = loginRepository.isUserLoggedIn();
+
+      // Assert
+      expect(result, isFalse);
     });
 
     test('usernamePasswordSignIn should sign in with email and password',
         () async {
-      // Arrange
+      // GIVEN
       const email = 'test@example.com';
       const password = 'password';
       final user = XpehoUser(email: email, password: password);
+      final token = Token(
+          token: 'token',
+          email: email,
+          nicename: 'nicename',
+          displayName: 'displayName');
 
-      when(mockFirebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      )).thenAnswer((_) async {
-        final userCredential = MockUserCredential();
-        when(userCredential.user).thenReturn(mockUser);
-        return Future.value(userCredential);
-      });
+      when(mockFirebaseAuth.signInAnonymously())
+          .thenAnswer((_) async => MockUserCredential());
+      when(mockAdminUsers.users).thenReturn([email]);
+      when(mockAuthService.getToken(email, password))
+          .thenAnswer((_) async => token);
 
-      // Act
+      // WHEN
       await loginRepository.usernamePasswordSignIn(user);
 
-      // Assert
-      verify(mockFirebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      )).called(1);
+      // THEN
+      expect(loginRepository.user?.email, email);
+      expect(loginRepository.user?.token, token);
+      verify(mockFirebaseAuth.signInAnonymously()).called(1);
+      verify(mockAuthService.getToken(email, password)).called(1);
     });
 
-    test('usernamePasswordSignIn should throw an exception for invalid email',
+    test(
+        'usernamePasswordSignIn should throw an exception for missing email or password',
+        () async {
+      // GIVEN
+      final user = XpehoUser(email: null, password: null);
+
+      // WHEN & THEN
+      expect(
+          () => loginRepository.usernamePasswordSignIn(user), throwsException);
+    });
+
+    test('usernamePasswordSignIn should throw an exception for non-admin user',
         () async {
       // Arrange
-      const email = 'invalid-email';
+      const email = 'test@example.com';
       const password = 'password';
       final user = XpehoUser(email: email, password: password);
-      when(mockFirebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      )).thenThrow(FirebaseAuthException(code: 'invalid-email'));
+
+      when(mockFirebaseAuth.signInAnonymously())
+          .thenAnswer((_) async => MockUserCredential());
+      when(mockAdminUsers.users).thenReturn([]);
 
       // Act & Assert
       expect(
           () => loginRepository.usernamePasswordSignIn(user), throwsException);
     });
 
-    test('usernamePasswordSignIn should throw an exception for user not found',
+    test(
+        'usernamePasswordSignIn should throw an exception for Firebase Auth error',
         () async {
       // Arrange
       const email = 'test@example.com';
       const password = 'password';
       final user = XpehoUser(email: email, password: password);
-      when(mockFirebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      )).thenThrow(FirebaseAuthException(code: 'user-not-found'));
+
+      when(mockFirebaseAuth.signInAnonymously())
+          .thenThrow(FirebaseAuthException(code: 'auth-error'));
 
       // Act & Assert
       expect(
           () => loginRepository.usernamePasswordSignIn(user), throwsException);
     });
 
-    test('usernamePasswordSignIn should throw an exception for wrong password',
-        () async {
-      // Arrange
-      const email = 'test@example.com';
-      const password = 'wrong-password';
-      final user = XpehoUser(email: email, password: password);
-      when(mockFirebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      )).thenThrow(FirebaseAuthException(code: 'wrong-password'));
-
-      // Act & Assert
-      expect(
-          () => loginRepository.usernamePasswordSignIn(user), throwsException);
-    });
-
-    test('usernamePasswordSignIn should throw an exception for other errors',
+    test(
+        'usernamePasswordSignIn should throw an exception for Firebase Firestore error',
         () async {
       // Arrange
       const email = 'test@example.com';
       const password = 'password';
       final user = XpehoUser(email: email, password: password);
-      when(mockFirebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      )).thenThrow(FirebaseAuthException(code: 'other-error'));
+
+      when(mockFirebaseAuth.signInAnonymously())
+          .thenAnswer((_) async => MockUserCredential());
+      when(mockAdminUsers.users)
+          .thenThrow(FirebaseException(plugin: 'firestore'));
 
       // Act & Assert
       expect(
@@ -121,20 +172,7 @@ void main() {
 
       // Assert
       verify(mockFirebaseAuth.signOut()).called(1);
-    });
-
-    test('authStateChange should call authStateChanges', () async {
-      // Arrange
-      when(mockFirebaseAuth.authStateChanges()).thenAnswer(
-        (_) => Stream.value(mockUser),
-      );
-
-      // Act
-      final stream = loginRepository.authStateChange;
-
-      // Assert
-      expect(stream, emits(mockUser));
-      verify(mockFirebaseAuth.authStateChanges()).called(1);
+      expect(loginRepository.user, isNull);
     });
   });
 }

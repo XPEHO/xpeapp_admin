@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
+import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
 import 'package:xpeapp_admin/presentation/widgets/app_loader.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
+import 'package:yaki_ui/input_text.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
@@ -13,6 +15,8 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loaderState = ref.watch(loaderStateProvider);
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -30,12 +34,49 @@ class LoginPage extends ConsumerWidget {
                   height: 300,
                 ),
                 const SizedBox(width: 20),
+                const SizedBox(height: 20),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: InputText(
+                    type: InputTextType.email,
+                    label: 'Adresse email',
+                    controller: emailController,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: InputText(
+                    type: InputTextType.password,
+                    label: 'Mot de passe',
+                    controller: passwordController,
+                  ),
+                ),
+                const SizedBox(height: 20),
                 Button(
                   text: 'Se connecter',
                   color: kDefaultXpehoColor,
                   onPressed: () async {
+                    final user = XpehoUser(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+
                     await _connexionLoading(
                       context: context,
+                      user: user,
                       ref: ref,
                     );
                   },
@@ -56,18 +97,20 @@ class LoginPage extends ConsumerWidget {
 
   _connexionLoading({
     required BuildContext context,
+    required XpehoUser user,
     required WidgetRef ref,
   }) async {
-    final loginRepo = ref.read(loginProvider);
     // Activez le loader ici
     ref.read(loaderStateProvider.notifier).showLoader();
 
     try {
-      await loginRepo.googleSignIn();
+      await ref.read(userProvider.notifier).tryToLogin(user);
 
       // Désactivez le loader après la connexion réussie
       ref.read(loaderStateProvider.notifier).hideLoader();
 
+      // Naviguez vers la page d'accueil en réinitialisant le menu
+      ref.read(menuSelectedProvider.notifier).reset();
       Navigator.pushNamed(
         context,
         '/home',

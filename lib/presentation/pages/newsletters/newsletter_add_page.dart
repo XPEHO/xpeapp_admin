@@ -135,7 +135,7 @@ class _NewsletterAddOrEditPageState
                 hintText: 'Ex: Drive link, ...',
                 controller: pdfLinkController,
               ),
-              /* TODO: Activate this function when the backend is ready
+              /* TODO: Activate this function when the backend is ready to handle a publication date different of the upload date, so the notification will be sent at the publication date
               const SizedBox(height: 20),
               SizedBox(
                 width: width,

@@ -19,6 +19,7 @@ class _QvstChoiceThemeState extends ConsumerState<QvstChoiceTheme> {
         value: ref.watch(qvstNotifierProvider),
         onChanged: (QvstThemeEntity? newValue) {
           ref.watch(qvstNotifierProvider.notifier).setTheme(newValue!);
+          ref.watch(qvstQuestionsForCampaignProvider.notifier).reset();
         },
         items: data
             .map<DropdownMenuItem<QvstThemeEntity>>(
