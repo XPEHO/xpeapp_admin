@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +38,7 @@ class _NewsletterAddOrEditPageState
   bool summaryIsNotEmpty = false;
   bool pdfLinkIsNotEmpty = false;
   String? previewImagePath;
+  String? imageName;
 
   final TextEditingController summaryController = TextEditingController();
   final TextEditingController pdfLinkController = TextEditingController();
@@ -136,9 +136,17 @@ class _NewsletterAddOrEditPageState
                     PlatformFile file = result.files.first;
 
                     setState(() {
-                      previewImagePath = file.path;
+                      imageName = file.name;
                     });
-                  } else {}
+                  } else {
+                    // User canceled the picker
+                  }
+                },
+                imageName: imageName,
+                onDelete: () {
+                  setState(() {
+                    imageName = null;
+                  });
                 },
               ),
               const SizedBox(height: 15),
@@ -233,7 +241,6 @@ class _NewsletterAddOrEditPageState
   }
 
   Future<void> showDatePickerForNewsletter(BuildContext context) async {
-    //
     final DateTime? selected = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -489,6 +496,8 @@ class _NewsletterAddOrEditPageState
     required String subtitle,
     required String buttonText,
     required VoidCallback onPressed,
+    String? imageName,
+    VoidCallback? onDelete,
   }) {
     final width = MediaQuery.of(context).size.width * 0.8;
     return [
@@ -522,18 +531,51 @@ class _NewsletterAddOrEditPageState
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
         ),
-        child: TextButton.icon(
-          onPressed: onPressed,
-          icon: const Icon(Icons.image),
-          label: Text(buttonText),
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.black,
-            textStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'SF Pro Rounded',
-            ),
-          ),
+        child: Column(
+          children: [
+            imageName == null
+                ? TextButton.icon(
+                    onPressed: onPressed,
+                    icon: const Icon(Icons.image),
+                    label: Text(buttonText),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'SF Pro Rounded',
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          imageName,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            ),
+                            const SizedBox(width: 10),
+                            IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: onDelete,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+          ],
         ),
       ),
     ];
