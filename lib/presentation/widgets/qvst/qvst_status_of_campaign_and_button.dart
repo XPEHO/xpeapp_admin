@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
+import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/enum/qvst_campaign_status.dart';
 import 'package:xpeapp_admin/env/extensions/string.dart';
 import 'package:xpeapp_admin/providers.dart';
@@ -8,12 +9,12 @@ import 'package:yaki_ui/button.dart';
 
 class QvstStatusOfCampaignAndButton extends ConsumerStatefulWidget {
   final String campaignId;
-  final String campaignStatus;
+  final QvstStatsEntity stats;
 
   const QvstStatusOfCampaignAndButton({
     super.key,
     required this.campaignId,
-    required this.campaignStatus,
+    required this.stats,
   });
 
   @override
@@ -23,8 +24,6 @@ class QvstStatusOfCampaignAndButton extends ConsumerStatefulWidget {
 
 class _QvstStatusOfCampaignAndButtonState
     extends ConsumerState<QvstStatusOfCampaignAndButton> {
-  String commentOfCampaign = "";
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,16 +36,16 @@ class _QvstStatusOfCampaignAndButtonState
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Statut de la campagne : ${widget.campaignStatus}",
+            "Statut de la campagne : ${widget.stats.campaignStatus}",
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(width: 50),
-          if (!widget.campaignStatus.isArchived)
+          if (!widget.stats.campaignStatus.isArchived)
             buttonForCampaignStatus(
               ref: ref,
               context: context,
               campaignId: widget.campaignId,
-              campaignStatus: widget.campaignStatus,
+              stats: widget.stats,
             ),
         ],
       ),
@@ -57,26 +56,29 @@ class _QvstStatusOfCampaignAndButtonState
     required WidgetRef ref,
     required BuildContext context,
     required String campaignId,
-    required String campaignStatus,
+    required QvstStatsEntity stats,
   }) {
     String buttonText = "";
+    String statusUpdated;
 
-    switch (campaignStatus.toUpperCase()) {
+    switch (stats.campaignStatus.toUpperCase()) {
       case draftCampaignStatus:
         buttonText = "Ouvrir la campagne";
+        statusUpdated = QvstCampaignStatusEnum.open.name;
+        break;
       case openCampaignStatus:
         buttonText = "Fermer la campagne";
+        statusUpdated = QvstCampaignStatusEnum.closed.name;
+        break;
       case closedCampaignStatus:
         buttonText = "Archiver la campagne";
+        statusUpdated = QvstCampaignStatusEnum.archived.name;
+        break;
       default:
         buttonText = "";
+        statusUpdated = QvstCampaignStatusEnum.archived.name;
     }
-    String statusUpdated =
-        (campaignStatus.toUpperCase() == QvstCampaignStatusEnum.draft.name)
-            ? QvstCampaignStatusEnum.open.name
-            : (campaignStatus.toUpperCase() == QvstCampaignStatusEnum.open.name)
-                ? QvstCampaignStatusEnum.closed.name
-                : QvstCampaignStatusEnum.archived.name;
+
     return Container(
       margin: const EdgeInsets.only(
         top: 20,
@@ -86,27 +88,28 @@ class _QvstStatusOfCampaignAndButtonState
       child: Button(
         text: buttonText,
         onPressed: () async {
-          updateApiCall(
-            context: context,
-            ref: ref,
-            campaignId: campaignId,
-            statusUpdated: statusUpdated,
-          );
+          updateCampaignStatus(
+              context: context,
+              ref: ref,
+              campaignId: campaignId,
+              statusUpdated: statusUpdated,
+              actionDefaultValue: stats.action);
         },
         color: kDefaultXpehoColor,
       ),
     );
   }
 
-  Future<void> updateApiCall({
+  Future<void> updateCampaignStatus({
     required BuildContext context,
     required WidgetRef ref,
     required String campaignId,
     required String statusUpdated,
+    String? actionDefaultValue,
   }) async {
     try {
       final qvstService = ref.read(qvstServiceProvider);
-      final action = ref.read(commentForCampaignNotifier);
+      final action = ref.read(commentForCampaignNotifier) ?? actionDefaultValue;
       final bool campaignUpdated = await qvstService.updateStatusOfCampaign(
         id: campaignId,
         status: statusUpdated,
