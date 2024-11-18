@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:xpeapp_admin/data/colors.dart';
+import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/env/extensions/string.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_stats_table_view.dart';
 import 'package:xpeapp_admin/presentation/widgets/custom_text_field.dart';
 import 'package:xpeapp_admin/presentation/widgets/qvst/qvst_status_of_campaign_and_button.dart';
 import 'package:xpeapp_admin/providers.dart';
+import 'package:yaki_ui/button.dart';
 
 class QvstContentStats extends ConsumerWidget {
   final String? campaignId;
@@ -50,12 +53,13 @@ class QvstContentStats extends ConsumerWidget {
               final endDateFormatter = formatter.format(
                 DateTime.parse(data.endDate),
               );
+              controller.text = data.action ?? "";
 
               return Column(
                 children: [
                   QvstStatusOfCampaignAndButton(
                     campaignId: campaignId!,
-                    campaignStatus: data.campaignStatus,
+                    stats: data,
                   ),
                   Text(
                     "Campagne : ${data.campaignName}",
@@ -82,7 +86,7 @@ class QvstContentStats extends ConsumerWidget {
                     stats: data,
                   ),
                   const SizedBox(height: 20),
-                  if (data.campaignStatus.isClosed)
+                  if (data.campaignStatus.isArchived)
                     Container(
                       margin: const EdgeInsets.only(
                         top: 20,
@@ -101,7 +105,7 @@ class QvstContentStats extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text(
-                            "Commentaire à rajouter : ",
+                            "Lien des résultats : ",
                             style: TextStyle(
                               fontSize: 20,
                             ),
@@ -109,7 +113,7 @@ class QvstContentStats extends ConsumerWidget {
                           const SizedBox(width: 20),
                           CustomTextField(
                             width: 300,
-                            hintText: "Commentaire",
+                            hintText: "Lien",
                             controller: controller,
                             onChanged: (value) {
                               ref
@@ -119,21 +123,32 @@ class QvstContentStats extends ConsumerWidget {
                                   );
                             },
                           ),
+                          const SizedBox(width: 20),
+                          Container(
+                            margin: const EdgeInsets.only(
+                              top: 20,
+                              bottom: 20,
+                            ),
+                            width: 200,
+                            child: Button(
+                              text: "Enregistrer",
+                              onPressed: () async {
+                                updateCampaignResultLink(
+                                  context: context,
+                                  ref: ref,
+                                  campaignId: campaignId!,
+                                  stats: data,
+                                  actionUpdated: controller.text,
+                                );
+                              },
+                              color: kDefaultXpehoColor,
+                            ),
+                          ),
                         ],
                       ),
                     )
                   else
                     const SizedBox(),
-                  (data.campaignStatus.isArchived)
-                      ? Text(
-                          "Commentaire : ${data.action ?? ''}",
-                          style: const TextStyle(
-                            color: Colors.red,
-                            fontSize: 20,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        )
-                      : const SizedBox(),
                 ],
               );
             },
@@ -145,5 +160,51 @@ class QvstContentStats extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<void> updateCampaignResultLink({
+    required BuildContext context,
+    required WidgetRef ref,
+    required String campaignId,
+    required QvstStatsEntity stats,
+    required String? actionUpdated,
+  }) async {
+    try {
+      final qvstService = ref.read(qvstServiceProvider);
+      final action = actionUpdated;
+      final bool campaignUpdated = await qvstService.updateStatusOfCampaign(
+        id: campaignId,
+        status: stats.campaignStatus,
+        action: action,
+      );
+      if (campaignUpdated) {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Statut de la campagne mis à jour'),
+          ),
+        );
+        // ignore: unused_result
+        ref.refresh(qvstCampaignsProvider);
+        // ignore: unused_result
+        ref.refresh(
+          qvstCampaignStatsProvider(
+            campaignId,
+          ),
+        );
+      } else {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+                Text('Erreur lors de la mise à jour du statut de la campagne'),
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint(
+        e.toString(),
+      );
+    }
   }
 }
