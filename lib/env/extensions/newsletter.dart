@@ -5,6 +5,7 @@ extension NewsletterExtension on NewsletterEntity {
         'date': date,
         'summary': summary,
         'pdfUrl': pdfUrl,
+        'previewPath': picture,
         'publicationDate': publicationDate,
       };
 }

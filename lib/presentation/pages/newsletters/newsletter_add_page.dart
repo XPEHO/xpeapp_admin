@@ -1,8 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
@@ -37,6 +40,8 @@ class _NewsletterAddOrEditPageState
   bool isDateSelected = false;
   bool summaryIsNotEmpty = false;
   bool pdfLinkIsNotEmpty = false;
+  String? imageName;
+  PlatformFile? file;
 
   final TextEditingController summaryController = TextEditingController();
   final TextEditingController pdfLinkController = TextEditingController();
@@ -55,6 +60,37 @@ class _NewsletterAddOrEditPageState
         pdfLinkIsNotEmpty = true;
       });
     }
+  }
+
+  Future<void> pickImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      setState(() {
+        file = result.files.first;
+        imageName = file!.name;
+      });
+    }
+  }
+
+  Future<String?> uploadImage(String imageName) async {
+    if (file != null && file!.bytes != null) {
+      String imagePath = 'newsletters/$imageName.${file!.extension}';
+      Reference storageRef = FirebaseStorage.instance.ref().child(imagePath);
+
+      SettableMetadata metadata =
+          SettableMetadata(contentType: 'image/${file!.extension}');
+
+      UploadTask uploadTask = storageRef.putData(file!.bytes!, metadata);
+      await uploadTask;
+
+      return imagePath;
+    } else {
+      debugPrint('No image selected');
+    }
+    return null;
   }
 
   @override
@@ -120,6 +156,21 @@ class _NewsletterAddOrEditPageState
                       ),
                     ),
               const SizedBox(height: 20),
+              ...titleAndButton(
+                title: 'Ajouter une image de prévisualisation',
+                subtitle: 'Choisissez une image pour la prévisualisation',
+                buttonText: 'Ajouter une image',
+                onPressed: () async {
+                  pickImage();
+                },
+                imageName: imageName,
+                onDelete: () {
+                  setState(() {
+                    imageName = null;
+                  });
+                },
+              ),
+              const SizedBox(height: 15),
               ...titleAndTextField(
                 title: 'Saisir le sommaire',
                 subtitle: '1 ligne = 1 chapitre',
@@ -183,21 +234,29 @@ class _NewsletterAddOrEditPageState
                                     '\n',
                                     ',',
                                   );
+                                  String? previewImagePath = await uploadImage(
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(dateSelected!));
                                   NewsletterEntity newsletterEntity =
                                       NewsletterEntity(
                                     summary: summary,
                                     date: Timestamp.fromDate(dateSelected!),
                                     pdfUrl: pdfLinkController.text,
+                                    picture: previewImagePath,
                                     publicationDate: time,
                                   );
                                   if (widget.typePage ==
                                       NewsletterTypePage.add) {
                                     await sendNewsletter(newsletterEntity);
                                   } else {
-                                    newsletterEntity = newsletterEntity
-                                        .copyWith(id: widget.newsletter?.id);
+                                    newsletterEntity =
+                                        newsletterEntity.copyWith(
+                                            id: widget.newsletter?.id,
+                                            picture: previewImagePath);
                                     await updateNewsletter(newsletterEntity);
                                   }
+                                  // Redirect to the previous page
+                                  Navigator.of(context).pop();
                                 }
                               }
                             : null,
@@ -211,7 +270,6 @@ class _NewsletterAddOrEditPageState
   }
 
   Future<void> showDatePickerForNewsletter(BuildContext context) async {
-    //
     final DateTime? selected = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -460,5 +518,95 @@ class _NewsletterAddOrEditPageState
         return null;
       }
     }
+  }
+
+  List<Widget> titleAndButton({
+    required String title,
+    required String subtitle,
+    required String buttonText,
+    required VoidCallback onPressed,
+    String? imageName,
+    VoidCallback? onDelete,
+  }) {
+    final width = MediaQuery.of(context).size.width * 0.8;
+    return [
+      SizedBox(
+        width: width,
+        child: ListTile(
+          title: Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          subtitle: Text(
+            subtitle,
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+              fontSize: 12,
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(height: 20),
+      Container(
+        width: width,
+        padding: const EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 20,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          children: [
+            imageName == null
+                ? TextButton.icon(
+                    onPressed: onPressed,
+                    icon: const Icon(Icons.image),
+                    label: Text(buttonText),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'SF Pro Rounded',
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          imageName,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            ),
+                            const SizedBox(width: 10),
+                            IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: onDelete,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+          ],
+        ),
+      ),
+    ];
   }
 }
