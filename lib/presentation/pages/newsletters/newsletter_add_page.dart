@@ -1,8 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
@@ -37,8 +40,8 @@ class _NewsletterAddOrEditPageState
   bool isDateSelected = false;
   bool summaryIsNotEmpty = false;
   bool pdfLinkIsNotEmpty = false;
-  String? previewImagePath;
   String? imageName;
+  PlatformFile? file;
 
   final TextEditingController summaryController = TextEditingController();
   final TextEditingController pdfLinkController = TextEditingController();
@@ -57,6 +60,37 @@ class _NewsletterAddOrEditPageState
         pdfLinkIsNotEmpty = true;
       });
     }
+  }
+
+  Future<void> pickImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      setState(() {
+        file = result.files.first;
+        imageName = file!.name;
+      });
+    }
+  }
+
+  Future<String?> uploadImage(String imageName) async {
+    if (file != null && file!.bytes != null) {
+      String imagePath = 'newsletters/$imageName.${file!.extension}';
+      Reference storageRef = FirebaseStorage.instance.ref().child(imagePath);
+
+      SettableMetadata metadata =
+          SettableMetadata(contentType: 'image/${file!.extension}');
+
+      UploadTask uploadTask = storageRef.putData(file!.bytes!, metadata);
+      await uploadTask;
+
+      return imagePath;
+    } else {
+      debugPrint('No image selected');
+    }
+    return null;
   }
 
   @override
@@ -127,20 +161,7 @@ class _NewsletterAddOrEditPageState
                 subtitle: 'Choisissez une image pour la prévisualisation',
                 buttonText: 'Ajouter une image',
                 onPressed: () async {
-                  FilePickerResult? result =
-                      await FilePicker.platform.pickFiles(
-                    type: FileType.image,
-                  );
-
-                  if (result != null) {
-                    PlatformFile file = result.files.first;
-
-                    setState(() {
-                      imageName = file.name;
-                    });
-                  } else {
-                    // User canceled the picker
-                  }
+                  pickImage();
                 },
                 imageName: imageName,
                 onDelete: () {
@@ -213,21 +234,29 @@ class _NewsletterAddOrEditPageState
                                     '\n',
                                     ',',
                                   );
+                                  String? previewImagePath = await uploadImage(
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(dateSelected!));
                                   NewsletterEntity newsletterEntity =
                                       NewsletterEntity(
                                     summary: summary,
                                     date: Timestamp.fromDate(dateSelected!),
                                     pdfUrl: pdfLinkController.text,
+                                    picture: previewImagePath,
                                     publicationDate: time,
                                   );
                                   if (widget.typePage ==
                                       NewsletterTypePage.add) {
                                     await sendNewsletter(newsletterEntity);
                                   } else {
-                                    newsletterEntity = newsletterEntity
-                                        .copyWith(id: widget.newsletter?.id);
+                                    newsletterEntity =
+                                        newsletterEntity.copyWith(
+                                            id: widget.newsletter?.id,
+                                            picture: previewImagePath);
                                     await updateNewsletter(newsletterEntity);
                                   }
+                                  // Redirect to the previous page
+                                  Navigator.of(context).pop();
                                 }
                               }
                             : null,
