@@ -32,9 +32,50 @@ The XpeHo mobile administration application.
 
      This command will guide you through the process of selecting your Firebase project and platforms. It will automatically generate the _firebase_options.dart_ file in the lib directory.
 
-## Admin
+## Admin users
 
 The way to define the admin list is documented in the bookstack of XpeApp.
+
+## Deployment
+
+In order to deploy the app, you need to be logged in to the Firebase CLI.
+
+### Login to the Firebase CLI
+
+To install the Firebase CLI you can type :
+
+```bash
+npm install -g firebase-tools
+```
+
+And then login with :
+
+```bash
+firebase login
+```
+
+### Deploy to the Firebase Hosting
+
+Firstly, you need to init the project for hosting with Firebase CLI :
+
+```bash
+firebase init
+```
+
+> [!WARNING]  
+> Make sure to select _build/web_ as public directory.
+
+After that you can type the following command to build your Flutter web app :
+
+```bash
+flutter build web
+```
+
+And finally type the following command to deploy the app to firebase hosting :
+
+```bash
+firebase deploy
+```
 
 ## Used library :
 
