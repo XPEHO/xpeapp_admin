@@ -256,7 +256,7 @@ class _NewsletterAddOrEditPageState
                                     await updateNewsletter(newsletterEntity);
                                   }
                                   // Redirect to the previous page
-                                  Navigator.of(context).pop();
+                                  Navigator.pop(context);
                                 }
                               }
                             : null,
@@ -330,8 +330,6 @@ class _NewsletterAddOrEditPageState
           content: Text('Newsletter ajoutée avec succès'),
         ),
       );
-
-      Navigator.pop(context);
     } catch (error) {
       // En cas d'erreur, désactivez également le loader
       ref.read(loaderStateProvider.notifier).hideLoader();
@@ -460,8 +458,6 @@ class _NewsletterAddOrEditPageState
           content: Text('Newsletter modifié avec succès'),
         ),
       );
-
-      Navigator.pop(context);
     } catch (error) {
       // En cas d'erreur, désactivez également le loader
       ref.read(loaderStateProvider.notifier).hideLoader();
