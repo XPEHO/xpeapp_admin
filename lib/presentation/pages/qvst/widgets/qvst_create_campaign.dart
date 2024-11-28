@@ -208,6 +208,7 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
               text: 'Créer',
               onPressed: (campaignNameController.text.isEmpty ||
                       ref.watch(qvstNotifierProvider) == null ||
+                      ref.watch(qvstQuestionsForCampaignProvider).isEmpty ||
                       startDate == null ||
                       endDate == null)
                   ? null
