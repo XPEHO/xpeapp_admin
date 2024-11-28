@@ -46,7 +46,9 @@ class UserProfileWidget extends ConsumerWidget {
             width: 20,
           ),
           Text(
-            (user?.token?.displayName ?? 'Utilisateur').replaceAll(' ', '\n'),
+            (user?.token?.displayName ?? 'Utilisateur')
+                .replaceAll(' ', '\n')
+                .toUpperCase(),
             textAlign: TextAlign.right,
             style: const TextStyle(
               color: Colors.white,

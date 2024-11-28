@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
+import 'package:xpeapp_admin/data/entities/qvst/import/qvst_question_sample.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
@@ -170,37 +171,21 @@ class QvstService {
     }
   }
 
-  Future<void> importCsv(Uint8List file) async {
-    final stringFile = utf8
-        .decode(file)
+  Future<void> importCsv(Uint8List csvFile) async {
+    final csvFileContent = utf8.decode(csvFile);
+    final sampleFileLines = csvFileContent
         .split('\n')
         .where((line) => line.isNotEmpty)
-        .map((line) => line.split(';'))
+        .skip(1) // Skip the first line because it contains the column names
+        .map((line) => QvstQuestionSample.fromCsvLine(line))
         .toList();
-    final csvFileJson = <Map<String, dynamic>>[];
 
-    // Note: We try to ensure correct structure of the csv file
-    if (!stringFile.every((element) => element.length == 4)) {
-      throw Exception('Erreur lors de l\'import du fichier: le fichier doit '
-          'contenir 4 colonnes délimitées de \';\'');
-    }
-    if (int.tryParse(stringFile[0][0]) != null) {
-      throw Exception('Erreur lors de l\'import du fichier: la première ligne '
-          'doit contenir les noms des colonnes');
-    }
-
-    for (var i = 0; i < stringFile.length; i++) {
-      csvFileJson.add(
-        {
-          'id_theme': stringFile[i][0],
-          'question': stringFile[i][2],
-          'response_repo': stringFile[i][3],
-        },
-      );
-    }
+    final jsonFile = sampleFileLines.map((line) {
+      return line.toJson();
+    }).toList();
 
     final body = <String, dynamic>{
-      'questions': csvFileJson,
+      'questions': jsonFile,
     };
 
     final response = await _backendApi.importQvstFile(
