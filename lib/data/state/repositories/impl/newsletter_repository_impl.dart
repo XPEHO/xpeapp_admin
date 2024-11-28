@@ -20,14 +20,6 @@ class NewsletterRepositoryImpl extends NewsletterRepository {
       await firestore.collection('newsletters').add(
             newsletter.toFirebase(),
           );
-      if (backendApi != null) {
-        await backendApi!.sendNotification(
-          {
-            'title': 'Une nouvelle newsletter est disponible !',
-            'message': newsletter.summary,
-          },
-        );
-      }
     } on FirebaseException catch (e) {
       debugPrint('Error: $e');
       throw Exception('Erreur lors de l\'ajout de la newsletter');
