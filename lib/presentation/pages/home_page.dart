@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/menu_entity.dart';
-import 'package:xpeapp_admin/presentation/pages/access/feature_flipping_page.dart';
+import 'package:xpeapp_admin/presentation/pages/feature_flipping/feature_flipping_page.dart';
 import 'package:xpeapp_admin/presentation/pages/newsletters/newsletters_page.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_home.dart';
 import 'package:xpeapp_admin/presentation/widgets/user_profile_widget.dart';
@@ -13,19 +13,8 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loginRepo = ref.watch(loginProvider);
-    final isConnected = loginRepo.isUserLoggedIn();
     final menus = ref.watch(listOfMenuProvider);
     final menuSelected = ref.watch(menuSelectedProvider);
-
-    if (!isConnected) {
-      // Redirect to login page if not authenticated and sign out
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(userProvider.notifier).signOut();
-        Navigator.pushReplacementNamed(context, '/');
-      });
-      return const SizedBox.shrink();
-    }
 
     return Scaffold(
       backgroundColor: Colors.white,

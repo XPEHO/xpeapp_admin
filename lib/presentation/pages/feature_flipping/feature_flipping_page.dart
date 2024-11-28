@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/feature_flipping_entity.dart';
-import 'package:xpeapp_admin/presentation/pages/access/widgets/feature_flipping_switch_widget.dart';
+import 'package:xpeapp_admin/presentation/pages/feature_flipping/widgets/feature_flipping_switch_widget.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
 import 'package:xpeapp_admin/providers.dart';
 

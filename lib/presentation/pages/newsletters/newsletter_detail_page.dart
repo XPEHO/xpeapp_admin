@@ -8,7 +8,7 @@ import 'package:yaki_ui/button.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 class NewsletterDetailPage extends ConsumerWidget {
-  final String id;
+  final String? id;
 
   const NewsletterDetailPage({
     super.key,
@@ -93,9 +93,18 @@ class NewsletterDetailPage extends ConsumerWidget {
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: Button(
                           text: 'Ouvrir la newsletter',
-                          onPressed: () async => await url_launcher.launchUrl(
-                            Uri.parse(newsletter.pdfUrl),
-                          ),
+                          onPressed: () async {
+                            final pdfUrl = newsletter.pdfUrl;
+                            if (pdfUrl.isNotEmpty) {
+                              await url_launcher.launchUrl(Uri.parse(pdfUrl));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('PDF URL is not available'),
+                                ),
+                              );
+                            }
+                          },
                         ),
                       ),
                     ],
