@@ -57,24 +57,14 @@ class _QvstContentCampaignState extends ConsumerState<QvstContentCampaign> {
                 ),
               ),
               const SizedBox(width: 50),
-              Text(
+              const Text(
                 'Les campagnes',
-                style: Theme.of(context).textTheme.displaySmall,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const Spacer(),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.download),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.filter_alt),
-                  ),
-                ],
-              )
             ],
           ),
         ),

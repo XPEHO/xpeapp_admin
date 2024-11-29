@@ -158,7 +158,9 @@ class HomePage extends ConsumerWidget {
 
   Widget? _getFloatingActionButton(
       MenuEntity? menuSelected, BuildContext context) {
-    if (menuSelected == null || menuSelected.id == 3 || menuSelected.id == 4) {
+    if (menuSelected == null ||
+        menuSelected.id == menuFeatureFlipping ||
+        menuSelected.id == menuQvst) {
       return null;
     }
 

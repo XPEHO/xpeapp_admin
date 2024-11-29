@@ -9,6 +9,7 @@ class AuthGuard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Login providers
     final loginRepo = ref.watch(loginProvider);
     final isConnected = loginRepo.isUserLoggedIn();
 
@@ -18,6 +19,12 @@ class AuthGuard extends ConsumerWidget {
         ref.read(userProvider.notifier).signOut();
         Navigator.pushReplacementNamed(context, '/');
       });
+
+      // Clear QVST menu
+      ref.read(qvstMenuProvider.notifier).clearMenu();
+      // Clear Menu
+      ref.read(menuSelectedProvider.notifier).reset();
+
       return const SizedBox.shrink();
     } else {
       return child;

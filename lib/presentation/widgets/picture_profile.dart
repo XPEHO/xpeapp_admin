@@ -22,7 +22,11 @@ class PictureProfile extends ConsumerWidget {
             return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
             // Gérer l'erreur de téléchargement ici
-            return const Icon(Icons.error);
+            return const Icon(
+              Icons.person,
+              color: Colors.white,
+              size: 32,
+            );
           } else if (snapshot.hasData) {
             return Image.network(
               snapshot.data as String,

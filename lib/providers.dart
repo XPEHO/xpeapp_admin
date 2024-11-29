@@ -32,6 +32,10 @@ import 'package:xpeapp_admin/data/state/repositories/impl/newsletter_repository_
 import 'package:xpeapp_admin/data/state/user_notifier.dart';
 import 'package:xpeapp_admin/data/token_interceptor.dart';
 
+const menuNewsletter = 1;
+const menuFeatureFlipping = 2;
+const menuQvst = 3;
+
 // Config
 final configProvider = Provider<Config>((ref) {
   return Config(baseUrl: ''); // Valeur par défaut
@@ -203,17 +207,17 @@ final qvstCampaignStatsProvider =
 final listOfMenuProvider = Provider<List<MenuEntity>>((ref) {
   return [
     MenuEntity(
-      id: 1,
+      id: menuNewsletter,
       title: 'Newsletters',
       asset: Icons.email_outlined,
     ),
     MenuEntity(
-      id: 2,
+      id: menuFeatureFlipping,
       title: 'Feature Flipping',
       asset: Icons.toggle_on_outlined,
     ),
     MenuEntity(
-      id: 3,
+      id: menuQvst,
       title: 'QVST',
       asset: Icons.question_answer_outlined,
     ),

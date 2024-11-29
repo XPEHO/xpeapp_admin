@@ -85,37 +85,53 @@ class FeatureFlippingPage extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      ...features.map(
-                        (e) => TableRow(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                title: Text(e.name),
-                                subtitle: Text(e.description),
-                              ),
+                      ...features
+                          .where((feature) =>
+                              feature.idFeature == 'campaign' ||
+                              feature.idFeature == 'newsletters')
+                          .map(
+                            (e) => TableRow(
+                              children: [
+                                TableCell(
+                                  verticalAlignment:
+                                      TableCellVerticalAlignment.middle,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ListTile(
+                                      title: Text(e.name),
+                                      subtitle: Text(e.description),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  verticalAlignment:
+                                      TableCellVerticalAlignment.middle,
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: FeatureFlippingSwitchWidget(
+                                      featureId: e.idFeature,
+                                      type: FeatureFlippingType.uat,
+                                      featureEnabled: e.uatEnabled,
+                                      isActivated: true,
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  verticalAlignment:
+                                      TableCellVerticalAlignment.middle,
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: FeatureFlippingSwitchWidget(
+                                      featureId: e.idFeature,
+                                      type: FeatureFlippingType.prod,
+                                      featureEnabled: e.prodEnabled,
+                                      isActivated: true,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: 50,
-                              child: FeatureFlippingSwitchWidget(
-                                featureId: e.idFeature,
-                                type: FeatureFlippingType.uat,
-                                featureEnabled: e.uatEnabled,
-                                isActivated: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 50,
-                              child: FeatureFlippingSwitchWidget(
-                                featureId: e.idFeature,
-                                type: FeatureFlippingType.prod,
-                                featureEnabled: e.prodEnabled,
-                                isActivated: true,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                          ),
                     ],
                   ),
                 );
