@@ -33,7 +33,7 @@ class QvstContentHome extends ConsumerWidget {
         menu: QvstMenu.campaign,
       ),
       QvstContentMenu(
-        title: 'Réponses',
+        title: 'Référentiels',
         menu: QvstMenu.responses,
       ),
     ];
