@@ -29,6 +29,10 @@ _Fix_
 - [Issue #93](https://github.com/XPEHO/xpeapp_admin/issues/93) Fix null newsletter id on edit attempt
 - Fix the send of action when the campaign is archived
 
+_Doc_
+
+- [Issue #90](https://github.com/XPEHO/xpeapp_admin/issues/90) Add the PUML diagram of the project
+
 ## 1.0.1
 
 _Fix_

@@ -1,0 +1,45 @@
+@startuml XpeAppAdmin
+!includeurl https://raw.githubusercontent.com/gnodux/C4-PlantUML/master/C4_Container.puml
+!define FirebasePuml https://raw.githubusercontent.com/k2wanko/firebase-icons-plantuml/master/plantuml
+!includeurl FirebasePuml/FirebaseCommon.puml
+!includeurl FirebasePuml/FirebaseAll.puml
+
+Firestore(firebaseDb, "Database", "Newsletters")
+
+Person(xpeapp_admin, "XpeApp Admin", "Administration of XpeApp app")
+
+Person(wordpress, "Wordpress", "Wordpress")
+
+System_Boundary(app, "Web application") {
+    Container(appNewsletters, "Newsletters", "Manages newsletters")
+    Container(usersToAccessApp, "Users to access app", "Manages users to access app")
+    Container(usersToAccessAdmin, "Users to access admin", "Manages users to others admin (if the admin has this permission)")
+    Container(appQvst, "QVST", "Manages QVST")
+}
+
+System_Boundary(newsletters, "Newsletters") {
+    Container(addNewsletters, "Add newsletters", "Add newsletters")
+    Container(editNewsletters, "Edit newsletters", "Edit newsletters")
+    Container(deleteNewsletters, "Delete newsletters", "Delete newsletters")
+}
+
+System_Boundary(qvst, "QVST") {
+    Container(addQvst, "Add QVST", "Add QVST")
+    Container(editQvst, "Edit QVST", "Edit QVST")
+    Container(createCampaign, "Create campaign", "Create campaign")
+    Container(openCampaign, "Open campaign", "Open campaign")
+    Container(closeCampaign, "Close campaign", "Close campaign")
+    Container(archiveCampaign, "Archive campaign", "Archive campaign")
+}
+
+
+Rel(firebaseDb, appNewsletters, "HTTPS")
+Rel(firebaseDb, usersToAccessApp, "HTTPS")
+Rel(firebaseDb, usersToAccessAdmin, "HTTPS")
+Rel(wordpress, appQvst, "HTTPS")
+Rel(xpeapp_admin, app, "Uses", "HTTP")
+
+Rel(appNewsletters, newsletters, "Uses", "HTTP")
+Rel(appQvst, qvst, "API REST", "HTTPS")
+
+@enduml
