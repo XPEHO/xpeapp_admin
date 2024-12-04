@@ -134,15 +134,18 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
             ),
             // Icon to suppr theme (only if theme selected)
             if (widget.id != null)
-              IconButton(
-                onPressed: () {
-                  ref.read(qvstMenuProvider.notifier).changeMenu(
-                        QvstMenu.theme,
-                      );
-                },
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.red,
+              Tooltip(
+                message: 'Supprimer le filtre',
+                child: IconButton(
+                  onPressed: () {
+                    ref.read(qvstMenuProvider.notifier).changeMenu(
+                          QvstMenu.theme,
+                        );
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.red,
+                  ),
                 ),
               ),
           ],
