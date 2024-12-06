@@ -88,7 +88,7 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
           Row(
             children: [
               _getText(
-                'Choisissez une date de début',
+                'Choisissez une date de début: ',
                 color: Colors.black,
               ),
               const SizedBox(width: 20),
@@ -141,7 +141,7 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
           Row(
             children: [
               _getText(
-                'Choisissez une date de fin',
+                'Choisissez une date de fin: ',
                 color: Colors.black,
               ),
               const SizedBox(height: 20),
@@ -235,7 +235,7 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
     Color? color = Colors.white,
   }) =>
       Container(
-        margin: const EdgeInsets.symmetric(horizontal: 50),
+        margin: const EdgeInsets.symmetric(horizontal: 5),
         child: Text(
           text,
           style: TextStyle(
