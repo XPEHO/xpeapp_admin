@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
@@ -8,6 +10,7 @@ import 'package:xpeapp_admin/providers.dart';
 class ResponseReferenceWidget extends ConsumerStatefulWidget {
   final String qvstId;
   final String referenceId;
+
   const ResponseReferenceWidget({
     super.key,
     required this.qvstId,
@@ -22,32 +25,38 @@ class ResponseReferenceWidget extends ConsumerStatefulWidget {
 class _ResponseReferenceWidgetState
     extends ConsumerState<ResponseReferenceWidget> {
   QvstAnswerRepoEntity? _selectedRepo;
+  bool _isSaved = false;
 
   @override
   Widget build(BuildContext context) {
-    final responsesList = ref.watch(qvstAnswerRepoListProvider);
-    return responsesList.when(
+    final selectedRepoData = ref.watch(qvstAnswerRepoListProvider);
+    final initialRepo = selectedRepoData.maybeWhen(
+      data: (data) => data.firstWhere(
+        (repo) => repo.id == widget.referenceId,
+      ),
+      orElse: () => null,
+    );
+
+    return selectedRepoData.when(
       data: (data) {
-        QvstAnswerRepoEntity repo = data.firstWhere(
-          (element) => element.id == widget.referenceId,
-        );
+        _selectedRepo ??= initialRepo;
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DropdownButtonHideUnderline(
               child: DropdownButton<QvstAnswerRepoEntity>(
-                value: _selectedRepo ?? repo,
+                value: _selectedRepo,
                 onChanged: (QvstAnswerRepoEntity? newValue) {
                   setState(() {
-                    if (repo == newValue) {
-                      _selectedRepo = null;
-                    } else {
-                      _selectedRepo = newValue;
-                    }
+                    _selectedRepo = newValue;
+                    _isSaved = newValue == initialRepo;
                   });
-                  ref
-                      .watch(qvstAnswerRepoSelectedProvider.notifier)
-                      .setAnswerRepo(newValue!);
+                  if (newValue != null) {
+                    ref
+                        .watch(qvstAnswerRepoSelectedProvider.notifier)
+                        .setAnswerRepo(newValue);
+                  }
                 },
                 items: data
                     .map<DropdownMenuItem<QvstAnswerRepoEntity>>(
@@ -61,59 +70,74 @@ class _ResponseReferenceWidgetState
               ),
             ),
             IconButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  backgroundColor: kDefaultXpehoColor,
-                  title: Text(
-                    (_selectedRepo ?? repo).repoName,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  content: Container(
-                    width: 300,
-                    height: 300,
-                    margin: const EdgeInsets.only(
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: ListView.builder(
-                      itemCount: (_selectedRepo ?? repo).answers.length,
-                      itemBuilder: (context, index) {
-                        QvstAnswerEntity answerEntity =
-                            (_selectedRepo ?? repo).answers[index];
-                        return ListTile(
-                          title: Text(
-                            "${answerEntity.answer} (${answerEntity.value})",
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        'Fermer',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+              onPressed: () {
+                if (_selectedRepo != null) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      backgroundColor: kDefaultXpehoColor,
+                      title: Text(
+                        _selectedRepo?.repoName ?? '',
+                        style: const TextStyle(color: Colors.white),
                       ),
+                      content: Container(
+                        width: 300,
+                        height: 300,
+                        margin: const EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                        ),
+                        child: ListView.builder(
+                          itemCount: _selectedRepo?.answers.length ?? 0,
+                          itemBuilder: (context, index) {
+                            QvstAnswerEntity answerEntity =
+                                _selectedRepo!.answers[index];
+                            return ListTile(
+                              title: Text(
+                                "${answerEntity.answer} (${answerEntity.value})",
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text(
+                            'Fermer',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  );
+                }
+              },
               icon: const Icon(
                 Icons.info,
                 color: Colors.black,
               ),
             ),
-            if (_selectedRepo != null)
+            if (!_isSaved && _selectedRepo != null)
               IconButton(
-                onPressed: () => ref.read(qvstServiceProvider).updateQvst(
-                  widget.qvstId,
-                  {
-                    'answer_repo_id': _selectedRepo!.id,
-                  },
-                ),
+                onPressed: () async {
+                  try {
+                    await ref.read(qvstServiceProvider).updateQvst(
+                      widget.qvstId,
+                      {'answer_repo_id': _selectedRepo?.id},
+                    );
+                    setState(() {
+                      _isSaved = true;
+                    });
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Erreur : ${e.toString()}'),
+                      ),
+                    );
+                  }
+                },
                 icon: const Icon(
                   Icons.save,
                   color: Colors.black,
