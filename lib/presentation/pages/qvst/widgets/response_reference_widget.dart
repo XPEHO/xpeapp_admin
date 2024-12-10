@@ -24,7 +24,7 @@ class ResponseReferenceWidget extends ConsumerStatefulWidget {
 
 class _ResponseReferenceWidgetState
     extends ConsumerState<ResponseReferenceWidget> {
-  bool _isSaved = false;
+  bool _isSaved = true;
 
   @override
   Widget build(BuildContext context) {
