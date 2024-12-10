@@ -29,6 +29,7 @@ import 'package:xpeapp_admin/data/state/qvst_questions_selected_for_campaign.dar
 import 'package:xpeapp_admin/data/state/qvst_theme_notifier.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/login_repository_impl.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/newsletter_repository_impl.dart';
+import 'package:xpeapp_admin/data/state/response_reference_selection_notifier.dart';
 import 'package:xpeapp_admin/data/state/user_notifier.dart';
 import 'package:xpeapp_admin/data/token_interceptor.dart';
 
@@ -160,6 +161,20 @@ final qvstNotifierProvider =
 final qvstAnswerRepoListProvider =
     FutureProvider<List<QvstAnswerRepoEntity>>((ref) async {
   return ref.watch(qvstServiceProvider).getQvstAnswersRepo();
+});
+
+final responseReferenceSelectionProvider = StateNotifierProvider.family<
+    ResponseReferenceSelectionNotifier,
+    QvstAnswerRepoEntity?,
+    String>((ref, id) {
+  final qvstAnswerSets = ref.watch(qvstAnswerRepoListProvider);
+  final selection = qvstAnswerSets.maybeWhen(
+    data: (data) => data.firstWhere(
+      (repo) => repo.id == id,
+    ),
+    orElse: () => null,
+  );
+  return ResponseReferenceSelectionNotifier(selection);
 });
 
 final qvstAnswerRepoSelectedProvider =
