@@ -24,40 +24,24 @@ class ResponseReferenceWidget extends ConsumerStatefulWidget {
 
 class _ResponseReferenceWidgetState
     extends ConsumerState<ResponseReferenceWidget> {
-  QvstAnswerRepoEntity? _selectedRepo;
   bool _isSaved = false;
 
   @override
   Widget build(BuildContext context) {
-    final selectedRepoData = ref.watch(qvstAnswerRepoListProvider);
-    final initialRepo = selectedRepoData.maybeWhen(
-      data: (data) => data.firstWhere(
-        (repo) => repo.id == widget.referenceId,
-      ),
-      orElse: () => null,
-    );
+    final qvstAnswerSets = ref.watch(qvstAnswerRepoListProvider);
+    final responseReferenceSelection =
+        ref.watch(responseReferenceSelectionProvider(widget.referenceId));
 
-    return selectedRepoData.when(
+    return qvstAnswerSets.when(
       data: (data) {
-        _selectedRepo ??= initialRepo;
-
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DropdownButtonHideUnderline(
               child: DropdownButton<QvstAnswerRepoEntity>(
-                value: _selectedRepo,
-                onChanged: (QvstAnswerRepoEntity? newValue) {
-                  setState(() {
-                    _selectedRepo = newValue;
-                    _isSaved = newValue == initialRepo;
-                  });
-                  if (newValue != null) {
-                    ref
-                        .watch(qvstAnswerRepoSelectedProvider.notifier)
-                        .setAnswerRepo(newValue);
-                  }
-                },
+                value: responseReferenceSelection,
+                onChanged: (QvstAnswerRepoEntity? newValue) =>
+                    _onChanged(newValue, responseReferenceSelection),
                 items: data
                     .map<DropdownMenuItem<QvstAnswerRepoEntity>>(
                       (QvstAnswerRepoEntity value) =>
@@ -71,13 +55,13 @@ class _ResponseReferenceWidgetState
             ),
             IconButton(
               onPressed: () {
-                if (_selectedRepo != null) {
+                if (responseReferenceSelection != null) {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
                       backgroundColor: kDefaultXpehoColor,
                       title: Text(
-                        _selectedRepo?.repoName ?? '',
+                        responseReferenceSelection.repoName,
                         style: const TextStyle(color: Colors.white),
                       ),
                       content: Container(
@@ -88,10 +72,10 @@ class _ResponseReferenceWidgetState
                           right: 20,
                         ),
                         child: ListView.builder(
-                          itemCount: _selectedRepo?.answers.length ?? 0,
+                          itemCount: responseReferenceSelection.answers.length,
                           itemBuilder: (context, index) {
                             QvstAnswerEntity answerEntity =
-                                _selectedRepo!.answers[index];
+                                responseReferenceSelection.answers[index];
                             return ListTile(
                               title: Text(
                                 "${answerEntity.answer} (${answerEntity.value})",
@@ -119,13 +103,13 @@ class _ResponseReferenceWidgetState
                 color: Colors.black,
               ),
             ),
-            if (!_isSaved && _selectedRepo != null)
+            if (!_isSaved && responseReferenceSelection != null)
               IconButton(
                 onPressed: () async {
                   try {
                     await ref.read(qvstServiceProvider).updateQvst(
                       widget.qvstId,
-                      {'answer_repo_id': _selectedRepo?.id},
+                      {'answer_repo_id': responseReferenceSelection.id},
                     );
                     setState(() {
                       _isSaved = true;
@@ -154,5 +138,24 @@ class _ResponseReferenceWidgetState
       ),
       loading: () => const CircularProgressIndicator(),
     );
+  }
+
+  ///
+  /// Update the selected response reference
+  ///
+  void _onChanged(QvstAnswerRepoEntity? newValue,
+      QvstAnswerRepoEntity? responseReferenceSelection) {
+    setState(() {
+      final didChanged = newValue != responseReferenceSelection;
+      ref
+          .read(responseReferenceSelectionProvider(widget.referenceId).notifier)
+          .select(newValue);
+      _isSaved = !didChanged;
+    });
+    if (newValue != null) {
+      ref
+          .watch(qvstAnswerRepoSelectedProvider.notifier)
+          .setAnswerRepo(newValue);
+    }
   }
 }
