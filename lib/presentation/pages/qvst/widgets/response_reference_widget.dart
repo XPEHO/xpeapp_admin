@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
@@ -8,6 +10,7 @@ import 'package:xpeapp_admin/providers.dart';
 class ResponseReferenceWidget extends ConsumerStatefulWidget {
   final String qvstId;
   final String referenceId;
+
   const ResponseReferenceWidget({
     super.key,
     required this.qvstId,
@@ -21,34 +24,24 @@ class ResponseReferenceWidget extends ConsumerStatefulWidget {
 
 class _ResponseReferenceWidgetState
     extends ConsumerState<ResponseReferenceWidget> {
-  QvstAnswerRepoEntity? _selectedRepo;
+  bool _isSaved = true;
 
   @override
   Widget build(BuildContext context) {
-    final responsesList = ref.watch(qvstAnswerRepoListProvider);
-    return responsesList.when(
+    final qvstAnswerSets = ref.watch(qvstAnswerRepoListProvider);
+    final responseReferenceSelection =
+        ref.watch(responseReferenceSelectionProvider(widget.referenceId));
+
+    return qvstAnswerSets.when(
       data: (data) {
-        QvstAnswerRepoEntity repo = data.firstWhere(
-          (element) => element.id == widget.referenceId,
-        );
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DropdownButtonHideUnderline(
               child: DropdownButton<QvstAnswerRepoEntity>(
-                value: _selectedRepo ?? repo,
-                onChanged: (QvstAnswerRepoEntity? newValue) {
-                  setState(() {
-                    if (repo == newValue) {
-                      _selectedRepo = null;
-                    } else {
-                      _selectedRepo = newValue;
-                    }
-                  });
-                  ref
-                      .watch(qvstAnswerRepoSelectedProvider.notifier)
-                      .setAnswerRepo(newValue!);
-                },
+                value: responseReferenceSelection,
+                onChanged: (QvstAnswerRepoEntity? newValue) =>
+                    _onChanged(newValue, responseReferenceSelection),
                 items: data
                     .map<DropdownMenuItem<QvstAnswerRepoEntity>>(
                       (QvstAnswerRepoEntity value) =>
@@ -61,59 +54,74 @@ class _ResponseReferenceWidgetState
               ),
             ),
             IconButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  backgroundColor: kDefaultXpehoColor,
-                  title: Text(
-                    (_selectedRepo ?? repo).repoName,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  content: Container(
-                    width: 300,
-                    height: 300,
-                    margin: const EdgeInsets.only(
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: ListView.builder(
-                      itemCount: (_selectedRepo ?? repo).answers.length,
-                      itemBuilder: (context, index) {
-                        QvstAnswerEntity answerEntity =
-                            (_selectedRepo ?? repo).answers[index];
-                        return ListTile(
-                          title: Text(
-                            "${answerEntity.answer} (${answerEntity.value})",
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        'Fermer',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+              onPressed: () {
+                if (responseReferenceSelection != null) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      backgroundColor: kDefaultXpehoColor,
+                      title: Text(
+                        responseReferenceSelection.repoName,
+                        style: const TextStyle(color: Colors.white),
                       ),
+                      content: Container(
+                        width: 300,
+                        height: 300,
+                        margin: const EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                        ),
+                        child: ListView.builder(
+                          itemCount: responseReferenceSelection.answers.length,
+                          itemBuilder: (context, index) {
+                            QvstAnswerEntity answerEntity =
+                                responseReferenceSelection.answers[index];
+                            return ListTile(
+                              title: Text(
+                                "${answerEntity.answer} (${answerEntity.value})",
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text(
+                            'Fermer',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  );
+                }
+              },
               icon: const Icon(
                 Icons.info,
                 color: Colors.black,
               ),
             ),
-            if (_selectedRepo != null)
+            if (!_isSaved && responseReferenceSelection != null)
               IconButton(
-                onPressed: () => ref.read(qvstServiceProvider).updateQvst(
-                  widget.qvstId,
-                  {
-                    'answer_repo_id': _selectedRepo!.id,
-                  },
-                ),
+                onPressed: () async {
+                  try {
+                    await ref.read(qvstServiceProvider).updateQvst(
+                      widget.qvstId,
+                      {'answer_repo_id': responseReferenceSelection.id},
+                    );
+                    setState(() {
+                      _isSaved = true;
+                    });
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Erreur : ${e.toString()}'),
+                      ),
+                    );
+                  }
+                },
                 icon: const Icon(
                   Icons.save,
                   color: Colors.black,
@@ -130,5 +138,24 @@ class _ResponseReferenceWidgetState
       ),
       loading: () => const CircularProgressIndicator(),
     );
+  }
+
+  ///
+  /// Update the selected response reference
+  ///
+  void _onChanged(QvstAnswerRepoEntity? newValue,
+      QvstAnswerRepoEntity? responseReferenceSelection) {
+    setState(() {
+      final didChanged = newValue != responseReferenceSelection;
+      ref
+          .read(responseReferenceSelectionProvider(widget.referenceId).notifier)
+          .select(newValue);
+      _isSaved = !didChanged;
+    });
+    if (newValue != null) {
+      ref
+          .watch(qvstAnswerRepoSelectedProvider.notifier)
+          .setAnswerRepo(newValue);
+    }
   }
 }
