@@ -157,8 +157,7 @@ class _QvstContentUpdateResponseRepoState
                               newQvstAnswerRepoEntity,
                             );
                         if (response) {
-                          // ignore: unused_result
-                          ref.refresh(qvstAnswerRepoListProvider);
+                          ref.invalidate(qvstAnswerRepoListProvider);
                           if (!context.mounted) return;
                           Navigator.pop(context);
                         } else {

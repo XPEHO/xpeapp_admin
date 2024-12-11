@@ -37,58 +37,42 @@ class QvstContentHome extends ConsumerWidget {
         menu: QvstMenu.responses,
       ),
     ];
-    return Column(
+    return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Bienvenue dans la partie QVST',
-          style: TextStyle(
-            color: kDefaultXpehoColor,
-            fontSize: 30,
-            fontFamily: 'SF Pro Rounded',
+        Expanded(
+          flex: 1,
+          child: ListView.builder(
+            itemCount: menus.length,
+            itemBuilder: (context, index) {
+              QvstContentMenu menu = menus[index];
+              return InkWell(
+                onTap: () => ref.read(qvstMenuProvider.notifier).changeMenu(
+                      menu.menu,
+                    ),
+                child: Container(
+                  margin: const EdgeInsets.all(20),
+                  child: Text(
+                    menu.title,
+                    style: TextStyle(
+                      color: (ref.watch(qvstMenuProvider)?.menu == menu.menu)
+                          ? kDefaultXpehoColor
+                          : Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ),
-        const SizedBox(height: 20),
         Expanded(
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                flex: 1,
-                child: ListView.builder(
-                  itemCount: menus.length,
-                  itemBuilder: (context, index) {
-                    QvstContentMenu menu = menus[index];
-                    return InkWell(
-                      onTap: () =>
-                          ref.read(qvstMenuProvider.notifier).changeMenu(
-                                menu.menu,
-                              ),
-                      child: Container(
-                        margin: const EdgeInsets.all(20),
-                        child: Text(
-                          menu.title,
-                          style: TextStyle(
-                            color:
-                                (ref.watch(qvstMenuProvider)?.menu == menu.menu)
-                                    ? kDefaultXpehoColor
-                                    : Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: getContentOfQvst(ref),
-              ),
-            ],
+          flex: 4,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: getContentOfQvst(ref),
           ),
         ),
       ],

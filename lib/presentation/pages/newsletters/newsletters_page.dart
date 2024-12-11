@@ -24,7 +24,7 @@ class NewslettersPage extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           subtitleWidget(
-            'Ajoutez, modifiez ou supprimez les newsletters',
+            'Ajoutez ou modifiez les newsletters',
           ),
           const Divider(),
           Expanded(

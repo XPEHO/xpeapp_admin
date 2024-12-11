@@ -17,6 +17,7 @@ class _QvstChoiceThemeState extends ConsumerState<QvstChoiceTheme> {
     return theme.when(
       data: (data) => DropdownButton<QvstThemeEntity>(
         value: ref.watch(qvstNotifierProvider),
+        hint: const Text('Sélectionnez un thème'),
         onChanged: (QvstThemeEntity? newValue) {
           ref.watch(qvstNotifierProvider.notifier).setTheme(newValue!);
           ref.watch(qvstQuestionsForCampaignProvider.notifier).reset();

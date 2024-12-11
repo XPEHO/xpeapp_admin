@@ -168,8 +168,7 @@ class QvstDetailPage extends ConsumerWidget {
                 bool result =
                     await ref.read(qvstServiceProvider).deleteQvst(id);
                 if (result) {
-                  // ignore: unused_result
-                  ref.refresh(qvstQuestionsListProvider);
+                  ref.invalidate(qvstQuestionsListProvider);
                   ref.read(loaderStateProvider.notifier).hideLoader();
                   if (!context.mounted) return;
                   Navigator.of(context).pop();
