@@ -22,66 +22,70 @@ class LoginPage extends ConsumerWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          Container(
-            margin: const EdgeInsets.all(20),
-            alignment: Alignment.center,
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                Image.asset(
-                  'assets/images/xpeho_logo.jpg',
-                  width: 300,
-                  height: 300,
-                ),
-                const SizedBox(width: 20),
-                const SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 1,
+          Center(
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              constraints: const BoxConstraints(
+                maxWidth: 400,
+              ),
+              alignment: Alignment.center,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Image.asset(
+                    'assets/images/xpeho_logo.jpg',
+                    width: 300,
+                    height: 300,
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 1,
+                      ),
+                    ),
+                    child: InputText(
+                      type: InputTextType.email,
+                      label: 'Adresse email',
+                      controller: emailController,
                     ),
                   ),
-                  child: InputText(
-                    type: InputTextType.email,
-                    label: 'Adresse email',
-                    controller: emailController,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 1,
+                  const SizedBox(height: 20),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 1,
+                      ),
+                    ),
+                    child: InputText(
+                      type: InputTextType.password,
+                      label: 'Mot de passe',
+                      controller: passwordController,
                     ),
                   ),
-                  child: InputText(
-                    type: InputTextType.password,
-                    label: 'Mot de passe',
-                    controller: passwordController,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Button(
-                  text: 'Se connecter',
-                  color: kDefaultXpehoColor,
-                  onPressed: () async {
-                    final user = XpehoUser(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    );
+                  const SizedBox(height: 20),
+                  Button(
+                    text: 'Se connecter',
+                    color: kDefaultXpehoColor,
+                    onPressed: () async {
+                      final user = XpehoUser(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
 
-                    await _connexionLoading(
-                      context: context,
-                      user: user,
-                      ref: ref,
-                    );
-                  },
-                ),
-              ],
+                      await _connexionLoading(
+                        context: context,
+                        user: user,
+                        ref: ref,
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           if (loaderState)

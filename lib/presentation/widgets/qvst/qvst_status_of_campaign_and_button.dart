@@ -122,10 +122,8 @@ class _QvstStatusOfCampaignAndButtonState
             content: Text('Statut de la campagne mis à jour'),
           ),
         );
-        // ignore: unused_result
-        ref.refresh(qvstCampaignsProvider);
-        // ignore: unused_result
-        ref.refresh(
+        ref.invalidate(qvstCampaignsProvider);
+        ref.invalidate(
           qvstCampaignStatsProvider(
             campaignId,
           ),

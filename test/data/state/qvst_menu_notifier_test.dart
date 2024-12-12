@@ -6,11 +6,12 @@ void main() {
   test('qvst menu notifier ...', () async {
     final notifier = QvstMenuNotifier();
 
+    const defaultMenu = QvstMenu.theme;
     const menu = QvstMenu.campaign;
 
     expect(
-      notifier.state,
-      null,
+      notifier.state?.menu,
+      defaultMenu,
     );
 
     notifier.changeMenu(
@@ -25,8 +26,8 @@ void main() {
     notifier.clearMenu();
 
     expect(
-      notifier.state,
-      null,
+      notifier.state?.menu,
+      defaultMenu,
     );
   });
 }

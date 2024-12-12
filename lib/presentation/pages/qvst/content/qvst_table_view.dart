@@ -153,8 +153,7 @@ class QvstTableView extends ConsumerWidget {
                 bool result =
                     await ref.read(qvstServiceProvider).deleteQvst(e.id ?? '');
                 if (result) {
-                  // ignore: unused_result
-                  ref.refresh(
+                  ref.invalidate(
                     (themeId != null)
                         ? qvstQuestionsByThemesListProvider(
                             themeId!,

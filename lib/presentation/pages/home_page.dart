@@ -164,20 +164,23 @@ class HomePage extends ConsumerWidget {
       return null;
     }
 
-    return FloatingActionButton(
-      backgroundColor: kDefaultXpehoColor,
-      onPressed: () {
-        switch (menuSelected.id) {
-          case 1:
-            Navigator.pushNamed(context, '/newsletter/add');
-            break;
-          default:
-            break;
-        }
-      },
-      child: const Icon(
-        Icons.add,
-        color: Colors.white,
+    return Tooltip(
+      message: 'Ajouter une newsletter',
+      child: FloatingActionButton(
+        backgroundColor: kDefaultXpehoColor,
+        onPressed: () {
+          switch (menuSelected.id) {
+            case menuNewsletter:
+              Navigator.pushNamed(context, '/newsletter/add');
+              break;
+            default:
+              break;
+          }
+        },
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }

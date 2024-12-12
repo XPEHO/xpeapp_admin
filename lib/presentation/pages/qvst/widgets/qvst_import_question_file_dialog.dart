@@ -88,8 +88,7 @@ class QvstImportQuestionFileDialogState
                       ),
                     );
                     Navigator.pop(context);
-                    // ignore: unused_result
-                    ref.refresh(qvstQuestionsListProvider);
+                    ref.invalidate(qvstQuestionsListProvider);
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

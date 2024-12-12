@@ -156,8 +156,7 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
       controller.clear();
       ref.read(qvstNotifierProvider.notifier).setTheme(null);
       ref.read(qvstAnswerRepoSelectedProvider.notifier).clearAnswerRepo();
-      // ignore: unused_result
-      ref.refresh(
+      ref.invalidate(
         qvstQuestionsByThemesListProvider(theme?.id ?? ''),
       );
       onSuccess();
