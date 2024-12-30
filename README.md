@@ -1,44 +1,73 @@
-# XpeApp-Admin !
+# XpeApp - Flutter admin panel
 
-The XpeHo mobile administration application.
+## Description
 
-## Requirement
+This is the web administration panel for the XpeApp project made with Flutter.
 
-- An IDE : [Visual Studio Code](https://code.visualstudio.com/) or [Android Studio](https://developer.android.com/studio)
-- [Flutter](https://docs.flutter.dev/get-started/install)
-- A _config.json_ file in _assets_ directory containing the backend url :
+## Getting Started
 
-  ```json
-  {
-    "baseUrl": "https://example.com"
-  }
-  ```
+### Prerequisites
 
-- A _firebase_options.dart_ file in _lib_ directory.
+- Flutter SDK
+- VS Code
 
-  To generate the _firebase_options.dart_ file automatically using the FlutterFire CLI, follow these steps:
+### Flutter
 
-  1. Install FlutterFire CLI: Ensure you have the FlutterFire CLI installed. You can install it globally using the following command:
+This is a Flutter project. You can open it with VS Code and run it on your favorite browser.
 
-     ```bash
-     dart pub global activate flutterfire_cli
-     ```
+For more information about flutter development, please refer to the [official documentation](https://docs.flutter.dev/).
 
-  2. Configure Firebase: Run the following command to configure Firebase for your Flutter project:
+### Dart
 
-     ```bash
-     flutterfire configure
-     ```
+Dart is the programming language used for this project. For more information about Dart, please refer to the [official documentation](https://dart.dev/guides).
 
-     This command will guide you through the process of selecting your Firebase project and platforms. It will automatically generate the _firebase_options.dart_ file in the lib directory.
+## Configuration
 
-## Admin users
+### firebase_options.dart
 
-The way to define the admin list is documented in the bookstack of XpeApp.
+This file is required in _lib/_ directory to use Firebase services.
+
+To generate the _firebase_options.dart_ file automatically using the FlutterFire CLI, follow these steps:
+
+1. Install FlutterFire CLI: Ensure you have the FlutterFire CLI installed. You can install it globally using the following command:
+
+   ```bash
+   dart pub global activate flutterfire_cli
+   ```
+
+2. Configure Firebase: Run the following command to configure Firebase for your Flutter project:
+
+   ```bash
+   flutterfire configure
+   ```
+
+   This command will guide you through the process of selecting your Firebase project and platforms. It will automatically generate the _firebase_options.dart_ file in the lib directory.
+
+### config.json
+
+This file is required in _assets/_ directory to define the backend url. Here is an example of its content :
+
+```json
+{
+  "baseUrl": "https://example.com/"
+}
+```
+
+### admin.json
+
+This file is required in _assets/_ directory. The way to define this file is documented in the bookstack of XpeApp. In case of problem, refer to an administrator.
+
+## SonarQube
+
+The XPEHO SonarQube perform analysis each time changes are made to this directory and pushed.
+
+[XPEHO SonarQube](https://sonar.infra.xpeho.com)
+
+The configuration of the sonar analysis for this directory is defined in a [dedicated file](./sonar-project.properties).
 
 ## Deployment
 
-In order to deploy the app, you need to be logged in to the Firebase CLI.
+In order to deploy the app, you need to be logged in to the Firebase CLI with an account that have sufficient rights to write on the hosting of this project.
 
 ### Login to the Firebase CLI
 
@@ -77,7 +106,7 @@ And finally type the following command to deploy the app to firebase hosting :
 firebase deploy
 ```
 
-## Used library :
+## Used libraries
 
 - [state management library](https://pub.dev/packages/flutter_riverpod) : State management
 - [translation library](https://pub.dev/packages/easy_localization) : Traduction
