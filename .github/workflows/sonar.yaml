@@ -6,13 +6,19 @@ on:
       - "**"
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for running the workflow"
+        required: true
+        default: "Manually triggered"
 
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - run: |
@@ -29,16 +35,10 @@ jobs:
           # Run analysis
           flutter analyze
           # Run tests without user feedback regeneration tests.output and coverage/lcov.info
-          flutter test --machine --coverage > tests.output
-      - name: Sonar-scanner
+          # See https://docs.sonarsource.com/sonarqube-server/latest/analyzing-source-code/test-coverage/dart-test-coverage/#adding-coverage-to-your-build-process
+          flutter test --coverage
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
-          SONAR_SCANNER_VER: sonar-scanner-cli-6.0.0.4432-linux
-          SONAR_SCANNER_PATH: sonar-scanner-6.0.0.4432-linux/bin
-        run: |
-          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.0.0.4432-linux.zip
-          unzip sonar-scanner-cli-6.0.0.4432-linux.zip
-
-          $SONAR_SCANNER_PATH/sonar-scanner -v
-          $SONAR_SCANNER_PATH/sonar-scanner \
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
