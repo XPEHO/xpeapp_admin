@@ -15,10 +15,10 @@ class QvstQuestionSample with _$QvstQuestionSample {
       _$QvstQuestionSampleFromJson(json);
 
   static QvstQuestionSample fromCsvLine(String csvLine) {
-    final values = csvLine.split(';');
+    final values = csvLine.split(',');
     // Note: The csv have an extra column with information about the theme
-    if (values.length != 4) {
-      throw const FormatException('Invalid CSV format');
+    if (values.length < 4) {
+      throw const FormatException('Not enough columns in CSV format');
     }
     return QvstQuestionSample(
       idTheme: values[0],
