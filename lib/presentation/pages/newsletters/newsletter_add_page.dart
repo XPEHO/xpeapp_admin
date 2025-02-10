@@ -274,7 +274,7 @@ class _NewsletterAddOrEditPageState
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2010),
-      lastDate: DateTime(2025),
+      lastDate: DateTime(2035),
       currentDate: dateSelected ?? DateTime.now(),
       helpText: MediaQuery.of(context).size.width < 600
           ? 'Choisir la date de la newsletter'
@@ -482,7 +482,7 @@ class _NewsletterAddOrEditPageState
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2010),
-        lastDate: DateTime(2025),
+        lastDate: DateTime(2035),
         helpText: MediaQuery.of(context).size.width < 600
             ? 'Choisir la date de publication'
             : 'Date',
