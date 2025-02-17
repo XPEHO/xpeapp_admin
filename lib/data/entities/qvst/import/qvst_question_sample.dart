@@ -1,3 +1,4 @@
+import 'package:csv/csv.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'qvst_question_sample.freezed.dart';
@@ -15,15 +16,16 @@ class QvstQuestionSample with _$QvstQuestionSample {
       _$QvstQuestionSampleFromJson(json);
 
   static QvstQuestionSample fromCsvLine(String csvLine) {
-    final values = csvLine.split(',');
+    final values = const CsvToListConverter().convert(csvLine, eol: '\n')[0];
+
     // Note: The csv have an extra column with information about the theme
     if (values.length < 4) {
       throw const FormatException('Not enough columns in CSV format');
     }
     return QvstQuestionSample(
-      idTheme: values[0],
-      question: values[2],
-      responseRepo: values[3],
+      idTheme: values[0].toString(),
+      question: values[2].toString(),
+      responseRepo: values[3].toString(),
     );
   }
 }
