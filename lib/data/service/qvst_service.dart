@@ -205,7 +205,7 @@ class QvstService {
   Future<void> exportCSVFile(String campaignId, String token) async {
     final url =
         '${baseUrl}xpeho/v1/qvst/campaigns/csv/?campaign_id=$campaignId';
-    final response = await httpClient.get(
+    final response = await http.get(
       Uri.parse(url),
       headers: {
         'Authorization': 'Bearer $token',
