@@ -31,8 +31,12 @@ mixin _$QvstCampaignEntity {
   @JsonKey(name: 'participation_rate')
   String get participationRate => throw _privateConstructorUsedError;
 
+  /// Serializes this QvstCampaignEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of QvstCampaignEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $QvstCampaignEntityCopyWith<QvstCampaignEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -65,6 +69,8 @@ class _$QvstCampaignEntityCopyWithImpl<$Res, $Val extends QvstCampaignEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of QvstCampaignEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -108,6 +114,8 @@ class _$QvstCampaignEntityCopyWithImpl<$Res, $Val extends QvstCampaignEntity>
     ) as $Val);
   }
 
+  /// Create a copy of QvstCampaignEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $QvstThemeEntityCopyWith<$Res> get theme {
@@ -146,6 +154,8 @@ class __$$QvstCampaignEntityImplCopyWithImpl<$Res>
       $Res Function(_$QvstCampaignEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QvstCampaignEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -244,12 +254,14 @@ class _$QvstCampaignEntityImpl implements _QvstCampaignEntity {
                 other.participationRate == participationRate));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, theme, status,
       startDate, endDate, participationRate);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QvstCampaignEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QvstCampaignEntityImplCopyWith<_$QvstCampaignEntityImpl> get copyWith =>
@@ -295,8 +307,11 @@ abstract class _QvstCampaignEntity implements QvstCampaignEntity {
   @override
   @JsonKey(name: 'participation_rate')
   String get participationRate;
+
+  /// Create a copy of QvstCampaignEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QvstCampaignEntityImplCopyWith<_$QvstCampaignEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

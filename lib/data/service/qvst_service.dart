@@ -8,11 +8,16 @@ import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
+import 'package:universal_html/html.dart' as html;
+import 'package:http/http.dart' as http;
 
 class QvstService {
   final BackendApi _backendApi;
+  final String baseUrl;
+  final http.Client httpClient;
 
-  QvstService(this._backendApi);
+  QvstService(this._backendApi, this.baseUrl, {http.Client? httpClient})
+      : httpClient = httpClient ?? http.Client();
 
   Future<List<QvstQuestionEntity>> getAllQvst() async {
     final response = await _backendApi.getAllQvst();
@@ -194,6 +199,30 @@ class QvstService {
     if (response.response.statusCode != 201) {
       throw Exception(
           'Erreur lors de l\'import du fichier: ${response.toString()}');
+    }
+  }
+
+  Future<void> exportCSVFile(String campaignId, String token) async {
+    final url =
+        '${baseUrl}xpeho/v1/qvst/campaigns/csv/?campaign_id=$campaignId';
+    final response = await httpClient.get(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final blob = html.Blob([response.bodyBytes], 'application/octet-stream');
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      html.AnchorElement(href: url)
+        ..setAttribute('download', 'campaign_data.csv')
+        ..click();
+      html.Url.revokeObjectUrl(url);
+    } else if (response.statusCode == 500) {
+      throw Exception('Erreur pas de données à exporter');
+    } else {
+      throw Exception('Erreur lors de l\'export des données: ${response.body}');
     }
   }
 

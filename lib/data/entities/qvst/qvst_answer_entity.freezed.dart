@@ -25,8 +25,12 @@ mixin _$QvstAnswerEntity {
   String get value => throw _privateConstructorUsedError;
   int? get numberAnswered => throw _privateConstructorUsedError;
 
+  /// Serializes this QvstAnswerEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of QvstAnswerEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $QvstAnswerEntityCopyWith<QvstAnswerEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$QvstAnswerEntityCopyWithImpl<$Res, $Val extends QvstAnswerEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of QvstAnswerEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -98,6 +104,8 @@ class __$$QvstAnswerEntityImplCopyWithImpl<$Res>
       $Res Function(_$QvstAnswerEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QvstAnswerEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -165,12 +173,14 @@ class _$QvstAnswerEntityImpl implements _QvstAnswerEntity {
                 other.numberAnswered == numberAnswered));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, answer, value, numberAnswered);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QvstAnswerEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QvstAnswerEntityImplCopyWith<_$QvstAnswerEntityImpl> get copyWith =>
@@ -203,8 +213,11 @@ abstract class _QvstAnswerEntity implements QvstAnswerEntity {
   String get value;
   @override
   int? get numberAnswered;
+
+  /// Create a copy of QvstAnswerEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QvstAnswerEntityImplCopyWith<_$QvstAnswerEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

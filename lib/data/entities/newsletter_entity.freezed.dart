@@ -29,8 +29,12 @@ mixin _$NewsletterEntity {
   Timestamp get publicationDate => throw _privateConstructorUsedError;
   String get pdfUrl => throw _privateConstructorUsedError;
 
+  /// Serializes this NewsletterEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NewsletterEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NewsletterEntityCopyWith<NewsletterEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -60,6 +64,8 @@ class _$NewsletterEntityCopyWithImpl<$Res, $Val extends NewsletterEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NewsletterEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -124,6 +130,8 @@ class __$$NewsletterEntityImplCopyWithImpl<$Res>
       $Res Function(_$NewsletterEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NewsletterEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -212,12 +220,14 @@ class _$NewsletterEntityImpl implements _NewsletterEntity {
             (identical(other.pdfUrl, pdfUrl) || other.pdfUrl == pdfUrl));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, summary, picture, date, publicationDate, pdfUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NewsletterEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NewsletterEntityImplCopyWith<_$NewsletterEntityImpl> get copyWith =>
@@ -258,8 +268,11 @@ abstract class _NewsletterEntity implements NewsletterEntity {
   Timestamp get publicationDate;
   @override
   String get pdfUrl;
+
+  /// Create a copy of NewsletterEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NewsletterEntityImplCopyWith<_$NewsletterEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -157,22 +157,55 @@ class QvstContentStats extends ConsumerWidget {
               ),
             ],
           ),
-          floatingActionButton: Tooltip(
-            message: "Recharger les statistiques",
-            child: FloatingActionButton(
-              onPressed: () {
-                ref.invalidate(
-                  qvstCampaignStatsProvider(
-                    campaignId!,
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (data.campaignStatus.isArchived ||
+                  data.campaignStatus.isClosed)
+                Tooltip(
+                  message: "Exporter les réponses de la campagne",
+                  child: FloatingActionButton(
+                    onPressed: () async {
+                      try {
+                        await ref.read(qvstServiceProvider).exportCSVFile(
+                              campaignId ?? "",
+                              ref.watch(userProvider)?.token?.token ?? "",
+                            );
+                      } catch (e) {
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("$e"),
+                          ),
+                        );
+                      }
+                    },
+                    backgroundColor: kDefaultXpehoColor,
+                    child: const Icon(
+                      Icons.upload_file,
+                      color: Colors.white,
+                    ),
                   ),
-                );
-              },
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.refresh,
-                color: Colors.white,
+                ),
+              const SizedBox(width: 10),
+              Tooltip(
+                message: "Recharger les statistiques",
+                child: FloatingActionButton(
+                  onPressed: () {
+                    ref.invalidate(
+                      qvstCampaignStatsProvider(
+                        campaignId!,
+                      ),
+                    );
+                  },
+                  backgroundColor: kDefaultXpehoColor,
+                  child: const Icon(
+                    Icons.refresh,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         );
       },

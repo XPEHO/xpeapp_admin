@@ -32,8 +32,12 @@ mixin _$QvstQuestionEntity {
   @JsonSerializable(explicitToJson: true)
   List<QvstAnswerEntity> get answers => throw _privateConstructorUsedError;
 
+  /// Serializes this QvstQuestionEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of QvstQuestionEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $QvstQuestionEntityCopyWith<QvstQuestionEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -64,6 +68,8 @@ class _$QvstQuestionEntityCopyWithImpl<$Res, $Val extends QvstQuestionEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of QvstQuestionEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -134,6 +140,8 @@ class __$$QvstQuestionEntityImplCopyWithImpl<$Res>
       $Res Function(_$QvstQuestionEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QvstQuestionEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -242,12 +250,14 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
             const DeepCollectionEquality().equals(other._answers, _answers));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, question, theme, idTheme,
       answerRepoId, numberAsked, const DeepCollectionEquality().hash(_answers));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QvstQuestionEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QvstQuestionEntityImplCopyWith<_$QvstQuestionEntityImpl> get copyWith =>
@@ -294,8 +304,11 @@ abstract class _QvstQuestionEntity implements QvstQuestionEntity {
   @override
   @JsonSerializable(explicitToJson: true)
   List<QvstAnswerEntity> get answers;
+
+  /// Create a copy of QvstQuestionEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QvstQuestionEntityImplCopyWith<_$QvstQuestionEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/testing.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:retrofit/retrofit.dart';
@@ -12,16 +13,19 @@ import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
+import 'package:http/http.dart' as http;
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 
 import 'qvst_service_test.mocks.dart';
 
 @GenerateMocks([
   BackendApi,
+  http.Client,
 ])
 void main() {
   late QvstService service;
   late MockBackendApi mockBackendApi;
+  late MockClient mockHttpClient;
 
   final firestore = FakeFirebaseFirestore();
 
@@ -31,8 +35,13 @@ void main() {
         'uatEnabled': false,
       });
       mockBackendApi = MockBackendApi();
+      mockHttpClient = MockClient((request) async {
+        return http.Response('Not Found', 404);
+      });
       service = QvstService(
         mockBackendApi,
+        "http://localhost/",
+        httpClient: mockHttpClient,
       );
     },
   );
@@ -672,6 +681,69 @@ void main() {
         });
 
         expect(() => service.importCsv(fileTest.bytes!), throwsException);
+      });
+    });
+
+    group('exportCSVFile', () {
+      test('Success', () async {
+        const campaignId = '1';
+        const token = 'test_token';
+
+        final mockHttpClient = MockClient((request) async {
+          return http.Response(
+            'csv_content',
+            200,
+            headers: {
+              'Content-Type': 'application/octet-stream',
+            },
+          );
+        });
+
+        service = QvstService(mockBackendApi, "http://localhost/",
+            httpClient: mockHttpClient);
+
+        await service.exportCSVFile(campaignId, token);
+
+        // No exception should be thrown
+      });
+
+      test('Failed with 500 status code', () async {
+        const campaignId = '1';
+        const token = 'test_token';
+
+        final mockHttpClient = MockClient((request) async {
+          return http.Response(
+            'Internal Server Error',
+            500,
+          );
+        });
+
+        service = QvstService(mockBackendApi, "http://localhost/",
+            httpClient: mockHttpClient);
+
+        expect(
+          () async => await service.exportCSVFile(campaignId, token),
+          throwsException,
+        );
+      });
+      test('Failed with other status code', () async {
+        const campaignId = '1';
+        const token = 'test_token';
+
+        final mockHttpClient = MockClient((request) async {
+          return http.Response(
+            'Error',
+            400,
+          );
+        });
+
+        service = QvstService(mockBackendApi, "http://localhost/",
+            httpClient: mockHttpClient);
+
+        expect(
+          () async => await service.exportCSVFile(campaignId, token),
+          throwsException,
+        );
       });
     });
 

@@ -27,8 +27,12 @@ mixin _$QvstQuestionSample {
   @JsonKey(name: 'response_repo')
   String get responseRepo => throw _privateConstructorUsedError;
 
+  /// Serializes this QvstQuestionSample to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of QvstQuestionSample
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $QvstQuestionSampleCopyWith<QvstQuestionSample> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +59,8 @@ class _$QvstQuestionSampleCopyWithImpl<$Res, $Val extends QvstQuestionSample>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of QvstQuestionSample
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,6 +107,8 @@ class __$$QvstQuestionSampleImplCopyWithImpl<$Res>
       $Res Function(_$QvstQuestionSampleImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QvstQuestionSample
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -163,11 +171,13 @@ class _$QvstQuestionSampleImpl implements _QvstQuestionSample {
                 other.responseRepo == responseRepo));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, idTheme, question, responseRepo);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QvstQuestionSample
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QvstQuestionSampleImplCopyWith<_$QvstQuestionSampleImpl> get copyWith =>
@@ -201,8 +211,11 @@ abstract class _QvstQuestionSample implements QvstQuestionSample {
   @override
   @JsonKey(name: 'response_repo')
   String get responseRepo;
+
+  /// Create a copy of QvstQuestionSample
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QvstQuestionSampleImplCopyWith<_$QvstQuestionSampleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
