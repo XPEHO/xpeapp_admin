@@ -182,7 +182,7 @@ class QvstContentStats extends ConsumerWidget {
                     },
                     backgroundColor: kDefaultXpehoColor,
                     child: const Icon(
-                      Icons.upload_file,
+                      Icons.file_download,
                       color: Colors.white,
                     ),
                   ),

@@ -2,22 +2,27 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
+import 'package:xpeapp_admin/data/backend_api_base.dart';
 import 'package:xpeapp_admin/data/entities/qvst/import/qvst_question_sample.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
-import 'package:universal_html/html.dart' as html;
-import 'package:http/http.dart' as http;
+import 'package:xpeapp_admin/data/service/file_service.dart';
 
 class QvstService {
+  final BackendApiBase _backendApiBase;
   final BackendApi _backendApi;
+  final FileService _fileService;
   final String baseUrl;
-  final http.Client httpClient;
 
-  QvstService(this._backendApi, this.baseUrl, {http.Client? httpClient})
-      : httpClient = httpClient ?? http.Client();
+  QvstService(
+    this._backendApiBase,
+    this._backendApi,
+    this._fileService,
+    this.baseUrl,
+  );
 
   Future<List<QvstQuestionEntity>> getAllQvst() async {
     final response = await _backendApi.getAllQvst();
@@ -203,22 +208,10 @@ class QvstService {
   }
 
   Future<void> exportCSVFile(String campaignId, String token) async {
-    final url =
-        '${baseUrl}xpeho/v1/qvst/campaigns/csv/?campaign_id=$campaignId';
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {
-        'Authorization': 'Bearer $token',
-      },
-    );
+    final response = await _backendApiBase.fetchQvstStatsCsv(campaignId, token);
 
     if (response.statusCode == 200) {
-      final blob = html.Blob([response.bodyBytes], 'application/octet-stream');
-      final url = html.Url.createObjectUrlFromBlob(blob);
-      html.AnchorElement(href: url)
-        ..setAttribute('download', 'campaign_data.csv')
-        ..click();
-      html.Url.revokeObjectUrl(url);
+      _fileService.downloadFile('text/csv', response.bodyBytes);
     } else if (response.statusCode == 500) {
       throw Exception('Erreur pas de données à exporter');
     } else {

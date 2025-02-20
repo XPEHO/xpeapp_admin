@@ -67,7 +67,7 @@ class _QvstContentCampaignState extends ConsumerState<QvstContentCampaign> {
                     } else {
                       return Table(
                         border: TableBorder.all(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: Colors.grey.withValues(alpha: 0.5),
                         ),
                         children: [
                           TableRow(
