@@ -2,17 +2,27 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
+import 'package:xpeapp_admin/data/backend_api_base.dart';
 import 'package:xpeapp_admin/data/entities/qvst/import/qvst_question_sample.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
+import 'package:xpeapp_admin/data/service/file_service.dart';
 
 class QvstService {
+  final BackendApiBase _backendApiBase;
   final BackendApi _backendApi;
+  final FileService _fileService;
+  final String baseUrl;
 
-  QvstService(this._backendApi);
+  QvstService(
+    this._backendApiBase,
+    this._backendApi,
+    this._fileService,
+    this.baseUrl,
+  );
 
   Future<List<QvstQuestionEntity>> getAllQvst() async {
     final response = await _backendApi.getAllQvst();
@@ -194,6 +204,18 @@ class QvstService {
     if (response.response.statusCode != 201) {
       throw Exception(
           'Erreur lors de l\'import du fichier: ${response.toString()}');
+    }
+  }
+
+  Future<void> exportCSVFile(String campaignId, String token) async {
+    final response = await _backendApiBase.fetchQvstStatsCsv(campaignId, token);
+
+    if (response.statusCode == 200) {
+      _fileService.downloadFile('text/csv', response.bodyBytes);
+    } else if (response.statusCode == 500) {
+      throw Exception('Erreur pas de données à exporter');
+    } else {
+      throw Exception('Erreur lors de l\'export des données: ${response.body}');
     }
   }
 

@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
+import 'package:xpeapp_admin/data/backend_api_base.dart';
 import 'package:xpeapp_admin/data/entities/admin_users.dart';
 import 'package:xpeapp_admin/data/entities/config.dart';
 import 'package:xpeapp_admin/data/entities/menu_entity.dart';
@@ -18,6 +19,7 @@ import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/data/service/auth_service.dart';
+import 'package:xpeapp_admin/data/service/file_service.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 import 'package:xpeapp_admin/data/state/comment_for_campaign_notifier.dart';
 import 'package:xpeapp_admin/data/state/loader_state.dart';
@@ -51,6 +53,12 @@ final dioProvider = Provider<Dio>((ref) {
   return Dio();
 });
 
+final backendApiBaseProvider = Provider<BackendApiBase>((ref) {
+  return BackendApiBase(
+    baseUrl: ref.watch(configProvider).baseUrl,
+  );
+});
+
 final backendApiProvider = Provider<BackendApi>((ref) {
   return BackendApi(
     ref.watch(dioProvider),
@@ -64,9 +72,16 @@ final authServiceProvider = Provider<AuthService>((ref) {
   );
 });
 
+final fileServiceProvider = Provider<FileService>((ref) {
+  return FileService();
+});
+
 final qvstServiceProvider = Provider<QvstService>((ref) {
   return QvstService(
+    ref.watch(backendApiBaseProvider),
     ref.watch(backendApiProvider),
+    ref.watch(fileServiceProvider),
+    ref.watch(configProvider).baseUrl,
   );
 });
 

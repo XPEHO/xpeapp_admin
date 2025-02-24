@@ -24,8 +24,12 @@ mixin _$QvstAnswerRepoEntity {
   String get repoName => throw _privateConstructorUsedError;
   List<QvstAnswerEntity> get answers => throw _privateConstructorUsedError;
 
+  /// Serializes this QvstAnswerRepoEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of QvstAnswerRepoEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $QvstAnswerRepoEntityCopyWith<QvstAnswerRepoEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$QvstAnswerRepoEntityCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of QvstAnswerRepoEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,6 +99,8 @@ class __$$QvstAnswerRepoEntityImplCopyWithImpl<$Res>
       $Res Function(_$QvstAnswerRepoEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QvstAnswerRepoEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -157,12 +165,14 @@ class _$QvstAnswerRepoEntityImpl implements _QvstAnswerRepoEntity {
             const DeepCollectionEquality().equals(other._answers, _answers));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, repoName, const DeepCollectionEquality().hash(_answers));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QvstAnswerRepoEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QvstAnswerRepoEntityImplCopyWith<_$QvstAnswerRepoEntityImpl>
@@ -194,8 +204,11 @@ abstract class _QvstAnswerRepoEntity implements QvstAnswerRepoEntity {
   String get repoName;
   @override
   List<QvstAnswerEntity> get answers;
+
+  /// Create a copy of QvstAnswerRepoEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QvstAnswerRepoEntityImplCopyWith<_$QvstAnswerRepoEntityImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

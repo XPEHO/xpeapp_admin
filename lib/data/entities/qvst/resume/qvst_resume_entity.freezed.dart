@@ -27,8 +27,12 @@ mixin _$QvstResumeEntity {
   String get averageAnswer => throw _privateConstructorUsedError;
   String get maxValueAnswer => throw _privateConstructorUsedError;
 
+  /// Serializes this QvstResumeEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of QvstResumeEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $QvstResumeEntityCopyWith<QvstResumeEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,6 +62,8 @@ class _$QvstResumeEntityCopyWithImpl<$Res, $Val extends QvstResumeEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of QvstResumeEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -122,6 +128,8 @@ class __$$QvstResumeEntityImplCopyWithImpl<$Res>
       $Res Function(_$QvstResumeEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QvstResumeEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -210,12 +218,14 @@ class _$QvstResumeEntityImpl implements _QvstResumeEntity {
                 other.maxValueAnswer == maxValueAnswer));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, theme, question,
       numberOfAnswers, averageAnswer, maxValueAnswer);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QvstResumeEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QvstResumeEntityImplCopyWith<_$QvstResumeEntityImpl> get copyWith =>
@@ -254,8 +264,11 @@ abstract class _QvstResumeEntity implements QvstResumeEntity {
   String get averageAnswer;
   @override
   String get maxValueAnswer;
+
+  /// Create a copy of QvstResumeEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QvstResumeEntityImplCopyWith<_$QvstResumeEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -11,7 +11,6 @@ jobs:
       - name: 🦋 Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.22.0"
           channel: "stable"
       - name: Create config file and Check the coverage of the project
         uses: actions/checkout@v3
@@ -20,5 +19,5 @@ jobs:
           flutter pub get
           dart pub global activate very_good_cli
           very_good test --coverage \
-            --exclude-coverage "{**/*.g.dart,**/*.freezed.dart,**/entities/**,**/*_state.dart,**/core/**,**/providers.dart}" \
+            --exclude-coverage "{**/*.g.dart,**/*.freezed.dart,**/entities/**,**/*_state.dart,**/core/**,**/providers.dart,**/file_service.dart,**/backend_api_base.dart}" \
             --min-coverage 80

@@ -28,8 +28,12 @@ mixin _$QvstStatsEntity {
   List<QvstQuestionEntity> get questions => throw _privateConstructorUsedError;
   String? get action => throw _privateConstructorUsedError;
 
+  /// Serializes this QvstStatsEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of QvstStatsEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $QvstStatsEntityCopyWith<QvstStatsEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -60,6 +64,8 @@ class _$QvstStatsEntityCopyWithImpl<$Res, $Val extends QvstStatsEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of QvstStatsEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -130,6 +136,8 @@ class __$$QvstStatsEntityImplCopyWithImpl<$Res>
       _$QvstStatsEntityImpl _value, $Res Function(_$QvstStatsEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QvstStatsEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -235,7 +243,7 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
             (identical(other.action, action) || other.action == action));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -247,7 +255,9 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
       const DeepCollectionEquality().hash(_questions),
       action);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QvstStatsEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QvstStatsEntityImplCopyWith<_$QvstStatsEntityImpl> get copyWith =>
@@ -289,8 +299,11 @@ abstract class _QvstStatsEntity implements QvstStatsEntity {
   List<QvstQuestionEntity> get questions;
   @override
   String? get action;
+
+  /// Create a copy of QvstStatsEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QvstStatsEntityImplCopyWith<_$QvstStatsEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

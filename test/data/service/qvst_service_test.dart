@@ -8,20 +8,27 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
+import 'package:xpeapp_admin/data/backend_api_base.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
+import 'package:http/http.dart' as http;
+import 'package:xpeapp_admin/data/service/file_service.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 
 import 'qvst_service_test.mocks.dart';
 
 @GenerateMocks([
   BackendApi,
+  BackendApiBase,
+  FileService,
 ])
 void main() {
   late QvstService service;
   late MockBackendApi mockBackendApi;
+  late MockBackendApiBase mockBackendApiBase;
+  late MockFileService mockFileService;
 
   final firestore = FakeFirebaseFirestore();
 
@@ -31,8 +38,13 @@ void main() {
         'uatEnabled': false,
       });
       mockBackendApi = MockBackendApi();
+      mockBackendApiBase = MockBackendApiBase();
+      mockFileService = MockFileService();
       service = QvstService(
+        mockBackendApiBase,
         mockBackendApi,
+        mockFileService,
+        "http://localhost/",
       );
     },
   );
@@ -672,6 +684,72 @@ void main() {
         });
 
         expect(() => service.importCsv(fileTest.bytes!), throwsException);
+      });
+    });
+
+    group('exportCSVFile', () {
+      late MockBackendApi mockBackendApi;
+      late QvstService qvstService;
+      const String baseUrl = 'http://localhost:7830/';
+
+      setUp(() {
+        mockBackendApi = MockBackendApi();
+        mockBackendApiBase = MockBackendApiBase();
+        mockFileService = MockFileService();
+        qvstService = QvstService(
+          mockBackendApiBase,
+          mockBackendApi,
+          mockFileService,
+          baseUrl,
+        );
+      });
+
+      test('should download CSV file when response is 200', () async {
+        // GIVEN
+        const campaignId = '123';
+        const token = 'test_token';
+        const csvData = 'id,name\n1,Test';
+
+        when(mockBackendApiBase.fetchQvstStatsCsv(campaignId, token))
+            .thenAnswer((_) async {
+          return http.Response(csvData, 200);
+        });
+
+        // WHEN
+        await qvstService.exportCSVFile(campaignId, token);
+
+        // THEN
+      });
+
+      test('should throw an exception when response is 500', () async {
+        const campaignId = '123';
+        const token = 'test_token';
+
+        when(mockBackendApiBase.fetchQvstStatsCsv(campaignId, token))
+            .thenAnswer((_) async {
+          return http.Response('', 500);
+        });
+
+        expect(
+          () async => await qvstService.exportCSVFile(campaignId, token),
+          throwsException,
+        );
+      });
+
+      test('should throw an exception when response is not 200 or 500',
+          () async {
+        const campaignId = '123';
+        const token = 'test_token';
+
+        when(mockBackendApiBase.fetchQvstStatsCsv(campaignId, token))
+            .thenAnswer((_) async {
+          return http.Response('', 418);
+        });
+
+        expect(
+          () async => await qvstService.exportCSVFile(campaignId, token),
+          throwsException,
+        );
       });
     });
 

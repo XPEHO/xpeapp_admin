@@ -145,8 +145,6 @@ class _QvstPageState extends ConsumerState<QvstPage> {
         );
       case QvstMenu.responses:
         return const QvstContentResponses();
-      default:
-        return const QvstContentHome();
     }
   }
 }
