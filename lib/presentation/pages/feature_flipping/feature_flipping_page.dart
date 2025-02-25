@@ -89,7 +89,8 @@ class FeatureFlippingPage extends ConsumerWidget {
                           .where((feature) =>
                               feature.idFeature == 'campaign' ||
                               feature.idFeature == 'newsletters' ||
-                              feature.idFeature == 'profile')
+                              feature.idFeature == 'profile' ||
+                              feature.idFeature == 'agenda')
                           .map(
                             (e) => TableRow(
                               children: [
