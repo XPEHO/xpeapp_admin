@@ -384,6 +384,22 @@ class MockBackendApi extends _i1.Mock implements _i4.BackendApi {
           ),
         )),
       ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> getAllEvents() => (super.noSuchMethod(
+        Invocation.method(
+          #getAllEvents,
+          [],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getAllEvents,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
 }
 
 /// A class which mocks [BackendApiBase].

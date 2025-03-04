@@ -89,4 +89,7 @@ abstract class BackendApi {
     @Path("id") String id,
     @Body() Map<String, dynamic> body,
   );
+
+  @GET("xpeho/v1/agenda/events/")
+  Future<HttpResponse> getAllEvents();
 }

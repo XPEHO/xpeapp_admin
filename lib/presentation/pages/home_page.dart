@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/menu_entity.dart';
+import 'package:xpeapp_admin/presentation/pages/agenda/agenda_page.dart';
 import 'package:xpeapp_admin/presentation/pages/feature_flipping/feature_flipping_page.dart';
 import 'package:xpeapp_admin/presentation/pages/newsletters/newsletters_page.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_home.dart';
@@ -150,6 +151,8 @@ class HomePage extends ConsumerWidget {
           return const FeatureFlippingPage();
         case 3:
           return const QvstContentHome();
+        case 4:
+          return const AgendaPage();
         default:
           return const SizedBox();
       }
@@ -160,7 +163,8 @@ class HomePage extends ConsumerWidget {
       MenuEntity? menuSelected, BuildContext context) {
     if (menuSelected == null ||
         menuSelected.id == menuFeatureFlipping ||
-        menuSelected.id == menuQvst) {
+        menuSelected.id == menuQvst ||
+        menuSelected.id == menuAgenda) {
       return null;
     }
 
