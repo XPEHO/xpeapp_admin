@@ -384,6 +384,289 @@ class MockBackendApi extends _i1.Mock implements _i4.BackendApi {
           ),
         )),
       ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> getAllEvents() => (super.noSuchMethod(
+        Invocation.method(
+          #getAllEvents,
+          [],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getAllEvents,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> getEventById(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getEventById,
+          [id],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getEventById,
+            [id],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> addEvent(Map<String, dynamic>? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addEvent,
+          [body],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #addEvent,
+            [body],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> updateEvent(
+    String? id,
+    Map<String, dynamic>? body,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateEvent,
+          [
+            id,
+            body,
+          ],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #updateEvent,
+            [
+              id,
+              body,
+            ],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> deleteEvent(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteEvent,
+          [id],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #deleteEvent,
+            [id],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> getAllEventsTypes() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllEventsTypes,
+          [],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getAllEventsTypes,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> getEventTypeById(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getEventTypeById,
+          [id],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getEventTypeById,
+            [id],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> addEventType(
+          Map<String, dynamic>? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addEventType,
+          [body],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #addEventType,
+            [body],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> updateEventType(
+    String? id,
+    Map<String, dynamic>? body,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateEventType,
+          [
+            id,
+            body,
+          ],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #updateEventType,
+            [
+              id,
+              body,
+            ],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> deleteEventType(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteEventType,
+          [id],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #deleteEventType,
+            [id],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> getAllBirthdays() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllBirthdays,
+          [],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getAllBirthdays,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> getBirthdayById(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getBirthdayById,
+          [id],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getBirthdayById,
+            [id],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> addBirthday(
+          Map<String, dynamic>? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addBirthday,
+          [body],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #addBirthday,
+            [body],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> updateBirthday(
+    String? id,
+    Map<String, dynamic>? body,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateBirthday,
+          [
+            id,
+            body,
+          ],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #updateBirthday,
+            [
+              id,
+              body,
+            ],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> deleteBirthday(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteBirthday,
+          [id],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #deleteBirthday,
+            [id],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
 }
 
 /// A class which mocks [BackendApiBase].

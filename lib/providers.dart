@@ -7,6 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/backend_api_base.dart';
 import 'package:xpeapp_admin/data/entities/admin_users.dart';
+import 'package:xpeapp_admin/data/entities/agenda/agenda_menu_selected.dart';
+import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
+import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
+import 'package:xpeapp_admin/data/entities/agenda/events_put_entity.dart';
+import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
 import 'package:xpeapp_admin/data/entities/config.dart';
 import 'package:xpeapp_admin/data/entities/menu_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
@@ -18,9 +23,11 @@ import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
+import 'package:xpeapp_admin/data/service/agenda_service.dart';
 import 'package:xpeapp_admin/data/service/auth_service.dart';
 import 'package:xpeapp_admin/data/service/file_service.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
+import 'package:xpeapp_admin/data/state/agenda_menu_notifier.dart';
 import 'package:xpeapp_admin/data/state/comment_for_campaign_notifier.dart';
 import 'package:xpeapp_admin/data/state/loader_state.dart';
 import 'package:xpeapp_admin/data/state/menu_notifier.dart';
@@ -38,6 +45,7 @@ import 'package:xpeapp_admin/data/token_interceptor.dart';
 const menuNewsletter = 1;
 const menuFeatureFlipping = 2;
 const menuQvst = 3;
+const menuAgenda = 4;
 
 // Config
 final configProvider = Provider<Config>((ref) {
@@ -83,6 +91,12 @@ final qvstServiceProvider = Provider<QvstService>((ref) {
     ref.watch(fileServiceProvider),
     ref.watch(configProvider).baseUrl,
   );
+});
+
+// Agenda
+final agendaServiceProvider = Provider<AgendaService>((ref) {
+  return AgendaService(
+      ref.watch(backendApiProvider), ref.watch(configProvider).baseUrl);
 });
 
 // Firebase
@@ -251,6 +265,11 @@ final listOfMenuProvider = Provider<List<MenuEntity>>((ref) {
       title: 'QVST',
       asset: Icons.question_answer_outlined,
     ),
+    MenuEntity(
+      id: menuAgenda,
+      title: 'Agenda',
+      asset: Icons.calendar_today_outlined,
+    ),
   ];
 });
 
@@ -263,4 +282,119 @@ final menuSelectedProvider = StateNotifierProvider<MenuNotifier, MenuEntity?>(
 final commentForCampaignNotifier =
     StateNotifierProvider<CommentForCampaignNotifier, String?>((ref) {
   return CommentForCampaignNotifier();
+});
+
+// Agenda
+
+// Menu
+final agendaMenuProvider =
+    StateNotifierProvider<AgendaMenuNotifier, AgendaMenuSelected?>((ref) {
+  return AgendaMenuNotifier();
+});
+
+// Events
+final agendaEventsProvider = FutureProvider<List<EventsEntity>>((ref) async {
+  return ref.watch(agendaServiceProvider).getAllEvents();
+});
+final agendaEventProvider =
+    FutureProvider.family<EventsEntity, String>((ref, id) async {
+  return ref.watch(agendaServiceProvider).getEventById(id);
+});
+final agendaEventAddProvider =
+    FutureProvider.family<bool, EventsPutEntity>((ref, event) async {
+  try {
+    await ref.watch(agendaServiceProvider).addEvent(event);
+    return true;
+  } catch (e) {
+    return false;
+  }
+});
+final agendaEventUpdateProvider =
+    FutureProvider.family<bool, EventsPutEntity>((ref, event) async {
+  try {
+    await ref.watch(agendaServiceProvider).updateEvent(event);
+    return true;
+  } catch (e) {
+    return false;
+  }
+});
+final agendaEventDeleteProvider =
+    FutureProvider.family<bool, String?>((ref, id) async {
+  try {
+    await ref.watch(agendaServiceProvider).deleteEvent(id ?? '');
+    return true;
+  } catch (e) {
+    return false;
+  }
+});
+
+// Events-Type
+
+final agendaEventsTypeProvider =
+    FutureProvider<List<EventsTypeEntity>>((ref) async {
+  return ref.watch(agendaServiceProvider).getAllEventsType();
+});
+final agendaEventTypeProvider =
+    FutureProvider.family<EventsTypeEntity, String>((ref, id) async {
+  return ref.watch(agendaServiceProvider).getEventTypeById(id);
+});
+final agendaEventsTypeAddProvider =
+    FutureProvider.family<bool, EventsTypeEntity>((ref, eventType) async {
+  try {
+    await ref.watch(agendaServiceProvider).addEventType(eventType);
+    return true;
+  } catch (e) {
+    return false;
+  }
+});
+final agendaEventsTypeUpdateProvider =
+    FutureProvider.family<bool, EventsTypeEntity>((ref, eventType) async {
+  try {
+    await ref.watch(agendaServiceProvider).updateEventType(eventType);
+    return true;
+  } catch (e) {
+    return false;
+  }
+});
+final agendaEventsTypeDeleteProvider =
+    FutureProvider.family<bool, String?>((ref, id) async {
+  try {
+    await ref.watch(agendaServiceProvider).deleteEventType(id ?? '');
+    return true;
+  } catch (e) {
+    return false;
+  }
+});
+
+// Birthday
+final agendaBirthdayProvider =
+    FutureProvider<List<BirthdayEntity>>((ref) async {
+  return ref.watch(agendaServiceProvider).getAllBirthdays();
+});
+final agendaBirthdayAddProvider =
+    FutureProvider.family<bool, BirthdayEntity>((ref, event) async {
+  try {
+    await ref.watch(agendaServiceProvider).addBirthday(event);
+    return true;
+  } catch (e) {
+    return false;
+  }
+});
+final agendaBirthdayUpdateProvider =
+    FutureProvider.family<bool, BirthdayEntity>((ref, event) async {
+  try {
+    await ref.watch(agendaServiceProvider).updateBirthday(event);
+    return true;
+  } catch (e) {
+    return false;
+  }
+});
+final agendaBirthdayDeleteProvider =
+    FutureProvider.family<bool, String?>((ref, id) async {
+  try {
+    await ref.watch(agendaServiceProvider).deleteBirthday(id ?? '');
+    return true;
+  } catch (e) {
+    return false;
+  }
 });
