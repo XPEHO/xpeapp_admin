@@ -74,7 +74,7 @@ class AgendaService {
           )
           .toList();
     } else {
-      throw Exception('Erreur lors de la récupération des événements');
+      throw Exception('Erreur lors de la récupération des types d\'événements');
     }
   }
 
@@ -83,14 +83,14 @@ class AgendaService {
     if (response.response.statusCode == 200) {
       return EventsTypeEntity.fromJson(response.data);
     } else {
-      throw Exception('Erreur lors de la récupération de l\'événement');
+      throw Exception('Erreur lors de la récupération du type d\'événement');
     }
   }
 
   Future<void> addEventType(EventsTypeEntity eventType) async {
     final response = await _backendApi.addEventType(eventType.toJson());
     if (response.response.statusCode != 200) {
-      throw Exception('Erreur lors de l\'ajout de l\'événement');
+      throw Exception('Erreur lors de l\'ajout du type d\'événement');
     }
   }
 
@@ -98,14 +98,14 @@ class AgendaService {
     final response =
         await _backendApi.updateEventType(eventType.id, eventType.toJson());
     if (response.response.statusCode != 204) {
-      throw Exception('Erreur lors de la mise à jour de l\'événement');
+      throw Exception('Erreur lors de la mise à jour du type d\'événement');
     }
   }
 
   Future<void> deleteEventType(String id) async {
     final response = await _backendApi.deleteEventType(id);
     if (response.response.statusCode != 204) {
-      throw Exception('Erreur lors de la suppression de l\'événement');
+      throw Exception('Erreur lors de la suppression du type d\'événement');
     }
   }
 
@@ -123,7 +123,7 @@ class AgendaService {
           )
           .toList();
     } else {
-      throw Exception('Erreur lors de la récupération des événements');
+      throw Exception('Erreur lors de la récupération des anniversaires');
     }
   }
 
@@ -132,14 +132,14 @@ class AgendaService {
     if (response.response.statusCode == 200) {
       return BirthdayEntity.fromJson(response.data);
     } else {
-      throw Exception('Erreur lors de la récupération de l\'événement');
+      throw Exception('Erreur lors de la récupération de l\'anniversaire');
     }
   }
 
   Future<void> addBirthday(BirthdayEntity birthday) async {
     final response = await _backendApi.addBirthday(birthday.toJson());
     if (response.response.statusCode != 200) {
-      throw Exception('Erreur lors de l\'ajout de l\'événement');
+      throw Exception('Erreur lors de l\'ajout de l\'anniversaire');
     }
   }
 
@@ -147,14 +147,14 @@ class AgendaService {
     final response =
         await _backendApi.updateBirthday(birthday.id, birthday.toJson());
     if (response.response.statusCode != 204) {
-      throw Exception('Erreur lors de la mise à jour de l\'événement');
+      throw Exception('Erreur lors de la mise à jour de l\'anniversaire');
     }
   }
 
   Future<void> deleteBirthday(String id) async {
     final response = await _backendApi.deleteBirthday(id);
     if (response.response.statusCode != 204) {
-      throw Exception('Erreur lors de la suppression de l\'événement');
+      throw Exception('Erreur lors de la suppression de l\'anniversaire');
     }
   }
 }
