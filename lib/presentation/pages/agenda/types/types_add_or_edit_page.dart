@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/common_widgets.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 
@@ -94,29 +95,16 @@ class _EventTypesAddOrEditPageState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _getText(
-                    'Choisissez un label pour le type : ',
-                    color: Colors.black,
+                  getText('Choisissez un label pour le type : ',
+                      color: Colors.black),
+                  const SizedBox(height: 20),
+                  getTextField(
+                    controller: labelController,
+                    hintText: 'Type de l\'événement',
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    width: 500,
-                    child: TextField(
-                      controller: labelController,
-                      decoration: InputDecoration(
-                        hintText: 'Type de l\'événement',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  _getText(
-                    'Choisissez une couleur pour le type : ',
-                    color: Colors.black,
-                  ),
+                  getText('Choisissez une couleur pour le type : ',
+                      color: Colors.black),
                   const SizedBox(height: 10),
                   Wrap(
                     spacing: 10,
@@ -144,42 +132,27 @@ class _EventTypesAddOrEditPageState
                     }).toList(),
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.only(
-                      top: 30,
-                      bottom: 30,
-                      left: 50,
-                    ),
-                    width: 200,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: kDefaultXpehoColor,
-                      ),
-                      onPressed: isButtonEnabled
-                          ? () async {
-                              final eventType = EventsTypeEntity(
-                                id: widget.eventType?.id ?? '',
-                                label: labelController.text,
-                                color_code: selectedColor!,
-                              );
-                              if (widget.typePage == EventTypesTypeOfPage.add) {
-                                await ref.read(
-                                    agendaEventsTypeAddProvider(eventType)
-                                        .future);
-                              } else {
-                                await ref.read(
-                                    agendaEventsTypeUpdateProvider(eventType)
-                                        .future);
-                                ref.invalidate(agendaEventsTypeProvider);
-                              }
-                              ref.invalidate(agendaEventsTypeProvider);
-                              widget.onDismissed();
-                            }
-                          : null,
-                      child: Text(
+                  getElevatedButton(
+                    isEnabled: isButtonEnabled,
+                    onPressed: () async {
+                      final eventType = EventsTypeEntity(
+                        id: widget.eventType?.id ?? '',
+                        label: labelController.text,
+                        color_code: selectedColor!,
+                      );
+                      if (widget.typePage == EventTypesTypeOfPage.add) {
+                        await ref.read(
+                            agendaEventsTypeAddProvider(eventType).future);
+                      } else {
+                        await ref.read(
+                            agendaEventsTypeUpdateProvider(eventType).future);
+                        ref.invalidate(agendaEventsTypeProvider);
+                      }
+                      ref.invalidate(agendaEventsTypeProvider);
+                      widget.onDismissed();
+                    },
+                    buttonText:
                         '${(widget.typePage == EventTypesTypeOfPage.add) ? 'Ajouter' : 'Modifier'} le type',
-                      ),
-                    ),
                   ),
                 ],
               ),
@@ -200,18 +173,4 @@ class _EventTypesAddOrEditPageState
       ),
     );
   }
-
-  Widget _getText(String text,
-          {double? size = 16, Color? color = Colors.white}) =>
-      Container(
-        margin: const EdgeInsets.symmetric(horizontal: 5),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: size,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-        ),
-      );
 }

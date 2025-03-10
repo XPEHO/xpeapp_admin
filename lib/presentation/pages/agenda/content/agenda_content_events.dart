@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_put_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/events/events_card.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/common_floating_action_buttons.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/events/event_add_or_edit_page.dart';
 
@@ -29,12 +29,13 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
 
   @override
   Widget build(BuildContext context) {
+    EventTypePage typePage = mode == AgendaContentEventsMode.create
+        ? EventTypePage.add
+        : EventTypePage.edit;
     return (mode == AgendaContentEventsMode.view)
         ? _viewMode()
         : EventAddOrEditPage(
-            typePage: mode == AgendaContentEventsMode.create
-                ? EventTypePage.add
-                : EventTypePage.edit,
+            typePage: typePage,
             event: eventToEdit,
             onDismissed: () {
               setState(() {
@@ -108,41 +109,15 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
           ),
         ],
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Tooltip(
-            message: "Recharger les événements",
-            child: FloatingActionButton(
-              onPressed: () {
-                ref.invalidate(agendaEventsProvider);
-              },
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.refresh,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Tooltip(
-            message: 'Créer un événement',
-            child: FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  mode = AgendaContentEventsMode.create;
-                });
-              },
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
+      floatingActionButton: CommonFloatingActionButtons(
+        onCreate: () {
+          setState(() {
+            mode = AgendaContentEventsMode.create;
+          });
+        },
+        onRefresh: () {
+          ref.invalidate(agendaEventsProvider);
+        },
       ),
     );
   }

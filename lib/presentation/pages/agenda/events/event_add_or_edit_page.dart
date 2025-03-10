@@ -1,11 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_put_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/common_methods.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/common_widgets.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 
@@ -57,53 +56,8 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
     }
   }
 
-  Future<void> showDatePickerForEvent(BuildContext context) async {
-    final DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2010),
-      lastDate: DateTime(2035),
-      currentDate: selectedDate ?? DateTime.now(),
-      helpText: 'Choisir la date de l\'événement',
-    );
-
-    if (selected != null) {
-      setState(() {
-        selectedDate = selected;
-        isDateSelected = true;
-      });
-    } else {
-      setState(() {
-        isDateSelected = false;
-      });
-    }
-  }
-
-  Future<void> showTimePickerForEvent(
-      BuildContext context, bool isStartTime) async {
-    final TimeOfDay? selected = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-      helpText:
-          isStartTime ? 'Choisir l\'heure de début' : 'Choisir l\'heure de fin',
-    );
-
-    if (selected != null) {
-      setState(() {
-        if (isStartTime) {
-          selectedStartTime = selected;
-          startTimeController.text = selected.format(context);
-        } else {
-          selectedEndTime = selected;
-          endTimeController.text = selected.format(context);
-        }
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final dateFormatted = DateFormat('dd/MM/yyyy');
     final eventTypes = ref.watch(agendaEventsTypeProvider);
 
     return Scaffold(
@@ -128,68 +82,30 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _getText(
-                    'Choisissez un titre : ',
-                    color: Colors.black,
+                  getText('Choisissez un titre : ', color: Colors.black),
+                  const SizedBox(height: 20),
+                  getTextField(
+                    controller: titleController,
+                    hintText: 'Titre de l\'événement',
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    width: 500,
-                    child: TextField(
-                      controller: titleController,
-                      decoration: InputDecoration(
-                        hintText: 'Titre de l\'événement',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
+                  getText('Choisissez une description : ', color: Colors.black),
+                  const SizedBox(height: 20),
+                  getTextField(
+                    controller: descriptionController,
+                    hintText: 'Description de l\'événement',
+                    maxLines: 5,
                   ),
                   const SizedBox(height: 20),
-                  _getText(
-                    'Choisissez une description : ',
-                    color: Colors.black,
+                  getText('Choisissez un lieu : ', color: Colors.black),
+                  const SizedBox(height: 20),
+                  getTextField(
+                    controller: locationController,
+                    hintText: 'Lieu de l\'événement',
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    width: 500,
-                    child: TextField(
-                      controller: descriptionController,
-                      maxLines: 5,
-                      decoration: InputDecoration(
-                        hintText: 'Description de l\'événement',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  _getText(
-                    'Choisissez un lieu : ',
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    width: 500,
-                    child: TextField(
-                      controller: locationController,
-                      decoration: InputDecoration(
-                        hintText: 'Lieu de l\'événement',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  _getText(
-                    'Choisissez un type d\'événement : ',
-                    color: Colors.black,
-                  ),
+                  getText('Choisissez un type d\'événement : ',
+                      color: Colors.black),
                   const SizedBox(height: 10),
                   eventTypes.when(
                     data: (types) {
@@ -218,123 +134,86 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                     error: (error, stack) => Text('Erreur: $error'),
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      _getText(
-                        'Choisissez une date : ',
-                        color: Colors.black,
-                      ),
-                      const SizedBox(width: 20),
-                      (selectedDate == null)
-                          ? IconButton(
-                              onPressed: () => showDatePickerForEvent(context),
-                              icon: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.calendar_today,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  _getText(
-                                    'Aucune date',
-                                    size: 16,
-                                    color: Colors.black,
-                                  ),
-                                ],
-                              ),
-                            )
-                          : TextButton(
-                              onPressed: () => showDatePickerForEvent(context),
-                              child: _getText(
-                                dateFormatted.format(selectedDate!),
-                                size: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                    ],
+                  getDatePickerRow(
+                    selectedDate: selectedDate,
+                    onDateSelected: () => showDatePickerForEvent(
+                      context: context,
+                      selectedDate: selectedDate,
+                      onDateSelected: (date) {
+                        setState(() {
+                          selectedDate = date;
+                          isDateSelected = date != null;
+                        });
+                      },
+                    ),
+                    context: context,
+                    labelText: 'Choisissez une date : ',
                   ),
                   const SizedBox(height: 20),
-                  _getText(
-                    'Choisissez une heure de début : ',
-                    color: Colors.black,
-                  ),
+                  getText('Choisissez une heure de début : ',
+                      color: Colors.black),
                   const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    width: 500,
-                    child: TextField(
-                      controller: startTimeController,
-                      readOnly: true,
-                      onTap: () => showTimePickerForEvent(context, true),
-                      decoration: InputDecoration(
-                        hintText: 'Heure de début',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                  getTextField(
+                    controller: startTimeController,
+                    hintText: 'Heure de début',
+                    readOnly: true,
+                    onTap: () => showTimePickerForEvent(
+                      context: context,
+                      isStartTime: true,
+                      onTimeSelected: (time) {
+                        setState(() {
+                          selectedStartTime = time;
+                          startTimeController.text =
+                              time?.format(context) ?? '';
+                        });
+                      },
                     ),
                   ),
                   const SizedBox(height: 20),
-                  _getText(
-                    'Choisissez une heure de fin : ',
-                    color: Colors.black,
-                  ),
+                  getText('Choisissez une heure de fin : ',
+                      color: Colors.black),
                   const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    width: 500,
-                    child: TextField(
-                      controller: endTimeController,
-                      readOnly: true,
-                      onTap: () => showTimePickerForEvent(context, false),
-                      decoration: InputDecoration(
-                        hintText: 'Heure de fin',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                  getTextField(
+                    controller: endTimeController,
+                    hintText: 'Heure de fin',
+                    readOnly: true,
+                    onTap: () => showTimePickerForEvent(
+                      context: context,
+                      isStartTime: false,
+                      onTimeSelected: (time) {
+                        setState(() {
+                          selectedEndTime = time;
+                          endTimeController.text = time?.format(context) ?? '';
+                        });
+                      },
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(
-                      top: 30,
-                      bottom: 30,
-                      left: 50,
-                    ),
-                    width: 200,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: kDefaultXpehoColor,
-                      ),
-                      onPressed: (isDateSelected &&
-                              titleController.text.isNotEmpty &&
-                              selectedEventType != null)
-                          ? () async {
-                              final event = EventsPutEntity(
-                                id: widget.event?.id,
-                                title: titleController.text,
-                                date: selectedDate!.toIso8601String(),
-                                topic: descriptionController.text,
-                                location: locationController.text,
-                                start_time: startTimeController.text,
-                                end_time: endTimeController.text,
-                                type_id: selectedEventType!,
-                              );
+                  getElevatedButton(
+                    isEnabled: isDateSelected &&
+                        titleController.text.isNotEmpty &&
+                        selectedEventType != null,
+                    onPressed: () async {
+                      final event = EventsPutEntity(
+                        id: widget.event?.id,
+                        title: titleController.text,
+                        date: selectedDate!.toIso8601String(),
+                        topic: descriptionController.text,
+                        location: locationController.text,
+                        start_time: startTimeController.text,
+                        end_time: endTimeController.text,
+                        type_id: selectedEventType!,
+                      );
 
-                              if (widget.typePage == EventTypePage.add) {
-                                await ref
-                                    .read(agendaEventAddProvider(event).future);
-                              } else {
-                                await ref.read(
-                                    agendaEventUpdateProvider(event).future);
-                              }
-                              ref.invalidate(agendaEventsProvider);
-                              widget.onDismissed();
-                            }
-                          : null,
-                      child: Text(
+                      if (widget.typePage == EventTypePage.add) {
+                        await ref.read(agendaEventAddProvider(event).future);
+                      } else {
+                        await ref.read(agendaEventUpdateProvider(event).future);
+                      }
+                      ref.invalidate(agendaEventsProvider);
+                      widget.onDismissed();
+                    },
+                    buttonText:
                         '${(widget.typePage == EventTypePage.add) ? 'Ajouter' : 'Modifier'} l\'événement',
-                      ),
-                    ),
                   ),
                 ],
               ),
@@ -355,21 +234,4 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
       ),
     );
   }
-
-  Widget _getText(
-    String text, {
-    double? size = 16,
-    Color? color = Colors.white,
-  }) =>
-      Container(
-        margin: const EdgeInsets.symmetric(horizontal: 5),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: size,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-        ),
-      );
 }

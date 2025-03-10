@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_add_or_edit_page.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_card.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/common_floating_action_buttons.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 enum AgendaContentBirthdayMode {
@@ -27,12 +27,13 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
 
   @override
   Widget build(BuildContext context) {
+    BirthdayTypeOfPage typePage = mode == AgendaContentBirthdayMode.create
+        ? BirthdayTypeOfPage.add
+        : BirthdayTypeOfPage.edit;
     return (mode == AgendaContentBirthdayMode.view)
         ? _viewMode()
         : BirthdayAddOrEditPage(
-            typePage: mode == AgendaContentBirthdayMode.create
-                ? BirthdayTypeOfPage.add
-                : BirthdayTypeOfPage.edit,
+            typePage: typePage,
             birthday: birthdayToEdit,
             onDismissed: () {
               setState(() {
@@ -98,42 +99,16 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
           ),
         ],
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Tooltip(
-            message: "Recharger les anniversaires",
-            child: FloatingActionButton(
-              onPressed: () {
-                ref.invalidate(agendaEventsProvider);
-              },
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.refresh,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Tooltip(
-            message: 'Créer un anniversaire',
-            child: FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  mode = AgendaContentBirthdayMode.create;
-                  birthdayToEdit = null;
-                });
-              },
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
+      floatingActionButton: CommonFloatingActionButtons(
+        onCreate: () {
+          setState(() {
+            mode = AgendaContentBirthdayMode.create;
+            birthdayToEdit = null;
+          });
+        },
+        onRefresh: () {
+          ref.invalidate(agendaEventsProvider);
+        },
       ),
     );
   }

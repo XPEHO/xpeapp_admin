@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/enum/agenda_menu.dart';
-import 'package:xpeapp_admin/presentation/pages/agenda/content/birthday/agenda_content_birthday.dart';
-import 'package:xpeapp_admin/presentation/pages/agenda/content/events/agenda_content_events.dart';
-import 'package:xpeapp_admin/presentation/pages/agenda/content/types/agenda_content_types.dart';
+import 'package:xpeapp_admin/presentation/pages/agenda/content/agenda_content_birthday.dart';
+import 'package:xpeapp_admin/presentation/pages/agenda/content/agenda_content_events.dart';
+import 'package:xpeapp_admin/presentation/pages/agenda/content/agenda_content_types.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class AgendaContentMenu {
