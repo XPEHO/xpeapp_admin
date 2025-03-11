@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CustomContainer extends StatelessWidget {
+class AgendaCard extends StatelessWidget {
   final Widget child;
 
-  const CustomContainer({super.key, required this.child});
+  const AgendaCard({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

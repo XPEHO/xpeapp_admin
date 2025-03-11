@@ -16,7 +16,7 @@ Widget getText(String text, {double? size = 16, Color? color = Colors.white}) {
   );
 }
 
-Widget getTextField({
+Widget formTextField({
   required TextEditingController controller,
   required String hintText,
   bool readOnly = false,

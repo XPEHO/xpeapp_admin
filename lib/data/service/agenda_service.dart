@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
@@ -13,8 +14,8 @@ class AgendaService {
     this.baseUrl,
   );
 
-  Future<List<EventsEntity>> getAllEvents() async {
-    final response = await _backendApi.getAllEvents();
+  Future<List<EventsEntity>> getAllEvents({int page = 1}) async {
+    final response = await _backendApi.getAllEvents(page);
     if (response.response.statusCode == 200) {
       final data = response.data as List<dynamic>;
       return data
@@ -30,11 +31,21 @@ class AgendaService {
   }
 
   Future<EventsEntity> getEventById(String id) async {
-    final response = await _backendApi.getEventById(id);
-    if (response.response.statusCode == 200) {
-      return EventsEntity.fromJson(response.data);
-    } else {
-      throw Exception('Erreur lors de la récupération de l\'événement');
+    try {
+      final response = await _backendApi.getEventById(id);
+      if (response.response.statusCode == 200) {
+        return EventsEntity.fromJson(response.data);
+      } else {
+        throw Exception('Erreur lors de la récupération de l\'événement');
+      }
+    } catch (e) {
+      // handle http 404 error
+      if (e.toString().contains('404')) {
+        throw Exception('Erreur événement d\'id:$id non trouvé');
+      } else {
+        throw Exception(
+            'Erreur lors de la récupération de l\'événement d\'id:$id');
+      }
     }
   }
 
@@ -46,10 +57,20 @@ class AgendaService {
   }
 
   Future<void> updateEvent(EventsPutEntity event) async {
-    final response =
-        await _backendApi.updateEvent(event.id ?? '', event.toJson());
-    if (response.response.statusCode != 204) {
-      throw Exception('Erreur lors de la mise à jour de l\'événement');
+    try {
+      final response =
+          await _backendApi.updateEvent(event.id ?? '', event.toJson());
+      if (response.response.statusCode != 204) {
+        throw Exception('Erreur lors de la mise à jour de l\'événement');
+      }
+    } catch (e) {
+      // handle http 404 error
+      if (e.toString().contains('404')) {
+        throw Exception('Erreur événement d\'id:${event.id} non trouvé');
+      } else {
+        throw Exception(
+            'Erreur lors de la mise à jour de l\'événement d\'id:${event.id}');
+      }
     }
   }
 
@@ -79,11 +100,22 @@ class AgendaService {
   }
 
   Future<EventsTypeEntity> getEventTypeById(String id) async {
-    final response = await _backendApi.getEventTypeById(id);
-    if (response.response.statusCode == 200) {
-      return EventsTypeEntity.fromJson(response.data);
-    } else {
-      throw Exception('Erreur lors de la récupération du type d\'événement');
+    try {
+      final response = await _backendApi.getEventTypeById(id);
+      if (response.response.statusCode == 200) {
+        return EventsTypeEntity.fromJson(response.data);
+      } else {
+        throw Exception(
+            'Erreur lors de la récupération du type d\'événement d\'id:$id');
+      }
+    } catch (e) {
+      // handle http 404 error
+      if (e.toString().contains('404')) {
+        throw Exception('Erreur type d\'événement d\'id:$id non trouvé');
+      } else {
+        throw Exception(
+            'Erreur lors de la récupération du type d\'événement d\'id:$id');
+      }
     }
   }
 
@@ -95,24 +127,47 @@ class AgendaService {
   }
 
   Future<void> updateEventType(EventsTypeEntity eventType) async {
-    final response =
-        await _backendApi.updateEventType(eventType.id, eventType.toJson());
-    if (response.response.statusCode != 204) {
-      throw Exception('Erreur lors de la mise à jour du type d\'événement');
+    try {
+      final response =
+          await _backendApi.updateEventType(eventType.id, eventType.toJson());
+      if (response.response.statusCode == 204) {
+        return;
+      }
+    } catch (e) {
+      // handle http 404 error
+      if (e.toString().contains('404')) {
+        throw Exception(
+            'Erreur type d\'événement d\'id:${eventType.id} non trouvé');
+      } else {
+        throw Exception(
+            'Erreur lors de la mise à jour du type d\'événement d\'id:${eventType.id}');
+      }
     }
   }
 
   Future<void> deleteEventType(String id) async {
-    final response = await _backendApi.deleteEventType(id);
-    if (response.response.statusCode != 204) {
-      throw Exception('Erreur lors de la suppression du type d\'événement');
+    try {
+      final response = await _backendApi.deleteEventType(id);
+      if (response.response.statusCode == 204) {
+        return;
+      }
+    } catch (e) {
+      // handle http 404 and 409 error
+      if (e.toString().contains('404')) {
+        throw Exception('Erreur type d\'événement d\'id:$id non trouvé');
+      } else if (e.toString().contains('409')) {
+        throw Exception('Erreur type d\'événement d\'id:$id utilisé');
+      } else {
+        throw Exception(
+            'Erreur lors de la suppression du type d\'événement d\'id:$id');
+      }
     }
   }
 
   // Birthday
 
-  Future<List<BirthdayEntity>> getAllBirthdays() async {
-    final response = await _backendApi.getAllBirthdays();
+  Future<List<BirthdayEntity>> getAllBirthdays({int page = 1}) async {
+    final response = await _backendApi.getAllBirthdays(page);
     if (response.response.statusCode == 200) {
       final data = response.data as List<dynamic>;
       return data
@@ -128,11 +183,22 @@ class AgendaService {
   }
 
   Future<BirthdayEntity> getBirthdayById(String id) async {
-    final response = await _backendApi.getBirthdayById(id);
-    if (response.response.statusCode == 200) {
-      return BirthdayEntity.fromJson(response.data);
-    } else {
-      throw Exception('Erreur lors de la récupération de l\'anniversaire');
+    try {
+      final response = await _backendApi.getBirthdayById(id);
+      if (response.response.statusCode == 200) {
+        return BirthdayEntity.fromJson(response.data);
+      } else {
+        throw Exception('Erreur lors de la récupération de l\'anniversaire');
+      }
+    } catch (e) {
+      debugPrint('error: $e');
+      // handle http 404 error
+      if (e.toString().contains('404')) {
+        throw Exception('Erreur anniversaire d\'id:$id non trouvé');
+      } else {
+        throw Exception(
+            'Erreur lors de la récupération de l\'anniversaire d\'id:$id');
+      }
     }
   }
 
@@ -144,17 +210,39 @@ class AgendaService {
   }
 
   Future<void> updateBirthday(BirthdayEntity birthday) async {
-    final response =
-        await _backendApi.updateBirthday(birthday.id, birthday.toJson());
-    if (response.response.statusCode != 204) {
-      throw Exception('Erreur lors de la mise à jour de l\'anniversaire');
+    try {
+      final response =
+          await _backendApi.updateBirthday(birthday.id, birthday.toJson());
+      if (response.response.statusCode != 204) {
+        throw Exception('Erreur lors de la mise à jour de l\'anniversaire');
+      }
+    } catch (e) {
+      debugPrint('error: $e');
+      // handle http 404 error
+      if (e.toString().contains('404')) {
+        throw Exception('Erreur anniversaire d\'id:${birthday.id} non trouvé');
+      } else {
+        throw Exception(
+            'Erreur lors de la mise à jour de l\'anniversaire d\'id:${birthday.id}');
+      }
     }
   }
 
   Future<void> deleteBirthday(String id) async {
-    final response = await _backendApi.deleteBirthday(id);
-    if (response.response.statusCode != 204) {
-      throw Exception('Erreur lors de la suppression de l\'anniversaire');
+    try {
+      final response = await _backendApi.deleteBirthday(id);
+      if (response.response.statusCode != 204) {
+        throw Exception('Erreur lors de la suppression de l\'anniversaire');
+      }
+    } catch (e) {
+      debugPrint('error: $e');
+      // handle http 404 error
+      if (e.toString().contains('404')) {
+        throw Exception('Erreur anniversaire d\'id:$id non trouvé');
+      } else {
+        throw Exception(
+            'Erreur lors de la suppression de l\'anniversaire d\'id:$id');
+      }
     }
   }
 }

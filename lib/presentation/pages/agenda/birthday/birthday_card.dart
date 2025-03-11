@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/action_button.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/custom_container.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/custom_list_tile.dart';
 import 'package:xpeapp_admin/providers.dart';
 
@@ -25,7 +25,7 @@ class BirthdayCardState extends ConsumerState<BirthdayCard> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(
+    return AgendaCard(
       child: Column(
         children: [
           CustomListTile(

@@ -24,6 +24,7 @@ void main() {
   group('AgendaService test', () {
     group('Events', () {
       test('getAllEvents returns a list of events', () async {
+        const page = 1;
         final response = [
           {
             'id': '1',
@@ -33,7 +34,7 @@ void main() {
             'location': 'Location 1',
             'start_time': '10:00',
             'end_time': '12:00',
-            "type": {"id": "17", "label": "XpeUp"}
+            "type": {"id": "17", "label": "XpeUp", "color_code": "Color 1"}
           },
           {
             'id': '2',
@@ -43,11 +44,11 @@ void main() {
             'location': 'Location 2',
             'start_time': '10:00',
             'end_time': '12:00',
-            "type": {"id": "17", "label": "XpeUp"}
+            "type": {"id": "17", "label": "XpeUp", "color_code": "Color 1"}
           }
         ];
 
-        when(mockBackendApi.getAllEvents()).thenAnswer((_) async {
+        when(mockBackendApi.getAllEvents(page)).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
               response,
@@ -75,7 +76,7 @@ void main() {
           'location': 'Location 1',
           'start_time': '10:00',
           'end_time': '12:00',
-          "type": {"id": "17", "label": "XpeUp"}
+          "type": {"id": "17", "label": "XpeUp", "color_code": "Color 1"}
         };
 
         when(mockBackendApi.getEventById('1')).thenAnswer((_) async {
@@ -281,13 +282,24 @@ void main() {
     });
 
     group('Birthdays', () {
+      const page = 1;
       test('getAllBirthdays returns a list of birthdays', () async {
         final response = [
-          {'id': '1', 'name': 'Birthday 1'},
-          {'id': '2', 'name': 'Birthday 2'}
+          {
+            'id': '1',
+            'first_name': 'Birthday 1',
+            'email': 'email',
+            'birthdate': '2022-01-01'
+          },
+          {
+            'id': '2',
+            'first_name': 'Birthday 2',
+            'email': 'email',
+            'birthdate': '2022-01-02'
+          }
         ];
 
-        when(mockBackendApi.getAllBirthdays()).thenAnswer((_) async {
+        when(mockBackendApi.getAllBirthdays(page)).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
               response,
@@ -307,7 +319,12 @@ void main() {
       });
 
       test('getBirthdayById returns a birthday', () async {
-        final response = {'id': '1', 'name': 'Birthday 1'};
+        final response = {
+          'id': '1',
+          'first_name': 'Birthday 1',
+          'email': 'email',
+          'birthdate': '2022-01-01'
+        };
 
         when(mockBackendApi.getBirthdayById('1')).thenAnswer((_) async {
           return Future.value(

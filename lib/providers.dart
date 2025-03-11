@@ -293,8 +293,10 @@ final agendaMenuProvider =
 });
 
 // Events
-final agendaEventsProvider = FutureProvider<List<EventsEntity>>((ref) async {
-  return ref.watch(agendaServiceProvider).getAllEvents();
+final agendaEventsProvider =
+    FutureProvider.family<List<EventsEntity>, int>((ref, page) async {
+  final agendaService = ref.watch(agendaServiceProvider);
+  return agendaService.getAllEvents(page: page);
 });
 final agendaEventProvider =
     FutureProvider.family<EventsEntity, String>((ref, id) async {
@@ -311,21 +313,13 @@ final agendaEventAddProvider =
 });
 final agendaEventUpdateProvider =
     FutureProvider.family<bool, EventsPutEntity>((ref, event) async {
-  try {
-    await ref.watch(agendaServiceProvider).updateEvent(event);
-    return true;
-  } catch (e) {
-    return false;
-  }
+  await ref.watch(agendaServiceProvider).updateEvent(event);
+  return true;
 });
 final agendaEventDeleteProvider =
     FutureProvider.family<bool, String?>((ref, id) async {
-  try {
-    await ref.watch(agendaServiceProvider).deleteEvent(id ?? '');
-    return true;
-  } catch (e) {
-    return false;
-  }
+  await ref.watch(agendaServiceProvider).deleteEvent(id ?? '');
+  return true;
 });
 
 // Events-Type
@@ -340,36 +334,23 @@ final agendaEventTypeProvider =
 });
 final agendaEventsTypeAddProvider =
     FutureProvider.family<bool, EventsTypeEntity>((ref, eventType) async {
-  try {
-    await ref.watch(agendaServiceProvider).addEventType(eventType);
-    return true;
-  } catch (e) {
-    return false;
-  }
+  await ref.watch(agendaServiceProvider).addEventType(eventType);
+  return true;
 });
 final agendaEventsTypeUpdateProvider =
-    FutureProvider.family<bool, EventsTypeEntity>((ref, eventType) async {
-  try {
-    await ref.watch(agendaServiceProvider).updateEventType(eventType);
-    return true;
-  } catch (e) {
-    return false;
-  }
+    FutureProvider.family<void, EventsTypeEntity>((ref, eventType) async {
+  await ref.watch(agendaServiceProvider).updateEventType(eventType);
 });
 final agendaEventsTypeDeleteProvider =
-    FutureProvider.family<bool, String?>((ref, id) async {
-  try {
-    await ref.watch(agendaServiceProvider).deleteEventType(id ?? '');
-    return true;
-  } catch (e) {
-    return false;
-  }
+    FutureProvider.family<void, String>((ref, id) async {
+  await ref.watch(agendaServiceProvider).deleteEventType(id);
 });
 
 // Birthday
 final agendaBirthdayProvider =
-    FutureProvider<List<BirthdayEntity>>((ref) async {
-  return ref.watch(agendaServiceProvider).getAllBirthdays();
+    FutureProvider.family<List<BirthdayEntity>, int>((ref, param) async {
+  final agendaService = ref.watch(agendaServiceProvider);
+  return agendaService.getAllBirthdays(page: param);
 });
 final agendaBirthdayAddProvider =
     FutureProvider.family<bool, BirthdayEntity>((ref, event) async {
@@ -382,19 +363,11 @@ final agendaBirthdayAddProvider =
 });
 final agendaBirthdayUpdateProvider =
     FutureProvider.family<bool, BirthdayEntity>((ref, event) async {
-  try {
-    await ref.watch(agendaServiceProvider).updateBirthday(event);
-    return true;
-  } catch (e) {
-    return false;
-  }
+  await ref.watch(agendaServiceProvider).updateBirthday(event);
+  return true;
 });
 final agendaBirthdayDeleteProvider =
     FutureProvider.family<bool, String?>((ref, id) async {
-  try {
-    await ref.watch(agendaServiceProvider).deleteBirthday(id ?? '');
-    return true;
-  } catch (e) {
-    return false;
-  }
+  await ref.watch(agendaServiceProvider).deleteBirthday(id ?? '');
+  return true;
 });

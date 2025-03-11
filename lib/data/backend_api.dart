@@ -91,7 +91,9 @@ abstract class BackendApi {
   );
 
   @GET("xpeho/v1/agenda/events/")
-  Future<HttpResponse> getAllEvents();
+  Future<HttpResponse> getAllEvents(
+    @Query("page") int page,
+  );
 
   @GET("xpeho/v1/agenda/events/{id}")
   Future<HttpResponse> getEventById(
@@ -142,7 +144,9 @@ abstract class BackendApi {
   // Birthday
 
   @GET("xpeho/v1/agenda/birthday/")
-  Future<HttpResponse> getAllBirthdays();
+  Future<HttpResponse> getAllBirthdays(
+    @Query("page") int page,
+  );
 
   @GET("xpeho/v1/agenda/birthday/{id}")
   Future<HttpResponse> getBirthdayById(

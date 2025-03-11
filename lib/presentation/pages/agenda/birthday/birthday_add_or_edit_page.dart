@@ -95,7 +95,7 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
                   getText('Quel est le nom du collaborateur ? ',
                       color: Colors.black),
                   const SizedBox(height: 20),
-                  getTextField(
+                  formTextField(
                     controller: firstNameController,
                     hintText: 'Nom du collaborateur',
                   ),
@@ -120,7 +120,7 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
                   getText('Quel est l\'email du collaborateur ? ',
                       color: Colors.black),
                   const SizedBox(height: 20),
-                  getTextField(
+                  formTextField(
                     controller: emailController,
                     hintText: 'Email du collaborateur',
                   ),

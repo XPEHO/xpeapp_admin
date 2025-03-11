@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_put_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/events/events_card.dart';
@@ -26,6 +27,7 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
   AgendaContentEventsMode mode = AgendaContentEventsMode.view;
   EventsPutEntity? eventToEdit;
   EventsEntity? eventToView;
+  int currentPage = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
   }
 
   Widget _viewMode() {
-    final eventsAsyncValue = ref.watch(agendaEventsProvider);
+    final eventsAsyncValue = ref.watch(agendaEventsProvider(currentPage));
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -73,30 +75,37 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
                     if (events.isEmpty) {
                       return const Center(child: Text('Aucun événement'));
                     }
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: events.length,
-                      itemBuilder: (context, index) {
-                        final event = events[index];
-                        return EventsCard(
-                          events: event,
-                          onEdit: () {
-                            setState(() {
-                              mode = AgendaContentEventsMode.edit;
-                              eventToEdit = EventsPutEntity(
-                                id: event.id,
-                                title: event.title,
-                                date: event.date,
-                                topic: event.topic,
-                                location: event.location,
-                                start_time: event.start_time,
-                                end_time: event.end_time,
-                                type_id: event.type.id,
-                              );
-                            });
+                    return Column(
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: events.length,
+                          itemBuilder: (context, index) {
+                            final event = events[index];
+                            return EventsCard(
+                              events: event,
+                              onEdit: () {
+                                setState(() {
+                                  mode = AgendaContentEventsMode.edit;
+                                  eventToEdit = EventsPutEntity(
+                                    id: event.id,
+                                    title: event.title,
+                                    date: event.date,
+                                    topic: event.topic,
+                                    location: event.location,
+                                    start_time: event.start_time,
+                                    end_time: event.end_time,
+                                    type_id: event.type.id,
+                                  );
+                                });
+                              },
+                            );
                           },
-                        );
-                      },
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                      ],
                     );
                   },
                   loading: () =>
@@ -110,6 +119,46 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
         ],
       ),
       floatingActionButton: CommonFloatingActionButtons(
+        customTooltip: [
+          const SizedBox(
+            width: 10,
+          ),
+          Tooltip(
+            message: "Précédent",
+            child: FloatingActionButton(
+              onPressed: currentPage > 1
+                  ? () {
+                      setState(() {
+                        currentPage--;
+                      });
+                    }
+                  : null,
+              backgroundColor: kDefaultXpehoColor,
+              child: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Tooltip(
+            message: "Suivant",
+            child: FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  currentPage++;
+                });
+              },
+              backgroundColor: kDefaultXpehoColor,
+              child: const Icon(
+                Icons.arrow_forward,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
         onCreate: () {
           setState(() {
             mode = AgendaContentEventsMode.create;

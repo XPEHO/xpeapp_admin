@@ -5,11 +5,13 @@ import 'package:xpeapp_admin/data/colors.dart';
 class CommonFloatingActionButtons extends StatelessWidget {
   final VoidCallback onCreate;
   final VoidCallback onRefresh;
+  final List<Widget>? customTooltip;
 
   const CommonFloatingActionButtons({
     super.key,
     required this.onCreate,
     required this.onRefresh,
+    this.customTooltip,
   });
 
   @override
@@ -42,6 +44,11 @@ class CommonFloatingActionButtons extends StatelessWidget {
             ),
           ),
         ),
+        customTooltip != null
+            ? Row(
+                children: customTooltip!,
+              )
+            : const SizedBox(),
       ],
     );
   }

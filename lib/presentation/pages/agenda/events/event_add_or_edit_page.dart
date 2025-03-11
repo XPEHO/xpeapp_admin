@@ -84,14 +84,14 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                 children: [
                   getText('Choisissez un titre : ', color: Colors.black),
                   const SizedBox(height: 20),
-                  getTextField(
+                  formTextField(
                     controller: titleController,
                     hintText: 'Titre de l\'événement',
                   ),
                   const SizedBox(height: 20),
                   getText('Choisissez une description : ', color: Colors.black),
                   const SizedBox(height: 20),
-                  getTextField(
+                  formTextField(
                     controller: descriptionController,
                     hintText: 'Description de l\'événement',
                     maxLines: 5,
@@ -99,7 +99,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                   const SizedBox(height: 20),
                   getText('Choisissez un lieu : ', color: Colors.black),
                   const SizedBox(height: 20),
-                  getTextField(
+                  formTextField(
                     controller: locationController,
                     hintText: 'Lieu de l\'événement',
                   ),
@@ -109,11 +109,14 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                   const SizedBox(height: 10),
                   eventTypes.when(
                     data: (types) {
+                      final selectedType = types.isNotEmpty
+                          ? types.firstWhere(
+                              (type) => type.id == selectedEventType,
+                              orElse: () => types.first,
+                            )
+                          : null;
                       return DropdownButton<EventsTypeEntity>(
-                        value: types.firstWhere(
-                          (type) => type.id == selectedEventType,
-                          orElse: () => types.first,
-                        ),
+                        value: selectedType,
                         hint: const Text('Sélectionnez un type d\'événement'),
                         onChanged: (EventsTypeEntity? newValue) {
                           setState(() {
@@ -153,7 +156,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                   getText('Choisissez une heure de début : ',
                       color: Colors.black),
                   const SizedBox(height: 20),
-                  getTextField(
+                  formTextField(
                     controller: startTimeController,
                     hintText: 'Heure de début',
                     readOnly: true,
@@ -173,7 +176,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                   getText('Choisissez une heure de fin : ',
                       color: Colors.black),
                   const SizedBox(height: 20),
-                  getTextField(
+                  formTextField(
                     controller: endTimeController,
                     hintText: 'Heure de fin',
                     readOnly: true,

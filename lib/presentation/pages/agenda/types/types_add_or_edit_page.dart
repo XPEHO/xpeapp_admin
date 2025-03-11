@@ -98,7 +98,7 @@ class _EventTypesAddOrEditPageState
                   getText('Choisissez un label pour le type : ',
                       color: Colors.black),
                   const SizedBox(height: 20),
-                  getTextField(
+                  formTextField(
                     controller: labelController,
                     hintText: 'Type de l\'événement',
                   ),

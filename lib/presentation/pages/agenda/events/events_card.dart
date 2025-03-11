@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/action_button.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/custom_container.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/custom_list_tile.dart';
 import 'package:xpeapp_admin/providers.dart';
 
@@ -31,7 +31,14 @@ class EventsCardState extends ConsumerState<EventsCard> {
     // Format the DateTime to the desired format
     final formattedDate = DateFormat('dd/MM/yyyy').format(date);
 
-    return CustomContainer(
+    // Check if the start and end time are 00:00:00 and 00:00:00 respectively and treat them as null
+    final startTime = widget.events.start_time == '00:00:00'
+        ? null
+        : widget.events.start_time;
+    final endTime =
+        widget.events.end_time == '00:00:00' ? null : widget.events.end_time;
+
+    return AgendaCard(
       child: Column(
         children: [
           CustomListTile(
@@ -72,7 +79,7 @@ class EventsCardState extends ConsumerState<EventsCard> {
                         color: Colors.black54,
                       ),
                     ),
-                  if (widget.events.start_time != null)
+                  if (startTime != null)
                     Text(
                       'Heure de début: ${widget.events.start_time}',
                       style: const TextStyle(
@@ -80,7 +87,7 @@ class EventsCardState extends ConsumerState<EventsCard> {
                         color: Colors.black54,
                       ),
                     ),
-                  if (widget.events.end_time != null)
+                  if (endTime != null)
                     Text(
                       'Heure de fin: ${widget.events.end_time}',
                       style: const TextStyle(

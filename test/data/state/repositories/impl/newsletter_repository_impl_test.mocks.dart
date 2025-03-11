@@ -1600,17 +1600,18 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);
 
   @override
-  _i5.Future<_i6.HttpResponse<dynamic>> getAllEvents() => (super.noSuchMethod(
+  _i5.Future<_i6.HttpResponse<dynamic>> getAllEvents(int? page) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getAllEvents,
-          [],
+          [page],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
             _FakeHttpResponse_13<dynamic>(
           this,
           Invocation.method(
             #getAllEvents,
-            [],
+            [page],
           ),
         )),
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);
@@ -1788,18 +1789,18 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);
 
   @override
-  _i5.Future<_i6.HttpResponse<dynamic>> getAllBirthdays() =>
+  _i5.Future<_i6.HttpResponse<dynamic>> getAllBirthdays(int? page) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllBirthdays,
-          [],
+          [page],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
             _FakeHttpResponse_13<dynamic>(
           this,
           Invocation.method(
             #getAllBirthdays,
-            [],
+            [page],
           ),
         )),
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);

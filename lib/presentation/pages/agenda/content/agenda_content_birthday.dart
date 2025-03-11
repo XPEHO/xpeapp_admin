@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_add_or_edit_page.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_card.dart';
@@ -24,6 +25,7 @@ class AgendaContentBirthday extends ConsumerStatefulWidget {
 class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
   AgendaContentBirthdayMode mode = AgendaContentBirthdayMode.view;
   BirthdayEntity? birthdayToEdit;
+  int currentPage = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
   }
 
   Widget _viewMode() {
-    final eventsTypeAsyncValue = ref.watch(agendaBirthdayProvider);
+    final birthdayAsyncValue = ref.watch(agendaBirthdayProvider(currentPage));
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -66,27 +68,34 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
               padding: const EdgeInsets.all(10),
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 50),
-                child: eventsTypeAsyncValue.when(
+                child: birthdayAsyncValue.when(
                   data: (birthday) {
                     if (birthday.isEmpty) {
                       return const Center(
                           child: Text('Aucun anniversaires trouvés'));
                     }
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: birthday.length,
-                      itemBuilder: (context, index) {
-                        final birthDay = birthday[index];
-                        return BirthdayCard(
-                          birthdayEntity: birthDay,
-                          onEdit: () {
-                            setState(() {
-                              birthdayToEdit = birthDay;
-                              mode = AgendaContentBirthdayMode.edit;
-                            });
+                    return Column(
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: birthday.length,
+                          itemBuilder: (context, index) {
+                            final birthDay = birthday[index];
+                            return BirthdayCard(
+                              birthdayEntity: birthDay,
+                              onEdit: () {
+                                setState(() {
+                                  birthdayToEdit = birthDay;
+                                  mode = AgendaContentBirthdayMode.edit;
+                                });
+                              },
+                            );
                           },
-                        );
-                      },
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                      ],
                     );
                   },
                   loading: () =>
@@ -100,6 +109,48 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
         ],
       ),
       floatingActionButton: CommonFloatingActionButtons(
+        customTooltip: [
+          const SizedBox(
+            width: 10,
+          ),
+          Tooltip(
+            message: "Précédent",
+            child: FloatingActionButton(
+              onPressed: currentPage > 1
+                  ? () {
+                      setState(() {
+                        currentPage--;
+                        ref.invalidate(agendaBirthdayProvider);
+                      });
+                    }
+                  : null,
+              backgroundColor: kDefaultXpehoColor,
+              child: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Tooltip(
+            message: "Suivant",
+            child: FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  currentPage++;
+                  ref.invalidate(agendaBirthdayProvider);
+                });
+              },
+              backgroundColor: kDefaultXpehoColor,
+              child: const Icon(
+                Icons.arrow_forward,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
         onCreate: () {
           setState(() {
             mode = AgendaContentBirthdayMode.create;
@@ -107,7 +158,7 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
           });
         },
         onRefresh: () {
-          ref.invalidate(agendaEventsProvider);
+          ref.invalidate(agendaBirthdayProvider);
         },
       ),
     );
