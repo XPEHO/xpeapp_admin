@@ -5,9 +5,11 @@ import 'package:mockito/mockito.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:xpeapp_admin/data/backend_api.dart' show BackendApi;
 import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
-import 'package:xpeapp_admin/data/entities/agenda/events_put_entity.dart';
+import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
+import 'package:xpeapp_admin/data/exception/agenda_exception.dart';
 import 'package:xpeapp_admin/data/service/agenda_service.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/datetime_picker_methods.dart';
 
 import 'agenda_service_test.mocks.dart';
 
@@ -18,7 +20,7 @@ void main() {
 
   setUpAll(() {
     mockBackendApi = MockBackendApi();
-    agendaService = AgendaService(mockBackendApi, 'baseUrl');
+    agendaService = AgendaService(mockBackendApi);
   });
 
   group('AgendaService test', () {
@@ -32,9 +34,9 @@ void main() {
             'date': '2022-01-01',
             'topic': 'Topic 1',
             'location': 'Location 1',
-            'start_time': '10:00',
-            'end_time': '12:00',
-            "type": {"id": "17", "label": "XpeUp", "color_code": "Color 1"}
+            'start_time': '10:00:00',
+            'end_time': '12:00:00',
+            "type_id": '17'
           },
           {
             'id': '2',
@@ -42,9 +44,9 @@ void main() {
             'date': '2022-01-02',
             'topic': 'Topic 2',
             'location': 'Location 2',
-            'start_time': '10:00',
-            'end_time': '12:00',
-            "type": {"id": "17", "label": "XpeUp", "color_code": "Color 1"}
+            'start_time': '10:00:00',
+            'end_time': '12:00:00',
+            "type_id": '17'
           }
         ];
 
@@ -74,9 +76,9 @@ void main() {
           'date': '2022-01-01',
           'topic': 'Topic 1',
           'location': 'Location 1',
-          'start_time': '10:00',
-          'end_time': '12:00',
-          "type": {"id": "17", "label": "XpeUp", "color_code": "Color 1"}
+          'start_time': '10:00:00',
+          'end_time': '12:00:00',
+          "type_id": '17'
         };
 
         when(mockBackendApi.getEventById('1')).thenAnswer((_) async {
@@ -110,16 +112,16 @@ void main() {
         });
 
         expect(
-          () async => await agendaService.addEvent(const EventsPutEntity(
+          () async => await agendaService.addEvent(EventsEntity(
               id: '1',
               title: 'Event 1',
-              date: '2022-01-01',
+              date: getDateFromDateString('2022-01-01'),
               topic: 'Topic 1',
               location: 'Location 1',
-              start_time: '10:00',
-              end_time: '12:00',
-              type_id: '1')),
-          throwsException,
+              startTime: getTimeOfDayFromTimeString('10:00:00'),
+              endTime: getTimeOfDayFromTimeString('12:00:00'),
+              typeId: '1')),
+          throwsA(isA<AgendaException>()),
         );
       });
 
@@ -137,21 +139,21 @@ void main() {
         });
 
         expect(
-          () async => await agendaService.updateEvent(const EventsPutEntity(
+          () async => await agendaService.updateEvent(EventsEntity(
               id: '1',
               title: 'Event 1',
-              date: '2022-01-01',
+              date: getDateFromDateString('2022-01-01'),
               topic: 'Topic 1',
               location: 'Location 1',
-              start_time: '10:00',
-              end_time: '12:00',
-              type_id: '1')),
-          throwsException,
+              startTime: getTimeOfDayFromTimeString('10:00:00'),
+              endTime: getTimeOfDayFromTimeString('12:00:00'),
+              typeId: '1')),
+          throwsA(isA<AgendaException>()),
         );
       });
 
       test('deleteEvent throws an exception on error', () async {
-        when(mockBackendApi.deleteEvent('1')).thenAnswer((_) async {
+        when(mockBackendApi.deleteEvent(any)).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
               {},
@@ -165,7 +167,7 @@ void main() {
 
         expect(
           () async => await agendaService.deleteEvent('1'),
-          throwsException,
+          throwsA(isA<AgendaException>()),
         );
       });
     });
@@ -235,8 +237,8 @@ void main() {
 
         expect(
           () async => await agendaService.addEventType(const EventsTypeEntity(
-              id: '1', label: 'Type 1', color_code: 'Color 1')),
-          throwsException,
+              id: '1', label: 'Type 1', colorCode: 'Color 1')),
+          throwsA(isA<AgendaException>()),
         );
       });
 
@@ -256,13 +258,13 @@ void main() {
         expect(
           () async => await agendaService.updateEventType(
               const EventsTypeEntity(
-                  id: '1', label: 'Type 1', color_code: 'Color 1')),
-          throwsException,
+                  id: '1', label: 'Type 1', colorCode: 'Color 1')),
+          throwsA(isA<AgendaException>()),
         );
       });
 
       test('deleteEventType throws an exception on error', () async {
-        when(mockBackendApi.deleteEventType('1')).thenAnswer((_) async {
+        when(mockBackendApi.deleteEventType(any)).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
               {},
@@ -276,7 +278,7 @@ void main() {
 
         expect(
           () async => await agendaService.deleteEventType('1'),
-          throwsException,
+          throwsA(isA<AgendaException>()),
         );
       });
     });
@@ -314,8 +316,8 @@ void main() {
         final birthdays = await agendaService.getAllBirthdays();
 
         expect(birthdays.length, 2);
-        expect(birthdays[0].first_name, 'Birthday 1');
-        expect(birthdays[1].first_name, 'Birthday 2');
+        expect(birthdays[0].firstName, 'Birthday 1');
+        expect(birthdays[1].firstName, 'Birthday 2');
       });
 
       test('getBirthdayById returns a birthday', () async {
@@ -340,7 +342,7 @@ void main() {
 
         final birthday = await agendaService.getBirthdayById('1');
 
-        expect(birthday.first_name, 'Birthday 1');
+        expect(birthday.firstName, 'Birthday 1');
       });
 
       test('addBirthday throws an exception on error', () async {
@@ -357,12 +359,15 @@ void main() {
         });
 
         expect(
-          () async => await agendaService.addBirthday(const BirthdayEntity(
+          () async => await agendaService.addBirthday(
+            BirthdayEntity(
               id: '1',
-              first_name: 'Birthday 1',
+              firstName: 'Birthday 1',
               email: 'email',
-              birthdate: '2022-01-01')),
-          throwsException,
+              birthdate: getDateFromDateString('2022-01-01'),
+            ),
+          ),
+          throwsA(isA<AgendaException>()),
         );
       });
 
@@ -380,12 +385,15 @@ void main() {
         });
 
         expect(
-          () async => await agendaService.updateBirthday(const BirthdayEntity(
+          () async => await agendaService.updateBirthday(
+            BirthdayEntity(
               id: '1',
-              first_name: 'Birthday 1',
+              firstName: 'Birthday 1',
               email: 'email',
-              birthdate: '2022-01-01')),
-          throwsException,
+              birthdate: getDateFromDateString('2022-01-01'),
+            ),
+          ),
+          throwsA(isA<AgendaException>()),
         );
       });
 
@@ -404,7 +412,7 @@ void main() {
 
         expect(
           () async => await agendaService.deleteBirthday('1'),
-          throwsException,
+          throwsA(isA<AgendaException>()),
         );
       });
     });

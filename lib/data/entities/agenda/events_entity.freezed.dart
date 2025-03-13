@@ -21,12 +21,15 @@ EventsEntity _$EventsEntityFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$EventsEntity {
   String? get id => throw _privateConstructorUsedError;
-  String get date => throw _privateConstructorUsedError;
-  String? get start_time => throw _privateConstructorUsedError;
-  String? get end_time => throw _privateConstructorUsedError;
+  DateTime get date => throw _privateConstructorUsedError;
+  @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+  TimeOfDay? get startTime => throw _privateConstructorUsedError;
+  @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+  TimeOfDay? get endTime => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
-  EventsTypeEntity get type => throw _privateConstructorUsedError;
+  @JsonKey(name: 'type_id')
+  String get typeId => throw _privateConstructorUsedError;
   String? get topic => throw _privateConstructorUsedError;
 
   /// Serializes this EventsEntity to a JSON map.
@@ -47,15 +50,15 @@ abstract class $EventsEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      String date,
-      String? start_time,
-      String? end_time,
+      DateTime date,
+      @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+      TimeOfDay? startTime,
+      @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+      TimeOfDay? endTime,
       String title,
       String? location,
-      EventsTypeEntity type,
+      @JsonKey(name: 'type_id') String typeId,
       String? topic});
-
-  $EventsTypeEntityCopyWith<$Res> get type;
 }
 
 /// @nodoc
@@ -75,11 +78,11 @@ class _$EventsEntityCopyWithImpl<$Res, $Val extends EventsEntity>
   $Res call({
     Object? id = freezed,
     Object? date = null,
-    Object? start_time = freezed,
-    Object? end_time = freezed,
+    Object? startTime = freezed,
+    Object? endTime = freezed,
     Object? title = null,
     Object? location = freezed,
-    Object? type = null,
+    Object? typeId = null,
     Object? topic = freezed,
   }) {
     return _then(_value.copyWith(
@@ -90,15 +93,15 @@ class _$EventsEntityCopyWithImpl<$Res, $Val extends EventsEntity>
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as String,
-      start_time: freezed == start_time
-          ? _value.start_time
-          : start_time // ignore: cast_nullable_to_non_nullable
-              as String?,
-      end_time: freezed == end_time
-          ? _value.end_time
-          : end_time // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime,
+      startTime: freezed == startTime
+          ? _value.startTime
+          : startTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay?,
+      endTime: freezed == endTime
+          ? _value.endTime
+          : endTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -107,25 +110,15 @@ class _$EventsEntityCopyWithImpl<$Res, $Val extends EventsEntity>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as EventsTypeEntity,
+      typeId: null == typeId
+          ? _value.typeId
+          : typeId // ignore: cast_nullable_to_non_nullable
+              as String,
       topic: freezed == topic
           ? _value.topic
           : topic // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
-  }
-
-  /// Create a copy of EventsEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $EventsTypeEntityCopyWith<$Res> get type {
-    return $EventsTypeEntityCopyWith<$Res>(_value.type, (value) {
-      return _then(_value.copyWith(type: value) as $Val);
-    });
   }
 }
 
@@ -139,16 +132,15 @@ abstract class _$$EventsEntityImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? id,
-      String date,
-      String? start_time,
-      String? end_time,
+      DateTime date,
+      @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+      TimeOfDay? startTime,
+      @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+      TimeOfDay? endTime,
       String title,
       String? location,
-      EventsTypeEntity type,
+      @JsonKey(name: 'type_id') String typeId,
       String? topic});
-
-  @override
-  $EventsTypeEntityCopyWith<$Res> get type;
 }
 
 /// @nodoc
@@ -166,11 +158,11 @@ class __$$EventsEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? date = null,
-    Object? start_time = freezed,
-    Object? end_time = freezed,
+    Object? startTime = freezed,
+    Object? endTime = freezed,
     Object? title = null,
     Object? location = freezed,
-    Object? type = null,
+    Object? typeId = null,
     Object? topic = freezed,
   }) {
     return _then(_$EventsEntityImpl(
@@ -181,15 +173,15 @@ class __$$EventsEntityImplCopyWithImpl<$Res>
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as String,
-      start_time: freezed == start_time
-          ? _value.start_time
-          : start_time // ignore: cast_nullable_to_non_nullable
-              as String?,
-      end_time: freezed == end_time
-          ? _value.end_time
-          : end_time // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime,
+      startTime: freezed == startTime
+          ? _value.startTime
+          : startTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay?,
+      endTime: freezed == endTime
+          ? _value.endTime
+          : endTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -198,10 +190,10 @@ class __$$EventsEntityImplCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as EventsTypeEntity,
+      typeId: null == typeId
+          ? _value.typeId
+          : typeId // ignore: cast_nullable_to_non_nullable
+              as String,
       topic: freezed == topic
           ? _value.topic
           : topic // ignore: cast_nullable_to_non_nullable
@@ -217,11 +209,13 @@ class _$EventsEntityImpl implements _EventsEntity {
   const _$EventsEntityImpl(
       {this.id,
       required this.date,
-      this.start_time,
-      this.end_time,
+      @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+      this.startTime,
+      @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+      this.endTime,
       required this.title,
       this.location,
-      required this.type,
+      @JsonKey(name: 'type_id') required this.typeId,
       this.topic});
 
   factory _$EventsEntityImpl.fromJson(Map<String, dynamic> json) =>
@@ -230,23 +224,26 @@ class _$EventsEntityImpl implements _EventsEntity {
   @override
   final String? id;
   @override
-  final String date;
+  final DateTime date;
   @override
-  final String? start_time;
+  @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+  final TimeOfDay? startTime;
   @override
-  final String? end_time;
+  @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+  final TimeOfDay? endTime;
   @override
   final String title;
   @override
   final String? location;
   @override
-  final EventsTypeEntity type;
+  @JsonKey(name: 'type_id')
+  final String typeId;
   @override
   final String? topic;
 
   @override
   String toString() {
-    return 'EventsEntity(id: $id, date: $date, start_time: $start_time, end_time: $end_time, title: $title, location: $location, type: $type, topic: $topic)';
+    return 'EventsEntity(id: $id, date: $date, startTime: $startTime, endTime: $endTime, title: $title, location: $location, typeId: $typeId, topic: $topic)';
   }
 
   @override
@@ -256,21 +253,20 @@ class _$EventsEntityImpl implements _EventsEntity {
             other is _$EventsEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.date, date) || other.date == date) &&
-            (identical(other.start_time, start_time) ||
-                other.start_time == start_time) &&
-            (identical(other.end_time, end_time) ||
-                other.end_time == end_time) &&
+            (identical(other.startTime, startTime) ||
+                other.startTime == startTime) &&
+            (identical(other.endTime, endTime) || other.endTime == endTime) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.location, location) ||
                 other.location == location) &&
-            (identical(other.type, type) || other.type == type) &&
+            (identical(other.typeId, typeId) || other.typeId == typeId) &&
             (identical(other.topic, topic) || other.topic == topic));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, date, start_time, end_time,
-      title, location, type, topic);
+  int get hashCode => Object.hash(runtimeType, id, date, startTime, endTime,
+      title, location, typeId, topic);
 
   /// Create a copy of EventsEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -291,12 +287,14 @@ class _$EventsEntityImpl implements _EventsEntity {
 abstract class _EventsEntity implements EventsEntity {
   const factory _EventsEntity(
       {final String? id,
-      required final String date,
-      final String? start_time,
-      final String? end_time,
+      required final DateTime date,
+      @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+      final TimeOfDay? startTime,
+      @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+      final TimeOfDay? endTime,
       required final String title,
       final String? location,
-      required final EventsTypeEntity type,
+      @JsonKey(name: 'type_id') required final String typeId,
       final String? topic}) = _$EventsEntityImpl;
 
   factory _EventsEntity.fromJson(Map<String, dynamic> json) =
@@ -305,17 +303,20 @@ abstract class _EventsEntity implements EventsEntity {
   @override
   String? get id;
   @override
-  String get date;
+  DateTime get date;
   @override
-  String? get start_time;
+  @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+  TimeOfDay? get startTime;
   @override
-  String? get end_time;
+  @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
+  TimeOfDay? get endTime;
   @override
   String get title;
   @override
   String? get location;
   @override
-  EventsTypeEntity get type;
+  @JsonKey(name: 'type_id')
+  String get typeId;
   @override
   String? get topic;
 

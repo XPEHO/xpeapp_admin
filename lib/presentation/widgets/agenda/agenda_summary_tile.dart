@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class CustomListTile extends StatelessWidget {
+class AgendaSummaryTile extends StatelessWidget {
   final String title;
   final IconData leadingIcon;
   final IconData? trailingIcon;
   final VoidCallback? onTap;
 
-  const CustomListTile({
+  const AgendaSummaryTile({
     super.key,
     required this.title,
     required this.leadingIcon,

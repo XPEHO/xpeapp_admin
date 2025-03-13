@@ -2,18 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
-import 'package:xpeapp_admin/data/entities/agenda/events_put_entity.dart';
+import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/events/events_card.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/common_floating_action_buttons.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_floating_buttons.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/events/event_add_or_edit_page.dart';
-
-enum AgendaContentEventsMode {
-  view,
-  create,
-  edit,
-}
 
 class AgendaContentEvents extends ConsumerStatefulWidget {
   const AgendaContentEvents({super.key});
@@ -24,24 +18,21 @@ class AgendaContentEvents extends ConsumerStatefulWidget {
 }
 
 class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
-  AgendaContentEventsMode mode = AgendaContentEventsMode.view;
-  EventsPutEntity? eventToEdit;
+  CrudPageMode pageMode = CrudPageMode.view;
+  EventsEntity? eventToEdit;
   EventsEntity? eventToView;
   int currentPage = 1;
 
   @override
   Widget build(BuildContext context) {
-    EventTypePage typePage = mode == AgendaContentEventsMode.create
-        ? EventTypePage.add
-        : EventTypePage.edit;
-    return (mode == AgendaContentEventsMode.view)
+    return (pageMode == CrudPageMode.view)
         ? _viewMode()
         : EventAddOrEditPage(
-            typePage: typePage,
+            pageMode: pageMode,
             event: eventToEdit,
             onDismissed: () {
               setState(() {
-                mode = AgendaContentEventsMode.view;
+                pageMode = CrudPageMode.view;
                 eventToEdit = null;
               });
             },
@@ -86,16 +77,16 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
                               events: event,
                               onEdit: () {
                                 setState(() {
-                                  mode = AgendaContentEventsMode.edit;
-                                  eventToEdit = EventsPutEntity(
+                                  pageMode = CrudPageMode.edit;
+                                  eventToEdit = EventsEntity(
                                     id: event.id,
                                     title: event.title,
                                     date: event.date,
                                     topic: event.topic,
                                     location: event.location,
-                                    start_time: event.start_time,
-                                    end_time: event.end_time,
-                                    type_id: event.type.id,
+                                    startTime: event.startTime,
+                                    endTime: event.endTime,
+                                    typeId: event.typeId,
                                   );
                                 });
                               },
@@ -118,7 +109,7 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
           ),
         ],
       ),
-      floatingActionButton: CommonFloatingActionButtons(
+      floatingActionButton: AgendaFloatingButtons(
         customTooltip: [
           const SizedBox(
             width: 10,
@@ -161,7 +152,7 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
         ],
         onCreate: () {
           setState(() {
-            mode = AgendaContentEventsMode.create;
+            pageMode = CrudPageMode.create;
           });
         },
         onRefresh: () {

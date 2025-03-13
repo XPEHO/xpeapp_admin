@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 Future<void> showDatePickerForEvent({
   required BuildContext context,
@@ -30,4 +31,44 @@ Future<void> showTimePickerForEvent({
   );
 
   onTimeSelected(selected);
+}
+
+// DateTime format
+
+DateTime getDateFromDateString(String date) {
+  return DateFormat('yyyy-MM-dd').parse(date);
+}
+
+DateTime? getTimeFromTimeString(String time) {
+  if (time.isEmpty) {
+    return null;
+  }
+  return DateFormat('HH:mm:ss').parse(time);
+}
+
+String getTimeStringFromTime(DateTime time) {
+  return DateFormat('HH:mm:ss').format(time);
+}
+
+// TimeOfDay format
+
+TimeOfDay? getTimeOfDayFromTimeString(String time) {
+  if (time.isEmpty) {
+    return null;
+  }
+  final dt = getTimeFromTimeString(time);
+  if (dt == null) {
+    return null;
+  }
+  return TimeOfDay.fromDateTime(dt);
+}
+
+DateTime getTimeFromTimeOfDay(TimeOfDay time) {
+  final now = DateTime.now();
+  return DateTime(now.year, now.month, now.day, time.hour, time.minute);
+}
+
+String getTimeStringFromTimeOfDay(TimeOfDay time) {
+  final dt = getTimeFromTimeOfDay(time);
+  return getTimeStringFromTime(dt);
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/action_button.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card_controls.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/custom_list_tile.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_summary_tile.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class BirthdayCard extends ConsumerStatefulWidget {
@@ -25,12 +26,16 @@ class BirthdayCardState extends ConsumerState<BirthdayCard> {
 
   @override
   Widget build(BuildContext context) {
+    final DateFormat dateFormat = DateFormat('dd/MM'); // Define the date format
+    final String formattedBirthdayDate =
+        dateFormat.format(widget.birthdayEntity.birthdate);
+
     return AgendaCard(
       child: Column(
         children: [
-          CustomListTile(
+          AgendaSummaryTile(
             title:
-                'Anniversaire de ${widget.birthdayEntity.first_name} le ${widget.birthdayEntity.birthdate}',
+                'Anniversaire de ${widget.birthdayEntity.firstName} le $formattedBirthdayDate',
             leadingIcon: Icons.event_note,
             trailingIcon:
                 _isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
@@ -59,7 +64,7 @@ class BirthdayCardState extends ConsumerState<BirthdayCard> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  ActionButtons(
+                  AgendaCardControls(
                     onEdit: widget.onEdit,
                     onDelete: () async {
                       await ref.read(

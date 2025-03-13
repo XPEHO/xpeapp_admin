@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
+import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/common_methods.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/common_widgets.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_date_picker.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_elevated_button.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_field.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_label.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/datetime_picker_methods.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 
-enum BirthdayTypeOfPage {
-  add,
-  edit,
-}
-
 class BirthdayAddOrEditPage extends ConsumerStatefulWidget {
-  final BirthdayTypeOfPage typePage;
+  final CrudPageMode pageMode;
   final BirthdayEntity? birthday;
   final VoidCallback onDismissed;
 
   const BirthdayAddOrEditPage({
     super.key,
-    required this.typePage,
+    required this.pageMode,
     this.birthday,
     required this.onDismissed,
   });
@@ -40,9 +39,9 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.typePage == BirthdayTypeOfPage.edit && widget.birthday != null) {
-      firstNameController.text = widget.birthday?.first_name ?? '';
-      selectedDate = DateTime.parse(widget.birthday?.birthdate ?? '');
+    if (widget.pageMode == CrudPageMode.edit && widget.birthday != null) {
+      firstNameController.text = widget.birthday?.firstName ?? '';
+      selectedDate = widget.birthday?.birthdate;
       emailController.text = widget.birthday?.email ?? '';
     }
 
@@ -74,7 +73,7 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          '${(widget.typePage == BirthdayTypeOfPage.add) ? 'Ajouter' : 'Modifier'} un anniversaire',
+          '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} un anniversaire',
         ),
         backgroundColor: Colors.white,
       ),
@@ -84,7 +83,7 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           subtitleWidget(
-            'Remplissez les informations pour ${widget.typePage == BirthdayTypeOfPage.add ? 'ajouter' : 'modifier'} un anniversaire',
+            'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un anniversaire',
           ),
           const Divider(),
           Expanded(
@@ -92,15 +91,17 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  getText('Quel est le nom du collaborateur ? ',
-                      color: Colors.black),
+                  const AgendaFormLabel(
+                    text: 'Quel est le nom du collaborateur ? ',
+                    color: Colors.black,
+                  ),
                   const SizedBox(height: 20),
-                  formTextField(
+                  AgendaFormField(
                     controller: firstNameController,
                     hintText: 'Nom du collaborateur',
                   ),
                   const SizedBox(height: 20),
-                  getDatePickerRow(
+                  AgendaFormDatePicker(
                     selectedDate: selectedDate,
                     onDateSelected: () => showDatePickerForEvent(
                       context: context,
@@ -113,28 +114,29 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
                         _validateForm();
                       },
                     ),
-                    context: context,
-                    labelText: 'Choisissez une date : ',
+                    labelText: 'Date de naissance : ',
                   ),
                   const SizedBox(height: 20),
-                  getText('Quel est l\'email du collaborateur ? ',
-                      color: Colors.black),
+                  const AgendaFormLabel(
+                    text: 'Quel est l\'email du collaborateur ? ',
+                    color: Colors.black,
+                  ),
                   const SizedBox(height: 20),
-                  formTextField(
+                  AgendaFormField(
                     controller: emailController,
                     hintText: 'Email du collaborateur',
                   ),
                   const SizedBox(height: 20),
-                  getElevatedButton(
+                  AgendaFormElevatedButton(
                     isEnabled: isButtonEnabled,
                     onPressed: () async {
                       final birthday = BirthdayEntity(
                         id: widget.birthday?.id ?? '',
-                        first_name: firstNameController.text,
-                        birthdate: selectedDate.toString(),
+                        firstName: firstNameController.text,
+                        birthdate: selectedDate!,
                         email: emailController.text,
                       );
-                      if (widget.typePage == BirthdayTypeOfPage.add) {
+                      if (widget.pageMode == CrudPageMode.create) {
                         await ref
                             .read(agendaBirthdayAddProvider(birthday).future);
                       } else {
@@ -146,7 +148,7 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
                       widget.onDismissed();
                     },
                     buttonText:
-                        '${(widget.typePage == BirthdayTypeOfPage.add) ? 'Ajouter' : 'Modifier'} l\'anniversaire',
+                        '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} l\'anniversaire',
                   ),
                 ],
               ),

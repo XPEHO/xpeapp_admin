@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
+import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_add_or_edit_page.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_card.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/common_floating_action_buttons.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_floating_buttons.dart';
 import 'package:xpeapp_admin/providers.dart';
-
-enum AgendaContentBirthdayMode {
-  view,
-  create,
-  edit,
-}
 
 class AgendaContentBirthday extends ConsumerStatefulWidget {
   const AgendaContentBirthday({super.key});
@@ -23,23 +18,20 @@ class AgendaContentBirthday extends ConsumerStatefulWidget {
 }
 
 class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
-  AgendaContentBirthdayMode mode = AgendaContentBirthdayMode.view;
+  CrudPageMode pageMode = CrudPageMode.view;
   BirthdayEntity? birthdayToEdit;
   int currentPage = 1;
 
   @override
   Widget build(BuildContext context) {
-    BirthdayTypeOfPage typePage = mode == AgendaContentBirthdayMode.create
-        ? BirthdayTypeOfPage.add
-        : BirthdayTypeOfPage.edit;
-    return (mode == AgendaContentBirthdayMode.view)
+    return (pageMode == CrudPageMode.view)
         ? _viewMode()
         : BirthdayAddOrEditPage(
-            typePage: typePage,
+            pageMode: pageMode,
             birthday: birthdayToEdit,
             onDismissed: () {
               setState(() {
-                mode = AgendaContentBirthdayMode.view;
+                pageMode = CrudPageMode.view;
                 birthdayToEdit = null;
               });
             },
@@ -86,7 +78,7 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
                               onEdit: () {
                                 setState(() {
                                   birthdayToEdit = birthDay;
-                                  mode = AgendaContentBirthdayMode.edit;
+                                  pageMode = CrudPageMode.edit;
                                 });
                               },
                             );
@@ -108,7 +100,7 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
           ),
         ],
       ),
-      floatingActionButton: CommonFloatingActionButtons(
+      floatingActionButton: AgendaFloatingButtons(
         customTooltip: [
           const SizedBox(
             width: 10,
@@ -153,7 +145,7 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
         ],
         onCreate: () {
           setState(() {
-            mode = AgendaContentBirthdayMode.create;
+            pageMode = CrudPageMode.create;
             birthdayToEdit = null;
           });
         },

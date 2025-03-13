@@ -22,7 +22,8 @@ EventsTypeEntity _$EventsTypeEntityFromJson(Map<String, dynamic> json) {
 mixin _$EventsTypeEntity {
   String get id => throw _privateConstructorUsedError;
   String get label => throw _privateConstructorUsedError;
-  String get color_code => throw _privateConstructorUsedError;
+  @JsonKey(name: 'color_code')
+  String get colorCode => throw _privateConstructorUsedError;
 
   /// Serializes this EventsTypeEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +41,8 @@ abstract class $EventsTypeEntityCopyWith<$Res> {
           EventsTypeEntity value, $Res Function(EventsTypeEntity) then) =
       _$EventsTypeEntityCopyWithImpl<$Res, EventsTypeEntity>;
   @useResult
-  $Res call({String id, String label, String color_code});
+  $Res call(
+      {String id, String label, @JsonKey(name: 'color_code') String colorCode});
 }
 
 /// @nodoc
@@ -60,7 +62,7 @@ class _$EventsTypeEntityCopyWithImpl<$Res, $Val extends EventsTypeEntity>
   $Res call({
     Object? id = null,
     Object? label = null,
-    Object? color_code = null,
+    Object? colorCode = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -71,9 +73,9 @@ class _$EventsTypeEntityCopyWithImpl<$Res, $Val extends EventsTypeEntity>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      color_code: null == color_code
-          ? _value.color_code
-          : color_code // ignore: cast_nullable_to_non_nullable
+      colorCode: null == colorCode
+          ? _value.colorCode
+          : colorCode // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -87,7 +89,8 @@ abstract class _$$EventsTypeEntityImplCopyWith<$Res>
       __$$EventsTypeEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String label, String color_code});
+  $Res call(
+      {String id, String label, @JsonKey(name: 'color_code') String colorCode});
 }
 
 /// @nodoc
@@ -105,7 +108,7 @@ class __$$EventsTypeEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? label = null,
-    Object? color_code = null,
+    Object? colorCode = null,
   }) {
     return _then(_$EventsTypeEntityImpl(
       id: null == id
@@ -116,9 +119,9 @@ class __$$EventsTypeEntityImplCopyWithImpl<$Res>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      color_code: null == color_code
-          ? _value.color_code
-          : color_code // ignore: cast_nullable_to_non_nullable
+      colorCode: null == colorCode
+          ? _value.colorCode
+          : colorCode // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -129,7 +132,9 @@ class __$$EventsTypeEntityImplCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$EventsTypeEntityImpl implements _EventsTypeEntity {
   const _$EventsTypeEntityImpl(
-      {required this.id, required this.label, required this.color_code});
+      {required this.id,
+      required this.label,
+      @JsonKey(name: 'color_code') required this.colorCode});
 
   factory _$EventsTypeEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$EventsTypeEntityImplFromJson(json);
@@ -139,11 +144,12 @@ class _$EventsTypeEntityImpl implements _EventsTypeEntity {
   @override
   final String label;
   @override
-  final String color_code;
+  @JsonKey(name: 'color_code')
+  final String colorCode;
 
   @override
   String toString() {
-    return 'EventsTypeEntity(id: $id, label: $label, color_code: $color_code)';
+    return 'EventsTypeEntity(id: $id, label: $label, colorCode: $colorCode)';
   }
 
   @override
@@ -153,13 +159,13 @@ class _$EventsTypeEntityImpl implements _EventsTypeEntity {
             other is _$EventsTypeEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.label, label) || other.label == label) &&
-            (identical(other.color_code, color_code) ||
-                other.color_code == color_code));
+            (identical(other.colorCode, colorCode) ||
+                other.colorCode == colorCode));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, label, color_code);
+  int get hashCode => Object.hash(runtimeType, id, label, colorCode);
 
   /// Create a copy of EventsTypeEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -180,9 +186,10 @@ class _$EventsTypeEntityImpl implements _EventsTypeEntity {
 
 abstract class _EventsTypeEntity implements EventsTypeEntity {
   const factory _EventsTypeEntity(
-      {required final String id,
-      required final String label,
-      required final String color_code}) = _$EventsTypeEntityImpl;
+          {required final String id,
+          required final String label,
+          @JsonKey(name: 'color_code') required final String colorCode}) =
+      _$EventsTypeEntityImpl;
 
   factory _EventsTypeEntity.fromJson(Map<String, dynamic> json) =
       _$EventsTypeEntityImpl.fromJson;
@@ -192,7 +199,8 @@ abstract class _EventsTypeEntity implements EventsTypeEntity {
   @override
   String get label;
   @override
-  String get color_code;
+  @JsonKey(name: 'color_code')
+  String get colorCode;
 
   /// Create a copy of EventsTypeEntity
   /// with the given fields replaced by the non-null parameter values.

@@ -10,7 +10,7 @@ class EventsTypeEntity with _$EventsTypeEntity {
   const factory EventsTypeEntity({
     required String id,
     required String label,
-    required String color_code,
+    @JsonKey(name: 'color_code') required String colorCode,
   }) = _EventsTypeEntity;
 
   factory EventsTypeEntity.fromJson(Map<String, dynamic> json) =>

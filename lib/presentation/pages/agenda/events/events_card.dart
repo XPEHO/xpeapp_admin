@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/action_button.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card_controls.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/custom_list_tile.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_summary_tile.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/datetime_picker_methods.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class EventsCard extends ConsumerStatefulWidget {
@@ -26,22 +27,22 @@ class EventsCardState extends ConsumerState<EventsCard> {
 
   @override
   Widget build(BuildContext context) {
-    // Convert the string date to DateTime
-    final date = DateTime.parse(widget.events.date);
+    final date = widget.events.date;
     // Format the DateTime to the desired format
     final formattedDate = DateFormat('dd/MM/yyyy').format(date);
 
-    // Check if the start and end time are 00:00:00 and 00:00:00 respectively and treat them as null
-    final startTime = widget.events.start_time == '00:00:00'
-        ? null
-        : widget.events.start_time;
-    final endTime =
-        widget.events.end_time == '00:00:00' ? null : widget.events.end_time;
+    // Format the start and end time to only have the time
+    final formattedStartTime = widget.events.startTime != null
+        ? getTimeStringFromTimeOfDay(widget.events.startTime!)
+        : null;
+    final formattedEndTime = widget.events.endTime != null
+        ? getTimeStringFromTimeOfDay(widget.events.endTime!)
+        : null;
 
     return AgendaCard(
       child: Column(
         children: [
-          CustomListTile(
+          AgendaSummaryTile(
             title: '${widget.events.title} le $formattedDate',
             leadingIcon: Icons.event,
             trailingIcon:
@@ -79,31 +80,31 @@ class EventsCardState extends ConsumerState<EventsCard> {
                         color: Colors.black54,
                       ),
                     ),
-                  if (startTime != null)
+                  if (formattedStartTime != null)
                     Text(
-                      'Heure de début: ${widget.events.start_time}',
+                      'Heure de début: $formattedStartTime',
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black54,
                       ),
                     ),
-                  if (endTime != null)
+                  if (formattedEndTime != null)
                     Text(
-                      'Heure de fin: ${widget.events.end_time}',
+                      'Heure de fin: $formattedEndTime',
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black54,
                       ),
                     ),
                   Text(
-                    'Type d\'événement: ${widget.events.type.label}',
+                    'Type d\'événement: ${widget.events.typeId}',
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black54,
                     ),
                   ),
                   const SizedBox(height: 10),
-                  ActionButtons(
+                  AgendaCardControls(
                     onEdit: widget.onEdit,
                     onDelete: () async {
                       await ref.read(
