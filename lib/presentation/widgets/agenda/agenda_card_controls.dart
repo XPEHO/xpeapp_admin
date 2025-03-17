@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ActionButtons extends StatelessWidget {
+class AgendaCardControls extends StatelessWidget {
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
-  const ActionButtons({
+  const AgendaCardControls({
     super.key,
     required this.onEdit,
     required this.onDelete,

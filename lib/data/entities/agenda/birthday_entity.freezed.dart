@@ -21,8 +21,9 @@ BirthdayEntity _$BirthdayEntityFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BirthdayEntity {
   String get id => throw _privateConstructorUsedError;
-  String get first_name => throw _privateConstructorUsedError;
-  String get birthdate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_name')
+  String get firstName => throw _privateConstructorUsedError;
+  DateTime get birthdate => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
 
   /// Serializes this BirthdayEntity to a JSON map.
@@ -41,7 +42,11 @@ abstract class $BirthdayEntityCopyWith<$Res> {
           BirthdayEntity value, $Res Function(BirthdayEntity) then) =
       _$BirthdayEntityCopyWithImpl<$Res, BirthdayEntity>;
   @useResult
-  $Res call({String id, String first_name, String birthdate, String email});
+  $Res call(
+      {String id,
+      @JsonKey(name: 'first_name') String firstName,
+      DateTime birthdate,
+      String email});
 }
 
 /// @nodoc
@@ -60,7 +65,7 @@ class _$BirthdayEntityCopyWithImpl<$Res, $Val extends BirthdayEntity>
   @override
   $Res call({
     Object? id = null,
-    Object? first_name = null,
+    Object? firstName = null,
     Object? birthdate = null,
     Object? email = null,
   }) {
@@ -69,14 +74,14 @@ class _$BirthdayEntityCopyWithImpl<$Res, $Val extends BirthdayEntity>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      first_name: null == first_name
-          ? _value.first_name
-          : first_name // ignore: cast_nullable_to_non_nullable
+      firstName: null == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
               as String,
       birthdate: null == birthdate
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -93,7 +98,11 @@ abstract class _$$BirthdayEntityImplCopyWith<$Res>
       __$$BirthdayEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String first_name, String birthdate, String email});
+  $Res call(
+      {String id,
+      @JsonKey(name: 'first_name') String firstName,
+      DateTime birthdate,
+      String email});
 }
 
 /// @nodoc
@@ -110,7 +119,7 @@ class __$$BirthdayEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? first_name = null,
+    Object? firstName = null,
     Object? birthdate = null,
     Object? email = null,
   }) {
@@ -119,14 +128,14 @@ class __$$BirthdayEntityImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      first_name: null == first_name
-          ? _value.first_name
-          : first_name // ignore: cast_nullable_to_non_nullable
+      firstName: null == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
               as String,
       birthdate: null == birthdate
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -141,7 +150,7 @@ class __$$BirthdayEntityImplCopyWithImpl<$Res>
 class _$BirthdayEntityImpl implements _BirthdayEntity {
   const _$BirthdayEntityImpl(
       {required this.id,
-      required this.first_name,
+      @JsonKey(name: 'first_name') required this.firstName,
       required this.birthdate,
       required this.email});
 
@@ -151,15 +160,16 @@ class _$BirthdayEntityImpl implements _BirthdayEntity {
   @override
   final String id;
   @override
-  final String first_name;
+  @JsonKey(name: 'first_name')
+  final String firstName;
   @override
-  final String birthdate;
+  final DateTime birthdate;
   @override
   final String email;
 
   @override
   String toString() {
-    return 'BirthdayEntity(id: $id, first_name: $first_name, birthdate: $birthdate, email: $email)';
+    return 'BirthdayEntity(id: $id, firstName: $firstName, birthdate: $birthdate, email: $email)';
   }
 
   @override
@@ -168,8 +178,8 @@ class _$BirthdayEntityImpl implements _BirthdayEntity {
         (other.runtimeType == runtimeType &&
             other is _$BirthdayEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.first_name, first_name) ||
-                other.first_name == first_name) &&
+            (identical(other.firstName, firstName) ||
+                other.firstName == firstName) &&
             (identical(other.birthdate, birthdate) ||
                 other.birthdate == birthdate) &&
             (identical(other.email, email) || other.email == email));
@@ -177,8 +187,7 @@ class _$BirthdayEntityImpl implements _BirthdayEntity {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, first_name, birthdate, email);
+  int get hashCode => Object.hash(runtimeType, id, firstName, birthdate, email);
 
   /// Create a copy of BirthdayEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -200,8 +209,8 @@ class _$BirthdayEntityImpl implements _BirthdayEntity {
 abstract class _BirthdayEntity implements BirthdayEntity {
   const factory _BirthdayEntity(
       {required final String id,
-      required final String first_name,
-      required final String birthdate,
+      @JsonKey(name: 'first_name') required final String firstName,
+      required final DateTime birthdate,
       required final String email}) = _$BirthdayEntityImpl;
 
   factory _BirthdayEntity.fromJson(Map<String, dynamic> json) =
@@ -210,9 +219,10 @@ abstract class _BirthdayEntity implements BirthdayEntity {
   @override
   String get id;
   @override
-  String get first_name;
+  @JsonKey(name: 'first_name')
+  String get firstName;
   @override
-  String get birthdate;
+  DateTime get birthdate;
   @override
   String get email;
 

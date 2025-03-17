@@ -7,16 +7,6 @@ import 'package:xpeapp_admin/presentation/pages/agenda/content/agenda_content_ev
 import 'package:xpeapp_admin/presentation/pages/agenda/content/agenda_content_types.dart';
 import 'package:xpeapp_admin/providers.dart';
 
-class AgendaContentMenu {
-  final String title;
-  final AgendaMenu menu;
-
-  AgendaContentMenu({
-    required this.title,
-    required this.menu,
-  });
-}
-
 class AgendaPage extends ConsumerStatefulWidget {
   const AgendaPage({
     super.key,
@@ -29,21 +19,6 @@ class AgendaPage extends ConsumerStatefulWidget {
 class AgendaPageState extends ConsumerState<AgendaPage> {
   @override
   Widget build(BuildContext context) {
-    List<AgendaContentMenu> menus = [
-      AgendaContentMenu(
-        title: 'Événements',
-        menu: AgendaMenu.events,
-      ),
-      AgendaContentMenu(
-        title: 'Type',
-        menu: AgendaMenu.types,
-      ),
-      AgendaContentMenu(
-        title: 'Anniversaires',
-        menu: AgendaMenu.birthdays,
-      ),
-    ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Row(
@@ -52,30 +27,13 @@ class AgendaPageState extends ConsumerState<AgendaPage> {
         children: [
           Expanded(
             flex: 1,
-            child: ListView.builder(
-              itemCount: menus.length,
-              itemBuilder: (context, index) {
-                AgendaContentMenu menu = menus[index];
-                return InkWell(
-                  onTap: () {
-                    ref.read(agendaMenuProvider.notifier).changeMenu(menu.menu);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(20),
-                    child: Text(
-                      menu.title,
-                      style: TextStyle(
-                        color:
-                            (ref.watch(agendaMenuProvider)?.menu == menu.menu)
-                                ? kDefaultXpehoColor
-                                : Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                );
-              },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildMenuItem(context, 'Événements', AgendaMenu.events),
+                buildMenuItem(context, 'Type', AgendaMenu.types),
+                buildMenuItem(context, 'Anniversaires', AgendaMenu.birthdays),
+              ],
             ),
           ),
           Expanded(
@@ -90,9 +48,30 @@ class AgendaPageState extends ConsumerState<AgendaPage> {
     );
   }
 
+  Widget buildMenuItem(BuildContext context, String title, AgendaMenu menu) {
+    return InkWell(
+      onTap: () {
+        ref.read(selectedAgendaMenuProvider.notifier).changeMenu(menu);
+      },
+      child: Container(
+        margin: const EdgeInsets.all(20),
+        child: Text(
+          title,
+          style: TextStyle(
+            color: (ref.watch(selectedAgendaMenuProvider) == menu)
+                ? kDefaultXpehoColor
+                : Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget getContentOfAgenda(WidgetRef ref) {
-    final menu = ref.watch(agendaMenuProvider);
-    switch (menu?.menu) {
+    final menu = ref.watch(selectedAgendaMenuProvider);
+    switch (menu) {
       case null:
         return const AgendaContentEvents();
       case AgendaMenu.events:

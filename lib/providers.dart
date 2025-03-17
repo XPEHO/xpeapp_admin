@@ -7,10 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/backend_api_base.dart';
 import 'package:xpeapp_admin/data/entities/admin_users.dart';
-import 'package:xpeapp_admin/data/entities/agenda/agenda_menu_selected.dart';
 import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
-import 'package:xpeapp_admin/data/entities/agenda/events_put_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
 import 'package:xpeapp_admin/data/entities/config.dart';
 import 'package:xpeapp_admin/data/entities/menu_entity.dart';
@@ -21,6 +19,7 @@ import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
+import 'package:xpeapp_admin/data/enum/agenda_menu.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/data/service/agenda_service.dart';
@@ -95,8 +94,7 @@ final qvstServiceProvider = Provider<QvstService>((ref) {
 
 // Agenda
 final agendaServiceProvider = Provider<AgendaService>((ref) {
-  return AgendaService(
-      ref.watch(backendApiProvider), ref.watch(configProvider).baseUrl);
+  return AgendaService(ref.watch(backendApiProvider));
 });
 
 // Firebase
@@ -287,9 +285,9 @@ final commentForCampaignNotifier =
 // Agenda
 
 // Menu
-final agendaMenuProvider =
-    StateNotifierProvider<AgendaMenuNotifier, AgendaMenuSelected?>((ref) {
-  return AgendaMenuNotifier();
+final selectedAgendaMenuProvider =
+    StateNotifierProvider<SelectedAgendaMenuNotifier, AgendaMenu?>((ref) {
+  return SelectedAgendaMenuNotifier();
 });
 
 // Events
@@ -303,23 +301,16 @@ final agendaEventProvider =
   return ref.watch(agendaServiceProvider).getEventById(id);
 });
 final agendaEventAddProvider =
-    FutureProvider.family<bool, EventsPutEntity>((ref, event) async {
-  try {
-    await ref.watch(agendaServiceProvider).addEvent(event);
-    return true;
-  } catch (e) {
-    return false;
-  }
+    FutureProvider.family<void, EventsEntity>((ref, event) async {
+  await ref.watch(agendaServiceProvider).addEvent(event);
 });
 final agendaEventUpdateProvider =
-    FutureProvider.family<bool, EventsPutEntity>((ref, event) async {
+    FutureProvider.family<void, EventsEntity>((ref, event) async {
   await ref.watch(agendaServiceProvider).updateEvent(event);
-  return true;
 });
 final agendaEventDeleteProvider =
-    FutureProvider.family<bool, String?>((ref, id) async {
+    FutureProvider.family<void, String?>((ref, id) async {
   await ref.watch(agendaServiceProvider).deleteEvent(id ?? '');
-  return true;
 });
 
 // Events-Type
@@ -333,9 +324,8 @@ final agendaEventTypeProvider =
   return ref.watch(agendaServiceProvider).getEventTypeById(id);
 });
 final agendaEventsTypeAddProvider =
-    FutureProvider.family<bool, EventsTypeEntity>((ref, eventType) async {
+    FutureProvider.family<void, EventsTypeEntity>((ref, eventType) async {
   await ref.watch(agendaServiceProvider).addEventType(eventType);
-  return true;
 });
 final agendaEventsTypeUpdateProvider =
     FutureProvider.family<void, EventsTypeEntity>((ref, eventType) async {
@@ -353,21 +343,14 @@ final agendaBirthdayProvider =
   return agendaService.getAllBirthdays(page: param);
 });
 final agendaBirthdayAddProvider =
-    FutureProvider.family<bool, BirthdayEntity>((ref, event) async {
-  try {
-    await ref.watch(agendaServiceProvider).addBirthday(event);
-    return true;
-  } catch (e) {
-    return false;
-  }
+    FutureProvider.family<void, BirthdayEntity>((ref, event) async {
+  await ref.watch(agendaServiceProvider).addBirthday(event);
 });
 final agendaBirthdayUpdateProvider =
-    FutureProvider.family<bool, BirthdayEntity>((ref, event) async {
+    FutureProvider.family<void, BirthdayEntity>((ref, event) async {
   await ref.watch(agendaServiceProvider).updateBirthday(event);
-  return true;
 });
 final agendaBirthdayDeleteProvider =
-    FutureProvider.family<bool, String?>((ref, id) async {
+    FutureProvider.family<void, String?>((ref, id) async {
   await ref.watch(agendaServiceProvider).deleteBirthday(id ?? '');
-  return true;
 });

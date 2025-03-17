@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
+import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/types/types_add_or_edit_page.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/types/types_card.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/common_floating_action_buttons.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_floating_buttons.dart';
 import 'package:xpeapp_admin/providers.dart';
-
-enum AgendaContentTypesMode {
-  view,
-  create,
-  edit,
-}
 
 class AgendaContentTypes extends ConsumerStatefulWidget {
   const AgendaContentTypes({super.key});
@@ -21,22 +16,19 @@ class AgendaContentTypes extends ConsumerStatefulWidget {
 }
 
 class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
-  AgendaContentTypesMode mode = AgendaContentTypesMode.view;
+  CrudPageMode pageMode = CrudPageMode.view;
   EventsTypeEntity? eventTypeToEdit;
 
   @override
   Widget build(BuildContext context) {
-    EventTypesTypeOfPage typePage = mode == AgendaContentTypesMode.create
-        ? EventTypesTypeOfPage.add
-        : EventTypesTypeOfPage.edit;
-    return (mode == AgendaContentTypesMode.view)
+    return (pageMode == CrudPageMode.view)
         ? _viewMode()
         : EventTypesAddOrEditPage(
-            typePage: typePage,
+            pageMode: pageMode,
             eventType: eventTypeToEdit,
             onDismissed: () {
               setState(() {
-                mode = AgendaContentTypesMode.view;
+                pageMode = CrudPageMode.view;
                 eventTypeToEdit = null;
               });
             },
@@ -81,7 +73,7 @@ class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
                           onEdit: () {
                             setState(() {
                               eventTypeToEdit = event;
-                              mode = AgendaContentTypesMode.edit;
+                              pageMode = CrudPageMode.edit;
                             });
                           },
                         );
@@ -98,10 +90,10 @@ class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
           ),
         ],
       ),
-      floatingActionButton: CommonFloatingActionButtons(
+      floatingActionButton: AgendaFloatingButtons(
         onCreate: () {
           setState(() {
-            mode = AgendaContentTypesMode.create;
+            pageMode = CrudPageMode.create;
             eventTypeToEdit = null;
           });
         },

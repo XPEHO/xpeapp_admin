@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/action_button.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card_controls.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/custom_list_tile.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_summary_tile.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class TypeCard extends ConsumerStatefulWidget {
@@ -28,7 +28,7 @@ class TypeCardState extends ConsumerState<TypeCard> {
     return AgendaCard(
       child: Column(
         children: [
-          CustomListTile(
+          AgendaSummaryTile(
             title: widget.eventsType.label,
             leadingIcon: Icons.event_note,
           ),
@@ -38,11 +38,11 @@ class TypeCardState extends ConsumerState<TypeCard> {
               horizontal: 16.0,
               vertical: 8.0,
             ),
-            child: ActionButtons(
+            child: AgendaCardControls(
               onEdit: widget.onEdit,
               onDelete: () async {
                 try {
-                  await ref.read(
+                  await ref.watch(
                       agendaEventsTypeDeleteProvider(widget.eventsType.id)
                           .future);
                   ref.invalidate(agendaEventsTypeProvider);

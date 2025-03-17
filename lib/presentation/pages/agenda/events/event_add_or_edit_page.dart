@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xpeapp_admin/data/entities/agenda/events_put_entity.dart';
+import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
+import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/common_methods.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/common_widgets.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_date_picker.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_elevated_button.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_field.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_label.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/datetime_picker_methods.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 
-enum EventTypePage {
-  add,
-  edit,
-}
-
 class EventAddOrEditPage extends ConsumerStatefulWidget {
-  final EventTypePage typePage;
-  final EventsPutEntity? event;
+  final CrudPageMode pageMode;
+  final EventsEntity? event;
   final VoidCallback onDismissed;
 
   const EventAddOrEditPage({
     super.key,
-    required this.typePage,
+    required this.pageMode,
     this.event,
     required this.onDismissed,
   });
@@ -44,14 +43,18 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.typePage == EventTypePage.edit && widget.event != null) {
+    if (widget.pageMode == CrudPageMode.edit && widget.event != null) {
       titleController.text = widget.event!.title;
       descriptionController.text = widget.event!.topic ?? '';
       locationController.text = widget.event!.location ?? '';
-      startTimeController.text = widget.event!.start_time ?? '';
-      endTimeController.text = widget.event!.end_time ?? '';
-      selectedDate = DateTime.parse(widget.event!.date);
-      selectedEventType = widget.event?.type_id;
+      startTimeController.text = widget.event!.startTime != null
+          ? getTimeStringFromTimeOfDay(widget.event!.startTime!)
+          : '';
+      endTimeController.text = widget.event!.endTime != null
+          ? getTimeStringFromTimeOfDay(widget.event!.endTime!)
+          : '';
+      selectedDate = widget.event!.date;
+      selectedEventType = widget.event?.typeId;
       isDateSelected = true;
     }
   }
@@ -64,7 +67,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          '${(widget.typePage == EventTypePage.add) ? 'Ajouter' : 'Modifier'} un événement',
+          '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} un événement',
         ),
         backgroundColor: Colors.white,
       ),
@@ -74,7 +77,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           subtitleWidget(
-            'Remplissez les informations pour ${widget.typePage == EventTypePage.add ? 'ajouter' : 'modifier'} un événement',
+            'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un événement',
           ),
           const Divider(),
           Expanded(
@@ -82,30 +85,41 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  getText('Choisissez un titre : ', color: Colors.black),
+                  const AgendaFormLabel(
+                    text: 'Choisissez un titre : ',
+                    color: Colors.black,
+                  ),
                   const SizedBox(height: 20),
-                  formTextField(
+                  AgendaFormField(
                     controller: titleController,
                     hintText: 'Titre de l\'événement',
                   ),
                   const SizedBox(height: 20),
-                  getText('Choisissez une description : ', color: Colors.black),
+                  const AgendaFormLabel(
+                    text: 'Description : ',
+                    color: Colors.black,
+                  ),
                   const SizedBox(height: 20),
-                  formTextField(
+                  AgendaFormField(
                     controller: descriptionController,
                     hintText: 'Description de l\'événement',
                     maxLines: 5,
                   ),
                   const SizedBox(height: 20),
-                  getText('Choisissez un lieu : ', color: Colors.black),
+                  const AgendaFormLabel(
+                    text: 'Lieu : ',
+                    color: Colors.black,
+                  ),
                   const SizedBox(height: 20),
-                  formTextField(
+                  AgendaFormField(
                     controller: locationController,
                     hintText: 'Lieu de l\'événement',
                   ),
                   const SizedBox(height: 20),
-                  getText('Choisissez un type d\'événement : ',
-                      color: Colors.black),
+                  const AgendaFormLabel(
+                    text: 'Type d\'événement : ',
+                    color: Colors.black,
+                  ),
                   const SizedBox(height: 10),
                   eventTypes.when(
                     data: (types) {
@@ -137,7 +151,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                     error: (error, stack) => Text('Erreur: $error'),
                   ),
                   const SizedBox(height: 20),
-                  getDatePickerRow(
+                  AgendaFormDatePicker(
                     selectedDate: selectedDate,
                     onDateSelected: () => showDatePickerForEvent(
                       context: context,
@@ -149,14 +163,15 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                         });
                       },
                     ),
-                    context: context,
-                    labelText: 'Choisissez une date : ',
+                    labelText: 'Date : ',
                   ),
                   const SizedBox(height: 20),
-                  getText('Choisissez une heure de début : ',
-                      color: Colors.black),
+                  const AgendaFormLabel(
+                    text: 'Heure de début : ',
+                    color: Colors.black,
+                  ),
                   const SizedBox(height: 20),
-                  formTextField(
+                  AgendaFormField(
                     controller: startTimeController,
                     hintText: 'Heure de début',
                     readOnly: true,
@@ -166,17 +181,20 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                       onTimeSelected: (time) {
                         setState(() {
                           selectedStartTime = time;
-                          startTimeController.text =
-                              time?.format(context) ?? '';
+                          startTimeController.text = time != null
+                              ? getTimeStringFromTimeOfDay(time)
+                              : '';
                         });
                       },
                     ),
                   ),
                   const SizedBox(height: 20),
-                  getText('Choisissez une heure de fin : ',
-                      color: Colors.black),
+                  const AgendaFormLabel(
+                    text: 'Choisissez une heure de fin : ',
+                    color: Colors.black,
+                  ),
                   const SizedBox(height: 20),
-                  formTextField(
+                  AgendaFormField(
                     controller: endTimeController,
                     hintText: 'Heure de fin',
                     readOnly: true,
@@ -186,28 +204,32 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                       onTimeSelected: (time) {
                         setState(() {
                           selectedEndTime = time;
-                          endTimeController.text = time?.format(context) ?? '';
+                          endTimeController.text = time != null
+                              ? getTimeStringFromTimeOfDay(time)
+                              : '';
                         });
                       },
                     ),
                   ),
-                  getElevatedButton(
+                  AgendaFormElevatedButton(
                     isEnabled: isDateSelected &&
                         titleController.text.isNotEmpty &&
                         selectedEventType != null,
                     onPressed: () async {
-                      final event = EventsPutEntity(
+                      final event = EventsEntity(
                         id: widget.event?.id,
                         title: titleController.text,
-                        date: selectedDate!.toIso8601String(),
+                        date: selectedDate!,
                         topic: descriptionController.text,
                         location: locationController.text,
-                        start_time: startTimeController.text,
-                        end_time: endTimeController.text,
-                        type_id: selectedEventType!,
+                        startTime: getTimeOfDayFromTimeString(
+                            startTimeController.text),
+                        endTime:
+                            getTimeOfDayFromTimeString(endTimeController.text),
+                        typeId: selectedEventType!,
                       );
 
-                      if (widget.typePage == EventTypePage.add) {
+                      if (widget.pageMode == CrudPageMode.create) {
                         await ref.read(agendaEventAddProvider(event).future);
                       } else {
                         await ref.read(agendaEventUpdateProvider(event).future);
@@ -216,7 +238,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                       widget.onDismissed();
                     },
                     buttonText:
-                        '${(widget.typePage == EventTypePage.add) ? 'Ajouter' : 'Modifier'} l\'événement',
+                        '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} l\'événement',
                   ),
                 ],
               ),

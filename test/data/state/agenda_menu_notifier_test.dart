@@ -1,34 +1,32 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:xpeapp_admin/data/entities/agenda/agenda_menu_selected.dart';
 import 'package:xpeapp_admin/data/enum/agenda_menu.dart';
 import 'package:xpeapp_admin/data/state/agenda_menu_notifier.dart';
 
 void main() {
   test('AgendaMenuNotifier initial state', () {
-    final notifier = AgendaMenuNotifier();
+    final notifier = SelectedAgendaMenuNotifier();
 
     expect(notifier.state, isNotNull);
-    expect(notifier.state, AgendaMenuSelected(menu: AgendaMenu.events));
+    expect(notifier.state, AgendaMenu.events);
   });
 
   test('AgendaMenuNotifier changeMenu updates the state', () {
-    final notifier = AgendaMenuNotifier();
+    final notifier = SelectedAgendaMenuNotifier();
 
-    notifier.changeMenu(AgendaMenu.birthdays, id: '123');
+    notifier.changeMenu(AgendaMenu.birthdays);
 
     expect(notifier.state, isNotNull);
-    expect(notifier.state,
-        AgendaMenuSelected(menu: AgendaMenu.birthdays, id: '123'));
+    expect(notifier.state, AgendaMenu.birthdays);
   });
 
   test(
       'AgendaMenuNotifier clearMenu sets state to null and then to AgendaMenu.events',
       () {
-    final notifier = AgendaMenuNotifier();
+    final notifier = SelectedAgendaMenuNotifier();
 
     notifier.clearMenu();
 
     expect(notifier.state, isNotNull);
-    expect(notifier.state, AgendaMenuSelected(menu: AgendaMenu.events));
+    expect(notifier.state, AgendaMenu.events);
   });
 }

@@ -3,24 +3,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
+import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
+import 'package:xpeapp_admin/presentation/pages/agenda/agenda_utils.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/common_widgets.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_elevated_button.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_field.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_label.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 
-enum EventTypesTypeOfPage {
-  add,
-  edit,
-}
-
 class EventTypesAddOrEditPage extends ConsumerStatefulWidget {
-  final EventTypesTypeOfPage typePage;
+  final CrudPageMode pageMode;
   final EventsTypeEntity? eventType;
   final VoidCallback onDismissed;
 
   const EventTypesAddOrEditPage({
     super.key,
-    required this.typePage,
+    required this.pageMode,
     this.eventType,
     required this.onDismissed,
   });
@@ -36,23 +35,12 @@ class _EventTypesAddOrEditPageState
   bool isButtonEnabled = false;
   String? selectedColor;
 
-  final List<String> colorPalette = [
-    '5DFCFF',
-    'FFCF56',
-    'CA69FF',
-    'FF7EEA',
-    'FF9564',
-    'D0D0D0',
-    '96FFD1',
-  ];
-
   @override
   void initState() {
     super.initState();
-    if (widget.typePage == EventTypesTypeOfPage.edit &&
-        widget.eventType != null) {
+    if (widget.pageMode == CrudPageMode.edit && widget.eventType != null) {
       labelController.text = widget.eventType!.label;
-      selectedColor = widget.eventType!.color_code;
+      selectedColor = widget.eventType!.colorCode;
     }
     labelController.addListener(_onLabelChanged);
   }
@@ -77,7 +65,7 @@ class _EventTypesAddOrEditPageState
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          '${(widget.typePage == EventTypesTypeOfPage.add) ? 'Ajouter' : 'Modifier'} un type événement',
+          '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} un type événement',
         ),
         backgroundColor: Colors.white,
       ),
@@ -87,7 +75,7 @@ class _EventTypesAddOrEditPageState
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           subtitleWidget(
-            'Remplissez les informations pour ${widget.typePage == EventTypesTypeOfPage.add ? 'ajouter' : 'modifier'} un type d\'événement',
+            'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un type d\'événement',
           ),
           const Divider(),
           Expanded(
@@ -95,20 +83,24 @@ class _EventTypesAddOrEditPageState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  getText('Choisissez un label pour le type : ',
-                      color: Colors.black),
+                  const AgendaFormLabel(
+                    text: 'Choisissez un label pour le type : ',
+                    color: Colors.black,
+                  ),
                   const SizedBox(height: 20),
-                  formTextField(
+                  AgendaFormField(
                     controller: labelController,
                     hintText: 'Type de l\'événement',
                   ),
                   const SizedBox(height: 20),
-                  getText('Choisissez une couleur pour le type : ',
-                      color: Colors.black),
+                  const AgendaFormLabel(
+                    text: 'Choisissez une couleur pour le type : ',
+                    color: Colors.black,
+                  ),
                   const SizedBox(height: 10),
                   Wrap(
                     spacing: 10,
-                    children: colorPalette.map((color) {
+                    children: AgendaUtils.colorPalette.map((color) {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
@@ -132,27 +124,26 @@ class _EventTypesAddOrEditPageState
                     }).toList(),
                   ),
                   const SizedBox(height: 20),
-                  getElevatedButton(
+                  AgendaFormElevatedButton(
                     isEnabled: isButtonEnabled,
                     onPressed: () async {
                       final eventType = EventsTypeEntity(
                         id: widget.eventType?.id ?? '',
                         label: labelController.text,
-                        color_code: selectedColor!,
+                        colorCode: selectedColor!,
                       );
-                      if (widget.typePage == EventTypesTypeOfPage.add) {
+                      if (widget.pageMode == CrudPageMode.create) {
                         await ref.read(
                             agendaEventsTypeAddProvider(eventType).future);
                       } else {
                         await ref.read(
                             agendaEventsTypeUpdateProvider(eventType).future);
-                        ref.invalidate(agendaEventsTypeProvider);
                       }
                       ref.invalidate(agendaEventsTypeProvider);
                       widget.onDismissed();
                     },
                     buttonText:
-                        '${(widget.typePage == EventTypesTypeOfPage.add) ? 'Ajouter' : 'Modifier'} le type',
+                        '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} le type',
                   ),
                 ],
               ),

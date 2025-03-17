@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:xpeapp_admin/data/colors.dart';
 
-class CommonFloatingActionButtons extends StatelessWidget {
+class AgendaFloatingButtons extends StatelessWidget {
   final VoidCallback onCreate;
   final VoidCallback onRefresh;
   final List<Widget>? customTooltip;
 
-  const CommonFloatingActionButtons({
+  const AgendaFloatingButtons({
     super.key,
     required this.onCreate,
     required this.onRefresh,

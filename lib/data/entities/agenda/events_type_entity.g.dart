@@ -11,7 +11,7 @@ _$EventsTypeEntityImpl _$$EventsTypeEntityImplFromJson(
     _$EventsTypeEntityImpl(
       id: json['id'] as String,
       label: json['label'] as String,
-      color_code: json['color_code'] as String,
+      colorCode: json['color_code'] as String,
     );
 
 Map<String, dynamic> _$$EventsTypeEntityImplToJson(
@@ -19,5 +19,5 @@ Map<String, dynamic> _$$EventsTypeEntityImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'label': instance.label,
-      'color_code': instance.color_code,
+      'color_code': instance.colorCode,
     };
