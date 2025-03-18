@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
 import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/types/types_add_or_edit_page.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/types/types_card.dart';
@@ -16,21 +15,19 @@ class AgendaContentTypes extends ConsumerStatefulWidget {
 }
 
 class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
-  CrudPageMode pageMode = CrudPageMode.view;
-  EventsTypeEntity? eventTypeToEdit;
-
   @override
   Widget build(BuildContext context) {
+    final pageMode = ref.watch(pageModeProvider);
+    final eventTypeToEdit = ref.watch(editingEntityEventsTypeProvider);
     return (pageMode == CrudPageMode.view)
         ? _viewMode()
         : EventTypesAddOrEditPage(
             pageMode: pageMode,
             eventType: eventTypeToEdit,
             onDismissed: () {
-              setState(() {
-                pageMode = CrudPageMode.view;
-                eventTypeToEdit = null;
-              });
+              ref.read(pageModeProvider.notifier).state = CrudPageMode.view;
+              ref.read(editingEntityEventsTypeProvider.notifier).state = null;
+              ref.invalidate(agendaEventsTypeProvider);
             },
           );
   }
@@ -71,10 +68,11 @@ class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
                         return TypeCard(
                           eventsType: event,
                           onEdit: () {
-                            setState(() {
-                              eventTypeToEdit = event;
-                              pageMode = CrudPageMode.edit;
-                            });
+                            ref
+                                .read(editingEntityEventsTypeProvider.notifier)
+                                .state = event;
+                            ref.read(pageModeProvider.notifier).state =
+                                CrudPageMode.edit;
                           },
                         );
                       },
@@ -92,10 +90,7 @@ class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
       ),
       floatingActionButton: AgendaFloatingButtons(
         onCreate: () {
-          setState(() {
-            pageMode = CrudPageMode.create;
-            eventTypeToEdit = null;
-          });
+          ref.read(pageModeProvider.notifier).state = CrudPageMode.create;
         },
         onRefresh: () {
           ref.invalidate(agendaEventsProvider);
@@ -103,13 +98,4 @@ class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
       ),
     );
   }
-
-  Widget getTextOfTable(String text, {bool isHeader = false}) => Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
-        ),
-      );
 }

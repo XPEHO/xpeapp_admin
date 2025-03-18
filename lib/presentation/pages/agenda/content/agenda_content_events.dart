@@ -19,8 +19,6 @@ class AgendaContentEvents extends ConsumerStatefulWidget {
 }
 
 class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
-  CrudPageMode pageMode = CrudPageMode.view;
-  EventsEntity? eventToEdit;
   EventsEntity? eventToView;
   int currentPage = 1;
 
@@ -36,16 +34,16 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
 
   @override
   Widget build(BuildContext context) {
+    final pageMode = ref.watch(pageModeProvider);
+    final eventToEdit = ref.watch(editingEntityEventsProvider);
     return (pageMode == CrudPageMode.view)
         ? _viewMode()
         : EventAddOrEditPage(
             pageMode: pageMode,
             event: eventToEdit,
             onDismissed: () {
-              setState(() {
-                pageMode = CrudPageMode.view;
-                eventToEdit = null;
-              });
+              ref.read(pageModeProvider.notifier).state = CrudPageMode.view;
+              ref.read(editingEntityEventsProvider.notifier).state = null;
             },
           );
   }
@@ -94,18 +92,20 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
                                   eventTypeLabel: eventTypeLabel,
                                   events: event,
                                   onEdit: () {
-                                    setState(() {
-                                      pageMode = CrudPageMode.edit;
-                                      eventToEdit = EventsEntity(
-                                        id: event.id,
-                                        title: event.title,
-                                        date: event.date,
-                                        startTime: event.startTime,
-                                        endTime: event.endTime,
-                                        topic: event.topic,
-                                        typeId: event.typeId,
-                                      );
-                                    });
+                                    ref.read(pageModeProvider.notifier).state =
+                                        CrudPageMode.edit;
+                                    ref
+                                        .read(editingEntityEventsProvider
+                                            .notifier)
+                                        .state = EventsEntity(
+                                      id: event.id,
+                                      title: event.title,
+                                      date: event.date,
+                                      startTime: event.startTime,
+                                      endTime: event.endTime,
+                                      topic: event.topic,
+                                      typeId: event.typeId,
+                                    );
                                   },
                                 );
                               },
@@ -174,12 +174,11 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
           ),
         ],
         onCreate: () {
-          setState(() {
-            pageMode = CrudPageMode.create;
-          });
+          ref.read(pageModeProvider.notifier).state = CrudPageMode.create;
         },
         onRefresh: () {
           ref.invalidate(agendaEventsProvider);
+          ref.invalidate(agendaEventsTypeProvider);
         },
       ),
     );

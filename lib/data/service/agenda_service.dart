@@ -152,7 +152,7 @@ class AgendaService {
 
   Future<void> addBirthday(BirthdayEntity birthday) async {
     final response = await _backendApi.addBirthday(birthday.toJson());
-    if (response.response.statusCode != 200) {
+    if (response.response.statusCode != 201) {
       throw AgendaException('Erreur lors de l\'ajout de l\'anniversaire');
     }
   }

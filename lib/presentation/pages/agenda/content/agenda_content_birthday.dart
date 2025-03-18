@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
-import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
 import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_add_or_edit_page.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_card.dart';
@@ -18,22 +17,22 @@ class AgendaContentBirthday extends ConsumerStatefulWidget {
 }
 
 class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
-  CrudPageMode pageMode = CrudPageMode.view;
-  BirthdayEntity? birthdayToEdit;
   int currentPage = 1;
 
   @override
   Widget build(BuildContext context) {
+    final pageMode = ref.watch(pageModeProvider);
+    final birthdayToEdit = ref.watch(editingEntityBirthdayProvider);
+
     return (pageMode == CrudPageMode.view)
         ? _viewMode()
         : BirthdayAddOrEditPage(
             pageMode: pageMode,
             birthday: birthdayToEdit,
             onDismissed: () {
-              setState(() {
-                pageMode = CrudPageMode.view;
-                birthdayToEdit = null;
-              });
+              ref.read(pageModeProvider.notifier).state = CrudPageMode.view;
+              ref.read(editingEntityBirthdayProvider.notifier).state = null;
+              ref.invalidate(agendaBirthdayProvider);
             },
           );
   }
@@ -76,10 +75,12 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
                             return BirthdayCard(
                               birthdayEntity: birthDay,
                               onEdit: () {
-                                setState(() {
-                                  birthdayToEdit = birthDay;
-                                  pageMode = CrudPageMode.edit;
-                                });
+                                ref.read(pageModeProvider.notifier).state =
+                                    CrudPageMode.edit;
+                                ref
+                                    .read(
+                                        editingEntityBirthdayProvider.notifier)
+                                    .state = birthDay;
                               },
                             );
                           },
@@ -144,10 +145,7 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
           ),
         ],
         onCreate: () {
-          setState(() {
-            pageMode = CrudPageMode.create;
-            birthdayToEdit = null;
-          });
+          ref.read(pageModeProvider.notifier).state = CrudPageMode.create;
         },
         onRefresh: () {
           ref.invalidate(agendaBirthdayProvider);
@@ -155,13 +153,4 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
       ),
     );
   }
-
-  Widget getTextOfTable(String text, {bool isHeader = false}) => Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
-        ),
-      );
 }

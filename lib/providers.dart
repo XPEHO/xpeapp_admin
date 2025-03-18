@@ -20,6 +20,7 @@ import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
 import 'package:xpeapp_admin/data/enum/agenda_menu.dart';
+import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/data/service/agenda_service.dart';
@@ -284,6 +285,12 @@ final commentForCampaignNotifier =
 
 // Agenda
 
+// Editing provider
+final editingEntityEventsProvider = StateProvider<EventsEntity?>((ref) => null);
+// Page mode provider
+final pageModeProvider =
+    StateProvider<CrudPageMode>((ref) => CrudPageMode.view);
+
 // Menu
 final selectedAgendaMenuProvider =
     StateNotifierProvider<SelectedAgendaMenuNotifier, AgendaMenu?>((ref) {
@@ -314,6 +321,9 @@ final agendaEventDeleteProvider =
 });
 
 // Events-Type
+// Editing provider
+final editingEntityEventsTypeProvider =
+    StateProvider<EventsTypeEntity?>((ref) => null);
 
 final agendaEventsTypeProvider =
     FutureProvider<List<EventsTypeEntity>>((ref) async {
@@ -337,6 +347,10 @@ final agendaEventsTypeDeleteProvider =
 });
 
 // Birthday
+
+// Editing provider
+final editingEntityBirthdayProvider =
+    StateProvider<BirthdayEntity?>((ref) => null);
 final agendaBirthdayProvider =
     FutureProvider.family<List<BirthdayEntity>, int>((ref, param) async {
   final agendaService = ref.watch(agendaServiceProvider);
