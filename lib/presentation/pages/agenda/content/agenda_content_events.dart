@@ -59,82 +59,90 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          subtitleWidget(
-            'Créez ou gérez les événements de XPEHO',
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: subtitleWidget(
+              'Créez ou gérez les événements de XPEHO',
+            ),
           ),
-          const Divider(),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 50),
-                child: eventTypesAsyncValue.when(
-                  data: (eventTypes) {
-                    return eventsAsyncValue.when(
-                      data: (events) {
-                        if (events.isEmpty) {
-                          return Center(
-                              child: Text(
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          eventTypesAsyncValue.when(
+            data: (eventTypes) {
+              return eventsAsyncValue.when(
+                data: (events) {
+                  if (events.isEmpty) {
+                    return SliverToBoxAdapter(
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
                             "Page $currentPage\nAucun événement",
                             textAlign: TextAlign.center,
-                          ));
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        if (index == 0) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text(
+                              "Page $currentPage",
+                              textAlign: TextAlign.center,
+                            ),
+                          );
                         }
-                        return Column(
-                          children: [
-                            Text("Page $currentPage"),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: events.length,
-                              itemBuilder: (context, index) {
-                                final event = events[index];
-                                final eventTypeLabel = _getEventTypeLabel(
-                                    event.typeId, eventTypes);
-                                return EventsCard(
-                                  eventTypeLabel: eventTypeLabel,
-                                  events: event,
-                                  onEdit: () {
-                                    ref.read(pageModeProvider.notifier).state =
-                                        CrudPageMode.edit;
-                                    ref
-                                        .read(editingEntityEventsProvider
-                                            .notifier)
-                                        .state = EventsEntity(
-                                      id: event.id,
-                                      title: event.title,
-                                      date: event.date,
-                                      location: event.location,
-                                      startTime: event.startTime,
-                                      endTime: event.endTime,
-                                      topic: event.topic,
-                                      typeId: event.typeId,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                            const SizedBox(
-                              height: 50,
-                            ),
-                          ],
+                        final event = events[index - 1];
+                        final eventTypeLabel =
+                            _getEventTypeLabel(event.typeId, eventTypes);
+                        return EventsCard(
+                          eventTypeLabel: eventTypeLabel,
+                          events: event,
+                          onEdit: () {
+                            ref.read(pageModeProvider.notifier).state =
+                                CrudPageMode.edit;
+                            ref
+                                .read(editingEntityEventsProvider.notifier)
+                                .state = EventsEntity(
+                              id: event.id,
+                              title: event.title,
+                              date: event.date,
+                              location: event.location,
+                              startTime: event.startTime,
+                              endTime: event.endTime,
+                              topic: event.topic,
+                              typeId: event.typeId,
+                            );
+                          },
                         );
                       },
-                      loading: () =>
-                          const Center(child: CircularProgressIndicator()),
-                      error: (error, stack) =>
-                          Center(child: Text('Erreur: $error')),
-                    );
-                  },
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (error, stack) =>
-                      Center(child: Text('Erreur: $error')),
+                      childCount: events.length + 1, // +1 for the page text
+                    ),
+                  );
+                },
+                loading: () => const SliverToBoxAdapter(
+                  child: Center(child: CircularProgressIndicator()),
                 ),
-              ),
+                error: (error, stack) => SliverToBoxAdapter(
+                  child: Center(child: Text('Erreur: $error')),
+                ),
+              );
+            },
+            loading: () => const SliverToBoxAdapter(
+              child: Center(child: CircularProgressIndicator()),
             ),
+            error: (error, stack) => SliverToBoxAdapter(
+              child: Center(child: Text('Erreur: $error')),
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 50),
           ),
         ],
       ),

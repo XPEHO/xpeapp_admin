@@ -71,19 +71,22 @@ class _EventTypesAddOrEditPageState
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          subtitleWidget(
-            'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un type d\'événement',
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: subtitleWidget(
+              'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un type d\'événement',
+            ),
           ),
-          const Divider(),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          SliverPadding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
                   const AgendaFormLabel(
                     text: 'Choisissez un label pour le type : ',
                     color: Colors.black,
@@ -133,7 +136,7 @@ class _EventTypesAddOrEditPageState
                         label: labelController.text,
                         colorCode: selectedColor!,
                       );
-                      // hande operation if create or update
+                      // Handle operation if create or update
                       handleErrorInOperation(
                         operation: () => widget.pageMode == CrudPageMode.create
                             ? ref.read(

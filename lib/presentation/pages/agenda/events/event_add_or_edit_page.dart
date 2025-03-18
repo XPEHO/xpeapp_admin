@@ -73,19 +73,22 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          subtitleWidget(
-            'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un événement',
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: subtitleWidget(
+              'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un événement',
+            ),
           ),
-          const Divider(),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          SliverPadding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
                   const AgendaFormLabel(
                     text: 'Choisissez un titre : ',
                     color: Colors.black,
@@ -212,6 +215,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                       },
                     ),
                   ),
+                  const SizedBox(height: 20),
                   AgendaFormElevatedButton(
                     isEnabled: isDateSelected &&
                         titleController.text.isNotEmpty &&
@@ -230,7 +234,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                         typeId: selectedEventType!,
                       );
 
-                      // hande operation if create or update
+                      // Handle operation if create or update
                       handleErrorInOperation(
                         operation: () => widget.pageMode == CrudPageMode.create
                             ? ref.read(agendaEventAddProvider(event).future)

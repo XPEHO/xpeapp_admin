@@ -46,62 +46,67 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          subtitleWidget(
-            'Créez ou gérez les anniversaires des collaborateurs',
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: subtitleWidget(
+              'Créez ou gérez les anniversaires des collaborateurs',
+            ),
           ),
-          const Divider(),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 50),
-                child: birthdayAsyncValue.when(
-                  data: (birthday) {
-                    if (birthday.isEmpty) {
-                      return Center(
-                          child: Text(
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          birthdayAsyncValue.when(
+            data: (birthday) {
+              if (birthday.isEmpty) {
+                return SliverToBoxAdapter(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
                         "Page $currentPage\nAucun anniversaire",
                         textAlign: TextAlign.center,
-                      ));
+                      ),
+                    ),
+                  ),
+                );
+              }
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    if (index == 0) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(
+                          "Page $currentPage",
+                          textAlign: TextAlign.center,
+                        ),
+                      );
                     }
-                    return Column(
-                      children: [
-                        Text("Page $currentPage"),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: birthday.length,
-                          itemBuilder: (context, index) {
-                            final birthDay = birthday[index];
-                            return BirthdayCard(
-                              birthdayEntity: birthDay,
-                              onEdit: () {
-                                ref.read(pageModeProvider.notifier).state =
-                                    CrudPageMode.edit;
-                                ref
-                                    .read(
-                                        editingEntityBirthdayProvider.notifier)
-                                    .state = birthDay;
-                              },
-                            );
-                          },
-                        ),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                      ],
+                    final birthDay = birthday[index - 1];
+                    return BirthdayCard(
+                      birthdayEntity: birthDay,
+                      onEdit: () {
+                        ref.read(pageModeProvider.notifier).state =
+                            CrudPageMode.edit;
+                        ref.read(editingEntityBirthdayProvider.notifier).state =
+                            birthDay;
+                      },
                     );
                   },
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (error, stack) =>
-                      Center(child: Text('Erreur: $error')),
+                  childCount: birthday.length + 1, // +1 for the page text
                 ),
-              ),
+              );
+            },
+            loading: () => const SliverToBoxAdapter(
+              child: Center(child: CircularProgressIndicator()),
             ),
+            error: (error, stack) => SliverToBoxAdapter(
+              child: Center(child: Text('Erreur: $error')),
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 50),
           ),
         ],
       ),

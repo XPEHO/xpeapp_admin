@@ -41,49 +41,53 @@ class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          subtitleWidget(
-            'Créez ou gérez les types d\'événements',
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: subtitleWidget(
+              'Créez ou gérez les types d\'événements',
+            ),
           ),
-          const Divider(),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 50),
-                child: eventsTypeAsyncValue.when(
-                  data: (events) {
-                    if (events.isEmpty) {
-                      return const Center(
-                          child: Text('Aucun types d\'événements'));
-                    }
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: events.length,
-                      itemBuilder: (context, index) {
-                        final event = events[index];
-                        return TypeCard(
-                          eventsType: event,
-                          onEdit: () {
-                            ref
-                                .read(editingEntityEventsTypeProvider.notifier)
-                                .state = event;
-                            ref.read(pageModeProvider.notifier).state =
-                                CrudPageMode.edit;
-                          },
-                        );
-                      },
-                    );
-                  },
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (error, stack) =>
-                      Center(child: Text('Erreur: $error')),
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          eventsTypeAsyncValue.when(
+            data: (events) {
+              if (events.isEmpty) {
+                return const SliverToBoxAdapter(
+                  child: Center(
+                    child: Text('Aucun types d\'événements'),
+                  ),
+                );
+              }
+              return SliverPadding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final event = events[index];
+                      return TypeCard(
+                        eventsType: event,
+                        onEdit: () {
+                          ref
+                              .read(editingEntityEventsTypeProvider.notifier)
+                              .state = event;
+                          ref.read(pageModeProvider.notifier).state =
+                              CrudPageMode.edit;
+                        },
+                      );
+                    },
+                    childCount: events.length,
+                  ),
                 ),
-              ),
+              );
+            },
+            loading: () => const SliverToBoxAdapter(
+              child: Center(child: CircularProgressIndicator()),
+            ),
+            error: (error, stack) => SliverToBoxAdapter(
+              child: Center(child: Text('Erreur: $error')),
             ),
           ),
         ],
@@ -93,7 +97,7 @@ class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
           ref.read(pageModeProvider.notifier).state = CrudPageMode.create;
         },
         onRefresh: () {
-          ref.invalidate(agendaEventsProvider);
+          ref.invalidate(agendaEventsTypeProvider);
         },
       ),
     );

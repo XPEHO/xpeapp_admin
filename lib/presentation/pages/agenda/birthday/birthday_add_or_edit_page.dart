@@ -81,19 +81,22 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          subtitleWidget(
-            'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un anniversaire',
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: subtitleWidget(
+              'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un anniversaire',
+            ),
           ),
-          const Divider(),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          SliverPadding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
                   const AgendaFormLabel(
                     text: 'Quel est le nom du collaborateur ? ',
                     color: Colors.black,
@@ -140,7 +143,7 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
                         email: emailController.text,
                       );
 
-                      // hande operation if create or update
+                      // Handle operation if create or update
                       handleErrorInOperation(
                         operation: () => widget.pageMode == CrudPageMode.create
                             ? ref.read(

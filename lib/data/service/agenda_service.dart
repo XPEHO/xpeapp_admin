@@ -39,7 +39,7 @@ class AgendaService {
 
   Future<void> addEvent(EventsEntity event) async {
     final response = await _backendApi.addEvent(event.toJson());
-    if (response.response.statusCode != 200) {
+    if (response.response.statusCode != 201) {
       throw AgendaException('Erreur lors de l\'ajout de l\'événement');
     }
   }
