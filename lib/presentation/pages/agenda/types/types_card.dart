@@ -42,10 +42,9 @@ class TypeCardState extends ConsumerState<TypeCard> {
               onEdit: widget.onEdit,
               onDelete: () async {
                 try {
-                  await ref.watch(
+                  await ref.read(
                       agendaEventsTypeDeleteProvider(widget.eventsType.id)
                           .future);
-                  ref.invalidate(agendaEventsTypeProvider);
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -53,6 +52,8 @@ class TypeCardState extends ConsumerState<TypeCard> {
                     ),
                   );
                 }
+                ref.invalidate(agendaEventsTypeProvider);
+                ref.invalidate(agendaEventsTypeDeleteProvider);
               },
             ),
           ),
