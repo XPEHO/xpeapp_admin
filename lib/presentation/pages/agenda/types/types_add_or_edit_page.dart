@@ -9,6 +9,7 @@ import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_elevated_button.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_field.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_label.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_handle_operation.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 
@@ -132,15 +133,20 @@ class _EventTypesAddOrEditPageState
                         label: labelController.text,
                         colorCode: selectedColor!,
                       );
-                      if (widget.pageMode == CrudPageMode.create) {
-                        await ref.read(
-                            agendaEventsTypeAddProvider(eventType).future);
-                      } else {
-                        await ref.read(
-                            agendaEventsTypeUpdateProvider(eventType).future);
-                      }
-                      ref.invalidate(agendaEventsTypeProvider);
-                      widget.onDismissed();
+                      // hande operation if create or update
+                      handleOperation(
+                        operation: () => widget.pageMode == CrudPageMode.create
+                            ? ref.read(
+                                agendaEventsTypeAddProvider(eventType).future)
+                            : ref.read(agendaEventsTypeUpdateProvider(eventType)
+                                .future),
+                        ref: ref,
+                        context: context,
+                        onSuccess: () {
+                          widget.onDismissed();
+                        },
+                        providersToInvalidate: [agendaEventsTypeProvider],
+                      );
                     },
                     buttonText:
                         '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} le type',

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
@@ -7,6 +9,7 @@ import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_date_picker
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_elevated_button.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_field.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_label.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_handle_operation.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/datetime_picker_methods.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/data/colors.dart';
@@ -136,16 +139,22 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
                         birthdate: selectedDate!,
                         email: emailController.text,
                       );
-                      if (widget.pageMode == CrudPageMode.create) {
-                        await ref
-                            .read(agendaBirthdayAddProvider(birthday).future);
-                      } else {
-                        await ref.read(
-                            agendaBirthdayUpdateProvider(birthday).future);
-                        ref.invalidate(agendaBirthdayProvider);
-                      }
+
+                      // hande operation if create or update
+                      handleOperation(
+                        operation: () => widget.pageMode == CrudPageMode.create
+                            ? ref.read(
+                                agendaBirthdayAddProvider(birthday).future)
+                            : ref.read(
+                                agendaBirthdayUpdateProvider(birthday).future),
+                        ref: ref,
+                        context: context,
+                        onSuccess: () {
+                          widget.onDismissed();
+                        },
+                        providersToInvalidate: [agendaBirthdayProvider],
+                      );
                       ref.invalidate(agendaBirthdayProvider);
-                      widget.onDismissed();
                     },
                     buttonText:
                         '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} l\'anniversaire',
