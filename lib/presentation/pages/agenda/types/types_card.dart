@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card_controls.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_handle_error_in_operation.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_summary_tile.dart';
 import 'package:xpeapp_admin/providers.dart';
 
@@ -41,19 +42,27 @@ class TypeCardState extends ConsumerState<TypeCard> {
             child: AgendaCardControls(
               onEdit: widget.onEdit,
               onDelete: () async {
-                try {
-                  await ref.read(
-                      agendaEventsTypeDeleteProvider(widget.eventsType.id)
-                          .future);
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(e.toString()),
-                    ),
-                  );
-                }
-                ref.invalidate(agendaEventsTypeProvider);
-                ref.invalidate(agendaEventsTypeDeleteProvider);
+                // hande operation if create or update
+                handleErrorInOperation(
+                  operation: () async {
+                    await ref.read(
+                        agendaEventsTypeDeleteProvider(widget.eventsType.id)
+                            .future);
+                  },
+                  ref: ref,
+                  context: context,
+                  onSuccess: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Type supprimé avec succès'),
+                      ),
+                    );
+                  },
+                  providersToInvalidate: [
+                    agendaEventsTypeProvider,
+                    agendaEventsTypeDeleteProvider,
+                  ],
+                );
               },
             ),
           ),

@@ -8,6 +8,7 @@ import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_date_picker
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_elevated_button.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_field.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_label.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_handle_error_in_operation.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/datetime_picker_methods.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/data/colors.dart';
@@ -229,13 +230,29 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                         typeId: selectedEventType!,
                       );
 
-                      if (widget.pageMode == CrudPageMode.create) {
-                        await ref.read(agendaEventAddProvider(event).future);
-                      } else {
-                        await ref.read(agendaEventUpdateProvider(event).future);
-                      }
-                      ref.invalidate(agendaEventsProvider);
-                      widget.onDismissed();
+                      // hande operation if create or update
+                      handleErrorInOperation(
+                        operation: () => widget.pageMode == CrudPageMode.create
+                            ? ref.read(agendaEventAddProvider(event).future)
+                            : ref.read(agendaEventUpdateProvider(event).future),
+                        ref: ref,
+                        context: context,
+                        onSuccess: () {
+                          widget.onDismissed();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Événement ${(widget.pageMode == CrudPageMode.create) ? 'ajouté' : 'modifié'} avec succès',
+                              ),
+                            ),
+                          );
+                        },
+                        providersToInvalidate: [
+                          agendaEventsProvider,
+                          agendaEventAddProvider,
+                          agendaEventUpdateProvider
+                        ],
+                      );
                     },
                     buttonText:
                         '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} l\'événement',

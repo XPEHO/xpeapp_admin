@@ -77,10 +77,15 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
                     return eventsAsyncValue.when(
                       data: (events) {
                         if (events.isEmpty) {
-                          return const Center(child: Text('Aucun événement'));
+                          return Center(
+                              child: Text(
+                            "Page $currentPage\nAucun événement",
+                            textAlign: TextAlign.center,
+                          ));
                         }
                         return Column(
                           children: [
+                            Text("Page $currentPage"),
                             ListView.builder(
                               shrinkWrap: true,
                               itemCount: events.length,
@@ -101,6 +106,7 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
                                       id: event.id,
                                       title: event.title,
                                       date: event.date,
+                                      location: event.location,
                                       startTime: event.startTime,
                                       endTime: event.endTime,
                                       topic: event.topic,

@@ -62,11 +62,15 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
                 child: birthdayAsyncValue.when(
                   data: (birthday) {
                     if (birthday.isEmpty) {
-                      return const Center(
-                          child: Text('Aucun anniversaires trouvés'));
+                      return Center(
+                          child: Text(
+                        "Page $currentPage\nAucun anniversaire",
+                        textAlign: TextAlign.center,
+                      ));
                     }
                     return Column(
                       children: [
+                        Text("Page $currentPage"),
                         ListView.builder(
                           shrinkWrap: true,
                           itemCount: birthday.length,

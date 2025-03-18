@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card_controls.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_handle_error_in_operation.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_summary_tile.dart';
 import 'package:xpeapp_admin/providers.dart';
 
@@ -67,10 +68,27 @@ class BirthdayCardState extends ConsumerState<BirthdayCard> {
                   AgendaCardControls(
                     onEdit: widget.onEdit,
                     onDelete: () async {
-                      await ref.read(
-                          agendaBirthdayDeleteProvider(widget.birthdayEntity.id)
+                      // hande operation if create or update
+                      handleErrorInOperation(
+                        operation: () async {
+                          await ref.read(agendaBirthdayDeleteProvider(
+                                  widget.birthdayEntity.id)
                               .future);
-                      ref.invalidate(agendaBirthdayProvider);
+                        },
+                        ref: ref,
+                        context: context,
+                        onSuccess: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content:
+                                    Text('Anniversaire supprimé avec succès')),
+                          );
+                        },
+                        providersToInvalidate: [
+                          agendaBirthdayDeleteProvider,
+                          agendaBirthdayProvider,
+                        ],
+                      );
                     },
                   ),
                 ],

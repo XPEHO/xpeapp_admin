@@ -9,7 +9,7 @@ import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_elevated_button.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_field.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_form_label.dart';
-import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_handle_operation.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_handle_error_in_operation.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 
@@ -134,7 +134,7 @@ class _EventTypesAddOrEditPageState
                         colorCode: selectedColor!,
                       );
                       // hande operation if create or update
-                      handleOperation(
+                      handleErrorInOperation(
                         operation: () => widget.pageMode == CrudPageMode.create
                             ? ref.read(
                                 agendaEventsTypeAddProvider(eventType).future)
@@ -144,8 +144,19 @@ class _EventTypesAddOrEditPageState
                         context: context,
                         onSuccess: () {
                           widget.onDismissed();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Type d\'événement ${(widget.pageMode == CrudPageMode.create) ? 'ajouté' : 'modifié'} avec succès',
+                              ),
+                            ),
+                          );
                         },
-                        providersToInvalidate: [agendaEventsTypeProvider],
+                        providersToInvalidate: [
+                          agendaEventsTypeProvider,
+                          agendaEventsTypeAddProvider,
+                          agendaEventsTypeUpdateProvider
+                        ],
                       );
                     },
                     buttonText:

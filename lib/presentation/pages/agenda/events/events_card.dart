@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card_controls.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_handle_error_in_operation.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_summary_tile.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/datetime_picker_methods.dart';
 import 'package:xpeapp_admin/providers.dart';
@@ -74,7 +75,8 @@ class EventsCardState extends ConsumerState<EventsCard> {
                         color: Colors.black54,
                       ),
                     ),
-                  if (widget.events.location != null)
+                  if (widget.events.location != null &&
+                      widget.events.location!.isNotEmpty)
                     Text(
                       'Lieu: ${widget.events.location}',
                       style: const TextStyle(
@@ -109,9 +111,27 @@ class EventsCardState extends ConsumerState<EventsCard> {
                   AgendaCardControls(
                     onEdit: widget.onEdit,
                     onDelete: () async {
-                      await ref.read(
-                          agendaEventDeleteProvider(widget.events.id).future);
-                      ref.invalidate(agendaEventsProvider);
+                      // hande operation if create or update
+                      handleErrorInOperation(
+                        operation: () async {
+                          await ref.read(agendaEventDeleteProvider(
+                            widget.events.id,
+                          ).future);
+                        },
+                        ref: ref,
+                        context: context,
+                        onSuccess: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Événement supprimé avec succès'),
+                            ),
+                          );
+                        },
+                        providersToInvalidate: [
+                          agendaEventsProvider,
+                          agendaEventDeleteProvider,
+                        ],
+                      );
                     },
                   ),
                 ],
