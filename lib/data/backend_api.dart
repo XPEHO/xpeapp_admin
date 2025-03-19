@@ -89,4 +89,83 @@ abstract class BackendApi {
     @Path("id") String id,
     @Body() Map<String, dynamic> body,
   );
+
+  @GET("xpeho/v1/agenda/events/")
+  Future<HttpResponse> getAllEvents(
+    @Query("page") int page,
+  );
+
+  @GET("xpeho/v1/agenda/events/{id}")
+  Future<HttpResponse> getEventById(
+    @Path("id") String id,
+  );
+
+  @POST("xpeho/v1/agenda/events")
+  Future<HttpResponse> addEvent(
+    @Body() Map<String, dynamic> body,
+  );
+
+  @PUT("xpeho/v1/agenda/events/{id}")
+  Future<HttpResponse> updateEvent(
+    @Path("id") String id,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @DELETE("xpeho/v1/agenda/events/{id}")
+  Future<HttpResponse> deleteEvent(
+    @Path("id") String id,
+  );
+
+  // Events-Type
+  @GET("xpeho/v1/agenda/events-types/")
+  Future<HttpResponse> getAllEventsTypes();
+
+  @GET("xpeho/v1/agenda/events-types/{id}")
+  Future<HttpResponse> getEventTypeById(
+    @Path("id") String id,
+  );
+
+  @POST("xpeho/v1/agenda/events-types/")
+  Future<HttpResponse> addEventType(
+    @Body() Map<String, dynamic> body,
+  );
+
+  @PUT("xpeho/v1/agenda/events-types/{id}")
+  Future<HttpResponse> updateEventType(
+    @Path("id") String id,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @DELETE("xpeho/v1/agenda/events-types/{id}")
+  Future<HttpResponse> deleteEventType(
+    @Path("id") String id,
+  );
+
+  // Birthday
+
+  @GET("xpeho/v1/agenda/birthday/")
+  Future<HttpResponse> getAllBirthdays(
+    @Query("page") int page,
+  );
+
+  @GET("xpeho/v1/agenda/birthday/{id}")
+  Future<HttpResponse> getBirthdayById(
+    @Path("id") String id,
+  );
+
+  @POST("xpeho/v1/agenda/birthday")
+  Future<HttpResponse> addBirthday(
+    @Body() Map<String, dynamic> body,
+  );
+
+  @PUT("xpeho/v1/agenda/birthday/{id}")
+  Future<HttpResponse> updateBirthday(
+    @Path("id") String id,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @DELETE("xpeho/v1/agenda/birthday/{id}")
+  Future<HttpResponse> deleteBirthday(
+    @Path("id") String id,
+  );
 }
