@@ -30,6 +30,7 @@ class EventAddOrEditPage extends ConsumerStatefulWidget {
 }
 
 class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
@@ -61,6 +62,16 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
   }
 
   @override
+  void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    locationController.dispose();
+    startTimeController.dispose();
+    endTimeController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final eventTypes = ref.watch(agendaEventsTypeProvider);
 
@@ -73,199 +84,210 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: subtitleWidget(
-              'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un événement',
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: Divider(),
-          ),
-          SliverPadding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const AgendaFormLabel(
-                    text: 'Choisissez un titre : ',
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 20),
-                  AgendaFormField(
-                    controller: titleController,
-                    hintText: 'Titre de l\'événement',
-                  ),
-                  const SizedBox(height: 20),
-                  const AgendaFormLabel(
-                    text: 'Description : ',
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 20),
-                  AgendaFormField(
-                    controller: descriptionController,
-                    hintText: 'Description de l\'événement',
-                    maxLines: 5,
-                  ),
-                  const SizedBox(height: 20),
-                  const AgendaFormLabel(
-                    text: 'Lieu : ',
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 20),
-                  AgendaFormField(
-                    controller: locationController,
-                    hintText: 'Lieu de l\'événement',
-                  ),
-                  const SizedBox(height: 20),
-                  const AgendaFormLabel(
-                    text: 'Type d\'événement : ',
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 10),
-                  eventTypes.when(
-                    data: (types) {
-                      final selectedType = types.isNotEmpty
-                          ? types.firstWhere(
-                              (type) => type.id == selectedEventType,
-                              orElse: () => types.first,
-                            )
-                          : null;
-                      return DropdownButton<EventsTypeEntity>(
-                        value: selectedType,
-                        hint: const Text('Sélectionnez un type d\'événement'),
-                        onChanged: (EventsTypeEntity? newValue) {
-                          setState(() {
-                            selectedEventType = newValue?.id;
-                          });
-                        },
-                        items: types.map<DropdownMenuItem<EventsTypeEntity>>(
-                          (EventsTypeEntity type) {
-                            return DropdownMenuItem<EventsTypeEntity>(
-                              value: type,
-                              child: Text(type.label),
-                            );
-                          },
-                        ).toList(),
-                      );
-                    },
-                    loading: () => const CircularProgressIndicator(),
-                    error: (error, stack) => Text('Erreur: $error'),
-                  ),
-                  const SizedBox(height: 20),
-                  AgendaFormDatePicker(
-                    selectedDate: selectedDate,
-                    onDateSelected: () => showDatePickerForEvent(
-                      context: context,
-                      selectedDate: selectedDate,
-                      onDateSelected: (date) {
-                        setState(() {
-                          selectedDate = date;
-                          isDateSelected = date != null;
-                        });
-                      },
-                    ),
-                    labelText: 'Date : ',
-                  ),
-                  const SizedBox(height: 20),
-                  const AgendaFormLabel(
-                    text: 'Heure de début : ',
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 20),
-                  AgendaFormField(
-                    controller: startTimeController,
-                    hintText: 'Heure de début',
-                    readOnly: true,
-                    onTap: () => showTimePickerForEvent(
-                      context: context,
-                      isStartTime: true,
-                      onTimeSelected: (time) {
-                        setState(() {
-                          selectedStartTime = time;
-                          startTimeController.text = time != null
-                              ? getTimeStringFromTimeOfDay(time)
-                              : '';
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const AgendaFormLabel(
-                    text: 'Choisissez une heure de fin : ',
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 20),
-                  AgendaFormField(
-                    controller: endTimeController,
-                    hintText: 'Heure de fin',
-                    readOnly: true,
-                    onTap: () => showTimePickerForEvent(
-                      context: context,
-                      isStartTime: false,
-                      onTimeSelected: (time) {
-                        setState(() {
-                          selectedEndTime = time;
-                          endTimeController.text = time != null
-                              ? getTimeStringFromTimeOfDay(time)
-                              : '';
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  AgendaFormElevatedButton(
-                    isEnabled: isDateSelected &&
-                        titleController.text.isNotEmpty &&
-                        selectedEventType != null,
-                    onPressed: () async {
-                      final event = EventsEntity(
-                        id: widget.event?.id,
-                        title: titleController.text,
-                        date: selectedDate!,
-                        topic: descriptionController.text,
-                        location: locationController.text,
-                        startTime: getTimeOfDayFromTimeString(
-                            startTimeController.text),
-                        endTime:
-                            getTimeOfDayFromTimeString(endTimeController.text),
-                        typeId: selectedEventType!,
-                      );
-
-                      // Handle operation if create or update
-                      handleErrorInOperation(
-                        operation: () => widget.pageMode == CrudPageMode.create
-                            ? ref.read(agendaEventAddProvider(event).future)
-                            : ref.read(agendaEventUpdateProvider(event).future),
-                        ref: ref,
-                        context: context,
-                        onSuccess: () {
-                          widget.onDismissed();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Événement ${(widget.pageMode == CrudPageMode.create) ? 'ajouté' : 'modifié'} avec succès',
-                              ),
-                            ),
-                          );
-                        },
-                        providersToInvalidate: [
-                          agendaEventsProvider,
-                          agendaEventAddProvider,
-                          agendaEventUpdateProvider
-                        ],
-                      );
-                    },
-                    buttonText:
-                        '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} l\'événement',
-                  ),
-                ],
+      body: Form(
+        key: _formKey,
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: subtitleWidget(
+                'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un événement',
               ),
             ),
-          ),
-        ],
+            const SliverToBoxAdapter(
+              child: Divider(),
+            ),
+            SliverPadding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    const AgendaFormLabel(
+                      text: 'Choisissez un titre : ',
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 20),
+                    AgendaFormField(
+                      controller: titleController,
+                      hintText: 'Titre de l\'événement',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Veuillez entrer un titre';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    const AgendaFormLabel(
+                      text: 'Description : ',
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 20),
+                    AgendaFormField(
+                      controller: descriptionController,
+                      hintText: 'Description de l\'événement',
+                      maxLines: 5,
+                    ),
+                    const SizedBox(height: 20),
+                    const AgendaFormLabel(
+                      text: 'Lieu : ',
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 20),
+                    AgendaFormField(
+                      controller: locationController,
+                      hintText: 'Lieu de l\'événement',
+                    ),
+                    const SizedBox(height: 20),
+                    const AgendaFormLabel(
+                      text: 'Type d\'événement : ',
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 10),
+                    eventTypes.when(
+                      data: (types) {
+                        final selectedType = types.isNotEmpty
+                            ? types.firstWhere(
+                                (type) => type.id == selectedEventType,
+                                orElse: () => types.first,
+                              )
+                            : null;
+                        return DropdownButton<EventsTypeEntity>(
+                          value: selectedType,
+                          hint: const Text('Sélectionnez un type d\'événement'),
+                          onChanged: (EventsTypeEntity? newValue) {
+                            setState(() {
+                              selectedEventType = newValue?.id;
+                            });
+                          },
+                          items: types.map<DropdownMenuItem<EventsTypeEntity>>(
+                            (EventsTypeEntity type) {
+                              return DropdownMenuItem<EventsTypeEntity>(
+                                value: type,
+                                child: Text(type.label),
+                              );
+                            },
+                          ).toList(),
+                        );
+                      },
+                      loading: () => const CircularProgressIndicator(),
+                      error: (error, stack) => Text('Erreur: $error'),
+                    ),
+                    const SizedBox(height: 20),
+                    AgendaFormDatePicker(
+                      selectedDate: selectedDate,
+                      onDateSelected: () => showDatePickerForEvent(
+                        context: context,
+                        selectedDate: selectedDate,
+                        onDateSelected: (date) {
+                          setState(() {
+                            selectedDate = date;
+                            isDateSelected = date != null;
+                          });
+                        },
+                      ),
+                      labelText: 'Date : ',
+                    ),
+                    const SizedBox(height: 20),
+                    const AgendaFormLabel(
+                      text: 'Heure de début : ',
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 20),
+                    AgendaFormField(
+                      controller: startTimeController,
+                      hintText: 'Heure de début',
+                      readOnly: true,
+                      onTap: () => showTimePickerForEvent(
+                        context: context,
+                        isStartTime: true,
+                        onTimeSelected: (time) {
+                          setState(() {
+                            selectedStartTime = time;
+                            startTimeController.text = time != null
+                                ? getTimeStringFromTimeOfDay(time)
+                                : '';
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const AgendaFormLabel(
+                      text: 'Choisissez une heure de fin : ',
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 20),
+                    AgendaFormField(
+                      controller: endTimeController,
+                      hintText: 'Heure de fin',
+                      readOnly: true,
+                      onTap: () => showTimePickerForEvent(
+                        context: context,
+                        isStartTime: false,
+                        onTimeSelected: (time) {
+                          setState(() {
+                            selectedEndTime = time;
+                            endTimeController.text = time != null
+                                ? getTimeStringFromTimeOfDay(time)
+                                : '';
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    AgendaFormElevatedButton(
+                      isEnabled: _formKey.currentState?.validate() ?? false,
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          final event = EventsEntity(
+                            id: widget.event?.id,
+                            title: titleController.text,
+                            date: selectedDate!,
+                            topic: descriptionController.text,
+                            location: locationController.text,
+                            startTime: getTimeOfDayFromTimeString(
+                                startTimeController.text),
+                            endTime: getTimeOfDayFromTimeString(
+                                endTimeController.text),
+                            typeId: selectedEventType!,
+                          );
+
+                          // Handle operation if create or update
+                          handleErrorInOperation(
+                            operation: () => widget.pageMode ==
+                                    CrudPageMode.create
+                                ? ref.read(agendaEventAddProvider(event).future)
+                                : ref.read(
+                                    agendaEventUpdateProvider(event).future),
+                            ref: ref,
+                            context: context,
+                            onSuccess: () {
+                              widget.onDismissed();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Événement ${(widget.pageMode == CrudPageMode.create) ? 'ajouté' : 'modifié'} avec succès',
+                                  ),
+                                ),
+                              );
+                            },
+                            providersToInvalidate: [
+                              agendaEventsProvider,
+                              agendaEventAddProvider,
+                              agendaEventUpdateProvider
+                            ],
+                          );
+                        }
+                      },
+                      buttonText:
+                          '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} l\'événement',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: Tooltip(
         message: 'Revenir aux événements',

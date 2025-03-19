@@ -32,6 +32,7 @@ class EventTypesAddOrEditPage extends ConsumerStatefulWidget {
 
 class _EventTypesAddOrEditPageState
     extends ConsumerState<EventTypesAddOrEditPage> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController labelController = TextEditingController();
   bool isButtonEnabled = false;
   String? selectedColor;
@@ -71,105 +72,120 @@ class _EventTypesAddOrEditPageState
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: subtitleWidget(
-              'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un type d\'événement',
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: Divider(),
-          ),
-          SliverPadding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const AgendaFormLabel(
-                    text: 'Choisissez un label pour le type : ',
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 20),
-                  AgendaFormField(
-                    controller: labelController,
-                    hintText: 'Type de l\'événement',
-                  ),
-                  const SizedBox(height: 20),
-                  const AgendaFormLabel(
-                    text: 'Choisissez une couleur pour le type : ',
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 10,
-                    children: AgendaUtils.colorPalette.map((color) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedColor = color;
-                            isButtonEnabled = labelController.text.isNotEmpty &&
-                                selectedColor != null;
-                          });
-                        },
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Color(int.parse('0xFF$color')),
-                            border: selectedColor == color
-                                ? Border.all(color: Colors.black, width: 2)
-                                : null,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 20),
-                  AgendaFormElevatedButton(
-                    isEnabled: isButtonEnabled,
-                    onPressed: () async {
-                      final eventType = EventsTypeEntity(
-                        id: widget.eventType?.id ?? '',
-                        label: labelController.text,
-                        colorCode: selectedColor!,
-                      );
-                      // Handle operation if create or update
-                      handleErrorInOperation(
-                        operation: () => widget.pageMode == CrudPageMode.create
-                            ? ref.read(
-                                agendaEventsTypeAddProvider(eventType).future)
-                            : ref.read(agendaEventsTypeUpdateProvider(eventType)
-                                .future),
-                        ref: ref,
-                        context: context,
-                        onSuccess: () {
-                          widget.onDismissed();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Type d\'événement ${(widget.pageMode == CrudPageMode.create) ? 'ajouté' : 'modifié'} avec succès',
-                              ),
-                            ),
-                          );
-                        },
-                        providersToInvalidate: [
-                          agendaEventsTypeProvider,
-                          agendaEventsTypeAddProvider,
-                          agendaEventsTypeUpdateProvider
-                        ],
-                      );
-                    },
-                    buttonText:
-                        '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} le type',
-                  ),
-                ],
+      body: Form(
+        key: _formKey,
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: subtitleWidget(
+                'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un type d\'événement',
               ),
             ),
-          ),
-        ],
+            const SliverToBoxAdapter(
+              child: Divider(),
+            ),
+            SliverPadding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    const AgendaFormLabel(
+                      text: 'Choisissez un label pour le type : ',
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 20),
+                    AgendaFormField(
+                      controller: labelController,
+                      hintText: 'Type de l\'événement',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Veuillez entrer un label';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    const AgendaFormLabel(
+                      text: 'Choisissez une couleur pour le type : ',
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 10),
+                    Wrap(
+                      spacing: 10,
+                      children: AgendaUtils.colorPalette.map((color) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedColor = color;
+                              isButtonEnabled =
+                                  labelController.text.isNotEmpty &&
+                                      selectedColor != null;
+                            });
+                          },
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Color(int.parse('0xFF$color')),
+                              border: selectedColor == color
+                                  ? Border.all(color: Colors.black, width: 2)
+                                  : null,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 20),
+                    AgendaFormElevatedButton(
+                      isEnabled: isButtonEnabled,
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          final eventType = EventsTypeEntity(
+                            id: widget.eventType?.id ?? '',
+                            label: labelController.text,
+                            colorCode: selectedColor!,
+                          );
+                          // Handle operation if create or update
+                          handleErrorInOperation(
+                            operation: () => widget.pageMode ==
+                                    CrudPageMode.create
+                                ? ref.read(
+                                    agendaEventsTypeAddProvider(eventType)
+                                        .future)
+                                : ref.read(
+                                    agendaEventsTypeUpdateProvider(eventType)
+                                        .future),
+                            ref: ref,
+                            context: context,
+                            onSuccess: () {
+                              widget.onDismissed();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Type d\'événement ${(widget.pageMode == CrudPageMode.create) ? 'ajouté' : 'modifié'} avec succès',
+                                  ),
+                                ),
+                              );
+                            },
+                            providersToInvalidate: [
+                              agendaEventsTypeProvider,
+                              agendaEventsTypeAddProvider,
+                              agendaEventsTypeUpdateProvider
+                            ],
+                          );
+                        }
+                      },
+                      buttonText:
+                          '${(widget.pageMode == CrudPageMode.create) ? 'Ajouter' : 'Modifier'} le type',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: Tooltip(
         message: 'Revenir aux types d\'événements',

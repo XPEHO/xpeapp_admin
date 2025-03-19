@@ -6,6 +6,7 @@ class AgendaFormField extends StatelessWidget {
   final bool readOnly;
   final VoidCallback? onTap;
   final int maxLines;
+  final FormFieldValidator<String>? validator;
 
   const AgendaFormField({
     super.key,
@@ -14,6 +15,7 @@ class AgendaFormField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.maxLines = 1,
+    this.validator,
   });
 
   @override
@@ -21,10 +23,11 @@ class AgendaFormField extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       width: 500,
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         readOnly: readOnly,
         onTap: onTap,
+        validator: validator,
         maxLines: maxLines,
         decoration: InputDecoration(
           hintText: hintText,
