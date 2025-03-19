@@ -4,8 +4,8 @@ import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_add_or_edit_page.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_card.dart';
-import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_floating_buttons.dart';
+import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_sliver_form.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class AgendaContentBirthday extends ConsumerStatefulWidget {
@@ -39,6 +39,7 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
 
   Widget _viewMode() {
     final birthdayAsyncValue = ref.watch(agendaBirthdayProvider(currentPage));
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -46,75 +47,53 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: subtitleWidget(
-              'Créez ou gérez les anniversaires des collaborateurs',
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: Divider(),
-          ),
-          birthdayAsyncValue.when(
-            data: (birthday) {
-              if (birthday.isEmpty) {
-                return SliverToBoxAdapter(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        "Page $currentPage\nAucun anniversaire",
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+      body: birthdayAsyncValue.when(
+        data: (birthday) {
+          final formFields = <Widget>[
+            if (birthday.isEmpty)
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    "Page $currentPage\nAucun anniversaire",
+                    textAlign: TextAlign.center,
                   ),
-                );
-              }
-              return SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    if (index == 0) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(
-                          "Page $currentPage",
-                          textAlign: TextAlign.center,
-                        ),
-                      );
-                    }
-                    final birthDay = birthday[index - 1];
-                    return BirthdayCard(
-                      birthdayEntity: birthDay,
-                      onEdit: () {
-                        ref.read(pageModeProvider.notifier).state =
-                            CrudPageMode.edit;
-                        ref.read(editingEntityBirthdayProvider.notifier).state =
-                            birthDay;
-                      },
-                    );
-                  },
-                  childCount: birthday.length + 1, // +1 for the page text
                 ),
-              );
-            },
-            loading: () => const SliverToBoxAdapter(
-              child: Center(child: CircularProgressIndicator()),
-            ),
-            error: (error, stack) => SliverToBoxAdapter(
-              child: Center(child: Text('Erreur: $error')),
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 50),
-          ),
-        ],
+              )
+            else ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  "Page $currentPage",
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              ...birthday.map((birthDay) {
+                return BirthdayCard(
+                  birthdayEntity: birthDay,
+                  onEdit: () {
+                    ref.read(pageModeProvider.notifier).state =
+                        CrudPageMode.edit;
+                    ref.read(editingEntityBirthdayProvider.notifier).state =
+                        birthDay;
+                  },
+                );
+              }).toList(),
+            ],
+            const SizedBox(height: 50),
+          ];
+
+          return AgendaSliverForm(
+            subtitleText: 'Créez ou gérez les anniversaires des collaborateurs',
+            formFields: formFields,
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(child: Text('Erreur: $error')),
       ),
       floatingActionButton: AgendaFloatingButtons(
         customTooltip: [
-          const SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           Tooltip(
             message: "Précédent",
             child: FloatingActionButton(
@@ -133,9 +112,7 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
               ),
             ),
           ),
-          const SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           Tooltip(
             message: "Suivant",
             child: FloatingActionButton(
