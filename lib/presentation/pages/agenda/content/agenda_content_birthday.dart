@@ -78,7 +78,7 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
                         birthDay;
                   },
                 );
-              }).toList(),
+              }),
             ],
             const SizedBox(height: 50),
           ];
