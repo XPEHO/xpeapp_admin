@@ -62,6 +62,7 @@ class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
                   },
                 );
               }),
+            const SizedBox(height: 50),
           ];
 
           return AgendaSliverForm(

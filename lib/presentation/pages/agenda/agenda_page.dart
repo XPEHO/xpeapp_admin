@@ -30,8 +30,8 @@ class AgendaPageState extends ConsumerState<AgendaPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                buildMenuItem(context, 'Types', AgendaMenu.types),
                 buildMenuItem(context, 'Événements', AgendaMenu.events),
-                buildMenuItem(context, 'Type', AgendaMenu.types),
                 buildMenuItem(context, 'Anniversaires', AgendaMenu.birthdays),
               ],
             ),
