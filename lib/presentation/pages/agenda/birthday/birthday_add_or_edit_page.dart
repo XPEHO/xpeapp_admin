@@ -83,10 +83,10 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
         key: _formKey,
         child: AgendaSliverForm(
           subtitleText:
-              'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un anniversaire',
+              'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un anniversaire \n (* = champ obligatoire)',
           formFields: [
             const AgendaFormLabel(
-              text: 'Quel est le nom du collaborateur ? ',
+              text: 'Quel est le nom du collaborateur ? *',
               color: Colors.black,
             ),
             const SizedBox(height: 20),
@@ -113,11 +113,11 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
                   _validateForm();
                 },
               ),
-              labelText: 'Date de naissance : ',
+              labelText: 'Date de naissance : *',
             ),
             const SizedBox(height: 20),
             const AgendaFormLabel(
-              text: 'Quel est l\'email du collaborateur ? ',
+              text: 'Quel est l\'email du collaborateur ? *',
               color: Colors.black,
             ),
             const SizedBox(height: 20),

@@ -88,45 +88,8 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
         key: _formKey,
         child: AgendaSliverForm(
           subtitleText:
-              'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un événement',
+              'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un événement \n (* = champ obligatoire)',
           formFields: [
-            const AgendaFormLabel(
-              text: 'Choisissez un titre : ',
-              color: Colors.black,
-            ),
-            const SizedBox(height: 20),
-            AgendaFormField(
-              controller: titleController,
-              hintText: 'Titre de l\'événement',
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez entrer un titre';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 20),
-            const AgendaFormLabel(
-              text: 'Description : ',
-              color: Colors.black,
-            ),
-            const SizedBox(height: 20),
-            AgendaFormField(
-              controller: descriptionController,
-              hintText: 'Description de l\'événement',
-              maxLines: 5,
-            ),
-            const SizedBox(height: 20),
-            const AgendaFormLabel(
-              text: 'Lieu : ',
-              color: Colors.black,
-            ),
-            const SizedBox(height: 20),
-            AgendaFormField(
-              controller: locationController,
-              hintText: 'Lieu de l\'événement',
-            ),
-            const SizedBox(height: 20),
             const AgendaFormLabel(
               text: 'Type d\'événement : ',
               color: Colors.black,
@@ -162,6 +125,43 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
               error: (error, stack) => Text('Erreur: $error'),
             ),
             const SizedBox(height: 20),
+            const AgendaFormLabel(
+              text: 'Choisissez un titre : *',
+              color: Colors.black,
+            ),
+            const SizedBox(height: 20),
+            AgendaFormField(
+              controller: titleController,
+              hintText: 'Titre de l\'événement',
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Veuillez entrer un titre';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 20),
+            const AgendaFormLabel(
+              text: 'Topic : ',
+              color: Colors.black,
+            ),
+            const SizedBox(height: 20),
+            AgendaFormField(
+              controller: descriptionController,
+              hintText: 'Topic de l\'événement',
+              maxLines: 5,
+            ),
+            const SizedBox(height: 20),
+            const AgendaFormLabel(
+              text: 'Lieu : ',
+              color: Colors.black,
+            ),
+            const SizedBox(height: 20),
+            AgendaFormField(
+              controller: locationController,
+              hintText: 'Lieu de l\'événement',
+            ),
+            const SizedBox(height: 20),
             AgendaFormDatePicker(
               selectedDate: selectedDate,
               onDateSelected: () => showDatePickerForEvent(
@@ -174,7 +174,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                   });
                 },
               ),
-              labelText: 'Date : ',
+              labelText: 'Date : *',
             ),
             const SizedBox(height: 20),
             const AgendaFormLabel(

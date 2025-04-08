@@ -21,6 +21,10 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
 
   @override
   Widget build(BuildContext context) {
+    // Réinitialiser l'état si nécessaire
+    ref.read(pageModeProvider.notifier).state = CrudPageMode.view;
+    ref.read(editingEntityBirthdayProvider.notifier).state = null;
+
     final pageMode = ref.watch(pageModeProvider);
     final birthdayToEdit = ref.watch(editingEntityBirthdayProvider);
 
