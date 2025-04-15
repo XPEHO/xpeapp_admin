@@ -11,7 +11,7 @@ _$BirthdayEntityImpl _$$BirthdayEntityImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       firstName: json['first_name'] as String,
       birthdate: DateTime.parse(json['birthdate'] as String),
-      email: json['email'] as String,
+      email: json['email'] as String?,
     );
 
 Map<String, dynamic> _$$BirthdayEntityImplToJson(
