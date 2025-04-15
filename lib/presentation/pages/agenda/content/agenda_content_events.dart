@@ -33,6 +33,16 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Reset the state in initState
+    Future.microtask(() {
+      ref.read(pageModeProvider.notifier).state = CrudPageMode.view;
+      ref.read(editingEntityBirthdayProvider.notifier).state = null;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final pageMode = ref.watch(pageModeProvider);
     final eventToEdit = ref.watch(editingEntityEventsProvider);
