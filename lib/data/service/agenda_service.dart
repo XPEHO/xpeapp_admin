@@ -176,11 +176,7 @@ class AgendaService {
         throw AgendaException('Erreur lors de l\'ajout de l\'anniversaire');
       }
     } on DioException catch (e) {
-      if (e.response?.statusCode == 409) {
-        throw AgendaException('Cet email est déjà associé à un anniversaire');
-      } else {
-        throw AgendaException('Erreur lors de l\'ajout de l\'anniversaire');
-      }
+      throw AgendaException('Erreur lors de l\'ajout de l\'anniversaire : $e');
     }
   }
 
@@ -193,12 +189,8 @@ class AgendaService {
             'Erreur lors de la mise à jour de l\'anniversaire');
       }
     } on DioException catch (e) {
-      if (e.response?.statusCode == 409) {
-        throw AgendaException('Cet email est déjà associé à un anniversaire');
-      } else {
-        throw AgendaException(
-            'Erreur lors de la mise à jour de l\'anniversaire');
-      }
+      throw AgendaException(
+          'Erreur lors de la mise à jour de l\'anniversaire : $e');
     }
   }
 
