@@ -62,9 +62,8 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
 
   void _validateForm() {
     setState(() {
-      isButtonEnabled = firstNameController.text.isNotEmpty &&
-          emailController.text.isNotEmpty &&
-          selectedDate != null;
+      isButtonEnabled =
+          firstNameController.text.isNotEmpty && selectedDate != null;
     });
   }
 
@@ -117,7 +116,7 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
             ),
             const SizedBox(height: 20),
             const AgendaFormLabel(
-              text: 'Quel est l\'email du collaborateur ? *',
+              text: 'Quel est l\'email du collaborateur ?',
               color: Colors.black,
             ),
             const SizedBox(height: 20),
@@ -125,10 +124,9 @@ class _BirthdayAddOrEditPageState extends ConsumerState<BirthdayAddOrEditPage> {
               controller: emailController,
               hintText: 'Email du collaborateur',
               validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez entrer un email';
-                }
-                if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                if (value != null &&
+                    value.isNotEmpty &&
+                    !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
                   return 'Veuillez entrer un email valide';
                 }
                 return null;
