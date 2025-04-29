@@ -242,6 +242,31 @@ void main() {
         );
       });
 
+      test('addEventType throws AgendaException when status code is 409',
+          () async {
+        when(mockBackendApi.addEventType(any)).thenThrow(
+          DioException(
+            response: Response(
+              statusCode: 409,
+              requestOptions: RequestOptions(path: ''),
+            ),
+            requestOptions: RequestOptions(path: ''),
+          ),
+        );
+        expect(
+          () async => await agendaService.addEventType(const EventsTypeEntity(
+            id: '1',
+            label: 'Type 1',
+            colorCode: 'Color 1',
+          )),
+          throwsA(isA<AgendaException>().having(
+            (e) => e.message,
+            'message',
+            'Type d\'événement déjà existant avec le même label',
+          )),
+        );
+      });
+
       test('updateEventType throws an exception on error', () async {
         when(mockBackendApi.updateEventType(any, any)).thenAnswer((_) async {
           return Future.value(
@@ -256,10 +281,44 @@ void main() {
         });
 
         expect(
-          () async => await agendaService.updateEventType(
-              const EventsTypeEntity(
-                  id: '1', label: 'Type 1', colorCode: 'Color 1')),
-          throwsA(isA<AgendaException>()),
+          () async =>
+              await agendaService.updateEventType(const EventsTypeEntity(
+            id: '1',
+            label: 'Type 1',
+            colorCode: 'Color 1',
+          )),
+          throwsA(isA<AgendaException>().having(
+            (e) => e.message,
+            'message',
+            'Erreur lors de la mise à jour du type d\'événement',
+          )),
+        );
+      });
+
+      test('updateEventType throws AgendaException when status code is 409',
+          () async {
+        when(mockBackendApi.updateEventType(any, any)).thenThrow(
+          DioException(
+            response: Response(
+              statusCode: 409,
+              requestOptions: RequestOptions(path: ''),
+            ),
+            requestOptions: RequestOptions(path: ''),
+          ),
+        );
+
+        expect(
+          () async =>
+              await agendaService.updateEventType(const EventsTypeEntity(
+            id: '1',
+            label: 'Type 1',
+            colorCode: 'Color 1',
+          )),
+          throwsA(isA<AgendaException>().having(
+            (e) => e.message,
+            'message',
+            'Type d\'événement déjà existant avec le même label',
+          )),
         );
       });
 
@@ -278,9 +337,35 @@ void main() {
 
         expect(
           () async => await agendaService.deleteEventType('1'),
-          throwsA(isA<AgendaException>()),
+          throwsA(isA<AgendaException>().having(
+            (e) => e.message,
+            'message',
+            'Erreur lors de la suppression du type d\'événement',
+          )),
         );
       });
+    });
+
+    test('deleteEventType throws AgendaException when status code is 409',
+        () async {
+      when(mockBackendApi.deleteEventType(any)).thenThrow(
+        DioException(
+          response: Response(
+            statusCode: 409,
+            requestOptions: RequestOptions(path: ''),
+          ),
+          requestOptions: RequestOptions(path: ''),
+        ),
+      );
+
+      expect(
+        () async => await agendaService.deleteEventType('1'),
+        throwsA(isA<AgendaException>().having(
+          (e) => e.message,
+          'message',
+          'Type d\'événement associé à un ou plusieurs événements',
+        )),
+      );
     });
 
     group('Birthdays', () {
@@ -393,7 +478,11 @@ void main() {
               birthdate: getDateFromDateString('2022-01-01'),
             ),
           ),
-          throwsA(isA<AgendaException>()),
+          throwsA(isA<AgendaException>().having(
+            (e) => e.message,
+            'message',
+            'Erreur lors de la mise à jour de l\'anniversaire',
+          )),
         );
       });
 
