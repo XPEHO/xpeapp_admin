@@ -170,27 +170,17 @@ class AgendaService {
   }
 
   Future<void> addBirthday(BirthdayEntity birthday) async {
-    try {
-      final response = await _backendApi.addBirthday(birthday.toJson());
-      if (response.response.statusCode != 201) {
-        throw AgendaException('Erreur lors de l\'ajout de l\'anniversaire');
-      }
-    } on DioException catch (e) {
-      throw AgendaException('Erreur lors de l\'ajout de l\'anniversaire : $e');
+    final response = await _backendApi.addBirthday(birthday.toJson());
+    if (response.response.statusCode != 201) {
+      throw AgendaException('Erreur lors de l\'ajout de l\'anniversaire');
     }
   }
 
   Future<void> updateBirthday(BirthdayEntity birthday) async {
-    try {
-      final response =
-          await _backendApi.updateBirthday(birthday.id, birthday.toJson());
-      if (response.response.statusCode != 204) {
-        throw AgendaException(
-            'Erreur lors de la mise à jour de l\'anniversaire');
-      }
-    } on DioException catch (e) {
-      throw AgendaException(
-          'Erreur lors de la mise à jour de l\'anniversaire : $e');
+    final response =
+        await _backendApi.updateBirthday(birthday.id, birthday.toJson());
+    if (response.response.statusCode != 204) {
+      throw AgendaException('Erreur lors de la mise à jour de l\'anniversaire');
     }
   }
 
