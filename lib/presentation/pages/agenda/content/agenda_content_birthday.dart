@@ -22,8 +22,8 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
   @override
   void initState() {
     super.initState();
-    // Reset the state in initState
-    Future.microtask(() {
+    // Reset the state
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(pageModeProvider.notifier).state = CrudPageMode.view;
       ref.read(editingEntityBirthdayProvider.notifier).state = null;
     });
