@@ -41,6 +41,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
   TimeOfDay? selectedEndTime;
   bool isDateSelected = false;
   String? selectedEventType;
+  bool isButtonEnabled = false;
 
   @override
   void initState() {
@@ -58,6 +59,9 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
       selectedDate = widget.event!.date;
       selectedEventType = widget.event?.typeId;
       isDateSelected = true;
+      isButtonEnabled = titleController.text.isNotEmpty &&
+          selectedDate != null &&
+          selectedEventType != null;
     }
   }
 
@@ -222,7 +226,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
             ),
             const SizedBox(height: 20),
             AgendaFormElevatedButton(
-              isEnabled: _formKey.currentState?.validate() ?? false,
+              isEnabled: isButtonEnabled,
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   final event = EventsEntity(
