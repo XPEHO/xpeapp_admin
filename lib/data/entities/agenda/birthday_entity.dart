@@ -10,7 +10,7 @@ class BirthdayEntity with _$BirthdayEntity {
     required String id,
     @JsonKey(name: 'first_name') required String firstName,
     required DateTime birthdate,
-    required String email,
+    String? email,
   }) = _BirthdayEntity;
 
   factory BirthdayEntity.fromJson(Map<String, dynamic> json) =>

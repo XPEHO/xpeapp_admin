@@ -67,7 +67,8 @@ class EventsCardState extends ConsumerState<EventsCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Divider(),
-                  if (widget.events.topic != null)
+                  if (widget.events.topic != null &&
+                      widget.events.topic!.isNotEmpty)
                     Text(
                       'Description: ${widget.events.topic}',
                       style: const TextStyle(

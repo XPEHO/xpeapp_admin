@@ -24,7 +24,7 @@ mixin _$BirthdayEntity {
   @JsonKey(name: 'first_name')
   String get firstName => throw _privateConstructorUsedError;
   DateTime get birthdate => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
 
   /// Serializes this BirthdayEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $BirthdayEntityCopyWith<$Res> {
       {String id,
       @JsonKey(name: 'first_name') String firstName,
       DateTime birthdate,
-      String email});
+      String? email});
 }
 
 /// @nodoc
@@ -67,7 +67,7 @@ class _$BirthdayEntityCopyWithImpl<$Res, $Val extends BirthdayEntity>
     Object? id = null,
     Object? firstName = null,
     Object? birthdate = null,
-    Object? email = null,
+    Object? email = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -82,10 +82,10 @@ class _$BirthdayEntityCopyWithImpl<$Res, $Val extends BirthdayEntity>
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      email: null == email
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -102,7 +102,7 @@ abstract class _$$BirthdayEntityImplCopyWith<$Res>
       {String id,
       @JsonKey(name: 'first_name') String firstName,
       DateTime birthdate,
-      String email});
+      String? email});
 }
 
 /// @nodoc
@@ -121,7 +121,7 @@ class __$$BirthdayEntityImplCopyWithImpl<$Res>
     Object? id = null,
     Object? firstName = null,
     Object? birthdate = null,
-    Object? email = null,
+    Object? email = freezed,
   }) {
     return _then(_$BirthdayEntityImpl(
       id: null == id
@@ -136,10 +136,10 @@ class __$$BirthdayEntityImplCopyWithImpl<$Res>
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      email: null == email
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -152,7 +152,7 @@ class _$BirthdayEntityImpl implements _BirthdayEntity {
       {required this.id,
       @JsonKey(name: 'first_name') required this.firstName,
       required this.birthdate,
-      required this.email});
+      this.email});
 
   factory _$BirthdayEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$BirthdayEntityImplFromJson(json);
@@ -165,7 +165,7 @@ class _$BirthdayEntityImpl implements _BirthdayEntity {
   @override
   final DateTime birthdate;
   @override
-  final String email;
+  final String? email;
 
   @override
   String toString() {
@@ -211,7 +211,7 @@ abstract class _BirthdayEntity implements BirthdayEntity {
       {required final String id,
       @JsonKey(name: 'first_name') required final String firstName,
       required final DateTime birthdate,
-      required final String email}) = _$BirthdayEntityImpl;
+      final String? email}) = _$BirthdayEntityImpl;
 
   factory _BirthdayEntity.fromJson(Map<String, dynamic> json) =
       _$BirthdayEntityImpl.fromJson;
@@ -224,7 +224,7 @@ abstract class _BirthdayEntity implements BirthdayEntity {
   @override
   DateTime get birthdate;
   @override
-  String get email;
+  String? get email;
 
   /// Create a copy of BirthdayEntity
   /// with the given fields replaced by the non-null parameter values.

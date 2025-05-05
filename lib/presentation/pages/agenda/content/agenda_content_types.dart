@@ -33,6 +33,16 @@ class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
           );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    // Reset the state
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(pageModeProvider.notifier).state = CrudPageMode.view;
+      ref.read(editingEntityBirthdayProvider.notifier).state = null;
+    });
+  }
+
   Widget _viewMode() {
     final eventsTypeAsyncValue = ref.watch(agendaEventsTypeProvider);
 
@@ -62,6 +72,7 @@ class AgendaContentTypesState extends ConsumerState<AgendaContentTypes> {
                   },
                 );
               }),
+            const SizedBox(height: 50),
           ];
 
           return AgendaSliverForm(

@@ -76,10 +76,10 @@ class _EventTypesAddOrEditPageState
         key: _formKey,
         child: AgendaSliverForm(
           subtitleText:
-              'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un type d\'événement',
+              'Remplissez les informations pour ${widget.pageMode == CrudPageMode.create ? 'ajouter' : 'modifier'} un type d\'événement \n (* = champ obligatoire)',
           formFields: [
             const AgendaFormLabel(
-              text: 'Choisissez un label pour le type : ',
+              text: 'Choisissez un label pour le type : *',
               color: Colors.black,
             ),
             const SizedBox(height: 20),
@@ -95,7 +95,7 @@ class _EventTypesAddOrEditPageState
             ),
             const SizedBox(height: 20),
             const AgendaFormLabel(
-              text: 'Choisissez une couleur pour le type : ',
+              text: 'Choisissez une couleur pour le type : *',
               color: Colors.black,
             ),
             const SizedBox(height: 10),

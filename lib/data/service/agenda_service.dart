@@ -170,35 +170,17 @@ class AgendaService {
   }
 
   Future<void> addBirthday(BirthdayEntity birthday) async {
-    try {
-      final response = await _backendApi.addBirthday(birthday.toJson());
-      if (response.response.statusCode != 201) {
-        throw AgendaException('Erreur lors de l\'ajout de l\'anniversaire');
-      }
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 409) {
-        throw AgendaException('Cet email est déjà associé à un anniversaire');
-      } else {
-        throw AgendaException('Erreur lors de l\'ajout de l\'anniversaire');
-      }
+    final response = await _backendApi.addBirthday(birthday.toJson());
+    if (response.response.statusCode != 201) {
+      throw AgendaException('Erreur lors de l\'ajout de l\'anniversaire');
     }
   }
 
   Future<void> updateBirthday(BirthdayEntity birthday) async {
-    try {
-      final response =
-          await _backendApi.updateBirthday(birthday.id, birthday.toJson());
-      if (response.response.statusCode != 204) {
-        throw AgendaException(
-            'Erreur lors de la mise à jour de l\'anniversaire');
-      }
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 409) {
-        throw AgendaException('Cet email est déjà associé à un anniversaire');
-      } else {
-        throw AgendaException(
-            'Erreur lors de la mise à jour de l\'anniversaire');
-      }
+    final response =
+        await _backendApi.updateBirthday(birthday.id, birthday.toJson());
+    if (response.response.statusCode != 204) {
+      throw AgendaException('Erreur lors de la mise à jour de l\'anniversaire');
     }
   }
 

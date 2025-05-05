@@ -27,7 +27,7 @@ class BirthdayCardState extends ConsumerState<BirthdayCard> {
 
   @override
   Widget build(BuildContext context) {
-    final DateFormat dateFormat = DateFormat('dd/MM'); // Define the date format
+    final DateFormat dateFormat = DateFormat('dd/MM');
     final String formattedBirthdayDate =
         dateFormat.format(widget.birthdayEntity.birthdate);
 
@@ -57,13 +57,15 @@ class BirthdayCardState extends ConsumerState<BirthdayCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Divider(),
-                  Text(
-                    'Email: ${widget.birthdayEntity.email}',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black54,
+                  if (widget.birthdayEntity.email != null &&
+                      widget.birthdayEntity.email!.isNotEmpty)
+                    Text(
+                      'Email: ${widget.birthdayEntity.email}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black54,
+                      ),
                     ),
-                  ),
                   const SizedBox(height: 10),
                   AgendaCardControls(
                     onEdit: widget.onEdit,

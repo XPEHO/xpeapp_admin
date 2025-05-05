@@ -58,6 +58,7 @@ class _NewsletterAddOrEditPageState
         summaryIsNotEmpty = true;
         pdfLinkController.text = widget.newsletter!.pdfUrl;
         pdfLinkIsNotEmpty = true;
+        imageName = widget.newsletter!.picture;
       });
     }
   }
