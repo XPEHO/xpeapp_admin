@@ -50,7 +50,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
   }
 
   void _initializeForm() {
-    // When any of the form fields changes (edit or create)
+    // When any of the form fields changes (edit or create) in the form.
     if (widget.event != null) {
       titleController.text = widget.event!.title;
       descriptionController.text = widget.event!.topic ?? '';
