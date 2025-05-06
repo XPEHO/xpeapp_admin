@@ -46,7 +46,12 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.pageMode == CrudPageMode.edit && widget.event != null) {
+    _initializeForm();
+  }
+
+  void _initializeForm() {
+    // When any of the form fields changes (edit or create)
+    if (widget.event != null) {
       titleController.text = widget.event!.title;
       descriptionController.text = widget.event!.topic ?? '';
       locationController.text = widget.event!.location ?? '';
@@ -58,11 +63,22 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
           : '';
       selectedDate = widget.event!.date;
       selectedEventType = widget.event?.typeId;
-      isDateSelected = true;
+      isDateSelected = selectedDate != null;
+    }
+    _updateButtonState();
+  }
+
+  void _updateButtonState() {
+    setState(() {
       isButtonEnabled = titleController.text.isNotEmpty &&
           selectedDate != null &&
           selectedEventType != null;
-    }
+    });
+  }
+
+  // This method is called when any of the form fields change
+  void _onFieldChanged() {
+    _updateButtonState();
   }
 
   @override
@@ -114,6 +130,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                     setState(() {
                       selectedEventType = newValue?.id;
                     });
+                    _onFieldChanged();
                   },
                   items: types.map<DropdownMenuItem<EventsTypeEntity>>(
                     (EventsTypeEntity type) {
@@ -135,15 +152,15 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
             ),
             const SizedBox(height: 20),
             AgendaFormField(
-              controller: titleController,
-              hintText: 'Titre de l\'événement',
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez entrer un titre';
-                }
-                return null;
-              },
-            ),
+                controller: titleController,
+                hintText: 'Titre de l\'événement',
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Veuillez entrer un titre';
+                  }
+                  return null;
+                },
+                onChanged: (_) => _onFieldChanged()),
             const SizedBox(height: 20),
             const AgendaFormLabel(
               text: 'Topic : ',
@@ -175,6 +192,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                   setState(() {
                     selectedDate = date;
                     isDateSelected = date != null;
+                    _onFieldChanged();
                   });
                 },
               ),

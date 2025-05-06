@@ -70,7 +70,7 @@ class EventsCardState extends ConsumerState<EventsCard> {
                   if (widget.events.topic != null &&
                       widget.events.topic!.isNotEmpty)
                     Text(
-                      'Description: ${widget.events.topic}',
+                      'Topic: ${widget.events.topic}',
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black54,
