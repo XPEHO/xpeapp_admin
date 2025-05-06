@@ -59,10 +59,10 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
       selectedDate = widget.event!.date;
       selectedEventType = widget.event?.typeId;
       isDateSelected = true;
-      isButtonEnabled = titleController.text.isNotEmpty &&
-          selectedDate != null &&
-          selectedEventType != null;
     }
+    isButtonEnabled = titleController.text.isNotEmpty &&
+        selectedDate != null &&
+        selectedEventType != null;
   }
 
   @override
@@ -113,6 +113,9 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                   onChanged: (EventsTypeEntity? newValue) {
                     setState(() {
                       selectedEventType = newValue?.id;
+                      isButtonEnabled = titleController.text.isNotEmpty &&
+                          selectedDate != null &&
+                          selectedEventType != null;
                     });
                   },
                   items: types.map<DropdownMenuItem<EventsTypeEntity>>(
