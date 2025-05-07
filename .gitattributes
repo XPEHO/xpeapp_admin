@@ -1,1 +1,2 @@
 **/*.freezed.dart linguist-generated=true
+**/*.mocks.dart linguist-generated=true
