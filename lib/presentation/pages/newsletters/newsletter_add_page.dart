@@ -1,8 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -76,21 +77,23 @@ class _NewsletterAddOrEditPageState
     }
   }
 
-  Future<String?> uploadImage(String imageName) async {
-    if (file != null && file!.bytes != null) {
-      String imagePath = 'newsletters/$imageName.${file!.extension}';
-      Reference storageRef = FirebaseStorage.instance.ref().child(imagePath);
-
-      SettableMetadata metadata =
-          SettableMetadata(contentType: 'image/${file!.extension}');
-
-      UploadTask uploadTask = storageRef.putData(file!.bytes!, metadata);
-      await uploadTask;
-
-      return imagePath;
-    } else {
-      debugPrint('No image selected');
+  Future<String?> uploadImage() async {
+    if (file != null && file!.bytes != null && dateSelected != null) {
+      final storageService = ref.read(storageServiceProvider);
+      final formattedName =
+          '${DateFormat('yyyy-MM-dd').format(dateSelected!)}.png';
+      try {
+        return await storageService.uploadImageMultipart(
+          bytes: file?.bytes as Uint8List,
+          filename: formattedName,
+          folder: 'newsletters',
+        );
+      } catch (e) {
+        debugPrint('Image upload failed: $e');
+        return null;
+      }
     }
+    debugPrint('No image selected or date not selected');
     return null;
   }
 
@@ -235,15 +238,14 @@ class _NewsletterAddOrEditPageState
                                     '\n',
                                     ',',
                                   );
-                                  String? previewImagePath = await uploadImage(
-                                      DateFormat('yyyy-MM-dd')
-                                          .format(dateSelected!));
+                                  String? previewImagePath =
+                                      await uploadImage();
                                   NewsletterEntity newsletterEntity =
                                       NewsletterEntity(
                                     summary: summary,
                                     date: Timestamp.fromDate(dateSelected!),
                                     pdfUrl: pdfLinkController.text,
-                                    picture: previewImagePath,
+                                    picture: previewImagePath ?? '',
                                     publicationDate: time,
                                   );
                                   if (widget.typePage ==

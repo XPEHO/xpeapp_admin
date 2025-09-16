@@ -168,4 +168,17 @@ abstract class BackendApi {
   Future<HttpResponse> deleteBirthday(
     @Path("id") String id,
   );
+
+  // Storage
+  @POST("xpeho/v1/storeImage")
+  Future<HttpResponse> uploadImageMultipart(
+    @Body() FormData formData,
+  );
+
+  // initialize the getter method for image URL retrieval
+  // @GET("xpeho/v1/storeImage")
+  // Future<HttpResponse> getImageUrl(
+  //   @Query("filename") String filename,
+  //   @Query("folder") String folder,
+  // );
 }
