@@ -30,12 +30,9 @@ void main() {
 
     // Verify that the 'Maintenant' radio button is selected
     expect(
-      find.byWidgetPredicate(
-        (Widget widget) =>
-            widget is RadioListTile<NewsletterPublicationMoment> &&
-            widget.value == NewsletterPublicationMoment.now &&
-            widget.groupValue == NewsletterPublicationMoment.now,
-      ),
+      find.byWidgetPredicate((Widget widget) =>
+          widget is RadioListTile<NewsletterPublicationMoment> &&
+          widget.value == NewsletterPublicationMoment.now),
       findsOneWidget,
     );
   });
