@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
@@ -85,15 +86,15 @@ class _NewsletterAddOrEditPageState
 
   // This function upload the image to our storage WordPress and return the path of the image in firestore
   // The image will be stored in the folder "newsletters" with the name of the file
-  Future<String?> uploadImage() async {
-    if (file != null && file!.bytes != null && dateSelected != null) {
+  Future<String?> uploadImage(String imageName) async {
+    if (file != null && file!.bytes != null) {
       final storageService = ref.read(storageServiceProvider);
-      final imagePath = 'newsletters/${file!.name}';
+      final imagePath = 'newsletters/$imageName.${file!.extension}';
       final mediaType = getMediaType(file!);
       try {
         final result = await storageService.uploadImageMultipart(
           bytes: file!.bytes!,
-          filename: file!.name,
+          filename: '$imageName.${file!.extension}',
           folder: 'newsletters',
           contentType: mediaType,
         );
@@ -107,7 +108,7 @@ class _NewsletterAddOrEditPageState
         return null;
       }
     }
-    debugPrint('No image selected or date not selected');
+    debugPrint('No image selected');
     return null;
   }
 
@@ -252,8 +253,9 @@ class _NewsletterAddOrEditPageState
                                     '\n',
                                     ',',
                                   );
-                                  String? previewImagePath =
-                                      await uploadImage();
+                                  String? previewImagePath = await uploadImage(
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(dateSelected!));
                                   NewsletterEntity newsletterEntity =
                                       NewsletterEntity(
                                     summary: summary,
