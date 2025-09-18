@@ -80,14 +80,19 @@ class _NewsletterAddOrEditPageState
   Future<String?> uploadImage() async {
     if (file != null && file!.bytes != null && dateSelected != null) {
       final storageService = ref.read(storageServiceProvider);
-      final formattedName =
-          '${DateFormat('yyyy-MM-dd').format(dateSelected!)}.png';
+      final imagePath =
+          'newsletters/${DateFormat('yyyy-MM-dd').format(dateSelected!)}.png';
       try {
-        return await storageService.uploadImageMultipart(
-          bytes: file?.bytes as Uint8List,
-          filename: formattedName,
+        final success = await storageService.uploadImageMultipart(
+          bytes: file!.bytes!,
+          filename: '${DateFormat('yyyy-MM-dd').format(dateSelected!)}.png',
           folder: 'newsletters',
         );
+        if (success.isNotEmpty) {
+          return imagePath;
+        } else {
+          return null;
+        }
       } catch (e) {
         debugPrint('Image upload failed: $e');
         return null;
