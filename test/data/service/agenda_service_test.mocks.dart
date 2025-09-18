@@ -647,18 +647,17 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
       ) as _i4.Future<_i2.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> uploadImageMultipart(
-          _i5.FormData? formData) =>
+  _i4.Future<_i2.HttpResponse<dynamic>> uploadImage(_i5.FormData? formData) =>
       (super.noSuchMethod(
         Invocation.method(
-          #uploadImageMultipart,
+          #uploadImage,
           [formData],
         ),
         returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
             _FakeHttpResponse_0<dynamic>(
           this,
           Invocation.method(
-            #uploadImageMultipart,
+            #uploadImage,
             [formData],
           ),
         )),

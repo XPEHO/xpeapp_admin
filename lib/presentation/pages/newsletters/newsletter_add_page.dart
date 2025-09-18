@@ -92,17 +92,13 @@ class _NewsletterAddOrEditPageState
       final imagePath = 'newsletters/$imageName.${file!.extension}';
       final mediaType = getMediaType(file!);
       try {
-        final result = await storageService.uploadImageMultipart(
+        await storageService.uploadImageMultipart(
           bytes: file!.bytes!,
           filename: '$imageName.${file!.extension}',
           folder: 'newsletters',
           contentType: mediaType,
         );
-        if (result.isNotEmpty) {
-          return imagePath;
-        } else {
-          return null;
-        }
+        return imagePath;
       } catch (e) {
         debugPrint('Image upload failed: $e');
         return null;

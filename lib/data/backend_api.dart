@@ -170,8 +170,8 @@ abstract class BackendApi {
   );
 
   // Storage
-  @POST("xpeho/v1/storeImage")
-  Future<HttpResponse> uploadImageMultipart(
+  @POST("xpeho/v1/image-storage")
+  Future<HttpResponse> uploadImage(
     @Body() FormData formData,
   );
 }

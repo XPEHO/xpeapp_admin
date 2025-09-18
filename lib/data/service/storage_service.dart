@@ -24,8 +24,8 @@ class StorageService {
       'folder': folder,
     });
 
-    final response = await _backendApi.uploadImageMultipart(formData);
-    if (response.response.statusCode == 200) {
+    final response = await _backendApi.uploadImage(formData);
+    if (response.response.statusCode == 201) {
       return filename;
     } else {
       throw Exception('Erreur lors de l\'ajout de l\'image');

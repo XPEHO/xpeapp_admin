@@ -761,7 +761,7 @@ class _BackendApi implements BackendApi {
   }
 
   @override
-  Future<HttpResponse<dynamic>> uploadImageMultipart(FormData formData) async {
+  Future<HttpResponse<dynamic>> uploadImage(FormData formData) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -770,7 +770,7 @@ class _BackendApi implements BackendApi {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'xpeho/v1/storeImage',
+            'xpeho/v1/image-storage',
             queryParameters: queryParameters,
             data: _data,
           )
