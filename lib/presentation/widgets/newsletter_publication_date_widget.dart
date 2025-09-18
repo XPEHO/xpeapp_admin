@@ -20,14 +20,14 @@ class NewsletterPublicationDateWidget extends ConsumerWidget {
               .setPublicationMoment(value);
         }
       },
-      child: Row(
+      child: const Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: RadioListTile<NewsletterPublicationMoment>(
               value: NewsletterPublicationMoment.now,
-              title: const Text(
+              title: Text(
                 'Maintenant',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
@@ -37,7 +37,7 @@ class NewsletterPublicationDateWidget extends ConsumerWidget {
           Expanded(
             child: RadioListTile<NewsletterPublicationMoment>(
               value: NewsletterPublicationMoment.later,
-              title: const Text(
+              title: Text(
                 'Plus tard',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
