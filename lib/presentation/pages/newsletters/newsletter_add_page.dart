@@ -1,12 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
@@ -77,18 +75,29 @@ class _NewsletterAddOrEditPageState
     }
   }
 
+  // In order to avoid wrong type of file being uploaded
+  MediaType getMediaType(PlatformFile file) {
+    final ext = file.extension?.toLowerCase();
+    if (ext == 'png') return MediaType('image', 'png');
+    if (ext == 'jpg' || ext == 'jpeg') return MediaType('image', 'jpeg');
+    return MediaType('application', 'octet-stream');
+  }
+
+  // This function upload the image to our storage WordPress and return the path of the image in firestore
+  // The image will be stored in the folder "newsletters" with the name of the file
   Future<String?> uploadImage() async {
     if (file != null && file!.bytes != null && dateSelected != null) {
       final storageService = ref.read(storageServiceProvider);
-      final imagePath =
-          'newsletters/${DateFormat('yyyy-MM-dd').format(dateSelected!)}.png';
+      final imagePath = 'newsletters/${file!.name}';
+      final mediaType = getMediaType(file!);
       try {
-        final success = await storageService.uploadImageMultipart(
+        final result = await storageService.uploadImageMultipart(
           bytes: file!.bytes!,
-          filename: '${DateFormat('yyyy-MM-dd').format(dateSelected!)}.png',
+          filename: file!.name,
           folder: 'newsletters',
+          contentType: mediaType,
         );
-        if (success.isNotEmpty) {
+        if (result.isNotEmpty) {
           return imagePath;
         } else {
           return null;

@@ -39,6 +39,7 @@ dependencies:
   csv: ^6.0.0
   url_launcher_web: ^2.4.0
   json_annotation: ^4.9.0
+  http_parser: ^4.1.2
 
 dev_dependencies:
   flutter_test:
