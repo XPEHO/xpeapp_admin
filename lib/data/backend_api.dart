@@ -168,4 +168,10 @@ abstract class BackendApi {
   Future<HttpResponse> deleteBirthday(
     @Path("id") String id,
   );
+
+  // Storage
+  @POST("xpeho/v1/image-storage")
+  Future<HttpResponse> uploadImage(
+    @Body() FormData formData,
+  );
 }

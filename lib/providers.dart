@@ -27,6 +27,7 @@ import 'package:xpeapp_admin/data/service/agenda_service.dart';
 import 'package:xpeapp_admin/data/service/auth_service.dart';
 import 'package:xpeapp_admin/data/service/file_service.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
+import 'package:xpeapp_admin/data/service/storage_service.dart';
 import 'package:xpeapp_admin/data/state/agenda_menu_notifier.dart';
 import 'package:xpeapp_admin/data/state/comment_for_campaign_notifier.dart';
 import 'package:xpeapp_admin/data/state/loader_state.dart';
@@ -367,4 +368,12 @@ final agendaBirthdayUpdateProvider =
 final agendaBirthdayDeleteProvider =
     FutureProvider.family<void, String?>((ref, id) async {
   await ref.watch(agendaServiceProvider).deleteBirthday(id ?? '');
+});
+
+// Storage
+final editingStorageImageProvider = StateProvider<String?>((ref) => null);
+final storageServiceProvider = Provider<StorageService>((ref) {
+  return StorageService(
+    ref.watch(backendApiProvider),
+  );
 });

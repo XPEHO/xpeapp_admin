@@ -2,9 +2,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
@@ -76,21 +76,35 @@ class _NewsletterAddOrEditPageState
     }
   }
 
+  // In order to avoid wrong type of file being uploaded
+  MediaType getMediaType(PlatformFile file) {
+    final ext = file.extension?.toLowerCase();
+    if (ext == 'png') return MediaType('image', 'png');
+    if (ext == 'jpg' || ext == 'jpeg') return MediaType('image', 'jpeg');
+    return MediaType('application', 'octet-stream');
+  }
+
+  // This function upload the image to our storage WordPress and return the path of the image in firestore
+  // The image will be stored in the folder "newsletters" with the name of the file
   Future<String?> uploadImage(String imageName) async {
     if (file != null && file!.bytes != null) {
-      String imagePath = 'newsletters/$imageName.${file!.extension}';
-      Reference storageRef = FirebaseStorage.instance.ref().child(imagePath);
-
-      SettableMetadata metadata =
-          SettableMetadata(contentType: 'image/${file!.extension}');
-
-      UploadTask uploadTask = storageRef.putData(file!.bytes!, metadata);
-      await uploadTask;
-
-      return imagePath;
-    } else {
-      debugPrint('No image selected');
+      final storageService = ref.read(storageServiceProvider);
+      final imagePath = 'newsletters/$imageName.${file!.extension}';
+      final mediaType = getMediaType(file!);
+      try {
+        await storageService.uploadImageMultipart(
+          bytes: file!.bytes!,
+          filename: '$imageName.${file!.extension}',
+          folder: 'newsletters',
+          contentType: mediaType,
+        );
+        return imagePath;
+      } catch (e) {
+        debugPrint('Image upload failed: $e');
+        return null;
+      }
     }
+    debugPrint('No image selected');
     return null;
   }
 
@@ -243,7 +257,7 @@ class _NewsletterAddOrEditPageState
                                     summary: summary,
                                     date: Timestamp.fromDate(dateSelected!),
                                     pdfUrl: pdfLinkController.text,
-                                    picture: previewImagePath,
+                                    picture: previewImagePath ?? '',
                                     publicationDate: time,
                                   );
                                   if (widget.typePage ==
