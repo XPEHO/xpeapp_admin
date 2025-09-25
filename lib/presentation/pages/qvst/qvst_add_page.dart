@@ -30,7 +30,7 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
       appBarLeading: IconButton(
         icon: const Icon(Icons.arrow_back),
         onPressed: () {
-          ref.watch(qvstNotifierProvider.notifier).setTheme(null);
+          ref.watch(qvstThemesSelectionProvider.notifier).setTheme(null);
           Navigator.of(context).pop();
         },
       ),
@@ -93,7 +93,9 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
                     width: MediaQuery.of(context).size.width * 0.6,
                     child: Button.secondary(
                       text: 'Ajouter la question',
-                      onPressed: (ref.watch(qvstNotifierProvider) == null ||
+                      onPressed: (ref
+                                  .watch(qvstThemesSelectionProvider)
+                                  .isEmpty ||
                               ref.watch(qvstAnswerRepoSelectedProvider) ==
                                   null ||
                               controller.text.isEmpty)
@@ -140,12 +142,12 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
     // Init loader
     ref.read(loaderStateProvider.notifier).showLoader();
 
-    QvstThemeEntity? theme = ref.read(qvstNotifierProvider);
+    List<QvstThemeEntity> themes = ref.read(qvstThemesSelectionProvider);
     String? idAnswerRepo = ref.watch(qvstAnswerRepoSelectedProvider)?.id;
     QvstQuestionEntity question = QvstQuestionEntity(
       question: controller.text,
-      theme: theme?.name ?? '',
-      idTheme: theme?.id ?? '',
+      theme: themes.isNotEmpty ? themes.first.name : null,
+      idTheme: themes.isNotEmpty ? themes.first.id : '',
       answerRepoId: idAnswerRepo,
     );
     final response = await ref.read(qvstServiceProvider).addQvst(
@@ -154,11 +156,13 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
     if (response) {
       ref.read(loaderStateProvider.notifier).hideLoader();
       controller.clear();
-      ref.read(qvstNotifierProvider.notifier).setTheme(null);
+      ref.read(qvstThemesSelectionProvider.notifier).setTheme(null);
       ref.read(qvstAnswerRepoSelectedProvider.notifier).clearAnswerRepo();
-      ref.invalidate(
-        qvstQuestionsByThemesListProvider(theme?.id ?? ''),
-      );
+      if (themes.isNotEmpty) {
+        ref.invalidate(
+          qvstQuestionsByThemesListProvider(themes.first.id),
+        );
+      }
       onSuccess();
     } else {
       ref.read(loaderStateProvider.notifier).hideLoader();

@@ -36,7 +36,7 @@ import 'package:xpeapp_admin/data/state/newsletter_publication_notifier.dart';
 import 'package:xpeapp_admin/data/state/qvst_answer_repo_notifier.dart';
 import 'package:xpeapp_admin/data/state/qvst_menu_notifier.dart';
 import 'package:xpeapp_admin/data/state/qvst_questions_selected_for_campaign.dart';
-import 'package:xpeapp_admin/data/state/qvst_theme_notifier.dart';
+import 'package:xpeapp_admin/data/state/qvst_themes_notifier.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/login_repository_impl.dart';
 import 'package:xpeapp_admin/data/state/repositories/impl/newsletter_repository_impl.dart';
 import 'package:xpeapp_admin/data/state/response_reference_selection_notifier.dart';
@@ -182,9 +182,9 @@ final qvstQuestionsByThemesListProvider =
   return ref.watch(qvstServiceProvider).getAllQvstQuestionsByThemeId(id);
 });
 
-final qvstNotifierProvider =
-    StateNotifierProvider<QvstThemeNotifier, QvstThemeEntity?>((ref) {
-  return QvstThemeNotifier();
+final qvstThemesSelectionProvider =
+    StateNotifierProvider<QvstThemesNotifier, List<QvstThemeEntity>>((ref) {
+  return QvstThemesNotifier();
 });
 
 final qvstAnswerRepoListProvider =

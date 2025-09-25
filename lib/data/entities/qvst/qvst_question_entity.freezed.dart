@@ -23,7 +23,7 @@ mixin _$QvstQuestionEntity {
   @JsonKey(name: 'question_id')
   String? get id => throw _privateConstructorUsedError;
   String get question => throw _privateConstructorUsedError;
-  String get theme => throw _privateConstructorUsedError;
+  String? get theme => throw _privateConstructorUsedError;
   @JsonKey(name: 'theme_id')
   String? get idTheme => throw _privateConstructorUsedError;
   @JsonKey(name: 'answer_repo_id')
@@ -51,7 +51,7 @@ abstract class $QvstQuestionEntityCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'question_id') String? id,
       String question,
-      String theme,
+      String? theme,
       @JsonKey(name: 'theme_id') String? idTheme,
       @JsonKey(name: 'answer_repo_id') String? answerRepoId,
       int? numberAsked,
@@ -75,7 +75,7 @@ class _$QvstQuestionEntityCopyWithImpl<$Res, $Val extends QvstQuestionEntity>
   $Res call({
     Object? id = freezed,
     Object? question = null,
-    Object? theme = null,
+    Object? theme = freezed,
     Object? idTheme = freezed,
     Object? answerRepoId = freezed,
     Object? numberAsked = freezed,
@@ -90,10 +90,10 @@ class _$QvstQuestionEntityCopyWithImpl<$Res, $Val extends QvstQuestionEntity>
           ? _value.question
           : question // ignore: cast_nullable_to_non_nullable
               as String,
-      theme: null == theme
+      theme: freezed == theme
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       idTheme: freezed == idTheme
           ? _value.idTheme
           : idTheme // ignore: cast_nullable_to_non_nullable
@@ -125,7 +125,7 @@ abstract class _$$QvstQuestionEntityImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'question_id') String? id,
       String question,
-      String theme,
+      String? theme,
       @JsonKey(name: 'theme_id') String? idTheme,
       @JsonKey(name: 'answer_repo_id') String? answerRepoId,
       int? numberAsked,
@@ -147,7 +147,7 @@ class __$$QvstQuestionEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? question = null,
-    Object? theme = null,
+    Object? theme = freezed,
     Object? idTheme = freezed,
     Object? answerRepoId = freezed,
     Object? numberAsked = freezed,
@@ -162,10 +162,10 @@ class __$$QvstQuestionEntityImplCopyWithImpl<$Res>
           ? _value.question
           : question // ignore: cast_nullable_to_non_nullable
               as String,
-      theme: null == theme
+      theme: freezed == theme
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       idTheme: freezed == idTheme
           ? _value.idTheme
           : idTheme // ignore: cast_nullable_to_non_nullable
@@ -192,7 +192,7 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
   _$QvstQuestionEntityImpl(
       {@JsonKey(name: 'question_id') this.id,
       required this.question,
-      required this.theme,
+      this.theme,
       @JsonKey(name: 'theme_id') this.idTheme,
       @JsonKey(name: 'answer_repo_id') this.answerRepoId,
       this.numberAsked,
@@ -209,7 +209,7 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
   @override
   final String question;
   @override
-  final String theme;
+  final String? theme;
   @override
   @JsonKey(name: 'theme_id')
   final String? idTheme;
@@ -276,7 +276,7 @@ abstract class _QvstQuestionEntity implements QvstQuestionEntity {
   factory _QvstQuestionEntity(
       {@JsonKey(name: 'question_id') final String? id,
       required final String question,
-      required final String theme,
+      final String? theme,
       @JsonKey(name: 'theme_id') final String? idTheme,
       @JsonKey(name: 'answer_repo_id') final String? answerRepoId,
       final int? numberAsked,
@@ -292,7 +292,7 @@ abstract class _QvstQuestionEntity implements QvstQuestionEntity {
   @override
   String get question;
   @override
-  String get theme;
+  String? get theme;
   @override
   @JsonKey(name: 'theme_id')
   String? get idTheme;

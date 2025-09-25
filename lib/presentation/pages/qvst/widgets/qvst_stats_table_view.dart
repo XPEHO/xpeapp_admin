@@ -44,7 +44,7 @@ class QvstStatsTableView extends StatelessWidget {
       ],
       rows: stats.questions
           .map(
-            (question) => DataRow(
+            (QvstQuestionEntity question) => DataRow(
               cells: [
                 DataCell(
                   SizedBox(

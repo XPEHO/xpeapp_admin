@@ -9,7 +9,8 @@ void main() {
     final question = QvstQuestionEntity(
       id: 'id',
       question: 'question',
-      theme: 'theme',
+      theme: 'Theme Test',
+      idTheme: 'idTheme',
       answers: [],
     );
 

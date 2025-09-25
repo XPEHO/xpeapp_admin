@@ -510,7 +510,7 @@ void main() {
 
         final result = await service.addQvstCampaign(
           campaignName: 'campaignName',
-          themeSelected: QvstThemeEntity(id: '1', name: 'Le travail'),
+          themesSelected: [QvstThemeEntity(id: '1', name: 'Le travail')],
           startDate: DateTime.parse('2023-12-24'),
           endDate: DateTime.parse('2024-01-01'),
           questions: [],
@@ -545,7 +545,7 @@ void main() {
         expect(
           () => service.addQvstCampaign(
             campaignName: '',
-            themeSelected: QvstThemeEntity(id: '99', name: ''),
+            themesSelected: [QvstThemeEntity(id: '99', name: '')],
             startDate: DateTime.parse('2023-12-24'),
             endDate: DateTime.parse('2024-01-01'),
             questions: [],

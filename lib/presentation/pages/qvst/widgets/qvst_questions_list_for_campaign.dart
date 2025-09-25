@@ -13,29 +13,73 @@ class QvstQuestionsListForCampaign extends ConsumerStatefulWidget {
 
 class _QvstQuestionsListForCampaignState
     extends ConsumerState<QvstQuestionsListForCampaign> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final themeSelected = ref.watch(qvstNotifierProvider);
-    final questions = themeSelected == null
-        ? const AsyncValue.data([])
-        : ref.watch(qvstQuestionsByThemesListProvider(themeSelected.id));
+    final themesSelected = ref.watch(qvstThemesSelectionProvider);
     final questionsSelected = ref.watch(qvstQuestionsForCampaignProvider);
-    return questions.when(
-      data: (data) {
-        Map<String, List<QvstQuestionEntity>> questionsByCategory = {};
-        for (var element in data) {
-          if (questionsByCategory.containsKey(element.theme)) {
-            questionsByCategory[element.theme]!.add(element);
-          } else {
-            questionsByCategory[element.theme] = [element];
-          }
+
+    // Si aucun thème sélectionné, afficher un message
+    if (themesSelected.isEmpty) {
+      return Container(
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: const Text(
+          'Veuillez d\'abord sélectionner au moins un thème pour voir les questions disponibles.',
+          style: TextStyle(
+            fontSize: 16,
+            fontStyle: FontStyle.italic,
+            color: Colors.grey,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    // Récupérer toutes les questions pour tous les thèmes sélectionnés
+    final allQuestionsAsync = Future.wait(
+      themesSelected
+          .map((theme) =>
+              ref.read(qvstQuestionsByThemesListProvider(theme.id).future))
+          .toList(),
+    );
+
+    return FutureBuilder<List<List<QvstQuestionEntity>>>(
+      future: allQuestionsAsync,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
         }
+
+        if (snapshot.hasError) {
+          return Text('Erreur: ${snapshot.error}');
+        }
+
+        if (!snapshot.hasData) {
+          return const Text('Aucune question disponible');
+        }
+
+        // Affichage par thème sélectionné avec séparation visuelle
         return ListView.builder(
+          controller: _scrollController,
           shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: questionsByCategory.length,
-          itemBuilder: (context, index) {
-            final category = questionsByCategory.keys.elementAt(index);
+          itemCount: themesSelected.length,
+          itemBuilder: (context, themeIndex) {
+            final theme = themesSelected[themeIndex];
+            final questionsForTheme = snapshot.data![themeIndex];
+
             return Container(
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -55,7 +99,7 @@ class _QvstQuestionsListForCampaignState
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      category,
+                      theme.name, // Nom du thème sélectionné
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -66,9 +110,9 @@ class _QvstQuestionsListForCampaignState
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: questionsByCategory[category]!.length,
-                    itemBuilder: (context, index) {
-                      final question = questionsByCategory[category]![index];
+                    itemCount: questionsForTheme.length,
+                    itemBuilder: (context, questionIndex) {
+                      final question = questionsForTheme[questionIndex];
                       return CheckboxListTile(
                         title: Text(
                           question.question,
@@ -91,12 +135,6 @@ class _QvstQuestionsListForCampaignState
           },
         );
       },
-      loading: () => const Center(
-        child: CircularProgressIndicator(),
-      ),
-      error: (error, stack) => Text(
-        error.toString(),
-      ),
     );
   }
 }

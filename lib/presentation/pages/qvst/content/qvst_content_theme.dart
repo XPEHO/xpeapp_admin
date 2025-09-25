@@ -160,7 +160,7 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
             message: "Ajouter une question",
             child: FloatingActionButton(
               onPressed: () {
-                ref.watch(qvstNotifierProvider.notifier).setTheme(theme);
+                ref.watch(qvstThemesSelectionProvider.notifier).setTheme(theme);
                 Navigator.pushNamed(
                   context,
                   '/qvst/add',

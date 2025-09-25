@@ -25,6 +25,7 @@ mixin _$QvstStatsEntity {
   String get campaignStatus => throw _privateConstructorUsedError;
   String get startDate => throw _privateConstructorUsedError;
   String get endDate => throw _privateConstructorUsedError;
+  List<QvstThemeEntity> get themes => throw _privateConstructorUsedError;
   List<QvstQuestionEntity> get questions => throw _privateConstructorUsedError;
   String? get action => throw _privateConstructorUsedError;
 
@@ -50,6 +51,7 @@ abstract class $QvstStatsEntityCopyWith<$Res> {
       String campaignStatus,
       String startDate,
       String endDate,
+      List<QvstThemeEntity> themes,
       List<QvstQuestionEntity> questions,
       String? action});
 }
@@ -74,6 +76,7 @@ class _$QvstStatsEntityCopyWithImpl<$Res, $Val extends QvstStatsEntity>
     Object? campaignStatus = null,
     Object? startDate = null,
     Object? endDate = null,
+    Object? themes = null,
     Object? questions = null,
     Object? action = freezed,
   }) {
@@ -98,6 +101,10 @@ class _$QvstStatsEntityCopyWithImpl<$Res, $Val extends QvstStatsEntity>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as String,
+      themes: null == themes
+          ? _value.themes
+          : themes // ignore: cast_nullable_to_non_nullable
+              as List<QvstThemeEntity>,
       questions: null == questions
           ? _value.questions
           : questions // ignore: cast_nullable_to_non_nullable
@@ -124,6 +131,7 @@ abstract class _$$QvstStatsEntityImplCopyWith<$Res>
       String campaignStatus,
       String startDate,
       String endDate,
+      List<QvstThemeEntity> themes,
       List<QvstQuestionEntity> questions,
       String? action});
 }
@@ -146,6 +154,7 @@ class __$$QvstStatsEntityImplCopyWithImpl<$Res>
     Object? campaignStatus = null,
     Object? startDate = null,
     Object? endDate = null,
+    Object? themes = null,
     Object? questions = null,
     Object? action = freezed,
   }) {
@@ -170,6 +179,10 @@ class __$$QvstStatsEntityImplCopyWithImpl<$Res>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as String,
+      themes: null == themes
+          ? _value._themes
+          : themes // ignore: cast_nullable_to_non_nullable
+              as List<QvstThemeEntity>,
       questions: null == questions
           ? _value._questions
           : questions // ignore: cast_nullable_to_non_nullable
@@ -191,9 +204,11 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
       required this.campaignStatus,
       required this.startDate,
       required this.endDate,
+      required final List<QvstThemeEntity> themes,
       required final List<QvstQuestionEntity> questions,
       this.action})
-      : _questions = questions;
+      : _themes = themes,
+        _questions = questions;
 
   factory _$QvstStatsEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$QvstStatsEntityImplFromJson(json);
@@ -208,6 +223,14 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
   final String startDate;
   @override
   final String endDate;
+  final List<QvstThemeEntity> _themes;
+  @override
+  List<QvstThemeEntity> get themes {
+    if (_themes is EqualUnmodifiableListView) return _themes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_themes);
+  }
+
   final List<QvstQuestionEntity> _questions;
   @override
   List<QvstQuestionEntity> get questions {
@@ -221,7 +244,7 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
 
   @override
   String toString() {
-    return 'QvstStatsEntity(campaignId: $campaignId, campaignName: $campaignName, campaignStatus: $campaignStatus, startDate: $startDate, endDate: $endDate, questions: $questions, action: $action)';
+    return 'QvstStatsEntity(campaignId: $campaignId, campaignName: $campaignName, campaignStatus: $campaignStatus, startDate: $startDate, endDate: $endDate, themes: $themes, questions: $questions, action: $action)';
   }
 
   @override
@@ -238,6 +261,7 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            const DeepCollectionEquality().equals(other._themes, _themes) &&
             const DeepCollectionEquality()
                 .equals(other._questions, _questions) &&
             (identical(other.action, action) || other.action == action));
@@ -252,6 +276,7 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
       campaignStatus,
       startDate,
       endDate,
+      const DeepCollectionEquality().hash(_themes),
       const DeepCollectionEquality().hash(_questions),
       action);
 
@@ -279,6 +304,7 @@ abstract class _QvstStatsEntity implements QvstStatsEntity {
       required final String campaignStatus,
       required final String startDate,
       required final String endDate,
+      required final List<QvstThemeEntity> themes,
       required final List<QvstQuestionEntity> questions,
       final String? action}) = _$QvstStatsEntityImpl;
 
@@ -295,6 +321,8 @@ abstract class _QvstStatsEntity implements QvstStatsEntity {
   String get startDate;
   @override
   String get endDate;
+  @override
+  List<QvstThemeEntity> get themes;
   @override
   List<QvstQuestionEntity> get questions;
   @override

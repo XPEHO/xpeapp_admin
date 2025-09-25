@@ -69,7 +69,7 @@ class QvstTableView extends ConsumerWidget {
                   if (themeId == null)
                     TableCell(
                       child: _getText(
-                        question.theme,
+                        question.theme ?? 'N/A',
                       ),
                     ),
                   TableCell(

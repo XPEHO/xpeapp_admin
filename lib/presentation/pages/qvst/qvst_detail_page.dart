@@ -70,12 +70,13 @@ class QvstDetailPage extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 20),
-        Text(
-          "Thème : ${questionEntity.theme}",
-          style: const TextStyle(
-            fontSize: 16,
+        if (questionEntity.theme != null)
+          Text(
+            "Thème : ${questionEntity.theme}",
+            style: const TextStyle(
+              fontSize: 16,
+            ),
           ),
-        ),
         const SizedBox(height: 20),
         Expanded(
           child: ListView.builder(
