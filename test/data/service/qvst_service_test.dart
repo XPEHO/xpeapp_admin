@@ -445,7 +445,9 @@ void main() {
         Map<String, dynamic> response = {
           "id": "1",
           "name": "Première campagne",
-          "theme": {"id": "1", "name": "Le contenu du travail"},
+          "themes": [
+            {"id": "1", "name": "Le contenu du travail"}
+          ],
           "status": "DRAFT",
           "start_date": "2023-12-24",
           "end_date": "2024-01-01",
@@ -491,7 +493,7 @@ void main() {
         when(
           mockBackendApi.addQvstCampaign({
             'name': 'campaignName',
-            'theme_id': '1',
+            'themes': ['1'],
             'start_date': '2023-12-24',
             'end_date': '2024-01-01',
             'questions': [],
@@ -523,7 +525,7 @@ void main() {
         when(mockBackendApi.addQvstCampaign(
           {
             'name': '',
-            'theme_id': '99',
+            'themes': ['99'],
             'start_date': '2023-12-24',
             'end_date': '2024-01-01',
             'questions': [],
@@ -759,7 +761,9 @@ void main() {
         Map<String, dynamic> response = {
           "campaignId": "1",
           "campaignName": "Première campagne",
-          "theme": {"id": "1", "name": "Le contenu du travail"},
+          "themes": [
+            {"id": "1", "name": "Le contenu du travail"}
+          ],
           "campaignStatus": "DRAFT",
           "startDate": "2023-12-24",
           "endDate": "2024-01-01",

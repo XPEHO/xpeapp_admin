@@ -148,7 +148,7 @@ class QvstService {
   }) async {
     final campaignJson = {
       'name': campaignName,
-      'themes': themesSelected.map((theme) => theme.id),
+      'themes': themesSelected.map((theme) => theme.id).toList(),
       'start_date': DateFormat('yyyy-MM-dd').format(startDate),
       'end_date': DateFormat('yyyy-MM-dd').format(endDate),
       'questions': questions
