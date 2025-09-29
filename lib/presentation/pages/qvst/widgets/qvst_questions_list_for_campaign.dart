@@ -48,91 +48,95 @@ class _QvstQuestionsListForCampaignState
       );
     }
 
-    // Récupérer toutes les questions pour tous les thèmes sélectionnés
-    final allQuestionsAsync = Future.wait(
-      themesSelected
-          .map((theme) =>
-              ref.read(qvstQuestionsByThemesListProvider(theme.id).future))
-          .toList(),
-    );
+    return ListView.builder(
+      controller: _scrollController,
+      shrinkWrap: true,
+      itemCount: themesSelected.length,
+      itemBuilder: (context, themeIndex) {
+        final theme = themesSelected[themeIndex];
 
-    return FutureBuilder<List<List<QvstQuestionEntity>>>(
-      future: allQuestionsAsync,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        final questionsForThemeAsync =
+            ref.watch(qvstQuestionsByThemesListProvider(theme.id));
 
-        if (snapshot.hasError) {
-          return Text('Erreur: ${snapshot.error}');
-        }
+        return questionsForThemeAsync.when(
+          data: (questionsForTheme) {
+            Map<String, List<QvstQuestionEntity>> questionsByCategory = {};
+            for (var question in questionsForTheme) {
+              final themeKey = question.theme ?? 'Autre';
+              if (questionsByCategory.containsKey(themeKey)) {
+                questionsByCategory[themeKey]!.add(question);
+              } else {
+                questionsByCategory[themeKey] = [question];
+              }
+            }
 
-        if (!snapshot.hasData) {
-          return const Text('Aucune question disponible');
-        }
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: questionsByCategory.length,
+              itemBuilder: (context, categoryIndex) {
+                final category =
+                    questionsByCategory.keys.elementAt(categoryIndex);
+                final questionsInCategory = questionsByCategory[category]!;
 
-        // Affichage par thème sélectionné avec séparation visuelle
-        return ListView.builder(
-          controller: _scrollController,
-          shrinkWrap: true,
-          itemCount: themesSelected.length,
-          itemBuilder: (context, themeIndex) {
-            final theme = themesSelected[themeIndex];
-            final questionsForTheme = snapshot.data![themeIndex];
-
-            return Container(
-              margin: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      theme.name, // Nom du thème sélectionné
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                return Container(
+                  margin: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 10,
+                        offset: Offset(0, 5),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: questionsForTheme.length,
-                    itemBuilder: (context, questionIndex) {
-                      final question = questionsForTheme[questionIndex];
-                      return CheckboxListTile(
-                        title: Text(
-                          question.question,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          category,
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        value: questionsSelected.contains(question),
-                        onChanged: (value) {
-                          ref
-                              .read(qvstQuestionsForCampaignProvider.notifier)
-                              .toggleQuestion(question);
+                      ),
+                      const SizedBox(height: 10),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: questionsInCategory.length,
+                        itemBuilder: (context, questionIndex) {
+                          final question = questionsInCategory[questionIndex];
+                          return CheckboxListTile(
+                            title: Text(
+                              question.question,
+                              style: const TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            value: questionsSelected.contains(question),
+                            onChanged: (value) {
+                              ref
+                                  .read(
+                                      qvstQuestionsForCampaignProvider.notifier)
+                                  .toggleQuestion(question);
+                            },
+                          );
                         },
-                      );
-                    },
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             );
           },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Text(error.toString()),
         );
       },
     );

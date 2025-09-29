@@ -239,7 +239,12 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
       floatingActionButton: Tooltip(
         message: 'Revenir aux campagnes',
         child: FloatingActionButton(
-          onPressed: () => widget.onDismissed(),
+          onPressed: () {
+            // Nettoyer les sélections avant de revenir aux campagnes
+            ref.read(qvstThemesSelectionProvider.notifier).reset();
+            ref.read(qvstQuestionsForCampaignProvider.notifier).reset();
+            widget.onDismissed();
+          },
           backgroundColor: kDefaultXpehoColor,
           child: const Icon(
             Icons.close,
