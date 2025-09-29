@@ -34,7 +34,6 @@ class QvstThemesNotifier extends StateNotifier<List<QvstThemeEntity>> {
     return state.any((t) => t.id == theme.id);
   }
 
-  // Compatibilité avec l'ancien API (setTheme)
   void setTheme(QvstThemeEntity? theme) {
     if (theme != null) {
       setThemes([theme]);

@@ -305,7 +305,6 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
     if (response) {
       ref.read(loaderStateProvider.notifier).hideLoader();
       ref.invalidate(qvstCampaignsProvider);
-      // Réinitialiser la sélection des thèmes
       ref.read(qvstThemesSelectionProvider.notifier).reset();
       widget.onDismissed();
     } else {

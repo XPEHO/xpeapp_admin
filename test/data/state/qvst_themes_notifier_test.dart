@@ -24,7 +24,6 @@ void main() {
     expect(qvstThemesNotifier.state, isEmpty);
     expect(qvstThemesNotifier.isSelected(theme), isFalse);
 
-    // Test compatibility with old API
     qvstThemesNotifier.setTheme(theme);
     expect(qvstThemesNotifier.state, hasLength(1));
 

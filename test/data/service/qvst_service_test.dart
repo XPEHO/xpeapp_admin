@@ -521,6 +521,42 @@ void main() {
         expect(result, true);
       });
 
+      test('Success with multiple themes', () async {
+        when(
+          mockBackendApi.addQvstCampaign({
+            'name': 'Campagne Multi-thèmes',
+            'themes': ['1', '2', '3'],
+            'start_date': '2023-12-24',
+            'end_date': '2024-01-01',
+            'questions': [],
+          }),
+        ).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 201,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        final result = await service.addQvstCampaign(
+          campaignName: 'Campagne Multi-thèmes',
+          themesSelected: [
+            QvstThemeEntity(id: '1', name: 'Le contenu du travail'),
+            QvstThemeEntity(id: '2', name: 'L\'environnement de travail'),
+            QvstThemeEntity(id: '3', name: 'La reconnaissance'),
+          ],
+          startDate: DateTime.parse('2023-12-24'),
+          endDate: DateTime.parse('2024-01-01'),
+          questions: [],
+        );
+
+        expect(result, true);
+      });
+
       test('Failed', () async {
         when(mockBackendApi.addQvstCampaign(
           {

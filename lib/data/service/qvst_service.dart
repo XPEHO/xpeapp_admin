@@ -226,8 +226,7 @@ class QvstService {
         response.data as Map<String, dynamic>,
       );
     } else {
-      throw Exception(
-          'Erreur lors de la récupération des stats - Status: ${response.response.statusCode}');
+      throw Exception('Erreur lors de la récupération des stats');
     }
   }
 
