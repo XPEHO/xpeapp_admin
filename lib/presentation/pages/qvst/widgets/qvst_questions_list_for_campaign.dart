@@ -14,6 +14,7 @@ class QvstQuestionsListForCampaign extends ConsumerStatefulWidget {
 class _QvstQuestionsListForCampaignState
     extends ConsumerState<QvstQuestionsListForCampaign> {
   final ScrollController _scrollController = ScrollController();
+  final Map<String, bool> _expandedThemes = {};
 
   @override
   void dispose() {
@@ -70,69 +71,90 @@ class _QvstQuestionsListForCampaignState
               }
             }
 
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: questionsByCategory.length,
-              itemBuilder: (context, categoryIndex) {
-                final category =
-                    questionsByCategory.keys.elementAt(categoryIndex);
-                final questionsInCategory = questionsByCategory[category]!;
+            return Column(
+              children: questionsByCategory.entries.map((entry) {
+                final category = entry.key;
+                final questionsInCategory = entry.value;
+                final themeId = '${theme.id}_$category';
+                final isExpanded = _expandedThemes[themeId] ?? false;
 
                 return Container(
-                  margin: const EdgeInsets.all(20),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black12,
-                        blurRadius: 10,
-                        offset: Offset(0, 5),
+                        blurRadius: 5,
+                        offset: Offset(0, 2),
                       ),
                     ],
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          category,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _expandedThemes[themeId] = !isExpanded;
+                          });
+                        },
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(10)),
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  category,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                isExpanded
+                                    ? Icons.keyboard_arrow_up
+                                    : Icons.keyboard_arrow_down,
+                                size: 24,
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: questionsInCategory.length,
-                        itemBuilder: (context, questionIndex) {
-                          final question = questionsInCategory[questionIndex];
-                          return CheckboxListTile(
-                            title: Text(
-                              question.question,
-                              style: const TextStyle(
-                                fontSize: 18,
+                      if (isExpanded) ...[
+                        const Divider(height: 1),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: questionsInCategory.length,
+                          itemBuilder: (context, questionIndex) {
+                            final question = questionsInCategory[questionIndex];
+                            return CheckboxListTile(
+                              title: Text(
+                                question.question,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                            value: questionsSelected.contains(question),
-                            onChanged: (value) {
-                              ref
-                                  .read(
-                                      qvstQuestionsForCampaignProvider.notifier)
-                                  .toggleQuestion(question);
-                            },
-                          );
-                        },
-                      ),
+                              value: questionsSelected.contains(question),
+                              onChanged: (value) {
+                                ref
+                                    .read(qvstQuestionsForCampaignProvider
+                                        .notifier)
+                                    .toggleQuestion(question);
+                              },
+                            );
+                          },
+                        ),
+                      ],
                     ],
                   ),
                 );
-              },
+              }).toList(),
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
