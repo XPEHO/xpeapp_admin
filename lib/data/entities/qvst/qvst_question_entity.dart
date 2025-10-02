@@ -11,7 +11,7 @@ class QvstQuestionEntity with _$QvstQuestionEntity {
   factory QvstQuestionEntity({
     @JsonKey(name: 'question_id') String? id,
     required String question,
-    required String theme,
+    String? theme,
     @JsonKey(name: 'theme_id') String? idTheme,
     @JsonKey(name: 'answer_repo_id') String? answerRepoId,
     int? numberAsked,

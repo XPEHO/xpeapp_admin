@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/colors.dart';
+import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_create_campaign.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
@@ -77,7 +78,7 @@ class _QvstContentCampaignState extends ConsumerState<QvstContentCampaign> {
                                     isHeader: true),
                               ),
                               TableCell(
-                                child: getTextOfTable('Thème', isHeader: true),
+                                child: getTextOfTable('Thèmes', isHeader: true),
                               ),
                               TableCell(
                                 child: getTextOfTable('Taux de participation',
@@ -109,7 +110,7 @@ class _QvstContentCampaignState extends ConsumerState<QvstContentCampaign> {
                                   TableCell(
                                     verticalAlignment:
                                         TableCellVerticalAlignment.middle,
-                                    child: getTextOfTable(campaign.theme.name),
+                                    child: getThemesWidget(campaign.themes),
                                   ),
                                   TableCell(
                                     verticalAlignment:
@@ -123,6 +124,8 @@ class _QvstContentCampaignState extends ConsumerState<QvstContentCampaign> {
                                     child: getTextOfTable(campaign.status),
                                   ),
                                   TableCell(
+                                    verticalAlignment:
+                                        TableCellVerticalAlignment.middle,
                                     child: IconButton(
                                       onPressed: () => ref
                                           .watch(
@@ -198,4 +201,26 @@ class _QvstContentCampaignState extends ConsumerState<QvstContentCampaign> {
           fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
         ),
       );
+
+  Widget getThemesWidget(List<QvstThemeEntity> themes) {
+    if (themes.isEmpty) {
+      return const Text(
+        'Aucun thème',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 16,
+          fontStyle: FontStyle.italic,
+          color: Colors.grey,
+        ),
+      );
+    }
+
+    final themeNames = themes.map((theme) => theme.name).join(' • ');
+
+    return Text(
+      themeNames,
+      textAlign: TextAlign.center,
+      style: const TextStyle(fontSize: 16),
+    );
+  }
 }

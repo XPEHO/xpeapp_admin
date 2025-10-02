@@ -11,7 +11,9 @@ _$QvstCampaignEntityImpl _$$QvstCampaignEntityImplFromJson(
     _$QvstCampaignEntityImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      theme: QvstThemeEntity.fromJson(json['theme'] as Map<String, dynamic>),
+      themes: (json['themes'] as List<dynamic>)
+          .map((e) => QvstThemeEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
       status: json['status'] as String,
       startDate: json['start_date'] as String,
       endDate: json['end_date'] as String,
@@ -23,7 +25,7 @@ Map<String, dynamic> _$$QvstCampaignEntityImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'theme': instance.theme,
+      'themes': instance.themes,
       'status': instance.status,
       'start_date': instance.startDate,
       'end_date': instance.endDate,

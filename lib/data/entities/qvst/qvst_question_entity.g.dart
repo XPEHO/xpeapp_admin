@@ -11,7 +11,7 @@ _$QvstQuestionEntityImpl _$$QvstQuestionEntityImplFromJson(
     _$QvstQuestionEntityImpl(
       id: json['question_id'] as String?,
       question: json['question'] as String,
-      theme: json['theme'] as String,
+      theme: json['theme'] as String?,
       idTheme: json['theme_id'] as String?,
       answerRepoId: json['answer_repo_id'] as String?,
       numberAsked: (json['numberAsked'] as num?)?.toInt(),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/colors.dart';
-import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_choice_theme.dart';
+import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_choice_multiple_themes.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_questions_list_for_campaign.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
 import 'package:xpeapp_admin/providers.dart';
@@ -68,15 +68,14 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      _getText(
-                        'Choisissez un thème : ',
-                        color: Colors.black,
-                      ),
-                      const SizedBox(width: 20),
-                      const QvstChoiceTheme(),
-                    ],
+                  _getText(
+                    'Choisissez les thèmes : ',
+                    color: Colors.black,
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: const QvstChoiceMultipleThemes(),
                   ),
                   const SizedBox(height: 20),
                   Row(
@@ -198,27 +197,38 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
                       left: 50,
                     ),
                     width: 200,
-                    child: Button.secondary(
-                      text: 'Créer',
-                      onPressed: (campaignNameController.text.isEmpty ||
-                              ref.watch(qvstNotifierProvider) == null ||
-                              ref
-                                  .watch(qvstQuestionsForCampaignProvider)
-                                  .isEmpty ||
-                              startDate == null ||
-                              endDate == null)
-                          ? null
-                          : () => _creationOfCampaign(
-                                onError: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Erreur lors de la création de la campagne'),
-                                    ),
-                                  );
-                                },
-                              ),
-                    ),
+                    child: Builder(builder: (context) {
+                      final campaignNameEmpty =
+                          campaignNameController.text.isEmpty;
+                      final themesEmpty =
+                          ref.watch(qvstThemesSelectionProvider).isEmpty;
+                      final questionsEmpty =
+                          ref.watch(qvstQuestionsForCampaignProvider).isEmpty;
+                      final startDateNull = startDate == null;
+                      final endDateNull = endDate == null;
+
+                      final isDisabled = campaignNameEmpty ||
+                          themesEmpty ||
+                          questionsEmpty ||
+                          startDateNull ||
+                          endDateNull;
+
+                      return Button.secondary(
+                        text: 'Créer',
+                        onPressed: isDisabled
+                            ? null
+                            : () => _creationOfCampaign(
+                                  onError: () {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Erreur lors de la création de la campagne'),
+                                      ),
+                                    );
+                                  },
+                                ),
+                      );
+                    }),
                   )
                 ],
               ),
@@ -229,7 +239,12 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
       floatingActionButton: Tooltip(
         message: 'Revenir aux campagnes',
         child: FloatingActionButton(
-          onPressed: () => widget.onDismissed(),
+          onPressed: () {
+            // Nettoyer les sélections avant de revenir aux campagnes
+            ref.read(qvstThemesSelectionProvider.notifier).reset();
+            ref.read(qvstQuestionsForCampaignProvider.notifier).reset();
+            widget.onDismissed();
+          },
           backgroundColor: kDefaultXpehoColor,
           child: const Icon(
             Icons.close,
@@ -268,12 +283,21 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
       );
       return;
     }
-    final themeSelected = ref.watch(qvstNotifierProvider);
+    final themesSelected = ref.watch(qvstThemesSelectionProvider);
+    if (themesSelected.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Veuillez sélectionner au moins un thème'),
+        ),
+      );
+      return;
+    }
+
     ref.read(loaderStateProvider.notifier).showLoader();
 
     final response = await ref.read(qvstServiceProvider).addQvstCampaign(
           campaignName: campaignNameController.text,
-          themeSelected: themeSelected!,
+          themesSelected: themesSelected,
           startDate: startDate!,
           endDate: endDate!,
           questions: ref.watch(qvstQuestionsForCampaignProvider),
@@ -281,6 +305,7 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
     if (response) {
       ref.read(loaderStateProvider.notifier).hideLoader();
       ref.invalidate(qvstCampaignsProvider);
+      ref.read(qvstThemesSelectionProvider.notifier).reset();
       widget.onDismissed();
     } else {
       ref.read(loaderStateProvider.notifier).hideLoader();

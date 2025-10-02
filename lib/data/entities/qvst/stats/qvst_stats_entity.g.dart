@@ -14,6 +14,9 @@ _$QvstStatsEntityImpl _$$QvstStatsEntityImplFromJson(
       campaignStatus: json['campaignStatus'] as String,
       startDate: json['startDate'] as String,
       endDate: json['endDate'] as String,
+      themes: (json['themes'] as List<dynamic>)
+          .map((e) => QvstThemeEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
       questions: (json['questions'] as List<dynamic>)
           .map((e) => QvstQuestionEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -28,6 +31,7 @@ Map<String, dynamic> _$$QvstStatsEntityImplToJson(
       'campaignStatus': instance.campaignStatus,
       'startDate': instance.startDate,
       'endDate': instance.endDate,
+      'themes': instance.themes,
       'questions': instance.questions,
       'action': instance.action,
     };

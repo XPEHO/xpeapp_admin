@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 
 part 'qvst_stats_entity.freezed.dart';
 part 'qvst_stats_entity.g.dart';
@@ -12,6 +13,7 @@ class QvstStatsEntity with _$QvstStatsEntity {
     required String campaignStatus,
     required String startDate,
     required String endDate,
+    required List<QvstThemeEntity> themes,
     required List<QvstQuestionEntity> questions,
     String? action,
   }) = _QvstStatsEntity;

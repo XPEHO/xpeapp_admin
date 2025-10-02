@@ -445,7 +445,9 @@ void main() {
         Map<String, dynamic> response = {
           "id": "1",
           "name": "Première campagne",
-          "theme": {"id": "1", "name": "Le contenu du travail"},
+          "themes": [
+            {"id": "1", "name": "Le contenu du travail"}
+          ],
           "status": "DRAFT",
           "start_date": "2023-12-24",
           "end_date": "2024-01-01",
@@ -491,7 +493,7 @@ void main() {
         when(
           mockBackendApi.addQvstCampaign({
             'name': 'campaignName',
-            'theme_id': '1',
+            'themes': ['1'],
             'start_date': '2023-12-24',
             'end_date': '2024-01-01',
             'questions': [],
@@ -510,7 +512,43 @@ void main() {
 
         final result = await service.addQvstCampaign(
           campaignName: 'campaignName',
-          themeSelected: QvstThemeEntity(id: '1', name: 'Le travail'),
+          themesSelected: [QvstThemeEntity(id: '1', name: 'Le travail')],
+          startDate: DateTime.parse('2023-12-24'),
+          endDate: DateTime.parse('2024-01-01'),
+          questions: [],
+        );
+
+        expect(result, true);
+      });
+
+      test('Success with multiple themes', () async {
+        when(
+          mockBackendApi.addQvstCampaign({
+            'name': 'Campagne Multi-thèmes',
+            'themes': ['1', '2', '3'],
+            'start_date': '2023-12-24',
+            'end_date': '2024-01-01',
+            'questions': [],
+          }),
+        ).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 201,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        final result = await service.addQvstCampaign(
+          campaignName: 'Campagne Multi-thèmes',
+          themesSelected: [
+            QvstThemeEntity(id: '1', name: 'Le contenu du travail'),
+            QvstThemeEntity(id: '2', name: 'L\'environnement de travail'),
+            QvstThemeEntity(id: '3', name: 'La reconnaissance'),
+          ],
           startDate: DateTime.parse('2023-12-24'),
           endDate: DateTime.parse('2024-01-01'),
           questions: [],
@@ -523,7 +561,7 @@ void main() {
         when(mockBackendApi.addQvstCampaign(
           {
             'name': '',
-            'theme_id': '99',
+            'themes': ['99'],
             'start_date': '2023-12-24',
             'end_date': '2024-01-01',
             'questions': [],
@@ -545,7 +583,7 @@ void main() {
         expect(
           () => service.addQvstCampaign(
             campaignName: '',
-            themeSelected: QvstThemeEntity(id: '99', name: ''),
+            themesSelected: [QvstThemeEntity(id: '99', name: '')],
             startDate: DateTime.parse('2023-12-24'),
             endDate: DateTime.parse('2024-01-01'),
             questions: [],
@@ -759,7 +797,9 @@ void main() {
         Map<String, dynamic> response = {
           "campaignId": "1",
           "campaignName": "Première campagne",
-          "theme": {"id": "1", "name": "Le contenu du travail"},
+          "themes": [
+            {"id": "1", "name": "Le contenu du travail"}
+          ],
           "campaignStatus": "DRAFT",
           "startDate": "2023-12-24",
           "endDate": "2024-01-01",

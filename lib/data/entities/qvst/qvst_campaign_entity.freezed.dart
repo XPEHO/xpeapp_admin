@@ -22,7 +22,7 @@ QvstCampaignEntity _$QvstCampaignEntityFromJson(Map<String, dynamic> json) {
 mixin _$QvstCampaignEntity {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  QvstThemeEntity get theme => throw _privateConstructorUsedError;
+  List<QvstThemeEntity> get themes => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'start_date')
   String get startDate => throw _privateConstructorUsedError;
@@ -50,13 +50,11 @@ abstract class $QvstCampaignEntityCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
-      QvstThemeEntity theme,
+      List<QvstThemeEntity> themes,
       String status,
       @JsonKey(name: 'start_date') String startDate,
       @JsonKey(name: 'end_date') String endDate,
       @JsonKey(name: 'participation_rate') String participationRate});
-
-  $QvstThemeEntityCopyWith<$Res> get theme;
 }
 
 /// @nodoc
@@ -76,7 +74,7 @@ class _$QvstCampaignEntityCopyWithImpl<$Res, $Val extends QvstCampaignEntity>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? theme = null,
+    Object? themes = null,
     Object? status = null,
     Object? startDate = null,
     Object? endDate = null,
@@ -91,10 +89,10 @@ class _$QvstCampaignEntityCopyWithImpl<$Res, $Val extends QvstCampaignEntity>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      theme: null == theme
-          ? _value.theme
-          : theme // ignore: cast_nullable_to_non_nullable
-              as QvstThemeEntity,
+      themes: null == themes
+          ? _value.themes
+          : themes // ignore: cast_nullable_to_non_nullable
+              as List<QvstThemeEntity>,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -113,16 +111,6 @@ class _$QvstCampaignEntityCopyWithImpl<$Res, $Val extends QvstCampaignEntity>
               as String,
     ) as $Val);
   }
-
-  /// Create a copy of QvstCampaignEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $QvstThemeEntityCopyWith<$Res> get theme {
-    return $QvstThemeEntityCopyWith<$Res>(_value.theme, (value) {
-      return _then(_value.copyWith(theme: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -136,14 +124,11 @@ abstract class _$$QvstCampaignEntityImplCopyWith<$Res>
   $Res call(
       {String id,
       String name,
-      QvstThemeEntity theme,
+      List<QvstThemeEntity> themes,
       String status,
       @JsonKey(name: 'start_date') String startDate,
       @JsonKey(name: 'end_date') String endDate,
       @JsonKey(name: 'participation_rate') String participationRate});
-
-  @override
-  $QvstThemeEntityCopyWith<$Res> get theme;
 }
 
 /// @nodoc
@@ -161,7 +146,7 @@ class __$$QvstCampaignEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? theme = null,
+    Object? themes = null,
     Object? status = null,
     Object? startDate = null,
     Object? endDate = null,
@@ -176,10 +161,10 @@ class __$$QvstCampaignEntityImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      theme: null == theme
-          ? _value.theme
-          : theme // ignore: cast_nullable_to_non_nullable
-              as QvstThemeEntity,
+      themes: null == themes
+          ? _value._themes
+          : themes // ignore: cast_nullable_to_non_nullable
+              as List<QvstThemeEntity>,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -206,11 +191,12 @@ class _$QvstCampaignEntityImpl implements _QvstCampaignEntity {
   const _$QvstCampaignEntityImpl(
       {required this.id,
       required this.name,
-      required this.theme,
+      required final List<QvstThemeEntity> themes,
       required this.status,
       @JsonKey(name: 'start_date') required this.startDate,
       @JsonKey(name: 'end_date') required this.endDate,
-      @JsonKey(name: 'participation_rate') required this.participationRate});
+      @JsonKey(name: 'participation_rate') required this.participationRate})
+      : _themes = themes;
 
   factory _$QvstCampaignEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$QvstCampaignEntityImplFromJson(json);
@@ -219,8 +205,14 @@ class _$QvstCampaignEntityImpl implements _QvstCampaignEntity {
   final String id;
   @override
   final String name;
+  final List<QvstThemeEntity> _themes;
   @override
-  final QvstThemeEntity theme;
+  List<QvstThemeEntity> get themes {
+    if (_themes is EqualUnmodifiableListView) return _themes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_themes);
+  }
+
   @override
   final String status;
   @override
@@ -235,7 +227,7 @@ class _$QvstCampaignEntityImpl implements _QvstCampaignEntity {
 
   @override
   String toString() {
-    return 'QvstCampaignEntity(id: $id, name: $name, theme: $theme, status: $status, startDate: $startDate, endDate: $endDate, participationRate: $participationRate)';
+    return 'QvstCampaignEntity(id: $id, name: $name, themes: $themes, status: $status, startDate: $startDate, endDate: $endDate, participationRate: $participationRate)';
   }
 
   @override
@@ -245,7 +237,7 @@ class _$QvstCampaignEntityImpl implements _QvstCampaignEntity {
             other is _$QvstCampaignEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.theme, theme) || other.theme == theme) &&
+            const DeepCollectionEquality().equals(other._themes, _themes) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
@@ -256,8 +248,15 @@ class _$QvstCampaignEntityImpl implements _QvstCampaignEntity {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, theme, status,
-      startDate, endDate, participationRate);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      const DeepCollectionEquality().hash(_themes),
+      status,
+      startDate,
+      endDate,
+      participationRate);
 
   /// Create a copy of QvstCampaignEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -280,7 +279,7 @@ abstract class _QvstCampaignEntity implements QvstCampaignEntity {
   const factory _QvstCampaignEntity(
       {required final String id,
       required final String name,
-      required final QvstThemeEntity theme,
+      required final List<QvstThemeEntity> themes,
       required final String status,
       @JsonKey(name: 'start_date') required final String startDate,
       @JsonKey(name: 'end_date') required final String endDate,
@@ -295,7 +294,7 @@ abstract class _QvstCampaignEntity implements QvstCampaignEntity {
   @override
   String get name;
   @override
-  QvstThemeEntity get theme;
+  List<QvstThemeEntity> get themes;
   @override
   String get status;
   @override

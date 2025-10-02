@@ -9,7 +9,7 @@ class QvstCampaignEntity with _$QvstCampaignEntity {
   const factory QvstCampaignEntity({
     required String id,
     required String name,
-    required QvstThemeEntity theme,
+    required List<QvstThemeEntity> themes,
     required String status,
     @JsonKey(name: 'start_date') required String startDate,
     @JsonKey(name: 'end_date') required String endDate,

@@ -141,14 +141,14 @@ class QvstService {
 
   Future<bool> addQvstCampaign({
     required String campaignName,
-    required QvstThemeEntity themeSelected,
+    required List<QvstThemeEntity> themesSelected,
     required DateTime startDate,
     required DateTime endDate,
     required List<QvstQuestionEntity> questions,
   }) async {
     final campaignJson = {
       'name': campaignName,
-      'theme_id': themeSelected.id,
+      'themes': themesSelected.map((theme) => theme.id).toList(),
       'start_date': DateFormat('yyyy-MM-dd').format(startDate),
       'end_date': DateFormat('yyyy-MM-dd').format(endDate),
       'questions': questions
