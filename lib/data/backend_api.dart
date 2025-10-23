@@ -174,4 +174,10 @@ abstract class BackendApi {
   Future<HttpResponse> uploadImage(
     @Body() FormData formData,
   );
+
+  // Idea Box
+  @GET("xpeho/v1/ideas")
+  Future<HttpResponse> getAllIdeas(
+    @Query("page") int page,
+  );
 }

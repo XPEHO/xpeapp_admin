@@ -47,6 +47,7 @@ const menuNewsletter = 1;
 const menuFeatureFlipping = 2;
 const menuQvst = 3;
 const menuAgenda = 4;
+const menuIdeaBox = 5;
 
 // Config
 final configProvider = Provider<Config>((ref) {
@@ -269,6 +270,11 @@ final listOfMenuProvider = Provider<List<MenuEntity>>((ref) {
       id: menuAgenda,
       title: 'Agenda',
       asset: Icons.calendar_today_outlined,
+    ),
+    MenuEntity(
+      id: menuIdeaBox,
+      title: 'Boite à idées',
+      asset: Icons.lightbulb_outline,
     ),
   ];
 });

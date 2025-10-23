@@ -97,7 +97,7 @@ class HomePage extends ConsumerWidget {
                       },
                     ),
                   ),
-                  const Spacer(),
+                  const SizedBox(height: 20),
                   const UserProfileWidget(),
                 ],
               ),
@@ -153,6 +153,8 @@ class HomePage extends ConsumerWidget {
           return const QvstContentHome();
         case 4:
           return const AgendaPage();
+        case 5:
+          return const SizedBox(); // Idea Box Page to be implemented
         default:
           return const SizedBox();
       }
@@ -164,7 +166,8 @@ class HomePage extends ConsumerWidget {
     if (menuSelected == null ||
         menuSelected.id == menuFeatureFlipping ||
         menuSelected.id == menuQvst ||
-        menuSelected.id == menuAgenda) {
+        menuSelected.id == menuAgenda ||
+        menuSelected.id == menuIdeaBox) {
       return null;
     }
 

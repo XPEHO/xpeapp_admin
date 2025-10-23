@@ -1901,4 +1901,21 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           ),
         )),
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> getAllIdeas(int? page) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllIdeas,
+          [page],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #getAllIdeas,
+            [page],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
 }
