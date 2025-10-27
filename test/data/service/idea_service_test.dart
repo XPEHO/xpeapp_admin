@@ -218,6 +218,259 @@ void main() {
 
         verify(mockBackendApi.getAllIdeas(3, 'rejected')).called(1);
       });
+
+      test('getAllIdeas throws exception when status code is not 200',
+          () async {
+        final httpResponse = HttpResponse(
+            null,
+            Response(
+              requestOptions: RequestOptions(path: '/ideas'),
+              statusCode: 500,
+              statusMessage: 'Internal Server Error',
+            ));
+
+        when(mockBackendApi.getAllIdeas(any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        expect(
+          () async => await ideaService.getAllIdeas(),
+          throwsException,
+        );
+
+        verify(mockBackendApi.getAllIdeas(1, null)).called(1);
+      });
+
+      test('getAllIdeas handles response data wrapped in data field', () async {
+        final mockResponse = {
+          "data": [
+            {
+              "id": "1",
+              "description": "Test idea",
+              "context": "Test context",
+              "status": "pending",
+              "created_at": "2024-01-15T10:30:00Z",
+            }
+          ]
+        };
+
+        final httpResponse = HttpResponse(
+            mockResponse,
+            Response(
+              requestOptions: RequestOptions(path: '/ideas'),
+              statusCode: 200,
+            ));
+
+        when(mockBackendApi.getAllIdeas(any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        final result = await ideaService.getAllIdeas();
+
+        expect(result, isA<List<IdeaEntity>>());
+        expect(result.length, 1);
+        expect(result[0].id, "1");
+
+        verify(mockBackendApi.getAllIdeas(1, null)).called(1);
+      });
+    });
+
+    group('getIdeaById', () {
+      test('getIdeaById returns an idea', () async {
+        final mockResponse = {
+          "id": "1",
+          "description": "Test idea",
+          "context": "Test context",
+          "status": "pending",
+          "created_at": "2024-01-15T10:30:00Z",
+        };
+
+        final httpResponse = HttpResponse(
+            mockResponse,
+            Response(
+              requestOptions: RequestOptions(path: '/ideas/1'),
+              statusCode: 200,
+            ));
+
+        when(mockBackendApi.getIdeaById(any))
+            .thenAnswer((_) async => httpResponse);
+
+        final result = await ideaService.getIdeaById('1');
+
+        expect(result, isA<IdeaEntity>());
+        expect(result.id, "1");
+        expect(result.description, "Test idea");
+        expect(result.status, "pending");
+
+        verify(mockBackendApi.getIdeaById('1')).called(1);
+      });
+
+      test('getIdeaById throws an exception on error', () async {
+        when(mockBackendApi.getIdeaById(any)).thenThrow(DioException(
+          requestOptions: RequestOptions(path: '/ideas/1'),
+          response: Response(
+            requestOptions: RequestOptions(path: '/ideas/1'),
+            statusCode: 404,
+            statusMessage: 'Not Found',
+          ),
+        ));
+
+        expect(
+          () async => await ideaService.getIdeaById('1'),
+          throwsException,
+        );
+
+        verify(mockBackendApi.getIdeaById('1')).called(1);
+      });
+
+      test('getIdeaById throws exception when status code is not 200',
+          () async {
+        final httpResponse = HttpResponse(
+            null,
+            Response(
+              requestOptions: RequestOptions(path: '/ideas/1'),
+              statusCode: 500,
+              statusMessage: 'Internal Server Error',
+            ));
+
+        when(mockBackendApi.getIdeaById(any))
+            .thenAnswer((_) async => httpResponse);
+
+        expect(
+          () async => await ideaService.getIdeaById('1'),
+          throwsException,
+        );
+
+        verify(mockBackendApi.getIdeaById('1')).called(1);
+      });
+    });
+
+    group('addIdea', () {
+      test('addIdea returns the created idea', () async {
+        final newIdea = IdeaEntity(
+          id: "new-id",
+          description: "New idea",
+          context: "New context",
+          status: "pending",
+          createdAt: DateTime.parse("2024-01-15T10:30:00Z"),
+        );
+
+        final mockResponse = {
+          "id": "new-id",
+          "description": "New idea",
+          "context": "New context",
+          "status": "pending",
+          "created_at": "2024-01-15T10:30:00Z",
+        };
+
+        final httpResponse = HttpResponse(
+            mockResponse,
+            Response(
+              requestOptions: RequestOptions(path: '/ideas'),
+              statusCode: 201,
+            ));
+
+        when(mockBackendApi.addIdea(any)).thenAnswer((_) async => httpResponse);
+
+        final result = await ideaService.addIdea(newIdea);
+
+        expect(result, isA<IdeaEntity>());
+        expect(result.id, "new-id");
+        expect(result.description, "New idea");
+        expect(result.status, "pending");
+
+        verify(mockBackendApi.addIdea(any)).called(1);
+      });
+
+      test('addIdea throws an exception on error', () async {
+        final newIdea = IdeaEntity(
+          id: "new-id",
+          description: "New idea",
+          context: "New context",
+          status: "pending",
+          createdAt: DateTime.parse("2024-01-15T10:30:00Z"),
+        );
+
+        when(mockBackendApi.addIdea(any)).thenThrow(DioException(
+          requestOptions: RequestOptions(path: '/ideas'),
+          response: Response(
+            requestOptions: RequestOptions(path: '/ideas'),
+            statusCode: 400,
+            statusMessage: 'Bad Request',
+          ),
+        ));
+
+        expect(
+          () async => await ideaService.addIdea(newIdea),
+          throwsException,
+        );
+
+        verify(mockBackendApi.addIdea(any)).called(1);
+      });
+
+      test('addIdea throws exception when status code is not 201', () async {
+        final newIdea = IdeaEntity(
+          id: "new-id",
+          description: "New idea",
+          context: "New context",
+          status: "pending",
+          createdAt: DateTime.parse("2024-01-15T10:30:00Z"),
+        );
+
+        final httpResponse = HttpResponse(
+            null,
+            Response(
+              requestOptions: RequestOptions(path: '/ideas'),
+              statusCode: 500,
+              statusMessage: 'Internal Server Error',
+            ));
+
+        when(mockBackendApi.addIdea(any)).thenAnswer((_) async => httpResponse);
+
+        expect(
+          () async => await ideaService.addIdea(newIdea),
+          throwsException,
+        );
+
+        verify(mockBackendApi.addIdea(any)).called(1);
+      });
+    });
+
+    group('updateIdeaStatus', () {
+      test('updateIdeaStatus completes successfully', () async {
+        final httpResponse = HttpResponse(
+            null,
+            Response(
+              requestOptions: RequestOptions(path: '/ideas/1/status'),
+              statusCode: 204,
+            ));
+
+        when(mockBackendApi.updateIdeaStatus(any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        await ideaService.updateIdeaStatus('1', 'approved');
+
+        verify(mockBackendApi.updateIdeaStatus('1', {'status': 'approved'}))
+            .called(1);
+      });
+
+      test('updateIdeaStatus throws an exception on error', () async {
+        final httpResponse = HttpResponse(
+            null,
+            Response(
+              requestOptions: RequestOptions(path: '/ideas/1/status'),
+              statusCode: 400,
+            ));
+
+        when(mockBackendApi.updateIdeaStatus(any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        expect(
+          () async => await ideaService.updateIdeaStatus('1', 'approved'),
+          throwsException,
+        );
+
+        verify(mockBackendApi.updateIdeaStatus('1', {'status': 'approved'}))
+            .called(1);
+      });
     });
   });
 }

@@ -1,19 +1,31 @@
 import 'package:xpeapp_admin/data/enum/idea_box_menu.dart';
 
 class IdeaUtils {
+  // Constantes pour les statuts en français
+  static const String _statusPending = 'En attente';
+  static const String _statusApproved = 'Approuvée';
+  static const String _statusImplemented = 'Implémentée';
+  static const String _statusRejected = 'Rejetée';
+
+  // Constantes pour les titres de filtres
+  static const String _filterAllIdeas = 'Toutes les idées';
+  static const String _filterApproved = 'Approuvées';
+  static const String _filterImplemented = 'Implémentées';
+  static const String _filterRejected = 'Rejetées';
+
   /// Convertit un statut anglais en français
   static String getStatusInFrench(String status) {
     switch (status) {
       case 'pending':
-        return 'En attente';
+        return _statusPending;
       case 'approved':
-        return 'Approuvée';
+        return _statusApproved;
       case 'implemented':
-        return 'Implémentée';
+        return _statusImplemented;
       case 'rejected':
-        return 'Rejetée';
+        return _statusRejected;
       default:
-        return 'En attente';
+        return _statusPending;
     }
   }
 
@@ -37,15 +49,15 @@ class IdeaUtils {
   static String getFilterTitle(IdeaBoxMenu filter) {
     switch (filter) {
       case IdeaBoxMenu.all:
-        return 'Toutes les idées';
+        return _filterAllIdeas;
       case IdeaBoxMenu.pending:
-        return 'En attente';
+        return _statusPending;
       case IdeaBoxMenu.approved:
-        return 'Approuvées';
+        return _filterApproved;
       case IdeaBoxMenu.implemented:
-        return 'Implémentées';
+        return _filterImplemented;
       case IdeaBoxMenu.rejected:
-        return 'Rejetées';
+        return _filterRejected;
     }
   }
 
