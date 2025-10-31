@@ -90,7 +90,8 @@ class FeatureFlippingPage extends ConsumerWidget {
                               feature.idFeature == 'campaign' ||
                               feature.idFeature == 'newsletters' ||
                               feature.idFeature == 'profile' ||
-                              feature.idFeature == 'agenda')
+                              feature.idFeature == 'agenda' ||
+                              feature.idFeature == 'ideaBox')
                           .map(
                             (e) => TableRow(
                               children: [

@@ -174,4 +174,27 @@ abstract class BackendApi {
   Future<HttpResponse> uploadImage(
     @Body() FormData formData,
   );
+
+  // Idea Box
+  @GET("xpeho/v1/ideas")
+  Future<HttpResponse> getAllIdeas(
+    @Query("page") int page,
+    @Query("status") String? status,
+  );
+
+  @GET("xpeho/v1/ideas/{id}")
+  Future<HttpResponse> getIdeaById(
+    @Path("id") String id,
+  );
+
+  @POST("xpeho/v1/ideas")
+  Future<HttpResponse> addIdea(
+    @Body() Map<String, dynamic> body,
+  );
+
+  @PUT("xpeho/v1/ideas/{id}/status")
+  Future<HttpResponse> updateIdeaStatus(
+    @Path("id") String id,
+    @Body() Map<String, dynamic> body,
+  );
 }

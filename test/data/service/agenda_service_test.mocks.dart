@@ -662,4 +662,90 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
           ),
         )),
       ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i4.Future<_i2.HttpResponse<dynamic>> getAllIdeas(
+    int? page,
+    String? status,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllIdeas,
+          [
+            page,
+            status,
+          ],
+        ),
+        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getAllIdeas,
+            [
+              page,
+              status,
+            ],
+          ),
+        )),
+      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i4.Future<_i2.HttpResponse<dynamic>> getIdeaById(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getIdeaById,
+          [id],
+        ),
+        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getIdeaById,
+            [id],
+          ),
+        )),
+      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i4.Future<_i2.HttpResponse<dynamic>> addIdea(Map<String, dynamic>? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addIdea,
+          [body],
+        ),
+        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #addIdea,
+            [body],
+          ),
+        )),
+      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i4.Future<_i2.HttpResponse<dynamic>> updateIdeaStatus(
+    String? id,
+    Map<String, dynamic>? body,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateIdeaStatus,
+          [
+            id,
+            body,
+          ],
+        ),
+        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #updateIdeaStatus,
+            [
+              id,
+              body,
+            ],
+          ),
+        )),
+      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
 }

@@ -11,6 +11,7 @@ import 'package:xpeapp_admin/data/entities/agenda/birthday_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
 import 'package:xpeapp_admin/data/entities/config.dart';
+import 'package:xpeapp_admin/data/entities/idea_box/idea_entity.dart';
 import 'package:xpeapp_admin/data/entities/menu_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
@@ -26,6 +27,7 @@ import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/data/service/agenda_service.dart';
 import 'package:xpeapp_admin/data/service/auth_service.dart';
 import 'package:xpeapp_admin/data/service/file_service.dart';
+import 'package:xpeapp_admin/data/service/idea_service.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 import 'package:xpeapp_admin/data/service/storage_service.dart';
 import 'package:xpeapp_admin/data/state/agenda_menu_notifier.dart';
@@ -47,6 +49,7 @@ const menuNewsletter = 1;
 const menuFeatureFlipping = 2;
 const menuQvst = 3;
 const menuAgenda = 4;
+const menuIdeaBox = 5;
 
 // Config
 final configProvider = Provider<Config>((ref) {
@@ -270,6 +273,11 @@ final listOfMenuProvider = Provider<List<MenuEntity>>((ref) {
       title: 'Agenda',
       asset: Icons.calendar_today_outlined,
     ),
+    MenuEntity(
+      id: menuIdeaBox,
+      title: 'Boite à idées',
+      asset: Icons.lightbulb_outline,
+    ),
   ];
 });
 
@@ -376,4 +384,35 @@ final storageServiceProvider = Provider<StorageService>((ref) {
   return StorageService(
     ref.watch(backendApiProvider),
   );
+});
+
+// Idea Box
+final ideaServiceProvider = Provider<IdeaService>((ref) {
+  final api = ref.watch(backendApiProvider);
+  return IdeaService(api);
+});
+
+// Editing provider
+final editingEntityIdeaProvider = StateProvider<IdeaEntity?>((ref) => null);
+
+final ideasProvider =
+    FutureProvider.family<List<IdeaEntity>, ({int page, String? status})>(
+        (ref, params) async {
+  final ideaService = ref.watch(ideaServiceProvider);
+  return ideaService.getAllIdeas(page: params.page, status: params.status);
+});
+
+final ideaProvider = FutureProvider.family<IdeaEntity, String>((ref, id) async {
+  return ref.watch(ideaServiceProvider).getIdeaById(id);
+});
+
+final ideaAddProvider =
+    FutureProvider.family<void, IdeaEntity>((ref, idea) async {
+  await ref.watch(ideaServiceProvider).addIdea(idea);
+});
+
+final ideaUpdateStatusProvider =
+    FutureProvider.family<void, Map<String, String>>((ref, params) async {
+  final ideaService = ref.watch(ideaServiceProvider);
+  await ideaService.updateIdeaStatus(params['id']!, params['status']!);
 });
