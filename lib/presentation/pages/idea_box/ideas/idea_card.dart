@@ -6,23 +6,6 @@ import 'package:xpeapp_admin/presentation/pages/idea_box/idea_utils.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_card.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_summary_tile.dart';
 
-extension _IdeaEntityExtension on IdeaEntity {
-  List<String> getAvailableStatusTransitions() {
-    switch (status) {
-      case 'pending':
-        return ['approved', 'rejected'];
-      case 'approved':
-        return ['implemented', 'rejected', 'pending'];
-      case 'rejected':
-        return ['approved'];
-      case 'implemented':
-        return [];
-      default:
-        return ['approved', 'rejected'];
-    }
-  }
-}
-
 class IdeaCard extends ConsumerStatefulWidget {
   final IdeaEntity idea;
   final Function(String newStatus) onStatusChanged;
@@ -97,7 +80,8 @@ class IdeaCardState extends ConsumerState<IdeaCard> {
 
   Widget _buildStatusActionButtons() {
     final idea = widget.idea;
-    final availableTransitions = idea.getAvailableStatusTransitions();
+    final availableTransitions =
+        IdeaUtils.getAvailableStatusTransitions(idea.status);
 
     if (availableTransitions.isEmpty) {
       return const SizedBox.shrink();
