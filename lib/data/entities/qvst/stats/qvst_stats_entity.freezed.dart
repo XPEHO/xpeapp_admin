@@ -20,10 +20,15 @@ QvstStatsEntity _$QvstStatsEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$QvstStatsEntity {
+  @JsonKey(defaultValue: '')
   String get campaignId => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: '')
   String get campaignName => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: '')
   String get campaignStatus => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: '')
   String get startDate => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: '')
   String get endDate => throw _privateConstructorUsedError;
   List<QvstThemeEntity> get themes => throw _privateConstructorUsedError;
   List<QvstQuestionEntity> get questions => throw _privateConstructorUsedError;
@@ -46,11 +51,11 @@ abstract class $QvstStatsEntityCopyWith<$Res> {
       _$QvstStatsEntityCopyWithImpl<$Res, QvstStatsEntity>;
   @useResult
   $Res call(
-      {String campaignId,
-      String campaignName,
-      String campaignStatus,
-      String startDate,
-      String endDate,
+      {@JsonKey(defaultValue: '') String campaignId,
+      @JsonKey(defaultValue: '') String campaignName,
+      @JsonKey(defaultValue: '') String campaignStatus,
+      @JsonKey(defaultValue: '') String startDate,
+      @JsonKey(defaultValue: '') String endDate,
       List<QvstThemeEntity> themes,
       List<QvstQuestionEntity> questions,
       String? action});
@@ -126,11 +131,11 @@ abstract class _$$QvstStatsEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String campaignId,
-      String campaignName,
-      String campaignStatus,
-      String startDate,
-      String endDate,
+      {@JsonKey(defaultValue: '') String campaignId,
+      @JsonKey(defaultValue: '') String campaignName,
+      @JsonKey(defaultValue: '') String campaignStatus,
+      @JsonKey(defaultValue: '') String startDate,
+      @JsonKey(defaultValue: '') String endDate,
       List<QvstThemeEntity> themes,
       List<QvstQuestionEntity> questions,
       String? action});
@@ -199,11 +204,11 @@ class __$$QvstStatsEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$QvstStatsEntityImpl implements _QvstStatsEntity {
   const _$QvstStatsEntityImpl(
-      {required this.campaignId,
-      required this.campaignName,
-      required this.campaignStatus,
-      required this.startDate,
-      required this.endDate,
+      {@JsonKey(defaultValue: '') required this.campaignId,
+      @JsonKey(defaultValue: '') required this.campaignName,
+      @JsonKey(defaultValue: '') required this.campaignStatus,
+      @JsonKey(defaultValue: '') required this.startDate,
+      @JsonKey(defaultValue: '') required this.endDate,
       required final List<QvstThemeEntity> themes,
       required final List<QvstQuestionEntity> questions,
       this.action})
@@ -214,14 +219,19 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
       _$$QvstStatsEntityImplFromJson(json);
 
   @override
+  @JsonKey(defaultValue: '')
   final String campaignId;
   @override
+  @JsonKey(defaultValue: '')
   final String campaignName;
   @override
+  @JsonKey(defaultValue: '')
   final String campaignStatus;
   @override
+  @JsonKey(defaultValue: '')
   final String startDate;
   @override
+  @JsonKey(defaultValue: '')
   final String endDate;
   final List<QvstThemeEntity> _themes;
   @override
@@ -299,11 +309,11 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
 
 abstract class _QvstStatsEntity implements QvstStatsEntity {
   const factory _QvstStatsEntity(
-      {required final String campaignId,
-      required final String campaignName,
-      required final String campaignStatus,
-      required final String startDate,
-      required final String endDate,
+      {@JsonKey(defaultValue: '') required final String campaignId,
+      @JsonKey(defaultValue: '') required final String campaignName,
+      @JsonKey(defaultValue: '') required final String campaignStatus,
+      @JsonKey(defaultValue: '') required final String startDate,
+      @JsonKey(defaultValue: '') required final String endDate,
       required final List<QvstThemeEntity> themes,
       required final List<QvstQuestionEntity> questions,
       final String? action}) = _$QvstStatsEntityImpl;
@@ -312,14 +322,19 @@ abstract class _QvstStatsEntity implements QvstStatsEntity {
       _$QvstStatsEntityImpl.fromJson;
 
   @override
+  @JsonKey(defaultValue: '')
   String get campaignId;
   @override
+  @JsonKey(defaultValue: '')
   String get campaignName;
   @override
+  @JsonKey(defaultValue: '')
   String get campaignStatus;
   @override
+  @JsonKey(defaultValue: '')
   String get startDate;
   @override
+  @JsonKey(defaultValue: '')
   String get endDate;
   @override
   List<QvstThemeEntity> get themes;

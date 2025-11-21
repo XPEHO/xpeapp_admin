@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:xpeapp_admin/data/backend_api_base.dart';
+import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/import/qvst_question_sample.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
@@ -227,6 +228,17 @@ class QvstService {
       );
     } else {
       throw Exception('Erreur lors de la récupération des stats');
+    }
+  }
+
+  Future<QvstAnalysisEntity> getQvstCampaignAnalysisById(String id) async {
+    final response = await _backendApi.getQvstCampaignAnalysisById(id);
+    if (response.response.statusCode == 200) {
+      return QvstAnalysisEntity.fromJson(
+        response.data as Map<String, dynamic>,
+      );
+    } else {
+      throw Exception('Erreur lors de la récupération de l\'analyse');
     }
   }
 

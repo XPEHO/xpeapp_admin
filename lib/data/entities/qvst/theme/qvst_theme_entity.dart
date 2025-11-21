@@ -6,8 +6,8 @@ part 'qvst_theme_entity.g.dart';
 @Freezed()
 class QvstThemeEntity with _$QvstThemeEntity {
   factory QvstThemeEntity({
-    required String id,
-    required String name,
+    @JsonKey(defaultValue: '') required String id,
+    @JsonKey(defaultValue: '') required String name,
   }) = _QvstThemeEntity;
 
   factory QvstThemeEntity.fromJson(Map<String, dynamic> json) =>

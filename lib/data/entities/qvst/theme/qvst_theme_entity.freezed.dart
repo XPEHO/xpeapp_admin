@@ -20,7 +20,9 @@ QvstThemeEntity _$QvstThemeEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$QvstThemeEntity {
+  @JsonKey(defaultValue: '')
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: '')
   String get name => throw _privateConstructorUsedError;
 
   /// Serializes this QvstThemeEntity to a JSON map.
@@ -39,7 +41,9 @@ abstract class $QvstThemeEntityCopyWith<$Res> {
           QvstThemeEntity value, $Res Function(QvstThemeEntity) then) =
       _$QvstThemeEntityCopyWithImpl<$Res, QvstThemeEntity>;
   @useResult
-  $Res call({String id, String name});
+  $Res call(
+      {@JsonKey(defaultValue: '') String id,
+      @JsonKey(defaultValue: '') String name});
 }
 
 /// @nodoc
@@ -81,7 +85,9 @@ abstract class _$$QvstThemeEntityImplCopyWith<$Res>
       __$$QvstThemeEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name});
+  $Res call(
+      {@JsonKey(defaultValue: '') String id,
+      @JsonKey(defaultValue: '') String name});
 }
 
 /// @nodoc
@@ -116,14 +122,18 @@ class __$$QvstThemeEntityImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$QvstThemeEntityImpl implements _QvstThemeEntity {
-  _$QvstThemeEntityImpl({required this.id, required this.name});
+  _$QvstThemeEntityImpl(
+      {@JsonKey(defaultValue: '') required this.id,
+      @JsonKey(defaultValue: '') required this.name});
 
   factory _$QvstThemeEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$QvstThemeEntityImplFromJson(json);
 
   @override
+  @JsonKey(defaultValue: '')
   final String id;
   @override
+  @JsonKey(defaultValue: '')
   final String name;
 
   @override
@@ -163,15 +173,18 @@ class _$QvstThemeEntityImpl implements _QvstThemeEntity {
 
 abstract class _QvstThemeEntity implements QvstThemeEntity {
   factory _QvstThemeEntity(
-      {required final String id,
-      required final String name}) = _$QvstThemeEntityImpl;
+          {@JsonKey(defaultValue: '') required final String id,
+          @JsonKey(defaultValue: '') required final String name}) =
+      _$QvstThemeEntityImpl;
 
   factory _QvstThemeEntity.fromJson(Map<String, dynamic> json) =
       _$QvstThemeEntityImpl.fromJson;
 
   @override
+  @JsonKey(defaultValue: '')
   String get id;
   @override
+  @JsonKey(defaultValue: '')
   String get name;
 
   /// Create a copy of QvstThemeEntity

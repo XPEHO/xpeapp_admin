@@ -8,11 +8,11 @@ part 'qvst_stats_entity.g.dart';
 @Freezed()
 class QvstStatsEntity with _$QvstStatsEntity {
   const factory QvstStatsEntity({
-    required String campaignId,
-    required String campaignName,
-    required String campaignStatus,
-    required String startDate,
-    required String endDate,
+    @JsonKey(defaultValue: '') required String campaignId,
+    @JsonKey(defaultValue: '') required String campaignName,
+    @JsonKey(defaultValue: '') required String campaignStatus,
+    @JsonKey(defaultValue: '') required String startDate,
+    @JsonKey(defaultValue: '') required String endDate,
     required List<QvstThemeEntity> themes,
     required List<QvstQuestionEntity> questions,
     String? action,

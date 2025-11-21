@@ -17,6 +17,7 @@ import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_menu_selected.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
@@ -247,6 +248,13 @@ final qvstCampaignStatsProvider =
     FutureProvider.family<QvstStatsEntity, String>(
   (ref, id) async {
     return ref.watch(qvstServiceProvider).getQvstCampaignStatsById(id);
+  },
+);
+
+final qvstCampaignAnalysisProvider =
+    FutureProvider.family<QvstAnalysisEntity, String>(
+  (ref, id) async {
+    return ref.watch(qvstServiceProvider).getQvstCampaignAnalysisById(id);
   },
 );
 
