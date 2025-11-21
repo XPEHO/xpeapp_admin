@@ -9,11 +9,11 @@ part of 'qvst_stats_entity.dart';
 _$QvstStatsEntityImpl _$$QvstStatsEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$QvstStatsEntityImpl(
-      campaignId: json['campaignId'] as String,
-      campaignName: json['campaignName'] as String,
-      campaignStatus: json['campaignStatus'] as String,
-      startDate: json['startDate'] as String,
-      endDate: json['endDate'] as String,
+      campaignId: json['campaignId'] as String? ?? '',
+      campaignName: json['campaignName'] as String? ?? '',
+      campaignStatus: json['campaignStatus'] as String? ?? '',
+      startDate: json['startDate'] as String? ?? '',
+      endDate: json['endDate'] as String? ?? '',
       themes: (json['themes'] as List<dynamic>)
           .map((e) => QvstThemeEntity.fromJson(e as Map<String, dynamic>))
           .toList(),

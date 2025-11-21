@@ -9,8 +9,8 @@ part of 'qvst_theme_entity.dart';
 _$QvstThemeEntityImpl _$$QvstThemeEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$QvstThemeEntityImpl(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: json['id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$QvstThemeEntityImplToJson(
