@@ -15,8 +15,6 @@ class IdeaService {
             response.data is List ? response.data : response.data['data'] ?? [];
         final ideas = data.map((json) => IdeaEntity.fromJson(json)).toList();
 
-        ideas.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-
         return ideas;
       } else {
         throw Exception(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
+import 'package:xpeapp_admin/presentation/widgets/common/collapsible_card.dart';
 
 class AtRiskEmployeesWidget extends StatelessWidget {
   final List<AtRiskEmployeeEntity>? atRiskEmployees;
@@ -12,65 +13,43 @@ class AtRiskEmployeesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (atRiskEmployees == null || atRiskEmployees!.isEmpty) {
-      return Card(
-        elevation: 4,
-        margin: const EdgeInsets.all(16),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Text(
-                'Collaborateurs à risque',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(height: 16),
-              const Icon(Icons.check_circle, color: Colors.green, size: 48),
-              const SizedBox(height: 8),
-              const Text('Aucun collaborateur identifié à risque !'),
-            ],
-          ),
+      return CollapsibleCard(
+        title: 'Collaborateurs à risque',
+        leadingIcon: Icons.person_search,
+        child: Column(
+          children: [
+            const Icon(Icons.check_circle, color: Colors.green, size: 48),
+            const SizedBox(height: 8),
+            const Text('Aucun collaborateur identifié à risque !'),
+          ],
         ),
       );
     }
 
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.all(16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.warning, color: Colors.red.shade700),
-                const SizedBox(width: 8),
-                Text(
-                  'Collaborateurs à risque (${atRiskEmployees?.length ?? 0})',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ],
+    return CollapsibleCard(
+      title: 'Collaborateurs à risque (${atRiskEmployees?.length ?? 0})',
+      leadingIcon: Icons.warning,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Plus le score de risque est élevé et plus la satisfaction est basse, plus le collaborateur est considéré à risque.',
+            style: TextStyle(
+              color: Colors.grey[600],
+              fontSize: 14,
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Plus le score de risque est élevé et plus la satisfaction est basse, plus le collaborateur est considéré à risque.',
-            ),
-            const SizedBox(height: 16),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: atRiskEmployees?.length ?? 0,
-              itemBuilder: (context, index) {
-                final employee = atRiskEmployees![index];
-                return _buildEmployeeCard(context, employee, index + 1);
-              },
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 16),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: atRiskEmployees?.length ?? 0,
+            itemBuilder: (context, index) {
+              final employee = atRiskEmployees![index];
+              return _buildEmployeeCard(context, employee, index + 1);
+            },
+          ),
+        ],
       ),
     );
   }

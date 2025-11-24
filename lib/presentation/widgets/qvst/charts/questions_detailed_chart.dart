@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
+import 'package:xpeapp_admin/presentation/widgets/common/collapsible_card.dart';
 
 class QuestionsDetailedChart extends StatelessWidget {
   final List<QuestionAnalysisEntity> questionsAnalysis;
@@ -43,25 +44,15 @@ class QuestionsDetailedChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (questionsAnalysis.isEmpty) {
-      return Card(
-        elevation: 4,
-        margin: const EdgeInsets.all(16),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Text(
-                'Distribution détaillée des réponses',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(height: 16),
-              const Icon(Icons.check_circle, color: Colors.green, size: 48),
-              const SizedBox(height: 8),
-              const Text('Aucune question ne nécessite d\'action !'),
-            ],
-          ),
+      return CollapsibleCard(
+        title: 'Distribution détaillée des réponses',
+        leadingIcon: Icons.bar_chart,
+        child: Column(
+          children: [
+            const Icon(Icons.check_circle, color: Colors.green, size: 48),
+            const SizedBox(height: 8),
+            const Text('Aucune question ne nécessite d\'action !'),
+          ],
         ),
       );
     }
@@ -126,104 +117,96 @@ class QuestionsDetailedChart extends StatelessWidget {
         ),
       );
     }
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.all(16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Distribution détaillée des réponses par questions qui pose problème dans la QVST',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+    return CollapsibleCard(
+      title:
+          'Distribution détaillée des réponses par questions qui pose problème dans la QVST',
+      leadingIcon: Icons.bar_chart,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Comment les collaborateurs ont répondu à chaque question problématique',
+            style: TextStyle(
+              color: Colors.grey[600],
+              fontSize: 14,
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Comment les collaborateurs ont répondu à chaque question problématique',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.grey[600],
-                  ),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 400,
-              child: SfCartesianChart(
-                primaryXAxis: CategoryAxis(
-                  labelStyle: const TextStyle(fontSize: 10),
-                ),
-                primaryYAxis: NumericAxis(
-                  title: AxisTitle(text: 'Pourcentage (%)'),
-                  minimum: 0,
-                  maximum: 100,
-                ),
-                legend: Legend(
-                  isVisible: true,
-                  position: LegendPosition.bottom,
-                  overflowMode: LegendItemOverflowMode.wrap,
-                ),
-                series: seriesList,
-                tooltipBehavior: TooltipBehavior(
-                  enable: true,
-                  builder: (data, point, series, pointIndex, seriesIndex) {
-                    final questionData = stackedData[pointIndex];
-                    final label = noteLabels[seriesIndex + 1] ??
-                        'Note ${seriesIndex + 1}';
-                    final counts = [
-                      questionData.score1,
-                      questionData.score2,
-                      questionData.score3,
-                      questionData.score4,
-                      questionData.score5
-                    ];
-                    final count = counts[seriesIndex];
-                    final total = questionData.score1 +
-                        questionData.score2 +
-                        questionData.score3 +
-                        questionData.score4 +
-                        questionData.score5;
-                    final percentage = (count / total * 100);
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 400,
+            child: SfCartesianChart(
+              primaryXAxis: CategoryAxis(
+                labelStyle: const TextStyle(fontSize: 10),
+              ),
+              primaryYAxis: NumericAxis(
+                title: AxisTitle(text: 'Pourcentage (%)'),
+                minimum: 0,
+                maximum: 100,
+              ),
+              legend: Legend(
+                isVisible: true,
+                position: LegendPosition.bottom,
+                overflowMode: LegendItemOverflowMode.wrap,
+              ),
+              series: seriesList,
+              tooltipBehavior: TooltipBehavior(
+                enable: true,
+                builder: (data, point, series, pointIndex, seriesIndex) {
+                  final questionData = stackedData[pointIndex];
+                  final label =
+                      noteLabels[seriesIndex + 1] ?? 'Note ${seriesIndex + 1}';
+                  final counts = [
+                    questionData.score1,
+                    questionData.score2,
+                    questionData.score3,
+                    questionData.score4,
+                    questionData.score5
+                  ];
+                  final count = counts[seriesIndex];
+                  final total = questionData.score1 +
+                      questionData.score2 +
+                      questionData.score3 +
+                      questionData.score4 +
+                      questionData.score5;
+                  final percentage = (count / total * 100);
 
-                    return Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.black87,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      constraints: const BoxConstraints(maxWidth: 300),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            questionData.questionText,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  return Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.black87,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    constraints: const BoxConstraints(maxWidth: 300),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          questionData.questionText,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '$label: $count réponse${count > 1 ? 's' : ''} (${percentage.toStringAsFixed(1)}%)',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                            ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '$label: $count réponse${count > 1 ? 's' : ''} (${percentage.toStringAsFixed(1)}%)',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
-            const SizedBox(height: 16),
-            _buildLegendInfo(),
-          ],
-        ),
+          ),
+          const SizedBox(height: 16),
+          _buildLegendInfo(),
+        ],
       ),
     );
   }

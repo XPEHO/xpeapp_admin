@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/idea_box/idea_entity.dart';
 import 'package:xpeapp_admin/data/enum/idea_box_menu.dart';
+import 'package:xpeapp_admin/env/extensions/pagination.dart';
 import 'package:xpeapp_admin/presentation/pages/idea_box/ideas/idea_card.dart';
 import 'package:xpeapp_admin/presentation/pages/idea_box/idea_utils.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_sliver_form.dart';
@@ -69,21 +70,23 @@ class IdeaBoxContentIdeasState extends ConsumerState<IdeaBoxContentIdeas> {
             ),
           ),
           const SizedBox(width: 10),
-          Tooltip(
-            message: "Suivant",
-            child: FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  currentPage++;
-                });
-              },
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.arrow_forward,
-                color: Colors.white,
-              ),
-            ),
-          ),
+          ref.hasNextIdeasPage(currentPage, widget.filterStatus)
+              ? Tooltip(
+                  message: "Suivant",
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        currentPage++;
+                      });
+                    },
+                    backgroundColor: kDefaultXpehoColor,
+                    child: const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink(),
         ],
       ),
     );
