@@ -14,17 +14,17 @@ class AtRiskEmployeesWidget extends StatelessWidget {
     final listKey = GlobalKey();
 
     if (employees.isEmpty) {
-      return CollapsibleCard(
+      return const CollapsibleCard(
         title: 'Collaborateurs à risque',
         leadingIcon: Icons.person_search,
         color: Colors.white,
-        child: const Column(
+        child: Column(
           children: [
             Icon(Icons.check_circle, color: Colors.green, size: 48),
             SizedBox(height: 8),
             Text('Aucun collaborateur identifié à risque !'),
           ],
-        ),  
+        ),
       );
     }
 

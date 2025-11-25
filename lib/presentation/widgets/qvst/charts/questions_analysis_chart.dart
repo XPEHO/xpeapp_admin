@@ -36,8 +36,8 @@ class QuestionsAnalysisChart extends StatelessWidget {
     );
   }
 
-  Widget _buildEmpty() => Column(
-        children: const [
+  Widget _buildEmpty() => const Column(
+        children: [
           Icon(Icons.check_circle, color: Colors.green, size: 48),
           SizedBox(height: 8),
           Text("Aucune question ne nécessite d'action !"),

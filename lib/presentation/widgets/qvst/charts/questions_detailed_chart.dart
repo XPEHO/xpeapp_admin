@@ -41,11 +41,11 @@ class QuestionsDetailedChart extends StatelessWidget {
     final chartKey = GlobalKey();
 
     if (questionsAnalysis.isEmpty) {
-      return CollapsibleCard(
+      return const CollapsibleCard(
         title: 'Distribution détaillée des réponses',
         leadingIcon: Icons.bar_chart,
         color: Colors.white,
-        child: const Column(
+        child: Column(
           children: [
             Icon(Icons.check_circle, color: Colors.green, size: 48),
             SizedBox(height: 8),

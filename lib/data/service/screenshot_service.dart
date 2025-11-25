@@ -63,13 +63,11 @@ class ScreenshotService {
     }
   }
 
-  /// Génère un nom de fichier unique basé sur le titre et la date
+  /// Génère un nom de fichier unique basé sur le titre
   static String generateFileName(String title) {
-    final now = DateTime.now();
-    final timestamp =
-        '${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}_${now.hour.toString().padLeft(2, '0')}${now.minute.toString().padLeft(2, '0')}';
+    final specialCharsPattern = RegExp(r'[^\w\s-]');
     final cleanTitle =
-        title.replaceAll(RegExp(r'[^\w\s-]'), '').replaceAll(' ', '_');
-    return 'QVST_${cleanTitle}_$timestamp';
+        title.replaceAll(specialCharsPattern, '').replaceAll(' ', '_');
+    return 'QVST_$cleanTitle';
   }
 }
