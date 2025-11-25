@@ -34,13 +34,13 @@ class ThemesAnalysisChart extends StatelessWidget {
             child: SizedBox(
               height: 400,
               child: SfCartesianChart(
-                primaryXAxis: CategoryAxis(
-                  labelStyle: const TextStyle(fontSize: 10),
+                primaryXAxis: const CategoryAxis(
+                  labelStyle: TextStyle(fontSize: 10),
                   maximumLabels: 10,
                   labelIntersectAction: AxisLabelIntersectAction.wrap,
                   maximumLabelWidth: 80,
                 ),
-                primaryYAxis: NumericAxis(
+                primaryYAxis: const NumericAxis(
                   title: AxisTitle(text: 'Satisfaction (%)'),
                   minimum: 0,
                   maximum: 100,

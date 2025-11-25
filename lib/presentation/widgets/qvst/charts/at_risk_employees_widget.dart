@@ -24,7 +24,7 @@ class AtRiskEmployeesWidget extends StatelessWidget {
             SizedBox(height: 8),
             Text('Aucun collaborateur identifié à risque !'),
           ],
-        ),
+        ),  
       );
     }
 

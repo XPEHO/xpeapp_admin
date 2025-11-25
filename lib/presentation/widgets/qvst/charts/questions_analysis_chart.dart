@@ -57,7 +57,7 @@ class QuestionsAnalysisChart extends StatelessWidget {
                 labelStyle: TextStyle(fontSize: 10),
                 labelIntersectAction: AxisLabelIntersectAction.multipleRows,
               ),
-              primaryYAxis: NumericAxis(minimum: 0, maximum: 100),
+              primaryYAxis: const NumericAxis(minimum: 0, maximum: 100),
               series: [
                 BarSeries<QuestionAnalysisEntity, String>(
                   dataSource: questionsAnalysis,
