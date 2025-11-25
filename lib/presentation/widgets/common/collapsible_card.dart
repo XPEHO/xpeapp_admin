@@ -10,6 +10,8 @@ class CollapsibleCard extends StatefulWidget {
   final IconData? leadingIcon;
   final Color? titleColor;
   final double? titleFontSize;
+  final List<Widget>? trailingActions;
+  final Color? color;
 
   const CollapsibleCard({
     super.key,
@@ -22,6 +24,8 @@ class CollapsibleCard extends StatefulWidget {
     this.leadingIcon,
     this.titleColor,
     this.titleFontSize,
+    this.trailingActions,
+    this.color,
   });
 
   @override
@@ -74,6 +78,7 @@ class CollapsibleCardState extends State<CollapsibleCard>
     return Card(
       elevation: widget.elevation ?? 4,
       margin: widget.margin ?? const EdgeInsets.all(16),
+      color: widget.color,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -103,6 +108,11 @@ class CollapsibleCardState extends State<CollapsibleCard>
                           ),
                     ),
                   ),
+                  // Actions supplémentaires (comme le bouton screenshot)
+                  if (widget.trailingActions != null) ...[
+                    ...widget.trailingActions!,
+                    const SizedBox(width: 8),
+                  ],
                   AnimatedRotation(
                     turns: _isExpanded ? 0.5 : 0,
                     duration: const Duration(milliseconds: 300),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
 import 'package:xpeapp_admin/presentation/widgets/common/collapsible_card.dart';
+import 'package:xpeapp_admin/presentation/widgets/common/screenshot_button.dart';
 
 class ThemesAnalysisChart extends StatelessWidget {
   final List<ThemeAnalysisEntity> themesAnalysis;
@@ -13,85 +14,98 @@ class ThemesAnalysisChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final chartKey = GlobalKey();
+
     return CollapsibleCard(
       title: 'Analyse par thème',
       leadingIcon: Icons.category,
+      color: Colors.white,
+      trailingActions: [
+        ScreenshotButton(
+          widgetKey: chartKey,
+          title: 'Analyse_par_theme',
+        ),
+      ],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 400,
-            child: SfCartesianChart(
-              primaryXAxis: CategoryAxis(
-                labelStyle: const TextStyle(fontSize: 10),
-                maximumLabels: 10,
-                labelIntersectAction: AxisLabelIntersectAction.wrap,
-                maximumLabelWidth: 80,
-              ),
-              primaryYAxis: NumericAxis(
-                title: AxisTitle(text: 'Satisfaction (%)'),
-                minimum: 0,
-                maximum: 100,
-              ),
-              series: <CartesianSeries>[
-                ColumnSeries<ThemeAnalysisEntity, String>(
-                  name: '',
-                  dataSource: themesAnalysis,
-                  xValueMapper: (ThemeAnalysisEntity data, _) => data.themeName,
-                  yValueMapper: (ThemeAnalysisEntity data, _) =>
-                      data.satisfactionPercentage,
-                  dataLabelSettings: const DataLabelSettings(
-                    isVisible: true,
-                    textStyle: TextStyle(fontSize: 10),
-                  ),
-                  pointColorMapper: (ThemeAnalysisEntity data, _) =>
-                      (data.requiresAction ?? false)
-                          ? Colors.red
-                          : Colors.green,
+          RepaintBoundary(
+            key: chartKey,
+            child: SizedBox(
+              height: 400,
+              child: SfCartesianChart(
+                primaryXAxis: CategoryAxis(
+                  labelStyle: const TextStyle(fontSize: 10),
+                  maximumLabels: 10,
+                  labelIntersectAction: AxisLabelIntersectAction.wrap,
+                  maximumLabelWidth: 80,
                 ),
-              ],
-              tooltipBehavior: TooltipBehavior(
-                enable: true,
-                builder: (data, point, series, pointIndex, seriesIndex) {
-                  final theme = themesAnalysis[pointIndex];
-                  return Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.black87,
-                      borderRadius: BorderRadius.circular(4),
+                primaryYAxis: NumericAxis(
+                  title: AxisTitle(text: 'Satisfaction (%)'),
+                  minimum: 0,
+                  maximum: 100,
+                ),
+                series: <CartesianSeries>[
+                  ColumnSeries<ThemeAnalysisEntity, String>(
+                    name: '',
+                    dataSource: themesAnalysis,
+                    xValueMapper: (ThemeAnalysisEntity data, _) =>
+                        data.themeName,
+                    yValueMapper: (ThemeAnalysisEntity data, _) =>
+                        data.satisfactionPercentage,
+                    dataLabelSettings: const DataLabelSettings(
+                      isVisible: true,
+                      textStyle: TextStyle(fontSize: 10),
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          theme.themeName,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Satisfaction: ${theme.satisfactionPercentage?.toStringAsFixed(1) ?? '-'}%',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
-                        ),
-                        if ((theme.lowScoreQuestionsCount ?? 0) > 0)
+                    pointColorMapper: (ThemeAnalysisEntity data, _) =>
+                        (data.requiresAction ?? false)
+                            ? Colors.red
+                            : Colors.green,
+                  ),
+                ],
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  builder: (data, point, series, pointIndex, seriesIndex) {
+                    final theme = themesAnalysis[pointIndex];
+                    return Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.black87,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
-                            '${theme.lowScoreQuestionsCount ?? 0} question${(theme.lowScoreQuestionsCount ?? 0) > 1 ? 's' : ''} < 75%',
+                            theme.themeName,
                             style: const TextStyle(
-                              color: Colors.orangeAccent,
-                              fontSize: 11,
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                      ],
-                    ),
-                  );
-                },
+                          const SizedBox(height: 4),
+                          Text(
+                            'Satisfaction: ${theme.satisfactionPercentage?.toStringAsFixed(1) ?? '-'}%',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          ),
+                          if ((theme.lowScoreQuestionsCount ?? 0) > 0)
+                            Text(
+                              '${theme.lowScoreQuestionsCount ?? 0} question${(theme.lowScoreQuestionsCount ?? 0) > 1 ? 's' : ''} < 75%',
+                              style: const TextStyle(
+                                color: Colors.orangeAccent,
+                                fontSize: 11,
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),

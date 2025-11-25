@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
 import 'package:xpeapp_admin/presentation/widgets/common/collapsible_card.dart';
+import 'package:xpeapp_admin/presentation/widgets/common/screenshot_button.dart';
 
 class GlobalStatsCard extends StatelessWidget {
   final GlobalStatsEntity? globalStats;
@@ -12,103 +13,126 @@ class GlobalStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (globalStats == null) {
-      return CollapsibleCard(
-        title: 'Statistiques globales',
-        leadingIcon: Icons.analytics,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              'Aucune statistique disponible',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-        ),
-      );
-    }
+    final statsKey = GlobalKey();
+
     return CollapsibleCard(
       title: 'Statistiques globales',
       leadingIcon: Icons.analytics,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildStatItem(
-                context,
-                Icons.people,
-                'Répondants',
-                globalStats!.totalRespondents?.toString() ?? '-',
-                Colors.blue,
-              ),
-              _buildStatItem(
-                context,
-                Icons.question_answer,
-                'Questions',
-                globalStats?.totalQuestions?.toString() ?? '-',
-                Colors.purple,
-              ),
-              _buildStatItem(
-                context,
-                Icons.percent,
-                'Satisfaction moyenne',
-                globalStats?.averageSatisfaction != null
-                    ? '${globalStats!.averageSatisfaction!.toStringAsFixed(1)}%'
-                    : '-',
-                (globalStats?.requiresAction ?? false)
-                    ? Colors.red
-                    : Colors.green,
-              ),
-              _buildStatItem(
-                context,
-                Icons.warning,
-                'Collaborateurs à risque',
-                globalStats?.atRiskCount?.toString() ?? '-',
-                (globalStats?.atRiskCount ?? 0) > 0 ? Colors.red : Colors.green,
-              ),
-            ],
+      color: Colors.white,
+      trailingActions: [
+        if (globalStats != null)
+          ScreenshotButton(
+            widgetKey: statsKey,
+            title: 'Statistiques_globales',
           ),
-          if (globalStats?.requiresAction ?? false) ...[
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.red.shade50,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.red.shade300),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.warning, color: Colors.red.shade700),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      '⚠️ Attention : La satisfaction moyenne est inférieure à 75%. '
-                      'Des actions sont nécessaires.',
-                      style: TextStyle(
-                        color: Colors.red.shade900,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
+      ],
+      child: globalStats == null
+          ? _buildEmptyState(context)
+          : _buildStats(context, statsKey),
+    );
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Center(
+        child: Text(
+          'Aucune statistique disponible',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStats(BuildContext context, GlobalKey statsKey) {
+    final stats = globalStats!;
+    final showAlert = stats.requiresAction ?? false;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RepaintBoundary(
+          key: statsKey,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildStatItem(
+                  context,
+                  icon: Icons.people,
+                  label: 'Répondants',
+                  value: stats.totalRespondents?.toString() ?? '-',
+                  color: Colors.blue,
+                ),
+                _buildStatItem(
+                  context,
+                  icon: Icons.question_answer,
+                  label: 'Questions',
+                  value: stats.totalQuestions?.toString() ?? '-',
+                  color: Colors.purple,
+                ),
+                _buildStatItem(
+                  context,
+                  icon: Icons.percent,
+                  label: 'Satisfaction moyenne',
+                  value: stats.averageSatisfaction != null
+                      ? '${stats.averageSatisfaction!.toStringAsFixed(1)}%'
+                      : '-',
+                  color: showAlert ? Colors.red : Colors.green,
+                ),
+                _buildStatItem(
+                  context,
+                  icon: Icons.warning,
+                  label: 'Collaborateurs à risque',
+                  value: stats.atRiskCount?.toString() ?? '-',
+                  color:
+                      (stats.atRiskCount ?? 0) > 0 ? Colors.red : Colors.green,
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (showAlert) _buildAlertBox(),
+      ],
+    );
+  }
+
+  Widget _buildAlertBox() {
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.red.shade50,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.red.shade300),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.warning, color: Colors.red.shade700),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              '⚠️ Attention : La satisfaction moyenne est inférieure à 75%. '
+              'Des actions sont nécessaires.',
+              style: TextStyle(
+                color: Colors.red.shade900,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ],
+          ),
         ],
       ),
     );
   }
 
   Widget _buildStatItem(
-    BuildContext context,
-    IconData icon,
-    String label,
-    String value,
-    Color color,
-  ) {
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required String value,
+    required Color color,
+  }) {
     return Column(
       children: [
         Icon(icon, size: 48, color: color),
@@ -121,11 +145,8 @@ class GlobalStatsCard extends StatelessWidget {
               ),
         ),
         const SizedBox(height: 4),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 12),
-        ),
+        Text(label,
+            textAlign: TextAlign.center, style: const TextStyle(fontSize: 12)),
       ],
     );
   }

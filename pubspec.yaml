@@ -41,6 +41,7 @@ dependencies:
   json_annotation: ^4.9.0
   http_parser: ^4.1.2
   syncfusion_flutter_charts: ^28.1.33
+  universal_html: ^2.2.4
 
 dev_dependencies:
   flutter_test:
