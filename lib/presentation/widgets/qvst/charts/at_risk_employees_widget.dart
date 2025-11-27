@@ -44,7 +44,7 @@ class AtRiskEmployeesWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Plus le score de risque est élevé et plus la satisfaction est basse, plus le collaborateur est considéré à risque.',
+              'Collaborateurs identifiés à risque basés sur leur taux de satisfaction faible.',
               style: TextStyle(color: Colors.grey[600], fontSize: 14),
             ),
             const SizedBox(height: 16),
@@ -59,7 +59,6 @@ class AtRiskEmployeesWidget extends StatelessWidget {
   }
 
   Widget _buildEmployeeCard(AtRiskEmployeeEntity employee, int index) {
-    final riskScore = employee.riskScore ?? 0;
     final satisfaction = employee.satisfactionPercentage ?? 0;
     final userId = employee.anonymousUserId;
 
@@ -68,30 +67,34 @@ class AtRiskEmployeesWidget extends StatelessWidget {
       color: Colors.red.shade50,
       child: ExpansionTile(
         leading: CircleAvatar(
-          backgroundColor: _getRiskColor(riskScore),
+          backgroundColor: _getSatisfactionColor(satisfaction),
           child: Text('#$index', style: const TextStyle(color: Colors.white)),
         ),
         title: Text(
           'Collaborateur ${userId.length > 12 ? userId.substring(0, 12) : userId}...',
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text(
-            'Score: ${riskScore.toStringAsFixed(1)}/10 - Satisfaction: ${satisfaction.toStringAsFixed(1)}%'),
+        subtitle: Text('Satisfaction: ${satisfaction.toStringAsFixed(1)}%'),
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _InfoRow(Icons.trending_down, 'Réponses faibles',
-                    '${employee.lowScoresCount ?? '-'} / ${employee.totalResponses ?? '-'}'),
-                const SizedBox(height: 8),
-                _InfoRow(
-                    Icons.category,
-                    'Thèmes critiques',
-                    employee.criticalThemes.isEmpty
-                        ? '-'
-                        : employee.criticalThemes.join(', ')),
+                _InfoRow(Icons.people, 'Réponses totales',
+                    '${employee.totalResponses ?? '-'}'),
+                // Retirer l'affichage des réponses faibles car pas disponible
+                // const SizedBox(height: 8),
+                // _InfoRow(Icons.trending_down, 'Réponses faibles',
+                //     '${employee.lowScoresCount ?? '-'} / ${employee.totalResponses ?? '-'}'),
+                // Retirer l'affichage des thèmes critiques car pas disponible
+                // const SizedBox(height: 8),
+                // _InfoRow(
+                //     Icons.category,
+                //     'Thèmes critiques',
+                //     (employee.criticalThemes?.isEmpty ?? true)
+                //         ? '-'
+                //         : employee.criticalThemes!.join(', ')),
                 if (employee.openAnswer?.isNotEmpty == true) ...[
                   const SizedBox(height: 8),
                   const Divider(),
@@ -110,12 +113,12 @@ class AtRiskEmployeesWidget extends StatelessWidget {
     );
   }
 
-  Color _getRiskColor(double score) {
-    return switch (score) {
-      >= 7 => Colors.red.shade900,
-      >= 5 => Colors.red.shade700,
-      >= 3 => Colors.orange.shade700,
-      _ => Colors.yellow.shade700,
+  Color _getSatisfactionColor(double satisfaction) {
+    return switch (satisfaction) {
+      >= 75 => Colors.green.shade700,
+      >= 50 => Colors.orange.shade700,
+      >= 25 => Colors.red.shade700,
+      _ => Colors.red.shade900,
     };
   }
 }

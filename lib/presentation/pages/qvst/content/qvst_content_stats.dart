@@ -15,6 +15,15 @@ import 'package:yaki_ui/button.dart';
 class QvstContentStats extends ConsumerWidget {
   final String? campaignId;
 
+  // Configuration des graphiques
+  static const _chartsConfig = {
+    'globalStats': {'name': 'Statistiques', 'icon': Icons.analytics},
+    'questionsAnalysis': {'name': 'Questions', 'icon': Icons.quiz},
+    'globalDistribution': {'name': 'Répartition', 'icon': Icons.pie_chart},
+    'questionsDetailed': {'name': 'Détails', 'icon': Icons.bar_chart},
+    'atRiskEmployees': {'name': 'Collaborateurs', 'icon': Icons.warning},
+  };
+
   const QvstContentStats({
     super.key,
     this.campaignId,
@@ -47,95 +56,56 @@ class QvstContentStats extends ConsumerWidget {
 
         return DefaultTabController(
           length: 2,
-          child: Scaffold(
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              title: Text('Statistiques de la campagne : ${data.campaignName}'),
-              backgroundColor: Colors.white,
-              bottom: const TabBar(
-                tabs: [
-                  Tab(
-                    icon: Icon(Icons.table_chart),
-                    text: 'Statistiques',
-                  ),
-                  Tab(
-                    icon: Icon(Icons.analytics),
-                    text: 'Analyse avancée',
-                  ),
-                ],
-              ),
-            ),
-            backgroundColor: Colors.white,
-            body: TabBarView(
-              children: [
-                // Onglet Statistiques
-                _buildStatsTab(
-                  context,
-                  ref,
-                  data,
-                  controller,
-                  startDateFormatter,
-                  endDateFormatter,
-                ),
-                // Onglet Analyse
-                QvstContentAnalysis(campaignId: campaignId),
-              ],
-            ),
-            floatingActionButton: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                if (data.campaignStatus.isArchived ||
-                    data.campaignStatus.isClosed)
-                  Tooltip(
-                    message: "Exporter les réponses de la campagne",
-                    child: FloatingActionButton(
-                      onPressed: () async {
-                        try {
-                          await ref.read(qvstServiceProvider).exportCSVFile(
-                                campaignId ?? "",
-                                ref.watch(userProvider)?.token?.token ?? "",
-                              );
-                        } catch (e) {
-                          if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("$e"),
-                            ),
-                          );
-                        }
-                      },
-                      backgroundColor: kDefaultXpehoColor,
-                      child: const Icon(
-                        Icons.file_download,
-                        color: Colors.white,
+          child: Builder(
+            builder: (context) {
+              return Scaffold(
+                appBar: AppBar(
+                  automaticallyImplyLeading: false,
+                  title: Text(
+                      'Statistiques de la campagne : ${data.campaignName}'),
+                  backgroundColor: Colors.white,
+                  bottom: const TabBar(
+                    tabs: [
+                      Tab(
+                        icon: Icon(Icons.table_chart),
+                        text: 'Statistiques',
                       ),
-                    ),
-                  ),
-                const SizedBox(width: 10),
-                Tooltip(
-                  message: "Recharger les statistiques",
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      ref.invalidate(
-                        qvstCampaignStatsProvider(
-                          campaignId!,
-                        ),
-                      );
-                      ref.invalidate(
-                        qvstCampaignAnalysisProvider(
-                          campaignId!,
-                        ),
-                      );
-                    },
-                    backgroundColor: kDefaultXpehoColor,
-                    child: const Icon(
-                      Icons.refresh,
-                      color: Colors.white,
-                    ),
+                      Tab(
+                        icon: Icon(Icons.analytics),
+                        text: 'Analyse avancée',
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+                backgroundColor: Colors.white,
+                body: TabBarView(
+                  children: [
+                    // Onglet Statistiques
+                    _buildStatsTab(
+                      context,
+                      ref,
+                      data,
+                      controller,
+                      startDateFormatter,
+                      endDateFormatter,
+                    ),
+                    // Onglet Analyse
+                    QvstContentAnalysis(campaignId: campaignId),
+                  ],
+                ),
+                floatingActionButton: AnimatedBuilder(
+                  animation: DefaultTabController.of(context),
+                  builder: (context, _) {
+                    return _buildFloatingActionButtons(
+                      data,
+                      campaignId,
+                      ref,
+                      DefaultTabController.of(context).index,
+                    );
+                  },
+                ),
+              );
+            },
           ),
         );
       },
@@ -187,8 +157,15 @@ class QvstContentStats extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-                QvstStatsTableView(
-                  stats: data,
+                SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width - 40,
+                    ),
+                    child: QvstStatsTableView(
+                      stats: data,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 if (data.campaignStatus.isArchived)
@@ -303,6 +280,294 @@ class QvstContentStats extends ConsumerWidget {
       debugPrint(
         e.toString(),
       );
+    }
+  }
+
+  Widget _buildFloatingActionButtons(
+    QvstStatsEntity data,
+    String? campaignId,
+    WidgetRef ref,
+    int tabIndex,
+  ) {
+    // Fermer le menu de filtre si on n'est pas sur l'onglet analyse
+    if (tabIndex != 1 && ref.read(filterMenuProvider)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(filterMenuProvider.notifier).close();
+      });
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        // Menu de filtres flottant (seulement dans l'onglet analyse) - AU-DESSUS
+        if (tabIndex == 1) _buildFilterMenu(ref),
+        if (tabIndex == 1) const SizedBox(height: 16),
+        // Row des boutons principaux
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            if (data.campaignStatus.isArchived || data.campaignStatus.isClosed)
+              Tooltip(
+                message: "Exporter les réponses de la campagne",
+                child: FloatingActionButton(
+                  heroTag: "export_button",
+                  onPressed: () => _handleExportCSV(ref, campaignId),
+                  backgroundColor: kDefaultXpehoColor,
+                  child: const Icon(
+                    Icons.file_download,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            if (data.campaignStatus.isArchived || data.campaignStatus.isClosed)
+              const SizedBox(width: 10),
+            _buildFloatingActionButton(
+              tooltip: "Réinitialiser les questions inversées",
+              heroTag: "reset_questions_button",
+              onPressed: () => _handleResetQuestions(ref),
+              backgroundColor: Colors.orange,
+              icon: Icons.clear_all,
+            ),
+            const SizedBox(width: 10),
+            // Bouton de filtre des graphiques (seulement dans l'onglet analyse)
+            if (tabIndex == 1)
+              Tooltip(
+                message: "Filtrer les graphiques",
+                child: FloatingActionButton(
+                  heroTag: "filter_button",
+                  onPressed: () {
+                    ref.read(filterMenuProvider.notifier).toggle();
+                  },
+                  backgroundColor: ref.watch(filterMenuProvider)
+                      ? Colors.orange
+                      : kDefaultXpehoColor,
+                  child: Icon(
+                    ref.watch(filterMenuProvider)
+                        ? Icons.close
+                        : Icons.dashboard,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            if (tabIndex == 1) const SizedBox(width: 10),
+            _buildFloatingActionButton(
+              tooltip: "Recharger les statistiques",
+              heroTag: "refresh_button",
+              onPressed: () => _handleRefresh(ref, campaignId),
+              backgroundColor: kDefaultXpehoColor,
+              icon: Icons.refresh,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFilterMenu(WidgetRef ref) {
+    final isMenuOpen = ref.watch(filterMenuProvider);
+    final chartsVisibility = ref.watch(analysisChartsVisibilityProvider);
+    final visibleCount = chartsVisibility.values.where((v) => v).length;
+
+    if (!isMenuOpen) return const SizedBox.shrink();
+
+    const charts = _chartsConfig;
+
+    return Container(
+      width: 200,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(15),
+            spreadRadius: 2,
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // En-tête
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: kDefaultXpehoColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.dashboard, color: Colors.white, size: 16),
+                const SizedBox(width: 6),
+                Text(
+                  'Graphiques ($visibleCount/${charts.length})',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Liste des graphiques
+          ...charts.entries.map((entry) {
+            final key = entry.key;
+            final chart = entry.value;
+            final isVisible = chartsVisibility[key] ?? true;
+
+            return InkWell(
+              onTap: () {
+                ref
+                    .read(analysisChartsVisibilityProvider.notifier)
+                    .toggleChart(key);
+              },
+              child: Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  color: isVisible ? kDefaultXpehoColor.withAlpha(13) : null,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey.withAlpha(20),
+                      width: 0.5,
+                    ),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      chart['icon'] as IconData,
+                      color: isVisible ? kDefaultXpehoColor : Colors.grey,
+                      size: 16,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        chart['name'] as String,
+                        style: TextStyle(
+                          color: isVisible ? kDefaultXpehoColor : Colors.grey,
+                          fontWeight:
+                              isVisible ? FontWeight.w500 : FontWeight.normal,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      isVisible
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank,
+                      color: isVisible ? kDefaultXpehoColor : Colors.grey,
+                      size: 18,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+          // Bouton "Tout" en bas
+          InkWell(
+            onTap: () {
+              ref.read(analysisChartsVisibilityProvider.notifier).toggleAll();
+            },
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: const BoxDecoration(
+                color: Color(0xFFF5F5F5),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    visibleCount == charts.length
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                    color: kDefaultXpehoColor,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    visibleCount == charts.length
+                        ? 'Tout masquer'
+                        : 'Tout afficher',
+                    style: const TextStyle(
+                      color: kDefaultXpehoColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFloatingActionButton({
+    required String tooltip,
+    required String heroTag,
+    required VoidCallback onPressed,
+    required Color backgroundColor,
+    required IconData icon,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: FloatingActionButton(
+        heroTag: heroTag,
+        onPressed: onPressed,
+        backgroundColor: backgroundColor,
+        child: Icon(
+          icon,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  void _handleExportCSV(WidgetRef ref, String? campaignId) async {
+    try {
+      await ref.read(qvstServiceProvider).exportCSVFile(
+            campaignId ?? "",
+            ref.watch(userProvider)?.token?.token ?? "",
+          );
+    } catch (e) {
+      if (!Navigator.of(ref.context).context.mounted) return;
+      ScaffoldMessenger.of(ref.context).showSnackBar(
+        SnackBar(
+          content: Text("$e"),
+        ),
+      );
+    }
+  }
+
+  void _handleResetQuestions(WidgetRef ref) {
+    ref.read(reversedQuestionsProvider.notifier).state = {};
+    ScaffoldMessenger.of(ref.context).showSnackBar(
+      const SnackBar(
+        content: Text("Questions inversées réinitialisées"),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _handleRefresh(WidgetRef ref, String? campaignId) {
+    if (campaignId != null) {
+      ref.invalidate(qvstCampaignStatsProvider(campaignId));
+      ref.invalidate(qvstCampaignAnalysisProvider(campaignId));
     }
   }
 }

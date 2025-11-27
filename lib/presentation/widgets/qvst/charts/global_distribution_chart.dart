@@ -13,6 +13,15 @@ class GlobalDistributionChart extends StatelessWidget {
     required this.distribution,
   });
 
+  // Référentiel complet des types de réponses possibles
+  static const Map<int, String> _globalAnswerLabels = {
+    1: 'Très faible / Jamais / Pas du tout',
+    2: 'Faible / Rarement / Plutôt non',
+    3: 'Moyen / Occasionnellement / Cela dépend',
+    4: 'Bien / Assez souvent / Plutôt oui',
+    5: 'Excellent / Très souvent / Tout à fait',
+  };
+
   @override
   Widget build(BuildContext context) {
     final chartKey = GlobalKey();
@@ -62,7 +71,7 @@ class GlobalDistributionChart extends StatelessWidget {
                 series: List.generate(
                   5,
                   (i) => StackedColumn100Series<_ChartData, String>(
-                    name: 'Score ${i + 1}',
+                    name: _globalAnswerLabels[i + 1] ?? 'Score ${i + 1}',
                     dataSource: [_ChartData('Distribution', scores)],
                     xValueMapper: (data, _) => data.category,
                     yValueMapper: (data, _) => data.scores[i],

@@ -25,6 +25,139 @@ class QvstService {
     this.baseUrl,
   );
 
+  /// Applique les inversions de questions à une analyse QVST et recalcule les statistiques
+  QvstAnalysisEntity applyReversedQuestions(
+    QvstAnalysisEntity analysis,
+    Map<String, bool> reversedQuestions,
+  ) {
+    if (reversedQuestions.isEmpty) return analysis;
+
+    // Recalculer TOUTES les questions d'analyse avec leurs pourcentages de satisfaction
+    final updatedQuestionsAnalysis = analysis.questionsAnalysis.map((question) {
+      return _applyQuestionInversion(
+          question, reversedQuestions[question.questionText] ?? false);
+    }).toList();
+
+    // Recalculer les questions nécessitant une action (sous-ensemble avec satisfaction < 75%)
+    final updatedQuestionsRequiringAction =
+        analysis.questionsRequiringAction.map((question) {
+      return _applyQuestionInversion(
+          question, reversedQuestions[question.questionText] ?? false);
+    }).toList();
+
+    // Recalculer les collaborateurs à risque avec les nouveaux pourcentages de satisfaction
+    final updatedAtRiskEmployees = analysis.atRiskEmployees.map((employee) {
+      return _applyEmployeeInversion(
+          employee, reversedQuestions, analysis.questionsAnalysis);
+    }).toList();
+
+    // Recalculer les statistiques globales en utilisant TOUTES les questions mises à jour
+    final updatedGlobalStats =
+        _recalculateGlobalStats(analysis.globalStats, updatedQuestionsAnalysis);
+
+    return analysis.copyWith(
+      questionsAnalysis: updatedQuestionsAnalysis, // TOUTES les questions
+      questionsRequiringAction:
+          updatedQuestionsRequiringAction, // Sous-ensemble < 75%
+      atRiskEmployees: updatedAtRiskEmployees,
+      globalStats: updatedGlobalStats,
+    );
+  }
+
+  /// Calcul de moyenne pondérée
+  double calculateWeightedAverage(List<AnswerDistributionEntity> answers,
+      [bool isReversed = false]) {
+    double totalValue = 0;
+    int totalResponses = 0;
+
+    for (final answer in answers) {
+      if (answer.score != null && answer.count != null) {
+        int value = answer.score!;
+        // L'inversion se fait maintenant au niveau du pourcentage final, pas des scores
+        totalValue += value * answer.count!;
+        totalResponses += answer.count!;
+      }
+    }
+
+    return totalResponses > 0 ? totalValue / totalResponses : 0;
+  }
+
+  /// Applique l'inversion à une question et recalcule ses métriques
+  QuestionAnalysisEntity _applyQuestionInversion(
+      QuestionAnalysisEntity question, bool isReversed) {
+    if (!isReversed) return question;
+
+    // Pour l'inversion, on inverse simplement le pourcentage de satisfaction : 100% - pourcentage
+    final originalPercentage = question.satisfactionPercentage ?? 0.0;
+    final newSatisfactionPercentage = 100.0 - originalPercentage;
+
+    return question.copyWith(
+      satisfactionPercentage: newSatisfactionPercentage,
+      requiresAction: newSatisfactionPercentage < 50,
+    );
+  }
+
+  /// Recalcule le pourcentage de satisfaction d'un collaborateur à risque
+  /// en tenant compte des questions inversées
+  AtRiskEmployeeEntity _applyEmployeeInversion(
+    AtRiskEmployeeEntity employee,
+    Map<String, bool> reversedQuestions,
+    List<QuestionAnalysisEntity> allQuestions,
+  ) {
+    if (reversedQuestions.isEmpty) return employee;
+
+    // Calculer un nouveau pourcentage de satisfaction basé sur les questions inversées
+    // Ceci est une approximation car nous n'avons pas accès aux réponses individuelles
+
+    // Compter le nombre de questions inversées
+    int totalQuestions = reversedQuestions.length;
+    int reversedCount =
+        reversedQuestions.values.where((isReversed) => isReversed).length;
+
+    if (totalQuestions == 0 || reversedCount == 0) return employee;
+
+    // Si il y a des inversions, nous faisons une approximation en inversant le pourcentage
+    // proportionnellement au nombre de questions inversées
+    final originalSatisfaction = employee.satisfactionPercentage ?? 0.0;
+    final reversedRatio = reversedCount / totalQuestions;
+
+    // Calcul approximatif : inverse partiellement selon le ratio de questions inversées
+    final newSatisfactionPercentage = originalSatisfaction +
+        (100.0 - 2 * originalSatisfaction) * reversedRatio;
+
+    return employee.copyWith(
+      satisfactionPercentage: newSatisfactionPercentage.clamp(0.0, 100.0),
+    );
+  }
+
+  /// Recalcule les statistiques globales basées sur une liste de questions
+  GlobalStatsEntity? _recalculateGlobalStats(
+    GlobalStatsEntity? originalStats,
+    List<QuestionAnalysisEntity> questions,
+  ) {
+    if (originalStats == null || questions.isEmpty) return originalStats;
+
+    double totalSatisfaction = 0;
+    int validQuestions = 0;
+
+    for (final question in questions) {
+      if (question.satisfactionPercentage != null) {
+        totalSatisfaction += question.satisfactionPercentage!;
+        validQuestions++;
+      }
+    }
+
+    final newAverageSatisfaction = validQuestions > 0
+        ? totalSatisfaction / validQuestions
+        : originalStats.averageSatisfaction;
+
+    return originalStats.copyWith(
+      averageSatisfaction: newAverageSatisfaction,
+      requiresAction:
+          newAverageSatisfaction != null ? newAverageSatisfaction < 75 : null,
+    );
+  }
+
   Future<List<QvstQuestionEntity>> getAllQvst() async {
     final response = await _backendApi.getAllQvst();
     if (response.response.statusCode == 200) {

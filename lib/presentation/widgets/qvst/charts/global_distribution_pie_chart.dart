@@ -14,6 +14,15 @@ class GlobalDistributionPieChart extends StatelessWidget {
     this.answerLabels,
   });
 
+  // Référentiel complet des types de réponses possibles
+  static const Map<int, String> _globalAnswerLabels = {
+    1: 'Très faible / Jamais / Pas du tout',
+    2: 'Faible / Rarement / Plutôt non',
+    3: 'Moyen / Occasionnellement / Cela dépend',
+    4: 'Bien / Assez souvent / Plutôt oui',
+    5: 'Excellent / Très souvent / Tout à fait',
+  };
+
   List<_ChartData> _prepareData() {
     final colors = [
       Colors.red.shade700,
@@ -31,7 +40,7 @@ class GlobalDistributionPieChart extends StatelessWidget {
     return List.generate(5, (i) {
       final score = i + 1;
       return _ChartData(
-        answerLabels?[score] ?? 'Note $score',
+        _globalAnswerLabels[score] ?? 'Note $score',
         scoreMap[score] ?? 0,
         colors[i],
       );

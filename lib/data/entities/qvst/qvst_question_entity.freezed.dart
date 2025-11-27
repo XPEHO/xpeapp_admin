@@ -31,6 +31,8 @@ mixin _$QvstQuestionEntity {
   int? get numberAsked => throw _privateConstructorUsedError;
   @JsonSerializable(explicitToJson: true)
   List<QvstAnswerEntity> get answers => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_reversed')
+  bool get isReversed => throw _privateConstructorUsedError;
 
   /// Serializes this QvstQuestionEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,7 +57,8 @@ abstract class $QvstQuestionEntityCopyWith<$Res> {
       @JsonKey(name: 'theme_id') String? idTheme,
       @JsonKey(name: 'answer_repo_id') String? answerRepoId,
       int? numberAsked,
-      @JsonSerializable(explicitToJson: true) List<QvstAnswerEntity> answers});
+      @JsonSerializable(explicitToJson: true) List<QvstAnswerEntity> answers,
+      @JsonKey(name: 'is_reversed') bool isReversed});
 }
 
 /// @nodoc
@@ -80,6 +83,7 @@ class _$QvstQuestionEntityCopyWithImpl<$Res, $Val extends QvstQuestionEntity>
     Object? answerRepoId = freezed,
     Object? numberAsked = freezed,
     Object? answers = null,
+    Object? isReversed = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -110,6 +114,10 @@ class _$QvstQuestionEntityCopyWithImpl<$Res, $Val extends QvstQuestionEntity>
           ? _value.answers
           : answers // ignore: cast_nullable_to_non_nullable
               as List<QvstAnswerEntity>,
+      isReversed: null == isReversed
+          ? _value.isReversed
+          : isReversed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -129,7 +137,8 @@ abstract class _$$QvstQuestionEntityImplCopyWith<$Res>
       @JsonKey(name: 'theme_id') String? idTheme,
       @JsonKey(name: 'answer_repo_id') String? answerRepoId,
       int? numberAsked,
-      @JsonSerializable(explicitToJson: true) List<QvstAnswerEntity> answers});
+      @JsonSerializable(explicitToJson: true) List<QvstAnswerEntity> answers,
+      @JsonKey(name: 'is_reversed') bool isReversed});
 }
 
 /// @nodoc
@@ -152,6 +161,7 @@ class __$$QvstQuestionEntityImplCopyWithImpl<$Res>
     Object? answerRepoId = freezed,
     Object? numberAsked = freezed,
     Object? answers = null,
+    Object? isReversed = null,
   }) {
     return _then(_$QvstQuestionEntityImpl(
       id: freezed == id
@@ -182,6 +192,10 @@ class __$$QvstQuestionEntityImplCopyWithImpl<$Res>
           ? _value._answers
           : answers // ignore: cast_nullable_to_non_nullable
               as List<QvstAnswerEntity>,
+      isReversed: null == isReversed
+          ? _value.isReversed
+          : isReversed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -197,7 +211,8 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
       @JsonKey(name: 'answer_repo_id') this.answerRepoId,
       this.numberAsked,
       @JsonSerializable(explicitToJson: true)
-      final List<QvstAnswerEntity> answers = const []})
+      final List<QvstAnswerEntity> answers = const [],
+      @JsonKey(name: 'is_reversed') this.isReversed = false})
       : _answers = answers;
 
   factory _$QvstQuestionEntityImpl.fromJson(Map<String, dynamic> json) =>
@@ -229,8 +244,12 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
   }
 
   @override
+  @JsonKey(name: 'is_reversed')
+  final bool isReversed;
+
+  @override
   String toString() {
-    return 'QvstQuestionEntity(id: $id, question: $question, theme: $theme, idTheme: $idTheme, answerRepoId: $answerRepoId, numberAsked: $numberAsked, answers: $answers)';
+    return 'QvstQuestionEntity(id: $id, question: $question, theme: $theme, idTheme: $idTheme, answerRepoId: $answerRepoId, numberAsked: $numberAsked, answers: $answers, isReversed: $isReversed)';
   }
 
   @override
@@ -247,13 +266,23 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
                 other.answerRepoId == answerRepoId) &&
             (identical(other.numberAsked, numberAsked) ||
                 other.numberAsked == numberAsked) &&
-            const DeepCollectionEquality().equals(other._answers, _answers));
+            const DeepCollectionEquality().equals(other._answers, _answers) &&
+            (identical(other.isReversed, isReversed) ||
+                other.isReversed == isReversed));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, question, theme, idTheme,
-      answerRepoId, numberAsked, const DeepCollectionEquality().hash(_answers));
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      question,
+      theme,
+      idTheme,
+      answerRepoId,
+      numberAsked,
+      const DeepCollectionEquality().hash(_answers),
+      isReversed);
 
   /// Create a copy of QvstQuestionEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -274,14 +303,16 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
 
 abstract class _QvstQuestionEntity implements QvstQuestionEntity {
   factory _QvstQuestionEntity(
-      {@JsonKey(name: 'question_id') final String? id,
-      required final String question,
-      final String? theme,
-      @JsonKey(name: 'theme_id') final String? idTheme,
-      @JsonKey(name: 'answer_repo_id') final String? answerRepoId,
-      final int? numberAsked,
-      @JsonSerializable(explicitToJson: true)
-      final List<QvstAnswerEntity> answers}) = _$QvstQuestionEntityImpl;
+          {@JsonKey(name: 'question_id') final String? id,
+          required final String question,
+          final String? theme,
+          @JsonKey(name: 'theme_id') final String? idTheme,
+          @JsonKey(name: 'answer_repo_id') final String? answerRepoId,
+          final int? numberAsked,
+          @JsonSerializable(explicitToJson: true)
+          final List<QvstAnswerEntity> answers,
+          @JsonKey(name: 'is_reversed') final bool isReversed}) =
+      _$QvstQuestionEntityImpl;
 
   factory _QvstQuestionEntity.fromJson(Map<String, dynamic> json) =
       _$QvstQuestionEntityImpl.fromJson;
@@ -304,6 +335,9 @@ abstract class _QvstQuestionEntity implements QvstQuestionEntity {
   @override
   @JsonSerializable(explicitToJson: true)
   List<QvstAnswerEntity> get answers;
+  @override
+  @JsonKey(name: 'is_reversed')
+  bool get isReversed;
 
   /// Create a copy of QvstQuestionEntity
   /// with the given fields replaced by the non-null parameter values.

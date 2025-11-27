@@ -38,9 +38,9 @@ class QuestionsAnalysisChart extends StatelessWidget {
 
   Widget _buildEmpty() => const Column(
         children: [
-          Icon(Icons.check_circle, color: Colors.green, size: 48),
+          Icon(Icons.info, color: Colors.blue, size: 48),
           SizedBox(height: 8),
-          Text("Aucune question ne nécessite d'action !"),
+          Text("Aucune question disponible"),
         ],
       );
 
@@ -61,10 +61,14 @@ class QuestionsAnalysisChart extends StatelessWidget {
               series: [
                 BarSeries<QuestionAnalysisEntity, String>(
                   dataSource: questionsAnalysis,
-                  xValueMapper: (_, i) => 'Q${i + 1}',
+                  xValueMapper: (_, i) => 'Question ${i + 1}',
                   yValueMapper: (q, _) => q.satisfactionPercentage,
                   dataLabelSettings: const DataLabelSettings(isVisible: true),
-                  color: Colors.red.shade400,
+                  // Couleur conditionnelle : rouge si < 75%, vert sinon
+                  pointColorMapper: (q, _) =>
+                      (q.satisfactionPercentage ?? 0) < 75
+                          ? Colors.red.shade400
+                          : Colors.green.shade400,
                 ),
               ],
               tooltipBehavior: TooltipBehavior(
@@ -74,8 +78,6 @@ class QuestionsAnalysisChart extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 16),
-        _buildQuestionsList(),
         const SizedBox(height: 16),
         _infoBox(),
       ],
@@ -98,21 +100,6 @@ class QuestionsAnalysisChart extends StatelessWidget {
     );
   }
 
-  Widget _buildQuestionsList() {
-    return ExpansionTile(
-      title: const Text('Détails des questions'),
-      children: questionsAnalysis.map((q) {
-        return ListTile(
-          leading: Icon(Icons.warning, color: Colors.red.shade400),
-          title: Text(q.questionText),
-          subtitle: Text(
-            '${q.themeName} – ${q.satisfactionPercentage?.toStringAsFixed(1) ?? '-'}%',
-          ),
-        );
-      }).toList(),
-    );
-  }
-
   Widget _infoBox() => Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
@@ -126,7 +113,7 @@ class QuestionsAnalysisChart extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'Questions avec un taux de satisfaction < 75%.',
+                'Aperçu des questions avec leur taux de satisfaction. Les questions en rouge ont une satisfaction < 75%.',
                 style: TextStyle(color: Colors.blue.shade900, fontSize: 12),
               ),
             ),

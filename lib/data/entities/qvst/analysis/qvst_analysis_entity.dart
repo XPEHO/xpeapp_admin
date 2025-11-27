@@ -4,6 +4,15 @@ import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 part 'qvst_analysis_entity.freezed.dart';
 part 'qvst_analysis_entity.g.dart';
 
+// Helper function pour parser les valeurs numériques qui peuvent être des strings
+int? _parseInt(dynamic value) {
+  if (value == null) return null;
+  if (value is int) return value;
+  if (value is String) return int.tryParse(value);
+  if (value is double) return value.round();
+  return null;
+}
+
 @freezed
 class QvstAnalysisEntity with _$QvstAnalysisEntity {
   const factory QvstAnalysisEntity({
@@ -22,10 +31,10 @@ class QvstAnalysisEntity with _$QvstAnalysisEntity {
     @JsonKey(name: 'global_stats') GlobalStatsEntity? globalStats,
     @JsonKey(name: 'global_distribution')
     @Default([])
-    List<GlobalDistributionEntity> globalDistribution,
+    List<GlobalDistributionEntity>? globalDistribution,
     @JsonKey(name: 'themes_analysis')
     @Default([])
-    List<ThemeAnalysisEntity> themesAnalysis,
+    List<ThemeAnalysisEntity>? themesAnalysis,
     @JsonKey(name: 'questions_analysis')
     @Default([])
     List<QuestionAnalysisEntity> questionsAnalysis,
@@ -44,11 +53,12 @@ class QvstAnalysisEntity with _$QvstAnalysisEntity {
 @freezed
 class GlobalStatsEntity with _$GlobalStatsEntity {
   const factory GlobalStatsEntity({
-    @JsonKey(name: 'total_respondents') int? totalRespondents,
-    @JsonKey(name: 'total_questions') int? totalQuestions,
+    @JsonKey(name: 'total_respondents', fromJson: _parseInt)
+    int? totalRespondents,
+    @JsonKey(name: 'total_questions', fromJson: _parseInt) int? totalQuestions,
     @JsonKey(name: 'average_satisfaction') double? averageSatisfaction,
     @JsonKey(name: 'requires_action') bool? requiresAction,
-    @JsonKey(name: 'at_risk_count') int? atRiskCount,
+    @JsonKey(name: 'at_risk_count', fromJson: _parseInt) int? atRiskCount,
   }) = _GlobalStatsEntity;
 
   factory GlobalStatsEntity.fromJson(Map<String, dynamic> json) =>
@@ -93,13 +103,12 @@ class QuestionAnalysisEntity with _$QuestionAnalysisEntity {
     @JsonKey(name: 'question_text', defaultValue: '')
     @Default('')
     String questionText,
-    @JsonKey(name: 'theme_id', defaultValue: '') @Default('') String themeId,
-    @JsonKey(name: 'theme_name', defaultValue: '')
-    @Default('')
-    String themeName,
+    @JsonKey(name: 'theme_id') String? themeId,
+    @JsonKey(name: 'theme_name') String? themeName,
     @JsonKey(name: 'satisfaction_percentage') double? satisfactionPercentage,
     @JsonKey(name: 'average_score') double? averageScore,
     @JsonKey(name: 'requires_action') bool? requiresAction,
+    @JsonKey(name: 'total_responses') int? totalResponses,
     @JsonKey(name: 'answers')
     @Default([])
     List<AnswerDistributionEntity> answers,
@@ -112,12 +121,10 @@ class QuestionAnalysisEntity with _$QuestionAnalysisEntity {
 @freezed
 class AnswerDistributionEntity with _$AnswerDistributionEntity {
   const factory AnswerDistributionEntity({
-    @JsonKey(name: 'answer_id', defaultValue: '') @Default('') String answerId,
-    @JsonKey(name: 'answer_text', defaultValue: '')
-    @Default('')
-    String answerText,
-    @JsonKey(name: 'score') int? score,
-    @JsonKey(name: 'count') int? count,
+    @JsonKey(name: 'id', defaultValue: '') @Default('') String answerId,
+    @JsonKey(name: 'answer', defaultValue: '') @Default('') String answerText,
+    @JsonKey(name: 'value', fromJson: _parseInt) int? score,
+    @JsonKey(name: 'numberAnswered', fromJson: _parseInt) int? count,
   }) = _AnswerDistributionEntity;
 
   factory AnswerDistributionEntity.fromJson(Map<String, dynamic> json) =>
@@ -131,10 +138,9 @@ class AtRiskEmployeeEntity with _$AtRiskEmployeeEntity {
     @Default('')
     String anonymousUserId,
     @JsonKey(name: 'satisfaction_percentage') double? satisfactionPercentage,
-    @JsonKey(name: 'risk_score') double? riskScore,
     @JsonKey(name: 'low_scores_count') int? lowScoresCount,
     @JsonKey(name: 'total_responses') int? totalResponses,
-    @JsonKey(name: 'critical_themes') @Default([]) List<String> criticalThemes,
+    @JsonKey(name: 'critical_themes') @Default([]) List<String>? criticalThemes,
     @JsonKey(name: 'open_answer') String? openAnswer,
   }) = _AtRiskEmployeeEntity;
 
