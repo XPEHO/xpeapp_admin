@@ -181,7 +181,7 @@ class _QvstChartsFilterWidgetState
               activeColor: kDefaultXpehoColor,
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }

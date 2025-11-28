@@ -137,7 +137,7 @@ class _QvstContentAnalysisState extends ConsumerState<QvstContentAnalysis> {
             ),
           ],
         ),
-        SizedBox(height: QvstContentAnalysis._sectionSpacing),
+        const SizedBox(height: QvstContentAnalysis._sectionSpacing),
       ],
     );
   }
