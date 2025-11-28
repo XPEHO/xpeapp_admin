@@ -12,7 +12,10 @@ import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
 import 'package:xpeapp_admin/presentation/widgets/app_loader.dart';
 import 'package:xpeapp_admin/providers.dart';
+
 import 'package:yaki_ui/button.dart';
+
+const String kFontFamily = 'SF Pro Rounded';
 
 enum NewsletterTypePage {
   add,
@@ -235,47 +238,53 @@ class _NewsletterAddOrEditPageState
                         color: kDefaultXpehoColor,
                         size: 60,
                       )
-                    : Button.secondary(
-                        text:
-                            '${(widget.typePage == NewsletterTypePage.add) ? 'Ajouter' : 'Modifier'} la newsletter',
-                        onPressed: (isDateSelected &&
-                                summaryIsNotEmpty &&
-                                pdfLinkIsNotEmpty)
-                            ? () async {
-                                Timestamp? time = await _getPublicationDate();
-                                if (time != null) {
-                                  String summary =
-                                      summaryController.text.replaceAll(
-                                    '\n',
-                                    ',',
-                                  );
-                                  String? previewImagePath = await uploadImage(
-                                      DateFormat('yyyy-MM-dd')
-                                          .format(dateSelected!));
-                                  NewsletterEntity newsletterEntity =
-                                      NewsletterEntity(
-                                    summary: summary,
-                                    date: Timestamp.fromDate(dateSelected!),
-                                    pdfUrl: pdfLinkController.text,
-                                    picture: previewImagePath ?? '',
-                                    publicationDate: time,
-                                  );
-                                  if (widget.typePage ==
-                                      NewsletterTypePage.add) {
-                                    await sendNewsletter(newsletterEntity);
-                                  } else {
-                                    newsletterEntity =
-                                        newsletterEntity.copyWith(
-                                            id: widget.newsletter?.id,
-                                            picture: previewImagePath);
-                                    await updateNewsletter(newsletterEntity);
+                    : (() {
+                        final buttonText =
+                            widget.typePage == NewsletterTypePage.add
+                                ? 'Ajouter la newsletter'
+                                : 'Modifier la newsletter';
+                        return Button.secondary(
+                          text: buttonText,
+                          onPressed: (isDateSelected &&
+                                  summaryIsNotEmpty &&
+                                  pdfLinkIsNotEmpty)
+                              ? () async {
+                                  Timestamp? time = await _getPublicationDate();
+                                  if (time != null) {
+                                    String summary =
+                                        summaryController.text.replaceAll(
+                                      '\n',
+                                      ',',
+                                    );
+                                    String? previewImagePath =
+                                        await uploadImage(
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(dateSelected!));
+                                    NewsletterEntity newsletterEntity =
+                                        NewsletterEntity(
+                                      summary: summary,
+                                      date: Timestamp.fromDate(dateSelected!),
+                                      pdfUrl: pdfLinkController.text,
+                                      picture: previewImagePath ?? '',
+                                      publicationDate: time,
+                                    );
+                                    if (widget.typePage ==
+                                        NewsletterTypePage.add) {
+                                      await sendNewsletter(newsletterEntity);
+                                    } else {
+                                      newsletterEntity =
+                                          newsletterEntity.copyWith(
+                                              id: widget.newsletter?.id,
+                                              picture: previewImagePath);
+                                      await updateNewsletter(newsletterEntity);
+                                    }
+                                    // Redirect to the previous page
+                                    Navigator.pop(context);
                                   }
-                                  // Redirect to the previous page
-                                  Navigator.pop(context);
                                 }
-                              }
-                            : null,
-                      ),
+                              : null,
+                        );
+                      })(),
               ),
             ],
           ),
@@ -443,13 +452,13 @@ class _NewsletterAddOrEditPageState
             labelStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              fontFamily: 'SF Pro Rounded',
+              fontFamily: kFontFamily,
             ),
           ),
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            fontFamily: 'SF Pro Rounded',
+            fontFamily: kFontFamily,
           ),
         ),
       ),
@@ -583,7 +592,7 @@ class _NewsletterAddOrEditPageState
                       textStyle: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'SF Pro Rounded',
+                        fontFamily: kFontFamily,
                       ),
                     ),
                   )
