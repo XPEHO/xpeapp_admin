@@ -1,9 +1,9 @@
-import 'package:xpeapp_admin/data/utils/qvst_stats_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/providers.dart';
+import 'package:xpeapp_admin/presentation/pages/qvst/utils/qvst_stats_utils.dart';
 
 class QvstStatsTableView extends ConsumerStatefulWidget {
   final QvstStatsEntity stats;
@@ -119,7 +119,8 @@ class _QvstStatsTableViewState extends ConsumerState<QvstStatsTableView> {
               ),
               DataCell(
                 Text(
-                  _getPercentOfQuestion(question, isReversed),
+                  QvstStatsUtils.getPercentOfQuestion(question.answers,
+                      isReversed: isReversed),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 13,
@@ -129,7 +130,7 @@ class _QvstStatsTableViewState extends ConsumerState<QvstStatsTableView> {
               ),
               DataCell(
                 Text(
-                  _getAnswerMoreFrequent(question, isReversed),
+                  QvstStatsUtils.getAnswerMoreFrequent(question.answers),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 13,
@@ -141,17 +142,5 @@ class _QvstStatsTableViewState extends ConsumerState<QvstStatsTableView> {
         },
       ).toList(),
     );
-  }
-
-  String _getAnswerMoreFrequent(QvstQuestionEntity question,
-      [bool isReversed = false]) {
-    return QvstStatsUtils.getAnswerMoreFrequent(question.answers,
-        isReversed: isReversed);
-  }
-
-  String _getPercentOfQuestion(QvstQuestionEntity question,
-      [bool isReversed = false]) {
-    return QvstStatsUtils.getPercentOfQuestion(question.answers,
-        isReversed: isReversed, minValue: 1, maxValue: 5);
   }
 }
