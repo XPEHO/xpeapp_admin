@@ -111,69 +111,78 @@ class _QvstChartsFilterWidgetState
             ],
           ),
           if (_isExpanded) ...[
-            const SizedBox(height: 16),
-            const Text(
-              'Sélectionnez les graphiques à afficher :',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                color: Colors.grey,
-              ),
-            ),
-            const SizedBox(height: 12),
-            ...(_availableCharts.entries.map((entry) {
-              final chartKey = entry.key;
-              final chartName = entry.value;
-              final isVisible = chartsVisibility[chartKey] ?? true;
-              final icon = _chartIcons[chartKey] ?? Icons.insert_chart;
-
-              return Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: isVisible
-                        ? kDefaultXpehoColor.withAlpha(75)
-                        : Colors.grey.withAlpha(75),
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                  color: isVisible
-                      ? kDefaultXpehoColor.withAlpha(25)
-                      : Colors.grey.withAlpha(25),
-                ),
-                child: CheckboxListTile(
-                  title: Row(
-                    children: [
-                      Icon(
-                        icon,
-                        size: 20,
-                        color: isVisible ? kDefaultXpehoColor : Colors.grey,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        chartName,
-                        style: TextStyle(
-                          color: isVisible ? kDefaultXpehoColor : Colors.grey,
-                          fontWeight:
-                              isVisible ? FontWeight.w500 : FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                  value: isVisible,
-                  onChanged: (bool? value) {
-                    ref
-                        .read(analysisChartsVisibilityProvider.notifier)
-                        .toggleChart(chartKey);
-                  },
-                  dense: true,
-                  controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: kDefaultXpehoColor,
-                ),
-              );
-            }).toList()),
+            _buildExpandedFilterSection(chartsVisibility),
           ],
         ],
       ),
+    );
+  }
+
+  Widget _buildExpandedFilterSection(Map<String, bool> chartsVisibility) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16),
+        const Text(
+          'Sélectionnez les graphiques à afficher :',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            color: Colors.grey,
+          ),
+        ),
+        const SizedBox(height: 12),
+        ..._availableCharts.entries.map((entry) {
+          final chartKey = entry.key;
+          final chartName = entry.value;
+          final isVisible = chartsVisibility[chartKey] ?? true;
+          final icon = _chartIcons[chartKey] ?? Icons.insert_chart;
+
+          return Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: isVisible
+                    ? kDefaultXpehoColor.withAlpha(75)
+                    : Colors.grey.withAlpha(75),
+              ),
+              borderRadius: BorderRadius.circular(8),
+              color: isVisible
+                  ? kDefaultXpehoColor.withAlpha(25)
+                  : Colors.grey.withAlpha(25),
+            ),
+            child: CheckboxListTile(
+              title: Row(
+                children: [
+                  Icon(
+                    icon,
+                    size: 20,
+                    color: isVisible ? kDefaultXpehoColor : Colors.grey,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    chartName,
+                    style: TextStyle(
+                      color: isVisible ? kDefaultXpehoColor : Colors.grey,
+                      fontWeight:
+                          isVisible ? FontWeight.w500 : FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
+              value: isVisible,
+              onChanged: (bool? value) {
+                ref
+                    .read(analysisChartsVisibilityProvider.notifier)
+                    .toggleChart(chartKey);
+              },
+              dense: true,
+              controlAffinity: ListTileControlAffinity.leading,
+              activeColor: kDefaultXpehoColor,
+            ),
+          );
+        }).toList(),
+      ],
     );
   }
 }

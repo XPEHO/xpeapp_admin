@@ -65,7 +65,7 @@ class _QvstContentAnalysisState extends ConsumerState<QvstContentAnalysis> {
             _buildGlobalDistributionSection(adjustedData, chartsVisibility),
             _buildQuestionsDetailedSection(adjustedData, chartsVisibility),
             _buildAtRiskEmployeesSection(adjustedData, chartsVisibility),
-            SizedBox(height: QvstContentAnalysis._bottomPadding),
+            const SizedBox(height: QvstContentAnalysis._bottomPadding),
           ],
         ),
       ),
@@ -88,7 +88,7 @@ class _QvstContentAnalysisState extends ConsumerState<QvstContentAnalysis> {
             ),
           ],
         ),
-        SizedBox(height: QvstContentAnalysis._sectionSpacing),
+        const SizedBox(height: QvstContentAnalysis._sectionSpacing),
       ],
     );
   }
@@ -114,7 +114,7 @@ class _QvstContentAnalysisState extends ConsumerState<QvstContentAnalysis> {
             ),
           ],
         ),
-        SizedBox(height: QvstContentAnalysis._sectionSpacing),
+        const SizedBox(height: QvstContentAnalysis._sectionSpacing),
       ],
     );
   }
@@ -153,7 +153,7 @@ class _QvstContentAnalysisState extends ConsumerState<QvstContentAnalysis> {
         QuestionsDetailedChart(
           questionsAnalysis: adjustedData.questionsRequiringAction,
         ),
-        SizedBox(height: QvstContentAnalysis._sectionSpacing),
+        const SizedBox(height: QvstContentAnalysis._sectionSpacing),
       ],
     );
   }
@@ -187,6 +187,7 @@ class _QvstContentAnalysisState extends ConsumerState<QvstContentAnalysis> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         title: const Text("Erreur"),
       ),
       body: Center(
@@ -196,7 +197,7 @@ class _QvstContentAnalysisState extends ConsumerState<QvstContentAnalysis> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.error, size: 48, color: Colors.red),
-              SizedBox(height: QvstContentAnalysis._sectionSpacing),
+              const SizedBox(height: QvstContentAnalysis._sectionSpacing),
               Text(
                 "Erreur lors de la récupération de l'analyse",
                 style: Theme.of(context).textTheme.titleMedium,

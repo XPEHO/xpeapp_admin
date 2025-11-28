@@ -300,10 +300,9 @@ class QvstContentStats extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        // Menu de filtres flottant (seulement dans l'onglet analyse) - AU-DESSUS
+        // Menu de filtres flottant
         if (tabIndex == 1) _buildFilterMenu(ref),
         if (tabIndex == 1) const SizedBox(height: 16),
-        // Row des boutons principaux
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -330,7 +329,7 @@ class QvstContentStats extends ConsumerWidget {
               icon: Icons.clear_all,
             ),
             const SizedBox(width: 10),
-            // Bouton de filtre des graphiques (seulement dans l'onglet analyse)
+            // Bouton de filtre des graphiques
             if (tabIndex == 1)
               Tooltip(
                 message: "Filtrer les graphiques",
@@ -390,13 +389,12 @@ class QvstContentStats extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // En-tête
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: kDefaultXpehoColor,
-              borderRadius: const BorderRadius.only(
+              borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
               ),
@@ -416,7 +414,6 @@ class QvstContentStats extends ConsumerWidget {
               ],
             ),
           ),
-          // Liste des graphiques
           ...charts.entries.map((entry) {
             final key = entry.key;
             final chart = entry.value;
@@ -472,7 +469,6 @@ class QvstContentStats extends ConsumerWidget {
               ),
             );
           }),
-          // Bouton "Tout" en bas
           InkWell(
             onTap: () {
               ref.read(analysisChartsVisibilityProvider.notifier).toggleAll();
