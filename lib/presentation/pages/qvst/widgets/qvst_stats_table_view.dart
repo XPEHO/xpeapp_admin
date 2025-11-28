@@ -1,6 +1,6 @@
+import 'package:xpeapp_admin/data/utils/qvst_stats_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/providers.dart';
@@ -143,61 +143,15 @@ class _QvstStatsTableViewState extends ConsumerState<QvstStatsTableView> {
     );
   }
 
-  double calculateWeightedAverage(List<QvstAnswerEntity> answers,
-      [bool isReversed = false]) {
-    double totalValue = 0;
-    int totalResponses = 0;
-
-    for (var answer in answers) {
-      int value = int.parse(answer.value);
-      totalValue += value * answer.numberAnswered!;
-      totalResponses += answer.numberAnswered!;
-    }
-
-    return totalResponses > 0 ? totalValue / totalResponses : 0;
-  }
-
-  double mapToPercentage(double value, double minValue, double maxValue) {
-    return ((value - minValue) / (maxValue - minValue)) * 100;
-  }
-
   String _getAnswerMoreFrequent(QvstQuestionEntity question,
       [bool isReversed = false]) {
-    QvstAnswerEntity? answerMoreFrequent = question.answers.fold(
-      null,
-      (previousValue, element) => previousValue == null ||
-              element.numberAnswered! > previousValue.numberAnswered!
-          ? element
-          : previousValue,
-    );
-
-    if (answerMoreFrequent == null) return '';
-
-    // Si la question est inversée, ajouter une indication
-    String suffix = isReversed ? ' (inversé)' : '';
-    return answerMoreFrequent.answer + suffix;
+    return QvstStatsUtils.getAnswerMoreFrequent(question.answers,
+        isReversed: isReversed);
   }
 
   String _getPercentOfQuestion(QvstQuestionEntity question,
       [bool isReversed = false]) {
-    double average =
-        calculateWeightedAverage(question.answers, false); // Toujours false
-
-    // Définir la plage de valeurs (dans cet exemple, 1 à 5)
-    double minValue = 1;
-    double maxValue = 5;
-
-    // Convertir la moyenne pondérée en pourcentage
-    double percentage = mapToPercentage(average, minValue, maxValue);
-
-    // Si la question est inversée, inverser le pourcentage : 100% - pourcentage
-    if (isReversed) {
-      percentage = 100.0 - percentage;
-    }
-
-    // Arrondir le pourcentage à 2 décimales
-    return (percentage.isNegative)
-        ? '0 %'
-        : "${percentage.toStringAsFixed(2)} %";
+    return QvstStatsUtils.getPercentOfQuestion(question.answers,
+        isReversed: isReversed, minValue: 1, maxValue: 5);
   }
 }

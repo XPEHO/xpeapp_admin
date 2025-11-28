@@ -1,3 +1,4 @@
+import 'package:xpeapp_admin/data/utils/qvst_ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -103,25 +104,9 @@ class GlobalDistributionChart extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.blue.shade50,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.blue.shade200),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.info_outline, color: Colors.blue.shade700, size: 20),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Répartition globale des notes données par les collaborateurs.',
-                    style: TextStyle(color: Colors.blue.shade900, fontSize: 12),
-                  ),
-                ),
-              ],
-            ),
+          const QvstInfoBanner(
+            text:
+                'Répartition globale des notes données par les collaborateurs.',
           ),
         ],
       ),

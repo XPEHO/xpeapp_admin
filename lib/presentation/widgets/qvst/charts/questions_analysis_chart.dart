@@ -1,3 +1,5 @@
+import 'package:xpeapp_admin/data/utils/qvst_chart_utils.dart';
+import 'package:xpeapp_admin/data/utils/qvst_ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
@@ -64,11 +66,10 @@ class QuestionsAnalysisChart extends StatelessWidget {
                   xValueMapper: (_, i) => 'Question ${i + 1}',
                   yValueMapper: (q, _) => q.satisfactionPercentage,
                   dataLabelSettings: const DataLabelSettings(isVisible: true),
-                  // Couleur conditionnelle : rouge si < 75%, vert sinon
-                  pointColorMapper: (q, _) =>
-                      (q.satisfactionPercentage ?? 0) < 75
-                          ? Colors.red.shade400
-                          : Colors.green.shade400,
+                  pointColorMapper: (q, _) => (q.satisfactionPercentage ?? 0) <
+                          QvstConstants.satisfactionThreshold
+                      ? Colors.red.shade400
+                      : Colors.green.shade400,
                 ),
               ],
               tooltipBehavior: TooltipBehavior(
@@ -79,7 +80,9 @@ class QuestionsAnalysisChart extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        _infoBox(),
+        const QvstInfoBanner(
+          text: 'Plus il y a de rouge, plus la question pose problème.',
+        ),
       ],
     );
   }
@@ -88,36 +91,15 @@ class QuestionsAnalysisChart extends StatelessWidget {
     final q = questionsAnalysis[index];
     return Container(
       padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.black87,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      constraints: const BoxConstraints(maxWidth: 300),
-      child: Text(
-        '${q.questionText}\n${q.satisfactionPercentage?.toStringAsFixed(1) ?? '-'}%',
-        style: const TextStyle(color: Colors.white, fontSize: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Satisfaction : ${QvstFormatters.formatPercentage(q.satisfactionPercentage ?? 0)}',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
     );
   }
-
-  Widget _infoBox() => Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Colors.blue.shade50,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.blue.shade200),
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.info_outline, color: Colors.blue.shade700),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                'Aperçu des questions avec leur taux de satisfaction. Les questions en rouge ont une satisfaction < 75%.',
-                style: TextStyle(color: Colors.blue.shade900, fontSize: 12),
-              ),
-            ),
-          ],
-        ),
-      );
 }

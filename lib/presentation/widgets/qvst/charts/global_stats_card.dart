@@ -1,3 +1,5 @@
+import 'package:xpeapp_admin/data/utils/qvst_chart_utils.dart';
+import 'package:xpeapp_admin/data/utils/qvst_ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
 import 'package:xpeapp_admin/presentation/widgets/common/collapsible_card.dart';
@@ -77,7 +79,8 @@ class GlobalStatsCard extends StatelessWidget {
                   icon: Icons.percent,
                   label: 'Satisfaction moyenne',
                   value: stats.averageSatisfaction != null
-                      ? '${stats.averageSatisfaction!.toStringAsFixed(1)}%'
+                      ? QvstFormatters.formatPercentage(
+                          stats.averageSatisfaction!)
                       : '-',
                   color: showAlert ? Colors.red : Colors.green,
                 ),
@@ -93,36 +96,12 @@ class GlobalStatsCard extends StatelessWidget {
             ),
           ),
         ),
-        if (showAlert) _buildAlertBox(),
-      ],
-    );
-  }
-
-  Widget _buildAlertBox() {
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.red.shade50,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.red.shade300),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.warning, color: Colors.red.shade700),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              '⚠️ Attention : La satisfaction moyenne est inférieure à 75%. '
-              'Des actions sont nécessaires.',
-              style: TextStyle(
-                color: Colors.red.shade900,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+        if (showAlert)
+          const QvstAlertBox(
+            text:
+                '⚠️ Attention : La satisfaction moyenne est inférieure à ${QvstConstants.satisfactionThreshold}%. Des actions sont nécessaires.',
           ),
-        ],
-      ),
+      ],
     );
   }
 

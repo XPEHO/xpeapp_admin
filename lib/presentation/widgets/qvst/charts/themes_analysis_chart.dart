@@ -1,3 +1,5 @@
+import 'package:xpeapp_admin/data/utils/qvst_chart_utils.dart';
+import 'package:xpeapp_admin/data/utils/qvst_ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
@@ -8,7 +10,6 @@ class ThemesAnalysisChart extends StatelessWidget {
   final List<ThemeAnalysisEntity> themesAnalysis;
 
   static const double _chartHeight = 400.0;
-  static const double _satisfactionThreshold = 75.0;
   static const Color _satisfyingColor = Colors.green;
   static const Color _criticalColor = Colors.red;
   static const TextStyle _tooltipTitleStyle = TextStyle(
@@ -57,25 +58,17 @@ class ThemesAnalysisChart extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLegendItem(_satisfyingColor,
-            'Satisfaisant (≥ ${_satisfactionThreshold.toInt()}%)'),
-        const SizedBox(width: 20),
-        _buildLegendItem(_criticalColor,
-            'Action requise (< ${_satisfactionThreshold.toInt()}%)'),
-      ],
-    );
-  }
-
-  Widget _buildLegendItem(Color color, String label) {
-    return Row(
-      children: [
-        Container(
-          width: 16,
-          height: 16,
-          color: color,
+        QvstLegendItem(
+          color: _satisfyingColor,
+          label:
+              'Satisfaisant (≥ ${QvstConstants.satisfactionThreshold.toInt()}%)',
         ),
-        const SizedBox(width: 8),
-        Text(label),
+        const SizedBox(width: 20),
+        QvstLegendItem(
+          color: _criticalColor,
+          label:
+              'Action requise (< ${QvstConstants.satisfactionThreshold.toInt()}%)',
+        ),
       ],
     );
   }
@@ -164,12 +157,12 @@ class ThemesAnalysisChart extends StatelessWidget {
           Text(theme.themeName, style: _tooltipTitleStyle),
           const SizedBox(height: 4),
           Text(
-            'Satisfaction: ${theme.satisfactionPercentage?.toStringAsFixed(1) ?? '-'}%',
+            'Satisfaction: ${theme.satisfactionPercentage != null ? QvstFormatters.formatPercentage(theme.satisfactionPercentage!) : '-'}',
             style: _tooltipTextStyle,
           ),
           if ((theme.lowScoreQuestionsCount ?? 0) > 0)
             Text(
-              '${theme.lowScoreQuestionsCount ?? 0} question${(theme.lowScoreQuestionsCount ?? 0) > 1 ? 's' : ''} < ${_satisfactionThreshold.toInt()}%',
+              '${theme.lowScoreQuestionsCount ?? 0} question${(theme.lowScoreQuestionsCount ?? 0) > 1 ? 's' : ''} < ${QvstConstants.satisfactionThreshold.toInt()}%',
               style: const TextStyle(color: Colors.orangeAccent, fontSize: 11),
             ),
         ],
@@ -178,26 +171,9 @@ class ThemesAnalysisChart extends StatelessWidget {
   }
 
   Widget _buildInfoBanner() {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.blue.shade50,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.blue.shade200),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.info_outline, color: Colors.blue.shade700, size: 20),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              'Satisfaction moyenne par thème. Les colonnes rouges (< ${_satisfactionThreshold.toInt()}%) nécessitent une action. '
-              'Le tooltip indique le nombre de questions problématiques dans chaque thème.',
-              style: TextStyle(color: Colors.blue.shade900, fontSize: 12),
-            ),
-          ),
-        ],
-      ),
+    return const QvstInfoBanner(
+      text:
+          'Satisfaction moyenne par thème. Les colonnes rouges (< ${QvstConstants.satisfactionThreshold}%) nécessitent une action. Le tooltip indique le nombre de questions problématiques dans chaque thème.',
     );
   }
 }

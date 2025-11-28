@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
+import 'package:xpeapp_admin/data/utils/qvst_chart_utils.dart';
 import 'package:xpeapp_admin/presentation/widgets/common/collapsible_card.dart';
 import 'package:xpeapp_admin/presentation/widgets/common/screenshot_button.dart';
 
@@ -67,7 +68,7 @@ class AtRiskEmployeesWidget extends StatelessWidget {
       color: Colors.red.shade50,
       child: ExpansionTile(
         leading: CircleAvatar(
-          backgroundColor: _getSatisfactionColor(satisfaction),
+          backgroundColor: QvstChartUtils.getSatisfactionColor(satisfaction),
           child: Text('#$index', style: const TextStyle(color: Colors.white)),
         ),
         title: Text(
@@ -111,15 +112,6 @@ class AtRiskEmployeesWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Color _getSatisfactionColor(double satisfaction) {
-    return switch (satisfaction) {
-      >= 75 => Colors.green.shade700,
-      >= 50 => Colors.orange.shade700,
-      >= 25 => Colors.red.shade700,
-      _ => Colors.red.shade900,
-    };
   }
 }
 

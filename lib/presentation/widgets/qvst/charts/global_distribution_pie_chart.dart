@@ -1,6 +1,8 @@
+import 'package:xpeapp_admin/data/utils/qvst_ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
+import 'package:xpeapp_admin/data/utils/qvst_chart_utils.dart';
 import 'package:xpeapp_admin/presentation/widgets/common/collapsible_card.dart';
 import 'package:xpeapp_admin/presentation/widgets/common/screenshot_button.dart';
 
@@ -14,24 +16,7 @@ class GlobalDistributionPieChart extends StatelessWidget {
     this.answerLabels,
   });
 
-  // Référentiel complet des types de réponses possibles
-  static const Map<int, String> _globalAnswerLabels = {
-    1: 'Très faible / Jamais / Pas du tout',
-    2: 'Faible / Rarement / Plutôt non',
-    3: 'Moyen / Occasionnellement / Cela dépend',
-    4: 'Bien / Assez souvent / Plutôt oui',
-    5: 'Excellent / Très souvent / Tout à fait',
-  };
-
   List<_ChartData> _prepareData() {
-    final colors = [
-      Colors.red.shade700,
-      Colors.orange.shade700,
-      Colors.grey.shade500,
-      Colors.lightGreen.shade600,
-      Colors.green.shade700,
-    ];
-
     final scoreMap = {
       for (final d in distribution)
         if (d.score != null && d.count != null) d.score!: d.count!,
@@ -40,9 +25,9 @@ class GlobalDistributionPieChart extends StatelessWidget {
     return List.generate(5, (i) {
       final score = i + 1;
       return _ChartData(
-        _globalAnswerLabels[score] ?? 'Note $score',
+        QvstChartUtils.getLabelForScore(score),
         scoreMap[score] ?? 0,
-        colors[i],
+        QvstChartUtils.getColorForScore(score),
       );
     }).where((d) => d.count > 0).toList();
   }
@@ -105,7 +90,7 @@ class GlobalDistributionPieChart extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
-                        '${d.label}\n${d.count} réponses\n${pct.toStringAsFixed(1)}%',
+                        '${d.label}\n${d.count} réponses\n${QvstFormatters.formatPercentage(pct)}',
                         style:
                             const TextStyle(color: Colors.white, fontSize: 11),
                       ),
@@ -116,38 +101,16 @@ class GlobalDistributionPieChart extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          _InfoBox(),
-        ],
-      ),
-    );
-  }
-}
-
-class _InfoBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.blue.shade50,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.blue.shade200),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.info_outline, color: Colors.blue.shade700, size: 20),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              'Vue synthétique de la distribution des réponses.',
-              style: TextStyle(color: Colors.blue.shade900, fontSize: 12),
-            ),
+          const QvstInfoBanner(
+            text: 'Vue synthétique de la distribution des réponses.',
           ),
         ],
       ),
     );
   }
 }
+
+// QvstInfoBanner utilisé à la place de _InfoBox
 
 class _ChartData {
   final String label;
