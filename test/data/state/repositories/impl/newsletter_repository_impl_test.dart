@@ -52,8 +52,8 @@ void main() {
       when(
         mockBackendApi.sendNotification(
           {
-            'title': 'Une nouvelle newsletter est disponible !',
-            'message': newsletterTest.summary,
+            'title': 'Nouvelle newsletter !',
+            'message': "Restez informé avec notre nouvelle newsletter !",
           },
         ),
       ).thenAnswer(
