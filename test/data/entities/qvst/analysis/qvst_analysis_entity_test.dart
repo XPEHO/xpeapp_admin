@@ -9,8 +9,8 @@ void main() {
       expect(entity.campaignId, isNull);
       expect(entity.campaignName, '');
       expect(entity.campaignStatus, '');
-      expect(entity.startDate, '');
-      expect(entity.endDate, '');
+      expect(entity.startDate, isNull);
+      expect(entity.endDate, isNull);
       expect(entity.themes, isEmpty);
       expect(entity.globalStats, isNull);
       expect(entity.globalDistribution, isEmpty);
