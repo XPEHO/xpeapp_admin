@@ -10,6 +10,8 @@ class GlobalDistributionPieChart extends StatelessWidget {
   final List<GlobalDistributionEntity> distribution;
   final Map<int, String>? answerLabels;
 
+  static const int _maxResponseScore = 5;
+
   const GlobalDistributionPieChart({
     super.key,
     required this.distribution,
@@ -17,15 +19,14 @@ class GlobalDistributionPieChart extends StatelessWidget {
   });
 
   List<_ChartData> _prepareData() {
-    final scoreMap = {
-      for (final d in distribution)
-        if (d.score != null && d.count != null) d.score!: d.count!,
-    };
+    final filteredDistribution =
+        distribution.where((d) => d.score != null && d.count != null);
+    final scoreMap = {for (var d in filteredDistribution) d.score: d.count};
 
-    return List.generate(5, (i) {
+    return List.generate(_maxResponseScore, (i) {
       final score = i + 1;
       return _ChartData(
-        QvstChartUtils.getLabelForScore(score),
+        QvstChartUtils.getLabelForScore(score, labels: answerLabels),
         scoreMap[score] ?? 0,
         QvstChartUtils.getColorForScore(score),
       );
@@ -109,8 +110,6 @@ class GlobalDistributionPieChart extends StatelessWidget {
     );
   }
 }
-
-// QvstInfoBanner utilisé à la place de _InfoBox
 
 class _ChartData {
   final String label;

@@ -84,18 +84,6 @@ class AtRiskEmployeesWidget extends StatelessWidget {
               children: [
                 _InfoRow(Icons.people, 'Réponses totales',
                     '${employee.totalResponses ?? '-'}'),
-                // Retirer l'affichage des réponses faibles car pas disponible
-                // const SizedBox(height: 8),
-                // _InfoRow(Icons.trending_down, 'Réponses faibles',
-                //     '${employee.lowScoresCount ?? '-'} / ${employee.totalResponses ?? '-'}'),
-                // Retirer l'affichage des thèmes critiques car pas disponible
-                // const SizedBox(height: 8),
-                // _InfoRow(
-                //     Icons.category,
-                //     'Thèmes critiques',
-                //     (employee.criticalThemes?.isEmpty ?? true)
-                //         ? '-'
-                //         : employee.criticalThemes!.join(', ')),
                 if (employee.openAnswer?.isNotEmpty == true) ...[
                   const SizedBox(height: 8),
                   const Divider(),

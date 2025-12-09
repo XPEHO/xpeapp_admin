@@ -12,8 +12,12 @@ _$QvstAnalysisEntityImpl _$$QvstAnalysisEntityImplFromJson(
       campaignId: (json['campaign_id'] as num?)?.toInt(),
       campaignName: json['campaign_name'] as String? ?? '',
       campaignStatus: json['campaign_status'] as String? ?? '',
-      startDate: json['start_date'] as String? ?? '',
-      endDate: json['end_date'] as String? ?? '',
+      startDate: json['start_date'] == null
+          ? null
+          : DateTime.parse(json['start_date'] as String),
+      endDate: json['end_date'] == null
+          ? null
+          : DateTime.parse(json['end_date'] as String),
       themes: (json['themes'] as List<dynamic>?)
               ?.map((e) => QvstThemeEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -56,8 +60,8 @@ Map<String, dynamic> _$$QvstAnalysisEntityImplToJson(
       'campaign_id': instance.campaignId,
       'campaign_name': instance.campaignName,
       'campaign_status': instance.campaignStatus,
-      'start_date': instance.startDate,
-      'end_date': instance.endDate,
+      'start_date': instance.startDate?.toIso8601String(),
+      'end_date': instance.endDate?.toIso8601String(),
       'themes': instance.themes,
       'global_stats': instance.globalStats,
       'global_distribution': instance.globalDistribution,
@@ -70,11 +74,11 @@ Map<String, dynamic> _$$QvstAnalysisEntityImplToJson(
 _$GlobalStatsEntityImpl _$$GlobalStatsEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$GlobalStatsEntityImpl(
-      totalRespondents: _parseInt(json['total_respondents']),
-      totalQuestions: _parseInt(json['total_questions']),
+      totalRespondents: (json['total_respondents'] as num?)?.toInt(),
+      totalQuestions: (json['total_questions'] as num?)?.toInt(),
       averageSatisfaction: (json['average_satisfaction'] as num?)?.toDouble(),
       requiresAction: json['requires_action'] as bool?,
-      atRiskCount: _parseInt(json['at_risk_count']),
+      atRiskCount: (json['at_risk_count'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$GlobalStatsEntityImplToJson(
@@ -165,8 +169,8 @@ _$AnswerDistributionEntityImpl _$$AnswerDistributionEntityImplFromJson(
     _$AnswerDistributionEntityImpl(
       answerId: json['id'] as String? ?? '',
       answerText: json['answer'] as String? ?? '',
-      score: _parseInt(json['value']),
-      count: _parseInt(json['numberAnswered']),
+      score: json['value'] as String?,
+      count: (json['numberAnswered'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$AnswerDistributionEntityImplToJson(

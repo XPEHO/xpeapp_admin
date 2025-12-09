@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 
 class QvstChartUtils {
-  static const Map<int, String> globalAnswerLabels = {
-    1: 'Très faible / Jamais / Pas du tout',
-    2: 'Faible / Rarement / Plutôt non',
-    3: 'Moyen / Occasionnellement / Cela dépend',
-    4: 'Bien / Assez souvent / Plutôt oui',
-    5: 'Excellent / Très souvent / Tout à fait',
-  };
-
   static const List<Color> globalScoreColors = [
     Color(0xFFD32F2F),
     Color(0xFFF57C00),
@@ -17,8 +9,11 @@ class QvstChartUtils {
     Color(0xFF388E3C),
   ];
 
-  static String getLabelForScore(int score) {
-    return globalAnswerLabels[score] ?? 'Note $score';
+  static String getLabelForScore(int score, {Map<int, String>? labels}) {
+    if (labels != null && labels.containsKey(score)) {
+      return labels[score]!;
+    }
+    return 'Note $score';
   }
 
   static Color getColorForScore(int score) {

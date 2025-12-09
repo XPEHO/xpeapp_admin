@@ -26,10 +26,10 @@ mixin _$QvstAnalysisEntity {
   String get campaignName => throw _privateConstructorUsedError;
   @JsonKey(name: 'campaign_status', defaultValue: '')
   String get campaignStatus => throw _privateConstructorUsedError;
-  @JsonKey(name: 'start_date', defaultValue: '')
-  String get startDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'end_date', defaultValue: '')
-  String get endDate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'start_date')
+  DateTime? get startDate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'end_date')
+  DateTime? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'themes')
   List<QvstThemeEntity> get themes => throw _privateConstructorUsedError;
   @JsonKey(name: 'global_stats')
@@ -70,8 +70,8 @@ abstract class $QvstAnalysisEntityCopyWith<$Res> {
       {@JsonKey(name: 'campaign_id') int? campaignId,
       @JsonKey(name: 'campaign_name', defaultValue: '') String campaignName,
       @JsonKey(name: 'campaign_status', defaultValue: '') String campaignStatus,
-      @JsonKey(name: 'start_date', defaultValue: '') String startDate,
-      @JsonKey(name: 'end_date', defaultValue: '') String endDate,
+      @JsonKey(name: 'start_date') DateTime? startDate,
+      @JsonKey(name: 'end_date') DateTime? endDate,
       @JsonKey(name: 'themes') List<QvstThemeEntity> themes,
       @JsonKey(name: 'global_stats') GlobalStatsEntity? globalStats,
       @JsonKey(name: 'global_distribution')
@@ -106,8 +106,8 @@ class _$QvstAnalysisEntityCopyWithImpl<$Res, $Val extends QvstAnalysisEntity>
     Object? campaignId = freezed,
     Object? campaignName = null,
     Object? campaignStatus = null,
-    Object? startDate = null,
-    Object? endDate = null,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
     Object? themes = null,
     Object? globalStats = freezed,
     Object? globalDistribution = freezed,
@@ -129,14 +129,14 @@ class _$QvstAnalysisEntityCopyWithImpl<$Res, $Val extends QvstAnalysisEntity>
           ? _value.campaignStatus
           : campaignStatus // ignore: cast_nullable_to_non_nullable
               as String,
-      startDate: null == startDate
+      startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      endDate: null == endDate
+              as DateTime?,
+      endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime?,
       themes: null == themes
           ? _value.themes
           : themes // ignore: cast_nullable_to_non_nullable
@@ -195,8 +195,8 @@ abstract class _$$QvstAnalysisEntityImplCopyWith<$Res>
       {@JsonKey(name: 'campaign_id') int? campaignId,
       @JsonKey(name: 'campaign_name', defaultValue: '') String campaignName,
       @JsonKey(name: 'campaign_status', defaultValue: '') String campaignStatus,
-      @JsonKey(name: 'start_date', defaultValue: '') String startDate,
-      @JsonKey(name: 'end_date', defaultValue: '') String endDate,
+      @JsonKey(name: 'start_date') DateTime? startDate,
+      @JsonKey(name: 'end_date') DateTime? endDate,
       @JsonKey(name: 'themes') List<QvstThemeEntity> themes,
       @JsonKey(name: 'global_stats') GlobalStatsEntity? globalStats,
       @JsonKey(name: 'global_distribution')
@@ -230,8 +230,8 @@ class __$$QvstAnalysisEntityImplCopyWithImpl<$Res>
     Object? campaignId = freezed,
     Object? campaignName = null,
     Object? campaignStatus = null,
-    Object? startDate = null,
-    Object? endDate = null,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
     Object? themes = null,
     Object? globalStats = freezed,
     Object? globalDistribution = freezed,
@@ -253,14 +253,14 @@ class __$$QvstAnalysisEntityImplCopyWithImpl<$Res>
           ? _value.campaignStatus
           : campaignStatus // ignore: cast_nullable_to_non_nullable
               as String,
-      startDate: null == startDate
+      startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      endDate: null == endDate
+              as DateTime?,
+      endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime?,
       themes: null == themes
           ? _value._themes
           : themes // ignore: cast_nullable_to_non_nullable
@@ -301,8 +301,8 @@ class _$QvstAnalysisEntityImpl implements _QvstAnalysisEntity {
       @JsonKey(name: 'campaign_name', defaultValue: '') this.campaignName = '',
       @JsonKey(name: 'campaign_status', defaultValue: '')
       this.campaignStatus = '',
-      @JsonKey(name: 'start_date', defaultValue: '') this.startDate = '',
-      @JsonKey(name: 'end_date', defaultValue: '') this.endDate = '',
+      @JsonKey(name: 'start_date') this.startDate,
+      @JsonKey(name: 'end_date') this.endDate,
       @JsonKey(name: 'themes') final List<QvstThemeEntity> themes = const [],
       @JsonKey(name: 'global_stats') this.globalStats,
       @JsonKey(name: 'global_distribution')
@@ -335,11 +335,11 @@ class _$QvstAnalysisEntityImpl implements _QvstAnalysisEntity {
   @JsonKey(name: 'campaign_status', defaultValue: '')
   final String campaignStatus;
   @override
-  @JsonKey(name: 'start_date', defaultValue: '')
-  final String startDate;
+  @JsonKey(name: 'start_date')
+  final DateTime? startDate;
   @override
-  @JsonKey(name: 'end_date', defaultValue: '')
-  final String endDate;
+  @JsonKey(name: 'end_date')
+  final DateTime? endDate;
   final List<QvstThemeEntity> _themes;
   @override
   @JsonKey(name: 'themes')
@@ -479,8 +479,8 @@ abstract class _QvstAnalysisEntity implements QvstAnalysisEntity {
           final String campaignName,
           @JsonKey(name: 'campaign_status', defaultValue: '')
           final String campaignStatus,
-          @JsonKey(name: 'start_date', defaultValue: '') final String startDate,
-          @JsonKey(name: 'end_date', defaultValue: '') final String endDate,
+          @JsonKey(name: 'start_date') final DateTime? startDate,
+          @JsonKey(name: 'end_date') final DateTime? endDate,
           @JsonKey(name: 'themes') final List<QvstThemeEntity> themes,
           @JsonKey(name: 'global_stats') final GlobalStatsEntity? globalStats,
           @JsonKey(name: 'global_distribution')
@@ -508,11 +508,11 @@ abstract class _QvstAnalysisEntity implements QvstAnalysisEntity {
   @JsonKey(name: 'campaign_status', defaultValue: '')
   String get campaignStatus;
   @override
-  @JsonKey(name: 'start_date', defaultValue: '')
-  String get startDate;
+  @JsonKey(name: 'start_date')
+  DateTime? get startDate;
   @override
-  @JsonKey(name: 'end_date', defaultValue: '')
-  String get endDate;
+  @JsonKey(name: 'end_date')
+  DateTime? get endDate;
   @override
   @JsonKey(name: 'themes')
   List<QvstThemeEntity> get themes;
@@ -549,15 +549,15 @@ GlobalStatsEntity _$GlobalStatsEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GlobalStatsEntity {
-  @JsonKey(name: 'total_respondents', fromJson: _parseInt)
+  @JsonKey(name: 'total_respondents')
   int? get totalRespondents => throw _privateConstructorUsedError;
-  @JsonKey(name: 'total_questions', fromJson: _parseInt)
+  @JsonKey(name: 'total_questions')
   int? get totalQuestions => throw _privateConstructorUsedError;
   @JsonKey(name: 'average_satisfaction')
   double? get averageSatisfaction => throw _privateConstructorUsedError;
   @JsonKey(name: 'requires_action')
   bool? get requiresAction => throw _privateConstructorUsedError;
-  @JsonKey(name: 'at_risk_count', fromJson: _parseInt)
+  @JsonKey(name: 'at_risk_count')
   int? get atRiskCount => throw _privateConstructorUsedError;
 
   /// Serializes this GlobalStatsEntity to a JSON map.
@@ -577,13 +577,11 @@ abstract class $GlobalStatsEntityCopyWith<$Res> {
       _$GlobalStatsEntityCopyWithImpl<$Res, GlobalStatsEntity>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'total_respondents', fromJson: _parseInt)
-      int? totalRespondents,
-      @JsonKey(name: 'total_questions', fromJson: _parseInt)
-      int? totalQuestions,
+      {@JsonKey(name: 'total_respondents') int? totalRespondents,
+      @JsonKey(name: 'total_questions') int? totalQuestions,
       @JsonKey(name: 'average_satisfaction') double? averageSatisfaction,
       @JsonKey(name: 'requires_action') bool? requiresAction,
-      @JsonKey(name: 'at_risk_count', fromJson: _parseInt) int? atRiskCount});
+      @JsonKey(name: 'at_risk_count') int? atRiskCount});
 }
 
 /// @nodoc
@@ -641,13 +639,11 @@ abstract class _$$GlobalStatsEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'total_respondents', fromJson: _parseInt)
-      int? totalRespondents,
-      @JsonKey(name: 'total_questions', fromJson: _parseInt)
-      int? totalQuestions,
+      {@JsonKey(name: 'total_respondents') int? totalRespondents,
+      @JsonKey(name: 'total_questions') int? totalQuestions,
       @JsonKey(name: 'average_satisfaction') double? averageSatisfaction,
       @JsonKey(name: 'requires_action') bool? requiresAction,
-      @JsonKey(name: 'at_risk_count', fromJson: _parseInt) int? atRiskCount});
+      @JsonKey(name: 'at_risk_count') int? atRiskCount});
 }
 
 /// @nodoc
@@ -698,22 +694,20 @@ class __$$GlobalStatsEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GlobalStatsEntityImpl implements _GlobalStatsEntity {
   const _$GlobalStatsEntityImpl(
-      {@JsonKey(name: 'total_respondents', fromJson: _parseInt)
-      this.totalRespondents,
-      @JsonKey(name: 'total_questions', fromJson: _parseInt)
-      this.totalQuestions,
+      {@JsonKey(name: 'total_respondents') this.totalRespondents,
+      @JsonKey(name: 'total_questions') this.totalQuestions,
       @JsonKey(name: 'average_satisfaction') this.averageSatisfaction,
       @JsonKey(name: 'requires_action') this.requiresAction,
-      @JsonKey(name: 'at_risk_count', fromJson: _parseInt) this.atRiskCount});
+      @JsonKey(name: 'at_risk_count') this.atRiskCount});
 
   factory _$GlobalStatsEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$GlobalStatsEntityImplFromJson(json);
 
   @override
-  @JsonKey(name: 'total_respondents', fromJson: _parseInt)
+  @JsonKey(name: 'total_respondents')
   final int? totalRespondents;
   @override
-  @JsonKey(name: 'total_questions', fromJson: _parseInt)
+  @JsonKey(name: 'total_questions')
   final int? totalQuestions;
   @override
   @JsonKey(name: 'average_satisfaction')
@@ -722,7 +716,7 @@ class _$GlobalStatsEntityImpl implements _GlobalStatsEntity {
   @JsonKey(name: 'requires_action')
   final bool? requiresAction;
   @override
-  @JsonKey(name: 'at_risk_count', fromJson: _parseInt)
+  @JsonKey(name: 'at_risk_count')
   final int? atRiskCount;
 
   @override
@@ -771,23 +765,21 @@ class _$GlobalStatsEntityImpl implements _GlobalStatsEntity {
 
 abstract class _GlobalStatsEntity implements GlobalStatsEntity {
   const factory _GlobalStatsEntity(
-      {@JsonKey(name: 'total_respondents', fromJson: _parseInt)
-      final int? totalRespondents,
-      @JsonKey(name: 'total_questions', fromJson: _parseInt)
-      final int? totalQuestions,
+      {@JsonKey(name: 'total_respondents') final int? totalRespondents,
+      @JsonKey(name: 'total_questions') final int? totalQuestions,
       @JsonKey(name: 'average_satisfaction') final double? averageSatisfaction,
       @JsonKey(name: 'requires_action') final bool? requiresAction,
-      @JsonKey(name: 'at_risk_count', fromJson: _parseInt)
+      @JsonKey(name: 'at_risk_count')
       final int? atRiskCount}) = _$GlobalStatsEntityImpl;
 
   factory _GlobalStatsEntity.fromJson(Map<String, dynamic> json) =
       _$GlobalStatsEntityImpl.fromJson;
 
   @override
-  @JsonKey(name: 'total_respondents', fromJson: _parseInt)
+  @JsonKey(name: 'total_respondents')
   int? get totalRespondents;
   @override
-  @JsonKey(name: 'total_questions', fromJson: _parseInt)
+  @JsonKey(name: 'total_questions')
   int? get totalQuestions;
   @override
   @JsonKey(name: 'average_satisfaction')
@@ -796,7 +788,7 @@ abstract class _GlobalStatsEntity implements GlobalStatsEntity {
   @JsonKey(name: 'requires_action')
   bool? get requiresAction;
   @override
-  @JsonKey(name: 'at_risk_count', fromJson: _parseInt)
+  @JsonKey(name: 'at_risk_count')
   int? get atRiskCount;
 
   /// Create a copy of GlobalStatsEntity
@@ -1677,9 +1669,9 @@ mixin _$AnswerDistributionEntity {
   String get answerId => throw _privateConstructorUsedError;
   @JsonKey(name: 'answer', defaultValue: '')
   String get answerText => throw _privateConstructorUsedError;
-  @JsonKey(name: 'value', fromJson: _parseInt)
-  int? get score => throw _privateConstructorUsedError;
-  @JsonKey(name: 'numberAnswered', fromJson: _parseInt)
+  @JsonKey(name: 'value')
+  String? get score => throw _privateConstructorUsedError;
+  @JsonKey(name: 'numberAnswered')
   int? get count => throw _privateConstructorUsedError;
 
   /// Serializes this AnswerDistributionEntity to a JSON map.
@@ -1701,8 +1693,8 @@ abstract class $AnswerDistributionEntityCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id', defaultValue: '') String answerId,
       @JsonKey(name: 'answer', defaultValue: '') String answerText,
-      @JsonKey(name: 'value', fromJson: _parseInt) int? score,
-      @JsonKey(name: 'numberAnswered', fromJson: _parseInt) int? count});
+      @JsonKey(name: 'value') String? score,
+      @JsonKey(name: 'numberAnswered') int? count});
 }
 
 /// @nodoc
@@ -1738,7 +1730,7 @@ class _$AnswerDistributionEntityCopyWithImpl<$Res,
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -1759,8 +1751,8 @@ abstract class _$$AnswerDistributionEntityImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'id', defaultValue: '') String answerId,
       @JsonKey(name: 'answer', defaultValue: '') String answerText,
-      @JsonKey(name: 'value', fromJson: _parseInt) int? score,
-      @JsonKey(name: 'numberAnswered', fromJson: _parseInt) int? count});
+      @JsonKey(name: 'value') String? score,
+      @JsonKey(name: 'numberAnswered') int? count});
 }
 
 /// @nodoc
@@ -1795,7 +1787,7 @@ class __$$AnswerDistributionEntityImplCopyWithImpl<$Res>
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -1810,8 +1802,8 @@ class _$AnswerDistributionEntityImpl implements _AnswerDistributionEntity {
   const _$AnswerDistributionEntityImpl(
       {@JsonKey(name: 'id', defaultValue: '') this.answerId = '',
       @JsonKey(name: 'answer', defaultValue: '') this.answerText = '',
-      @JsonKey(name: 'value', fromJson: _parseInt) this.score,
-      @JsonKey(name: 'numberAnswered', fromJson: _parseInt) this.count});
+      @JsonKey(name: 'value') this.score,
+      @JsonKey(name: 'numberAnswered') this.count});
 
   factory _$AnswerDistributionEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$AnswerDistributionEntityImplFromJson(json);
@@ -1823,10 +1815,10 @@ class _$AnswerDistributionEntityImpl implements _AnswerDistributionEntity {
   @JsonKey(name: 'answer', defaultValue: '')
   final String answerText;
   @override
-  @JsonKey(name: 'value', fromJson: _parseInt)
-  final int? score;
+  @JsonKey(name: 'value')
+  final String? score;
   @override
-  @JsonKey(name: 'numberAnswered', fromJson: _parseInt)
+  @JsonKey(name: 'numberAnswered')
   final int? count;
 
   @override
@@ -1871,11 +1863,11 @@ class _$AnswerDistributionEntityImpl implements _AnswerDistributionEntity {
 
 abstract class _AnswerDistributionEntity implements AnswerDistributionEntity {
   const factory _AnswerDistributionEntity(
-      {@JsonKey(name: 'id', defaultValue: '') final String answerId,
-      @JsonKey(name: 'answer', defaultValue: '') final String answerText,
-      @JsonKey(name: 'value', fromJson: _parseInt) final int? score,
-      @JsonKey(name: 'numberAnswered', fromJson: _parseInt)
-      final int? count}) = _$AnswerDistributionEntityImpl;
+          {@JsonKey(name: 'id', defaultValue: '') final String answerId,
+          @JsonKey(name: 'answer', defaultValue: '') final String answerText,
+          @JsonKey(name: 'value') final String? score,
+          @JsonKey(name: 'numberAnswered') final int? count}) =
+      _$AnswerDistributionEntityImpl;
 
   factory _AnswerDistributionEntity.fromJson(Map<String, dynamic> json) =
       _$AnswerDistributionEntityImpl.fromJson;
@@ -1887,10 +1879,10 @@ abstract class _AnswerDistributionEntity implements AnswerDistributionEntity {
   @JsonKey(name: 'answer', defaultValue: '')
   String get answerText;
   @override
-  @JsonKey(name: 'value', fromJson: _parseInt)
-  int? get score;
+  @JsonKey(name: 'value')
+  String? get score;
   @override
-  @JsonKey(name: 'numberAnswered', fromJson: _parseInt)
+  @JsonKey(name: 'numberAnswered')
   int? get count;
 
   /// Create a copy of AnswerDistributionEntity

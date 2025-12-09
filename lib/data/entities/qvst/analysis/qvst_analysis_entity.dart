@@ -4,15 +4,6 @@ import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 part 'qvst_analysis_entity.freezed.dart';
 part 'qvst_analysis_entity.g.dart';
 
-// Helper function pour parser les valeurs numériques qui peuvent être des strings
-int? _parseInt(dynamic value) {
-  if (value == null) return null;
-  if (value is int) return value;
-  if (value is String) return int.tryParse(value);
-  if (value is double) return value.round();
-  return null;
-}
-
 @freezed
 class QvstAnalysisEntity with _$QvstAnalysisEntity {
   const factory QvstAnalysisEntity({
@@ -23,10 +14,8 @@ class QvstAnalysisEntity with _$QvstAnalysisEntity {
     @JsonKey(name: 'campaign_status', defaultValue: '')
     @Default('')
     String campaignStatus,
-    @JsonKey(name: 'start_date', defaultValue: '')
-    @Default('')
-    String startDate,
-    @JsonKey(name: 'end_date', defaultValue: '') @Default('') String endDate,
+    @JsonKey(name: 'start_date') DateTime? startDate,
+    @JsonKey(name: 'end_date') DateTime? endDate,
     @JsonKey(name: 'themes') @Default([]) List<QvstThemeEntity> themes,
     @JsonKey(name: 'global_stats') GlobalStatsEntity? globalStats,
     @JsonKey(name: 'global_distribution')
@@ -53,12 +42,11 @@ class QvstAnalysisEntity with _$QvstAnalysisEntity {
 @freezed
 class GlobalStatsEntity with _$GlobalStatsEntity {
   const factory GlobalStatsEntity({
-    @JsonKey(name: 'total_respondents', fromJson: _parseInt)
-    int? totalRespondents,
-    @JsonKey(name: 'total_questions', fromJson: _parseInt) int? totalQuestions,
+    @JsonKey(name: 'total_respondents') int? totalRespondents,
+    @JsonKey(name: 'total_questions') int? totalQuestions,
     @JsonKey(name: 'average_satisfaction') double? averageSatisfaction,
     @JsonKey(name: 'requires_action') bool? requiresAction,
-    @JsonKey(name: 'at_risk_count', fromJson: _parseInt) int? atRiskCount,
+    @JsonKey(name: 'at_risk_count') int? atRiskCount,
   }) = _GlobalStatsEntity;
 
   factory GlobalStatsEntity.fromJson(Map<String, dynamic> json) =>
@@ -123,8 +111,8 @@ class AnswerDistributionEntity with _$AnswerDistributionEntity {
   const factory AnswerDistributionEntity({
     @JsonKey(name: 'id', defaultValue: '') @Default('') String answerId,
     @JsonKey(name: 'answer', defaultValue: '') @Default('') String answerText,
-    @JsonKey(name: 'value', fromJson: _parseInt) int? score,
-    @JsonKey(name: 'numberAnswered', fromJson: _parseInt) int? count,
+    @JsonKey(name: 'value') String? score,
+    @JsonKey(name: 'numberAnswered') int? count,
   }) = _AnswerDistributionEntity;
 
   factory AnswerDistributionEntity.fromJson(Map<String, dynamic> json) =>

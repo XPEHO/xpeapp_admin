@@ -26,10 +26,8 @@ mixin _$QvstStatsEntity {
   String get campaignName => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: '')
   String get campaignStatus => throw _privateConstructorUsedError;
-  @JsonKey(defaultValue: '')
-  String get startDate => throw _privateConstructorUsedError;
-  @JsonKey(defaultValue: '')
-  String get endDate => throw _privateConstructorUsedError;
+  DateTime? get startDate => throw _privateConstructorUsedError;
+  DateTime? get endDate => throw _privateConstructorUsedError;
   List<QvstThemeEntity> get themes => throw _privateConstructorUsedError;
   List<QvstQuestionEntity> get questions => throw _privateConstructorUsedError;
   String? get action => throw _privateConstructorUsedError;
@@ -54,8 +52,8 @@ abstract class $QvstStatsEntityCopyWith<$Res> {
       {@JsonKey(defaultValue: '') String campaignId,
       @JsonKey(defaultValue: '') String campaignName,
       @JsonKey(defaultValue: '') String campaignStatus,
-      @JsonKey(defaultValue: '') String startDate,
-      @JsonKey(defaultValue: '') String endDate,
+      DateTime? startDate,
+      DateTime? endDate,
       List<QvstThemeEntity> themes,
       List<QvstQuestionEntity> questions,
       String? action});
@@ -79,8 +77,8 @@ class _$QvstStatsEntityCopyWithImpl<$Res, $Val extends QvstStatsEntity>
     Object? campaignId = null,
     Object? campaignName = null,
     Object? campaignStatus = null,
-    Object? startDate = null,
-    Object? endDate = null,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
     Object? themes = null,
     Object? questions = null,
     Object? action = freezed,
@@ -98,14 +96,14 @@ class _$QvstStatsEntityCopyWithImpl<$Res, $Val extends QvstStatsEntity>
           ? _value.campaignStatus
           : campaignStatus // ignore: cast_nullable_to_non_nullable
               as String,
-      startDate: null == startDate
+      startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      endDate: null == endDate
+              as DateTime?,
+      endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime?,
       themes: null == themes
           ? _value.themes
           : themes // ignore: cast_nullable_to_non_nullable
@@ -134,8 +132,8 @@ abstract class _$$QvstStatsEntityImplCopyWith<$Res>
       {@JsonKey(defaultValue: '') String campaignId,
       @JsonKey(defaultValue: '') String campaignName,
       @JsonKey(defaultValue: '') String campaignStatus,
-      @JsonKey(defaultValue: '') String startDate,
-      @JsonKey(defaultValue: '') String endDate,
+      DateTime? startDate,
+      DateTime? endDate,
       List<QvstThemeEntity> themes,
       List<QvstQuestionEntity> questions,
       String? action});
@@ -157,8 +155,8 @@ class __$$QvstStatsEntityImplCopyWithImpl<$Res>
     Object? campaignId = null,
     Object? campaignName = null,
     Object? campaignStatus = null,
-    Object? startDate = null,
-    Object? endDate = null,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
     Object? themes = null,
     Object? questions = null,
     Object? action = freezed,
@@ -176,14 +174,14 @@ class __$$QvstStatsEntityImplCopyWithImpl<$Res>
           ? _value.campaignStatus
           : campaignStatus // ignore: cast_nullable_to_non_nullable
               as String,
-      startDate: null == startDate
+      startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      endDate: null == endDate
+              as DateTime?,
+      endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime?,
       themes: null == themes
           ? _value._themes
           : themes // ignore: cast_nullable_to_non_nullable
@@ -207,8 +205,8 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
       {@JsonKey(defaultValue: '') required this.campaignId,
       @JsonKey(defaultValue: '') required this.campaignName,
       @JsonKey(defaultValue: '') required this.campaignStatus,
-      @JsonKey(defaultValue: '') required this.startDate,
-      @JsonKey(defaultValue: '') required this.endDate,
+      this.startDate,
+      this.endDate,
       required final List<QvstThemeEntity> themes,
       required final List<QvstQuestionEntity> questions,
       this.action})
@@ -228,11 +226,9 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
   @JsonKey(defaultValue: '')
   final String campaignStatus;
   @override
-  @JsonKey(defaultValue: '')
-  final String startDate;
+  final DateTime? startDate;
   @override
-  @JsonKey(defaultValue: '')
-  final String endDate;
+  final DateTime? endDate;
   final List<QvstThemeEntity> _themes;
   @override
   List<QvstThemeEntity> get themes {
@@ -312,8 +308,8 @@ abstract class _QvstStatsEntity implements QvstStatsEntity {
       {@JsonKey(defaultValue: '') required final String campaignId,
       @JsonKey(defaultValue: '') required final String campaignName,
       @JsonKey(defaultValue: '') required final String campaignStatus,
-      @JsonKey(defaultValue: '') required final String startDate,
-      @JsonKey(defaultValue: '') required final String endDate,
+      final DateTime? startDate,
+      final DateTime? endDate,
       required final List<QvstThemeEntity> themes,
       required final List<QvstQuestionEntity> questions,
       final String? action}) = _$QvstStatsEntityImpl;
@@ -331,11 +327,9 @@ abstract class _QvstStatsEntity implements QvstStatsEntity {
   @JsonKey(defaultValue: '')
   String get campaignStatus;
   @override
-  @JsonKey(defaultValue: '')
-  String get startDate;
+  DateTime? get startDate;
   @override
-  @JsonKey(defaultValue: '')
-  String get endDate;
+  DateTime? get endDate;
   @override
   List<QvstThemeEntity> get themes;
   @override

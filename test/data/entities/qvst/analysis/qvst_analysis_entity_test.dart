@@ -169,7 +169,7 @@ void main() {
         'requires_action': false,
         'total_responses': 10,
         'answers': [
-          {'id': 'a1', 'answer': 'Good', 'value': 1, 'numberAnswered': 5}
+          {'id': 'a1', 'answer': 'Good', 'value': '1', 'numberAnswered': 5}
         ]
       };
       final question = QuestionAnalysisEntity.fromJson(json);
@@ -183,7 +183,7 @@ void main() {
       expect(question.totalResponses, 10);
       expect(question.answers.first.answerId, 'a1');
       expect(question.answers.first.answerText, 'Good');
-      expect(question.answers.first.score, 1);
+      expect(question.answers.first.score, '1');
       expect(question.answers.first.count, 5);
     });
   });
@@ -194,12 +194,12 @@ void main() {
         'id': 'a1',
         'answer': 'Yes',
         'value': '2',
-        'numberAnswered': '3'
+        'numberAnswered': 3
       };
       final answer = AnswerDistributionEntity.fromJson(json);
       expect(answer.answerId, 'a1');
       expect(answer.answerText, 'Yes');
-      expect(answer.score, 2);
+      expect(answer.score, '2');
       expect(answer.count, 3);
     });
   });

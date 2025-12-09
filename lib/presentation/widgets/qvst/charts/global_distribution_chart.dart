@@ -1,3 +1,4 @@
+import 'package:xpeapp_admin/data/utils/qvst_chart_utils.dart';
 import 'package:xpeapp_admin/data/utils/qvst_ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,35 +9,27 @@ import 'package:xpeapp_admin/presentation/widgets/common/screenshot_button.dart'
 
 class GlobalDistributionChart extends StatelessWidget {
   final List<GlobalDistributionEntity> distribution;
+  final Map<int, String>? answerLabels;
+
+  static const int _maxResponseScore = 5;
 
   const GlobalDistributionChart({
     super.key,
     required this.distribution,
+    this.answerLabels,
   });
-
-  // Référentiel complet des types de réponses possibles
-  static const Map<int, String> _globalAnswerLabels = {
-    1: 'Très faible / Jamais / Pas du tout',
-    2: 'Faible / Rarement / Plutôt non',
-    3: 'Moyen / Occasionnellement / Cela dépend',
-    4: 'Bien / Assez souvent / Plutôt oui',
-    5: 'Excellent / Très souvent / Tout à fait',
-  };
 
   @override
   Widget build(BuildContext context) {
     final chartKey = GlobalKey();
 
-    final scores = List.generate(5, (i) {
-      final score = i + 1;
-      return distribution
-              .firstWhere(
-                (d) => d.score == score,
-                orElse: () => GlobalDistributionEntity(score: score, count: 0),
-              )
-              .count ??
-          0;
-    });
+    final scoreMap = Map.fromEntries(
+      distribution
+          .where((d) => d.score != null)
+          .map((d) => MapEntry(d.score!, d.count ?? 0)),
+    );
+    final scores =
+        List.generate(_maxResponseScore, (i) => scoreMap[i + 1] ?? 0);
 
     final colors = [
       Colors.red.shade700,
@@ -70,9 +63,10 @@ class GlobalDistributionChart extends StatelessWidget {
                   numberFormat: NumberFormat.percentPattern(),
                 ),
                 series: List.generate(
-                  5,
+                  _maxResponseScore,
                   (i) => StackedColumn100Series<_ChartData, String>(
-                    name: _globalAnswerLabels[i + 1] ?? 'Score ${i + 1}',
+                    name: QvstChartUtils.getLabelForScore(i + 1,
+                        labels: answerLabels),
                     dataSource: [_ChartData('Distribution', scores)],
                     xValueMapper: (data, _) => data.category,
                     yValueMapper: (data, _) => data.scores[i],

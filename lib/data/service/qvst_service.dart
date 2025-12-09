@@ -25,69 +25,69 @@ class QvstService {
     this.baseUrl,
   );
 
-  /// Applique les inversions de questions à une analyse QVST et recalcule les statistiques
+  /// Applies question inversions to a QVST analysis and recalculates statistics
   QvstAnalysisEntity applyReversedQuestions(
     QvstAnalysisEntity analysis,
     Map<String, bool> reversedQuestions,
   ) {
     if (reversedQuestions.isEmpty) return analysis;
 
-    // Recalculer TOUTES les questions d'analyse avec leurs pourcentages de satisfaction
+    // Recalculate ALL analysis questions with their satisfaction percentages
     final updatedQuestionsAnalysis = analysis.questionsAnalysis.map((question) {
       return _applyQuestionInversion(
           question, reversedQuestions[question.questionText] ?? false);
     }).toList();
 
-    // Recalculer les questions nécessitant une action (sous-ensemble avec satisfaction < 75%)
+    // Recalculate questions requiring action (subset with satisfaction < 75%)
     final updatedQuestionsRequiringAction =
         analysis.questionsRequiringAction.map((question) {
       return _applyQuestionInversion(
           question, reversedQuestions[question.questionText] ?? false);
     }).toList();
 
-    // Recalculer les collaborateurs à risque avec les nouveaux pourcentages de satisfaction
+    // Recalculate at-risk employees with the new satisfaction percentages
     final updatedAtRiskEmployees = analysis.atRiskEmployees.map((employee) {
       return _applyEmployeeInversion(
           employee, reversedQuestions, analysis.questionsAnalysis);
     }).toList();
 
-    // Recalculer les statistiques globales en utilisant TOUTES les questions mises à jour
+    // Recalculate global statistics using ALL updated questions
     final updatedGlobalStats =
         _recalculateGlobalStats(analysis.globalStats, updatedQuestionsAnalysis);
 
     return analysis.copyWith(
-      questionsAnalysis: updatedQuestionsAnalysis, // TOUTES les questions
-      questionsRequiringAction:
-          updatedQuestionsRequiringAction, // Sous-ensemble < 75%
+      questionsAnalysis: updatedQuestionsAnalysis, // All questions
+      questionsRequiringAction: updatedQuestionsRequiringAction, // Subset < 75%
       atRiskEmployees: updatedAtRiskEmployees,
       globalStats: updatedGlobalStats,
     );
   }
 
-  /// Calcul de moyenne pondérée
+  /// Weighted average calculation
   double calculateWeightedAverage(List<AnswerDistributionEntity> answers,
       [bool isReversed = false]) {
     double totalValue = 0;
     int totalResponses = 0;
 
     for (final answer in answers) {
-      if (answer.score != null && answer.count != null) {
-        int value = answer.score!;
-        // L'inversion se fait maintenant au niveau du pourcentage final, pas des scores
-        totalValue += value * answer.count!;
-        totalResponses += answer.count!;
+      final score = answer.score != null ? int.tryParse(answer.score!) : null;
+      final count = answer.count;
+      if (score != null && count != null) {
+        // Inversion is now done at the final percentage level, not the scores
+        totalValue += score * count;
+        totalResponses += count;
       }
     }
 
     return totalResponses > 0 ? totalValue / totalResponses : 0;
   }
 
-  /// Applique l'inversion à une question et recalcule ses métriques
+  /// Applies inversion to a question and recalculates its metrics
   QuestionAnalysisEntity _applyQuestionInversion(
       QuestionAnalysisEntity question, bool isReversed) {
     if (!isReversed) return question;
 
-    // Pour l'inversion, on inverse simplement le pourcentage de satisfaction : 100% - pourcentage
+    // For inversion, we simply invert the satisfaction percentage: 100% - percentage
     final originalPercentage = question.satisfactionPercentage ?? 0.0;
     final newSatisfactionPercentage = 100.0 - originalPercentage;
 
@@ -97,8 +97,8 @@ class QvstService {
     );
   }
 
-  /// Recalcule le pourcentage de satisfaction d'un collaborateur à risque
-  /// en tenant compte des questions inversées
+  /// Recalculates the satisfaction percentage of an at-risk employee
+  /// taking into account inverted questions
   AtRiskEmployeeEntity _applyEmployeeInversion(
     AtRiskEmployeeEntity employee,
     Map<String, bool> reversedQuestions,
@@ -106,22 +106,22 @@ class QvstService {
   ) {
     if (reversedQuestions.isEmpty) return employee;
 
-    // Calculer un nouveau pourcentage de satisfaction basé sur les questions inversées
-    // Ceci est une approximation car nous n'avons pas accès aux réponses individuelles
+    // Calculate a new satisfaction percentage based on inverted questions
+    // This is an approximation since we don't have access to individual answers
 
-    // Compter le nombre de questions inversées
+    // Count the number of inverted questions
     int totalQuestions = reversedQuestions.length;
     int reversedCount =
         reversedQuestions.values.where((isReversed) => isReversed).length;
 
     if (totalQuestions == 0 || reversedCount == 0) return employee;
 
-    // Si il y a des inversions, nous faisons une approximation en inversant le pourcentage
-    // proportionnellement au nombre de questions inversées
+    // If there are inversions, we approximate by inverting the percentage
+    // proportionally to the number of inverted questions
     final originalSatisfaction = employee.satisfactionPercentage ?? 0.0;
     final reversedRatio = reversedCount / totalQuestions;
 
-    // Calcul approximatif : inverse partiellement selon le ratio de questions inversées
+    // Approximate calculation: partially invert according to the ratio of inverted questions
     final newSatisfactionPercentage = originalSatisfaction +
         (100.0 - 2 * originalSatisfaction) * reversedRatio;
 
@@ -130,7 +130,7 @@ class QvstService {
     );
   }
 
-  /// Recalcule les statistiques globales basées sur une liste de questions
+  /// Recalculates global statistics based on a list of questions
   GlobalStatsEntity? _recalculateGlobalStats(
     GlobalStatsEntity? originalStats,
     List<QuestionAnalysisEntity> questions,

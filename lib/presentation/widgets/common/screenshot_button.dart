@@ -25,39 +25,23 @@ class _ScreenshotButtonState extends State<ScreenshotButton> {
       _isCapturing = true;
     });
 
-    try {
-      final fileName = ScreenshotService.generateFileName(widget.title);
-      await ScreenshotService.captureAndDownloadWidget(
-        key: widget.widgetKey,
-        fileName: fileName,
-      );
+    final fileName = ScreenshotService.generateFileName(widget.title);
+    await ScreenshotService.captureAndDownloadWidget(
+      key: widget.widgetKey,
+      fileName: fileName,
+    );
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content:
-                Text('Screenshot "${widget.title}" téléchargé avec succès'),
-            backgroundColor: Colors.green,
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erreur lors du screenshot: $e'),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 3),
-          ),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isCapturing = false;
-        });
-      }
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Screenshot "${widget.title}" téléchargé avec succès'),
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      setState(() {
+        _isCapturing = false;
+      });
     }
   }
 

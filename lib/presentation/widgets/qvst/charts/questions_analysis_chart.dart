@@ -91,14 +91,16 @@ class QuestionsAnalysisChart extends StatelessWidget {
     final q = questionsAnalysis[index];
     return Container(
       padding: const EdgeInsets.all(8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Satisfaction : ${QvstFormatters.formatPercentage(q.satisfactionPercentage ?? 0)}',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ],
+      decoration: BoxDecoration(
+        color: Colors.grey.shade800,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        'Satisfaction : ${QvstFormatters.formatPercentage(q.satisfactionPercentage ?? 0)}',
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
     );
   }

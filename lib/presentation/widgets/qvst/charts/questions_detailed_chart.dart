@@ -38,10 +38,12 @@ class QuestionsDetailedChart extends StatelessWidget {
     final labels = <int, String>{};
 
     for (var answer in question.answers) {
-      if (answer.score != null) {
-        if (answer.count != null) answers[answer.score!] = answer.count!;
+      final score = answer.score != null ? int.tryParse(answer.score!) : null;
+      final count = answer.count;
+      if (score != null) {
+        if (count != null) answers[score] = count;
         if (answer.answerText.isNotEmpty) {
-          labels[answer.score!] = answer.answerText;
+          labels[score] = answer.answerText;
         }
       }
     }
@@ -106,6 +108,10 @@ class QuestionsDetailedChart extends StatelessWidget {
   }
 
   Widget _buildChart(GlobalKey chartKey, List<ChartData> data) {
+    // Extraire les labels de la première question (toutes les questions ont les mêmes réponses possibles)
+    final Map<int, String>? globalLabels =
+        data.isNotEmpty ? data.first.answerLabels : null;
+
     return RepaintBoundary(
       key: chartKey,
       child: SizedBox(
@@ -122,18 +128,18 @@ class QuestionsDetailedChart extends StatelessWidget {
             position: LegendPosition.bottom,
             overflowMode: LegendItemOverflowMode.wrap,
           ),
-          series: _buildChartSeries(data),
-          tooltipBehavior: _buildTooltipBehavior(data),
+          series: _buildChartSeries(data, globalLabels),
+          tooltipBehavior: _buildTooltipBehavior(data, globalLabels),
         ),
       ),
     );
   }
 
   List<StackedColumn100Series<ChartData, String>> _buildChartSeries(
-      List<ChartData> data) {
+      List<ChartData> data, Map<int, String>? labels) {
     return List.generate(5, (i) {
       final score = i + 1;
-      final label = QvstChartUtils.getLabelForScore(score);
+      final label = QvstChartUtils.getLabelForScore(score, labels: labels);
       final color = QvstChartUtils.getColorForScore(score);
       return StackedColumn100Series<ChartData, String>(
         name: label,
@@ -163,12 +169,14 @@ class QuestionsDetailedChart extends StatelessWidget {
     );
   }
 
-  TooltipBehavior _buildTooltipBehavior(List<ChartData> data) {
+  TooltipBehavior _buildTooltipBehavior(
+      List<ChartData> data, Map<int, String>? labels) {
     return TooltipBehavior(
       enable: true,
       builder: (chartData, point, series, pointIndex, seriesIndex) {
         final d = data[pointIndex];
-        final label = QvstChartUtils.getLabelForScore(seriesIndex + 1);
+        final label =
+            QvstChartUtils.getLabelForScore(seriesIndex + 1, labels: labels);
         final count = d.scores[seriesIndex];
         final total = d.scores.reduce((a, b) => a + b);
         final percentage = (count / total * 100);

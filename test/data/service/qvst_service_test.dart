@@ -989,8 +989,8 @@ void main() {
         satisfactionPercentage: 80.0,
         requiresAction: false,
         answers: [
-          AnswerDistributionEntity(score: 1, count: 2),
-          AnswerDistributionEntity(score: 2, count: 3),
+          AnswerDistributionEntity(score: '1', count: 2),
+          AnswerDistributionEntity(score: '2', count: 3),
         ],
       );
       final atRisk = AtRiskEmployeeEntity(
@@ -1042,8 +1042,8 @@ void main() {
       });
       test('calculates weighted average', () {
         final answers = [
-          AnswerDistributionEntity(score: 2, count: 2),
-          AnswerDistributionEntity(score: 4, count: 3),
+          AnswerDistributionEntity(score: '2', count: 2),
+          AnswerDistributionEntity(score: '4', count: 3),
         ];
         expect(service.calculateWeightedAverage(answers), closeTo(3.2, 0.01));
       });

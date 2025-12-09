@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
+import 'package:xpeapp_admin/data/entities/qvst/analysis/chart_config.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class QvstChartsFilterWidget extends ConsumerStatefulWidget {
@@ -15,28 +16,11 @@ class _QvstChartsFilterWidgetState
     extends ConsumerState<QvstChartsFilterWidget> {
   bool _isExpanded = false;
 
-  // Liste des graphiques disponibles
-  final Map<String, String> _availableCharts = {
-    'globalStats': 'Statistiques globales',
-    'questionsAnalysis': 'Toutes les questions',
-    'globalDistribution': 'Répartition globale',
-    'questionsDetailed': 'Questions détaillées',
-    'atRiskEmployees': 'Collaborateurs à risque',
-  };
-
-  // Icônes pour chaque type de graphique
-  final Map<String, IconData> _chartIcons = {
-    'globalStats': Icons.analytics,
-    'questionsAnalysis': Icons.quiz,
-    'globalDistribution': Icons.pie_chart,
-    'questionsDetailed': Icons.bar_chart,
-    'atRiskEmployees': Icons.warning,
-  };
-
   @override
   Widget build(BuildContext context) {
     final chartsVisibility = ref.watch(analysisChartsVisibilityProvider);
     final visibleChartsCount = chartsVisibility.values.where((v) => v).length;
+    final availableCharts = QvstChartConfigs.availableCharts;
 
     return Container(
       margin: const EdgeInsets.all(20),
@@ -76,7 +60,7 @@ class _QvstChartsFilterWidgetState
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  '$visibleChartsCount/${_availableCharts.length}',
+                  '$visibleChartsCount/${availableCharts.length}',
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
@@ -92,7 +76,7 @@ class _QvstChartsFilterWidgetState
                       .toggleAll();
                 },
                 child: Text(
-                  visibleChartsCount == _availableCharts.length
+                  visibleChartsCount == availableCharts.length
                       ? 'Tout masquer'
                       : 'Tout afficher',
                   style: const TextStyle(color: kDefaultXpehoColor),
@@ -111,14 +95,17 @@ class _QvstChartsFilterWidgetState
             ],
           ),
           if (_isExpanded) ...[
-            _buildExpandedFilterSection(chartsVisibility),
+            _buildExpandedFilterSection(chartsVisibility, availableCharts),
           ],
         ],
       ),
     );
   }
 
-  Widget _buildExpandedFilterSection(Map<String, bool> chartsVisibility) {
+  Widget _buildExpandedFilterSection(
+    Map<String, bool> chartsVisibility,
+    List<ChartConfig> availableCharts,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -132,11 +119,8 @@ class _QvstChartsFilterWidgetState
           ),
         ),
         const SizedBox(height: 12),
-        ..._availableCharts.entries.map((entry) {
-          final chartKey = entry.key;
-          final chartName = entry.value;
-          final isVisible = chartsVisibility[chartKey] ?? true;
-          final icon = _chartIcons[chartKey] ?? Icons.insert_chart;
+        ...availableCharts.map((chart) {
+          final isVisible = chartsVisibility[chart.key] ?? true;
 
           return Container(
             margin: const EdgeInsets.only(bottom: 8),
@@ -155,13 +139,13 @@ class _QvstChartsFilterWidgetState
               title: Row(
                 children: [
                   Icon(
-                    icon,
+                    chart.icon,
                     size: 20,
                     color: isVisible ? kDefaultXpehoColor : Colors.grey,
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    chartName,
+                    chart.name,
                     style: TextStyle(
                       color: isVisible ? kDefaultXpehoColor : Colors.grey,
                       fontWeight:
@@ -174,7 +158,7 @@ class _QvstChartsFilterWidgetState
               onChanged: (bool? value) {
                 ref
                     .read(analysisChartsVisibilityProvider.notifier)
-                    .toggleChart(chartKey);
+                    .toggleChart(chart.key);
               },
               dense: true,
               controlAffinity: ListTileControlAffinity.leading,

@@ -176,10 +176,14 @@ class _QvstContentAnalysisState extends ConsumerState<QvstContentAnalysis> {
   Map<int, String>? _extractAnswerLabels(dynamic adjustedData) {
     if (adjustedData.questionsRequiringAction.isEmpty) return null;
 
-    return {
-      for (final a in adjustedData.questionsRequiringAction.first.answers)
-        if (a.score != null && a.answerText.isNotEmpty) a.score!: a.answerText
-    };
+    final Map<int, String> labels = {};
+    for (final a in adjustedData.questionsRequiringAction.first.answers) {
+      final scoreInt = a.score != null ? int.tryParse(a.score!) : null;
+      if (scoreInt != null && a.answerText.isNotEmpty) {
+        labels[scoreInt] = a.answerText;
+      }
+    }
+    return labels.isEmpty ? null : labels;
   }
 
   Widget _buildErrorState(Object err, StackTrace stack) {
