@@ -31,7 +31,7 @@ void main() {
           {'id': 't1', 'name': 'Theme 1'}
         ],
         'global_stats': {
-          'total_respondents': '10',
+          'total_respondents': 10,
           'total_questions': 5,
           'average_satisfaction': 4.5,
           'requires_action': true,
@@ -62,7 +62,7 @@ void main() {
             'requires_action': false,
             'total_responses': 10,
             'answers': [
-              {'id': 'a1', 'answer': 'Good', 'value': 1, 'numberAnswered': 5}
+              {'id': 'a1', 'answer': 'Good', 'value': '1', 'numberAnswered': 5}
             ]
           }
         ],
@@ -82,8 +82,8 @@ void main() {
       expect(entity.campaignId, 1);
       expect(entity.campaignName, 'Test');
       expect(entity.campaignStatus, 'active');
-      expect(entity.startDate, '2025-01-01');
-      expect(entity.endDate, '2025-01-31');
+      expect(entity.startDate, DateTime.parse('2025-01-01'));
+      expect(entity.endDate, DateTime.parse('2025-01-31'));
       expect(entity.themes.first, isA<QvstThemeEntity>());
       expect(entity.globalStats?.totalRespondents, 10);
       expect(entity.globalStats?.totalQuestions, 5);
@@ -109,13 +109,13 @@ void main() {
   });
 
   group('GlobalStatsEntity', () {
-    test('fromJson parses int from string', () {
+    test('fromJson parses values', () {
       final json = {
-        'total_respondents': '42',
-        'total_questions': '10',
+        'total_respondents': 42,
+        'total_questions': 10,
         'average_satisfaction': 3.2,
         'requires_action': false,
-        'at_risk_count': '2'
+        'at_risk_count': 2
       };
       final stats = GlobalStatsEntity.fromJson(json);
       expect(stats.totalRespondents, 42);
