@@ -20,7 +20,7 @@ class _QvstChartsFilterWidgetState
   Widget build(BuildContext context) {
     final chartsVisibility = ref.watch(analysisChartsVisibilityProvider);
     final visibleChartsCount = chartsVisibility.values.where((v) => v).length;
-    final availableCharts = QvstChartConfigs.availableCharts;
+    const availableCharts = QvstChartConfigs.availableCharts;
 
     return Container(
       margin: const EdgeInsets.all(20),

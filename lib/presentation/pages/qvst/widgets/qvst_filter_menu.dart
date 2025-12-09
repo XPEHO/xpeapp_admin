@@ -18,7 +18,7 @@ class QvstFilterMenu extends ConsumerWidget {
 
     final chartsVisibility = ref.watch(analysisChartsVisibilityProvider);
     final visibleCount = chartsVisibility.values.where((v) => v).length;
-    final charts = QvstChartConfigs.availableCharts;
+    const charts = QvstChartConfigs.availableCharts;
 
     return Container(
       width: 200,
