@@ -84,6 +84,11 @@ abstract class BackendApi {
     @Path("id") String id,
   );
 
+  @GET("xpeho/v1/qvst/campaigns/{id}:analysis")
+  Future<HttpResponse> getQvstCampaignAnalysisById(
+    @Path("id") String id,
+  );
+
   @POST("xpeho/v1/qvst/campaigns/{id}/status:update")
   Future<HttpResponse> updateQvstCampaignStatus(
     @Path("id") String id,

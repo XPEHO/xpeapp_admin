@@ -27,6 +27,7 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
     final theme = (widget.id != null)
         ? themeList?.firstWhere(
             (element) => element.id == widget.id!,
+            orElse: () => null as dynamic,
           )
         : null;
 

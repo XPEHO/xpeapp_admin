@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
+import 'package:xpeapp_admin/env/extensions/pagination.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_add_or_edit_page.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/birthday/birthday_card.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_floating_buttons.dart';
@@ -123,22 +124,24 @@ class AgendaContentBirthdayState extends ConsumerState<AgendaContentBirthday> {
             ),
           ),
           const SizedBox(width: 10),
-          Tooltip(
-            message: "Suivant",
-            child: FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  currentPage++;
-                  ref.invalidate(agendaBirthdayProvider);
-                });
-              },
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.arrow_forward,
-                color: Colors.white,
-              ),
-            ),
-          ),
+          ref.hasNextBirthdaysPage(currentPage)
+              ? Tooltip(
+                  message: "Suivant",
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        currentPage++;
+                        ref.invalidate(agendaBirthdayProvider);
+                      });
+                    },
+                    backgroundColor: kDefaultXpehoColor,
+                    child: const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink(),
         ],
         onCreate: () {
           ref.read(pageModeProvider.notifier).state = CrudPageMode.create;

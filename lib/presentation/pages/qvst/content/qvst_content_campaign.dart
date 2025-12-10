@@ -81,7 +81,8 @@ class _QvstContentCampaignState extends ConsumerState<QvstContentCampaign> {
                                 child: getTextOfTable('Thèmes', isHeader: true),
                               ),
                               TableCell(
-                                child: getTextOfTable('Taux de participation',
+                                child: getTextOfTable(
+                                    'Nombre de participant(s)',
                                     isHeader: true),
                               ),
                               TableCell(
@@ -115,8 +116,8 @@ class _QvstContentCampaignState extends ConsumerState<QvstContentCampaign> {
                                   TableCell(
                                     verticalAlignment:
                                         TableCellVerticalAlignment.middle,
-                                    child: getTextOfTable(
-                                        '${campaign.participationRate} %'),
+                                    child: _participantsCountWidget(
+                                        ref, campaign.id),
                                   ),
                                   TableCell(
                                     verticalAlignment:
@@ -221,6 +222,18 @@ class _QvstContentCampaignState extends ConsumerState<QvstContentCampaign> {
       themeNames,
       textAlign: TextAlign.center,
       style: const TextStyle(fontSize: 16),
+    );
+  }
+
+  Widget _participantsCountWidget(WidgetRef ref, String campaignId) {
+    final analysis = ref.watch(qvstCampaignAnalysisProvider(campaignId));
+    return analysis.when(
+      data: (data) {
+        final count = data.globalStats?.totalRespondents ?? 0;
+        return getTextOfTable('$count ${count > 1 ? '' : ''}');
+      },
+      loading: () => getTextOfTable('...'),
+      error: (_, __) => getTextOfTable('-'),
     );
   }
 }

@@ -17,6 +17,7 @@ import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_menu_selected.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
+import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
@@ -31,6 +32,7 @@ import 'package:xpeapp_admin/data/service/idea_service.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 import 'package:xpeapp_admin/data/service/storage_service.dart';
 import 'package:xpeapp_admin/data/state/agenda_menu_notifier.dart';
+import 'package:xpeapp_admin/data/state/analysis_charts_visibility_notifier.dart';
 import 'package:xpeapp_admin/data/state/comment_for_campaign_notifier.dart';
 import 'package:xpeapp_admin/data/state/loader_state.dart';
 import 'package:xpeapp_admin/data/state/menu_notifier.dart';
@@ -249,6 +251,28 @@ final qvstCampaignStatsProvider =
     return ref.watch(qvstServiceProvider).getQvstCampaignStatsById(id);
   },
 );
+
+final qvstCampaignAnalysisProvider =
+    FutureProvider.family<QvstAnalysisEntity, String>(
+  (ref, id) async {
+    return ref.watch(qvstServiceProvider).getQvstCampaignAnalysisById(id);
+  },
+);
+
+// QVST Analysis - UI State Management
+final analysisChartsVisibilityProvider =
+    StateNotifierProvider<AnalysisChartsVisibilityNotifier, Map<String, bool>>(
+        (ref) {
+  return AnalysisChartsVisibilityNotifier();
+});
+
+// QVST Analysis - Data Filtering
+final reversedQuestionsProvider = StateProvider<Map<String, bool>>((ref) => {});
+
+final analysisThemeFilterProvider =
+    StateNotifierProvider<QvstThemesNotifier, List<QvstThemeEntity>>((ref) {
+  return QvstThemesNotifier();
+});
 
 // Menu
 final listOfMenuProvider = Provider<List<MenuEntity>>((ref) {

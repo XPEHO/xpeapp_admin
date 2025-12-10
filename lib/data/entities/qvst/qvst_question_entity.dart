@@ -18,6 +18,7 @@ class QvstQuestionEntity with _$QvstQuestionEntity {
     @JsonSerializable(explicitToJson: true)
     @Default([])
     List<QvstAnswerEntity> answers,
+    @JsonKey(name: 'is_reversed') @Default(false) bool isReversed,
   }) = _QvstQuestionEntity;
 
   factory QvstQuestionEntity.fromJson(Map<String, dynamic> json) =>

@@ -33,7 +33,7 @@ class IdeaCardState extends ConsumerState<IdeaCard> {
         children: [
           AgendaSummaryTile(
             title:
-                '${widget.idea.description.length > 50 ? "${widget.idea.description.substring(0, 50)}..." : widget.idea.description} - ${IdeaUtils.getStatusInFrench(widget.idea.status)}',
+                '${widget.idea.description} - ${IdeaUtils.getStatusInFrench(widget.idea.status)}',
             leadingIcon: Icons.lightbulb,
             trailingIcon:
                 _isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,

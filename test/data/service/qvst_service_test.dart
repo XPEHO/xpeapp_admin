@@ -16,6 +16,7 @@ import 'package:xpeapp_admin/data/entities/qvst/stats/qvst_stats_entity.dart';
 import 'package:http/http.dart' as http;
 import 'package:xpeapp_admin/data/service/file_service.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
+import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
 
 import 'qvst_service_test.mocks.dart';
 
@@ -972,6 +973,124 @@ void main() {
           ),
           throwsException,
         );
+      });
+    });
+
+    group('QvstService - applyReversedQuestions', () {
+      final service = QvstService(
+        BackendApiBase(baseUrl: ''),
+        BackendApi(Dio()),
+        FileService(),
+        '',
+      );
+      final question = QuestionAnalysisEntity(
+        questionId: 'q1',
+        questionText: 'Q1',
+        satisfactionPercentage: 80.0,
+        requiresAction: false,
+        answers: [
+          AnswerDistributionEntity(score: '1', count: 2),
+          AnswerDistributionEntity(score: '2', count: 3),
+        ],
+      );
+      final atRisk = AtRiskEmployeeEntity(
+        anonymousUserId: 'u1',
+        satisfactionPercentage: 60.0,
+        lowScoresCount: 1,
+        totalResponses: 2,
+        criticalThemes: ['Theme 1'],
+      );
+      final analysisEntity = QvstAnalysisEntity(
+        questionsAnalysis: [question],
+        questionsRequiringAction: [question],
+        atRiskEmployees: [atRisk],
+        globalStats: GlobalStatsEntity(
+          totalRespondents: 5,
+          totalQuestions: 1,
+          averageSatisfaction: 80.0,
+          requiresAction: false,
+          atRiskCount: 1,
+        ),
+      );
+
+      test('returns same entity if reversedQuestions is empty', () {
+        final result = service.applyReversedQuestions(analysisEntity, {});
+        expect(result, analysisEntity);
+      });
+
+      test('inverts satisfaction for questions and employees', () {
+        final result =
+            service.applyReversedQuestions(analysisEntity, {'Q1': true});
+        expect(result.questionsAnalysis.first.satisfactionPercentage, 20.0);
+        expect(result.questionsAnalysis.first.requiresAction, isTrue);
+        expect(
+            result.atRiskEmployees.first.satisfactionPercentage, isNot(60.0));
+        expect(result.globalStats?.averageSatisfaction, 20.0);
+        expect(result.globalStats?.requiresAction, isTrue);
+      });
+    });
+
+    group('QvstService - calculateWeightedAverage', () {
+      final service = QvstService(
+        BackendApiBase(baseUrl: ''),
+        BackendApi(Dio()),
+        FileService(),
+        '',
+      );
+      test('returns 0 for empty answers', () {
+        expect(service.calculateWeightedAverage([]), 0);
+      });
+      test('calculates weighted average', () {
+        final answers = [
+          AnswerDistributionEntity(score: '2', count: 2),
+          AnswerDistributionEntity(score: '4', count: 3),
+        ];
+        expect(service.calculateWeightedAverage(answers), closeTo(3.2, 0.01));
+      });
+    });
+
+    group('QvstService - _applyQuestionInversion', () {
+      final service = QvstService(
+        BackendApiBase(baseUrl: ''),
+        BackendApi(Dio()),
+        FileService(),
+        '',
+      );
+      test('returns same question if not reversed', () {
+        final question = QuestionAnalysisEntity(
+          questionId: 'q1',
+          questionText: 'Q1',
+          satisfactionPercentage: 80.0,
+          requiresAction: false,
+          answers: [],
+        );
+        final result = service
+            .applyReversedQuestions(
+              QvstAnalysisEntity(questionsAnalysis: [question]),
+              {},
+            )
+            .questionsAnalysis
+            .first;
+        expect(result.satisfactionPercentage, 80.0);
+        expect(result.requiresAction, isFalse);
+      });
+      test('inverts satisfaction if reversed', () {
+        final question = QuestionAnalysisEntity(
+          questionId: 'q1',
+          questionText: 'Q1',
+          satisfactionPercentage: 80.0,
+          requiresAction: false,
+          answers: [],
+        );
+        final result = service
+            .applyReversedQuestions(
+              QvstAnalysisEntity(questionsAnalysis: [question]),
+              {'Q1': true},
+            )
+            .questionsAnalysis
+            .first;
+        expect(result.satisfactionPercentage, 20.0);
+        expect(result.requiresAction, isTrue);
       });
     });
   });

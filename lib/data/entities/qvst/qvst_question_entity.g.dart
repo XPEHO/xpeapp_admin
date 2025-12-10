@@ -19,6 +19,7 @@ _$QvstQuestionEntityImpl _$$QvstQuestionEntityImplFromJson(
               ?.map((e) => QvstAnswerEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      isReversed: json['is_reversed'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$QvstQuestionEntityImplToJson(
@@ -31,4 +32,5 @@ Map<String, dynamic> _$$QvstQuestionEntityImplToJson(
       'answer_repo_id': instance.answerRepoId,
       'numberAsked': instance.numberAsked,
       'answers': instance.answers,
+      'is_reversed': instance.isReversed,
     };

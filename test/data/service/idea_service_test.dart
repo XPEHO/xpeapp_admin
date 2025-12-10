@@ -24,18 +24,18 @@ void main() {
       test('getAllIdeas returns a list of ideas', () async {
         final mockResponse = [
           {
-            "id": "1",
-            "description": "Test idea 1",
-            "context": "Test context 1",
-            "status": "pending",
-            "created_at": "2024-01-15T10:30:00Z",
-          },
-          {
             "id": "2",
             "description": "Test idea 2",
             "context": "Test context 2",
             "status": "approved",
             "created_at": "2024-01-15T11:30:00Z",
+          },
+          {
+            "id": "1",
+            "description": "Test idea 1",
+            "context": "Test context 1",
+            "status": "pending",
+            "created_at": "2024-01-15T10:30:00Z",
           },
         ];
 

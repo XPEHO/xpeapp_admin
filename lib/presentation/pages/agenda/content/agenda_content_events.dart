@@ -4,6 +4,7 @@ import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
 import 'package:xpeapp_admin/data/enum/crud_page_mode.dart';
+import 'package:xpeapp_admin/env/extensions/pagination.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/events/event_add_or_edit_page.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/events/events_card.dart';
 import 'package:xpeapp_admin/presentation/widgets/agenda/agenda_floating_buttons.dart';
@@ -153,21 +154,23 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
             ),
           ),
           const SizedBox(width: 10),
-          Tooltip(
-            message: "Suivant",
-            child: FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  currentPage++;
-                });
-              },
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.arrow_forward,
-                color: Colors.white,
-              ),
-            ),
-          ),
+          ref.hasNextEventsPage(currentPage)
+              ? Tooltip(
+                  message: "Suivant",
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        currentPage++;
+                      });
+                    },
+                    backgroundColor: kDefaultXpehoColor,
+                    child: const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink(),
         ],
         onCreate: () {
           ref.read(pageModeProvider.notifier).state = CrudPageMode.create;
