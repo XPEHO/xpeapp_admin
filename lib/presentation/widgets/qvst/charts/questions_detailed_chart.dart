@@ -144,8 +144,8 @@ class QuestionsDetailedChart extends StatelessWidget {
       return StackedColumn100Series<ChartData, String>(
         name: label,
         dataSource: data,
-        xValueMapper: (d, _) => d.label,
-        yValueMapper: (d, _) => d.scores[i],
+        xValueMapper: (chartData, _) => chartData.label,
+        yValueMapper: (chartData, _) => chartData.scores[i],
         color: color,
         dataLabelSettings: _buildDataLabelSettings(i),
       );
@@ -157,11 +157,11 @@ class QuestionsDetailedChart extends StatelessWidget {
       isVisible: true,
       textStyle: const TextStyle(fontSize: 9, color: Colors.white),
       builder: (chartData, point, series, pointIndex, _) {
-        final d = chartData as ChartData;
-        final value = d.scores[seriesIndex];
+        final chartDataObj = chartData as ChartData;
+        final value = chartDataObj.scores[seriesIndex];
         if (value == 0) return const SizedBox.shrink();
 
-        final total = d.scores.reduce((a, b) => a + b);
+        final total = chartDataObj.scores.reduce((acc, b) => acc + b);
         final percentage = (value / total * 100).round();
         return Text('$percentage%',
             style: const TextStyle(fontSize: 9, color: Colors.white));
@@ -174,11 +174,11 @@ class QuestionsDetailedChart extends StatelessWidget {
     return TooltipBehavior(
       enable: true,
       builder: (chartData, point, series, pointIndex, seriesIndex) {
-        final d = data[pointIndex];
+        final chartDataObj = data[pointIndex];
         final label =
             QvstChartUtils.getLabelForScore(seriesIndex + 1, labels: labels);
-        final count = d.scores[seriesIndex];
-        final total = d.scores.reduce((a, b) => a + b);
+        final count = chartDataObj.scores[seriesIndex];
+        final total = chartDataObj.scores.reduce((acc, b) => acc + b);
         final percentage = (count / total * 100);
 
         return Container(
@@ -192,7 +192,7 @@ class QuestionsDetailedChart extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(d.questionText,
+              Text(chartDataObj.questionText,
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 11,

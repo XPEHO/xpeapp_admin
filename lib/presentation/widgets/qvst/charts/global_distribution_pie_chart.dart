@@ -19,9 +19,11 @@ class GlobalDistributionPieChart extends StatelessWidget {
   });
 
   List<_ChartData> _prepareData() {
-    final filteredDistribution =
-        distribution.where((d) => d.score != null && d.count != null);
-    final scoreMap = {for (var d in filteredDistribution) d.score: d.count};
+    final filteredDistribution = distribution
+        .where((entry) => entry.score != null && entry.count != null);
+    final scoreMap = {
+      for (var entry in filteredDistribution) entry.score: entry.count
+    };
 
     return List.generate(_maxResponseScore, (i) {
       final score = i + 1;
@@ -30,7 +32,7 @@ class GlobalDistributionPieChart extends StatelessWidget {
         scoreMap[score] ?? 0,
         QvstChartUtils.getColorForScore(score),
       );
-    }).where((d) => d.count > 0).toList();
+    }).where((chartData) => chartData.count > 0).toList();
   }
 
   int _getTotalCount() =>
@@ -65,9 +67,9 @@ class GlobalDistributionPieChart extends StatelessWidget {
                 series: <CircularSeries>[
                   PieSeries<_ChartData, String>(
                     dataSource: data,
-                    xValueMapper: (d, _) => d.label,
-                    yValueMapper: (d, _) => d.count,
-                    pointColorMapper: (d, _) => d.color,
+                    xValueMapper: (chartData, _) => chartData.label,
+                    yValueMapper: (chartData, _) => chartData.count,
+                    pointColorMapper: (chartData, _) => chartData.color,
                     dataLabelSettings: const DataLabelSettings(
                       isVisible: true,
                       labelPosition: ChartDataLabelPosition.outside,
