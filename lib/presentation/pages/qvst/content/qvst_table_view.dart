@@ -127,7 +127,7 @@ class QvstTableView extends ConsumerWidget {
         ),
       );
 
-  _showConfirmDialog(
+  void _showConfirmDialog(
     BuildContext context,
     QvstQuestionEntity e, {
     WidgetRef? ref,

@@ -99,7 +99,7 @@ class LoginPage extends ConsumerWidget {
     );
   }
 
-  _connexionLoading({
+  Future<void> _connexionLoading({
     required BuildContext context,
     required XpehoUser user,
     required WidgetRef ref,

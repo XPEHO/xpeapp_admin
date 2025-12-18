@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:xpeapp_admin/data/enum/newsletter_publication_moment.dart';
 
 class NewsletterPublicationNotifier
