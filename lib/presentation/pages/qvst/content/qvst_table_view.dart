@@ -127,7 +127,7 @@ class QvstTableView extends ConsumerWidget {
         ),
       );
 
-  _showConfirmDialog(
+  void _showConfirmDialog(
     BuildContext context,
     QvstQuestionEntity e, {
     WidgetRef? ref,
@@ -146,37 +146,37 @@ class QvstTableView extends ConsumerWidget {
             child: const Text('Annuler'),
           ),
           TextButton(
-            onPressed: () async {
-              Navigator.pop(context);
-              if (ref != null) {
-                ref.read(loaderStateProvider.notifier).showLoader();
-                bool result =
-                    await ref.read(qvstServiceProvider).deleteQvst(e.id ?? '');
-                if (result) {
-                  ref.invalidate(
-                    (themeId != null)
-                        ? qvstQuestionsByThemesListProvider(
-                            themeId!,
-                          )
-                        : qvstQuestionsListProvider,
-                  );
-                  ref.read(loaderStateProvider.notifier).hideLoader();
-                  if (!context.mounted) return;
-                } else {
-                  ref.read(loaderStateProvider.notifier).hideLoader();
-                  if (!context.mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Erreur lors de la suppression du QVST'),
-                    ),
-                  );
-                }
-              }
-            },
+            onPressed: () => _handleDelete(context, e, ref),
             child: const Text('Supprimer'),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _handleDelete(
+    BuildContext context,
+    QvstQuestionEntity e,
+    WidgetRef? ref,
+  ) async {
+    Navigator.pop(context);
+    if (ref == null) return;
+    ref.read(loaderStateProvider.notifier).showLoader();
+    final result = await ref.read(qvstServiceProvider).deleteQvst(e.id ?? '');
+    ref.read(loaderStateProvider.notifier).hideLoader();
+    if (!context.mounted) return;
+    if (result) {
+      ref.invalidate(
+        (themeId != null)
+            ? qvstQuestionsByThemesListProvider(themeId!)
+            : qvstQuestionsListProvider,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erreur lors de la suppression du QVST'),
+        ),
+      );
+    }
   }
 }

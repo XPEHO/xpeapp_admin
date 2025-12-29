@@ -129,7 +129,7 @@ class QvstDetailPage extends ConsumerWidget {
     );
   }
 
-  getColorInFunctionOfValue(String value) {
+  Color getColorInFunctionOfValue(String value) {
     switch (value) {
       case '1':
         return Colors.red;
@@ -146,7 +146,7 @@ class QvstDetailPage extends ConsumerWidget {
     }
   }
 
-  _showConfirmationDialog({
+  void _showConfirmationDialog({
     required BuildContext context,
     required String title,
     required String content,

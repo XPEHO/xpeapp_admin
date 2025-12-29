@@ -1,3 +1,60 @@
+## 1.4.0
+
+_Feat_
+- Update all dependencies (Flutter, Firebase, Riverpod, Syncfusion, etc.)
+- Set fixed versions in pubspec.yaml
+- QVST refactoring (variable renaming, centralized chart config, code splitting, magic numbers, etc.)
+- Test fixes and adaptation to new conventions
+
+## 1.3.0
+
+_Feat_
+- Change link to new backend, clean a little the project and autodeploy to firebase ([#106](https://github.com/XPEHO/xpeapp_admin/pull/106) @NyraSama)
+- Add login with wordpress ([#111](https://github.com/XPEHO/xpeapp_admin/pull/111) @NyraSama)
+- Add qvst result on admin ([#112](https://github.com/XPEHO/xpeapp_admin/pull/112) @NyraSama)
+- Adding the preview image for the newsletter ([#110](https://github.com/XPEHO/xpeapp_admin/pull/110) @Theo-lbg)
+- Make a new release ([#114](https://github.com/XPEHO/xpeapp_admin/pull/114) @NyraSama)
+- Implement auth guard on router ([#121](https://github.com/XPEHO/xpeapp_admin/pull/121) @NyraSama)
+- Add and improve actions and layout ([#132](https://github.com/XPEHO/xpeapp_admin/pull/132) @NyraSama)
+- edit the access to feature flipping profil ([#137](https://github.com/XPEHO/xpeapp_admin/pull/137) @Theo-lbg)
+- adding the preview image for the newsletter ([#110](https://github.com/XPEHO/xpeapp_admin/pull/110) @Theo-lbg)
+- adding the export CSV button ([#144](https://github.com/XPEHO/xpeapp_admin/pull/144) @Theo-lbg)
+- add the field agenda on feature flipping ([#147](https://github.com/XPEHO/xpeapp_admin/pull/147) @Theo-lbg)
+- adding the section agenda ([#148](https://github.com/XPEHO/xpeapp_admin/pull/148) @Theo-lbg)
+- add changes for improvement ([#150](https://github.com/XPEHO/xpeapp_admin/pull/150) @Theo-lbg)
+- manage many more themes on QVST ([#162](https://github.com/XPEHO/xpeapp_admin/pull/162) @Theo-lbg)
+- create the view of list of idea box ([#167](https://github.com/XPEHO/xpeapp_admin/pull/167) @Theo-lbg)
+- analysis of QVST implemented ([#171](https://github.com/XPEHO/xpeapp_admin/pull/171) @Theo-lbg)
+- implement the usage of notifications really in app ([#172](https://github.com/XPEHO/xpeapp_admin/pull/172) @Theo-lbg)
+
+_Fix_
+- Prevent campaigns to be created without questions ([#120](https://github.com/XPEHO/xpeapp_admin/pull/120) @NyraSama)
+- Remove exception on add newsletter process ([#119](https://github.com/XPEHO/xpeapp_admin/pull/119) @NyraSama)
+- Fix unknow features ([#123](https://github.com/XPEHO/xpeapp_admin/pull/123) @NyraSama)
+- Change text and icon for more readability ([#125](https://github.com/XPEHO/xpeapp_admin/pull/125) @NyraSama)
+- fix the date spacing ([#128](https://github.com/XPEHO/xpeapp_admin/pull/128) @Theo-lbg)
+- fix the referential questions changing not… ([#130](https://github.com/XPEHO/xpeapp_admin/pull/130) @Theo-lbg)
+- hotfix: fix edition or creation page ([#157](https://github.com/XPEHO/xpeapp_admin/pull/157) @Theo-lbg)
+- Correct splitting character for csv import ([#140](https://github.com/XPEHO/xpeapp_admin/pull/140) @NyraSama)
+- Unable to select a date in the future for Newsletter ([#142](https://github.com/XPEHO/xpeapp_admin/pull/142) @Theo-lbg)
+- Change parsing way for csv import ([#143](https://github.com/XPEHO/xpeapp_admin/pull/143) @NyraSama)
+- Fix color and text for more readability ([#125](https://github.com/XPEHO/xpeapp_admin/pull/125) @NyraSama)
+- Fix the readme, for instructions deploying in prod ([#138](https://github.com/XPEHO/xpeapp_admin/pull/138) @Theo-lbg)
+
+_Chore_
+- configure sonar ([#104](https://github.com/XPEHO/xpeapp_admin/pull/104) @PiotrFLEURY)
+- migrate sonar scan ([#139](https://github.com/XPEHO/xpeapp_admin/pull/139) @PiotrFLEURY)
+- configure dependabot ([#151](https://github.com/XPEHO/xpeapp_admin/pull/151) @PiotrFLEURY)
+- bump flutter_lints from 4.0.0 to 5.0.0 ([#152](https://github.com/XPEHO/xpeapp_admin/pull/152) @dependabot[bot])
+- bump retrofit_generator from 8.2.1 to 9.1.9 ([#153](https://github.com/XPEHO/xpeapp_admin/pull/153) @dependabot[bot])
+- bump flutter_localization from 0.2.3 to 0.3.2 ([#155](https://github.com/XPEHO/xpeapp_admin/pull/155) @dependabot[bot])
+- bump file_picker from 8.3.7 to 10.1.2 ([#154](https://github.com/XPEHO/xpeapp_admin/pull/154) @dependabot[bot])
+- migration firebase storage ([#160](https://github.com/XPEHO/xpeapp_admin/pull/160) @Theo-lbg)
+- Make a new release ([#114](https://github.com/XPEHO/xpeapp_admin/pull/114) @NyraSama)
+
+_Docs_
+- Ensure a good documentation for new arrivals on the project ([#136](https://github.com/XPEHO/xpeapp_admin/pull/136) @NyraSama)
+
 ## 1.2.0
 
 _Feat_

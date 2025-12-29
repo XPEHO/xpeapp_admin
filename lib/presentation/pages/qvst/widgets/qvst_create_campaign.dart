@@ -272,7 +272,7 @@ class _QvstCreateCampaignDialogState extends ConsumerState<QvstCreateCampaign> {
         ),
       );
 
-  _creationOfCampaign({
+  Future<void> _creationOfCampaign({
     required VoidCallback onError,
   }) async {
     if (startDate!.isAfter(endDate!)) {
