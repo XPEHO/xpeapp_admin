@@ -6,8 +6,8 @@ part of 'events_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$EventsEntityImpl _$$EventsEntityImplFromJson(Map<String, dynamic> json) =>
-    _$EventsEntityImpl(
+_EventsEntity _$EventsEntityFromJson(Map<String, dynamic> json) =>
+    _EventsEntity(
       id: json['id'] as String?,
       date: DateTime.parse(json['date'] as String),
       startTime: _fromJsonTime(json['start_time'] as String?),
@@ -18,7 +18,7 @@ _$EventsEntityImpl _$$EventsEntityImplFromJson(Map<String, dynamic> json) =>
       topic: json['topic'] as String?,
     );
 
-Map<String, dynamic> _$$EventsEntityImplToJson(_$EventsEntityImpl instance) =>
+Map<String, dynamic> _$EventsEntityToJson(_EventsEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'date': instance.date.toIso8601String(),

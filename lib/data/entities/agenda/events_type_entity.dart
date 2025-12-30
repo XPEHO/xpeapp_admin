@@ -5,7 +5,7 @@ part 'events_type_entity.freezed.dart';
 part 'events_type_entity.g.dart';
 
 @Freezed()
-class EventsTypeEntity with _$EventsTypeEntity {
+abstract class EventsTypeEntity with _$EventsTypeEntity {
   @JsonSerializable(explicitToJson: true)
   const factory EventsTypeEntity({
     required String id,

@@ -13,6 +13,7 @@ import 'package:xpeapp_admin/data/entities/agenda/events_entity.dart';
 import 'package:xpeapp_admin/data/entities/agenda/events_type_entity.dart';
 import 'package:xpeapp_admin/data/entities/config.dart';
 import 'package:xpeapp_admin/data/entities/idea_box/idea_entity.dart';
+import 'package:xpeapp_admin/data/entities/last_connexion_user.dart';
 import 'package:xpeapp_admin/data/entities/menu_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_campaign_entity.dart';
@@ -32,6 +33,7 @@ import 'package:xpeapp_admin/data/service/file_service.dart';
 import 'package:xpeapp_admin/data/service/idea_service.dart';
 import 'package:xpeapp_admin/data/service/qvst_service.dart';
 import 'package:xpeapp_admin/data/service/storage_service.dart';
+import 'package:xpeapp_admin/data/service/last_connexion_service.dart';
 import 'package:xpeapp_admin/data/state/agenda_menu_notifier.dart';
 import 'package:xpeapp_admin/data/state/analysis_charts_visibility_notifier.dart';
 import 'package:xpeapp_admin/data/state/comment_for_campaign_notifier.dart';
@@ -50,6 +52,7 @@ import 'package:xpeapp_admin/data/token_interceptor.dart';
 
 const menuNewsletter = 1;
 const menuFeatureFlipping = 2;
+const menuLastConnexion = 6;
 const menuQvst = 3;
 const menuAgenda = 4;
 const menuIdeaBox = 5;
@@ -289,6 +292,11 @@ final listOfMenuProvider = Provider<List<MenuEntity>>((ref) {
       asset: Icons.toggle_on_outlined,
     ),
     MenuEntity(
+      id: menuLastConnexion,
+      title: 'Dernière Connexion',
+      asset: Icons.access_time,
+    ),
+    MenuEntity(
       id: menuQvst,
       title: 'QVST',
       asset: Icons.question_answer_outlined,
@@ -440,4 +448,23 @@ final ideaUpdateStatusProvider =
     FutureProvider.family<void, Map<String, String>>((ref, params) async {
   final ideaService = ref.watch(ideaServiceProvider);
   await ideaService.updateIdeaStatus(params['id']!, params['status']!);
+});
+
+// Last Connexion
+final lastConnexionServiceProvider = Provider<LastConnexionService>((ref) {
+  final dio = ref.watch(dioProvider);
+  final config = ref.watch(configProvider);
+  return LastConnexionService(
+    BackendApi(
+      dio,
+      baseUrl: config.baseUrl,
+    ),
+  );
+});
+
+final lastConnexionUsersProvider =
+    FutureProvider<List<LastConnexionUser>>((ref) async {
+  final service = ref.watch(lastConnexionServiceProvider);
+  final response = await service.getAllLastConnections();
+  return response;
 });

@@ -6,9 +6,8 @@ part of 'qvst_question_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$QvstQuestionEntityImpl _$$QvstQuestionEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$QvstQuestionEntityImpl(
+_QvstQuestionEntity _$QvstQuestionEntityFromJson(Map<String, dynamic> json) =>
+    _QvstQuestionEntity(
       id: json['question_id'] as String?,
       question: json['question'] as String,
       theme: json['theme'] as String?,
@@ -22,8 +21,7 @@ _$QvstQuestionEntityImpl _$$QvstQuestionEntityImplFromJson(
       isReversed: json['is_reversed'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$QvstQuestionEntityImplToJson(
-        _$QvstQuestionEntityImpl instance) =>
+Map<String, dynamic> _$QvstQuestionEntityToJson(_QvstQuestionEntity instance) =>
     <String, dynamic>{
       'question_id': instance.id,
       'question': instance.question,

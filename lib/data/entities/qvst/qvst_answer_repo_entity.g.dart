@@ -6,9 +6,9 @@ part of 'qvst_answer_repo_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$QvstAnswerRepoEntityImpl _$$QvstAnswerRepoEntityImplFromJson(
+_QvstAnswerRepoEntity _$QvstAnswerRepoEntityFromJson(
         Map<String, dynamic> json) =>
-    _$QvstAnswerRepoEntityImpl(
+    _QvstAnswerRepoEntity(
       id: json['id'] as String,
       repoName: json['repoName'] as String,
       answers: (json['answers'] as List<dynamic>)
@@ -16,8 +16,8 @@ _$QvstAnswerRepoEntityImpl _$$QvstAnswerRepoEntityImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$QvstAnswerRepoEntityImplToJson(
-        _$QvstAnswerRepoEntityImpl instance) =>
+Map<String, dynamic> _$QvstAnswerRepoEntityToJson(
+        _QvstAnswerRepoEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'repoName': instance.repoName,

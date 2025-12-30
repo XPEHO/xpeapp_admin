@@ -4,7 +4,7 @@ part 'idea_entity.freezed.dart';
 part 'idea_entity.g.dart';
 
 @Freezed()
-class IdeaEntity with _$IdeaEntity {
+abstract class IdeaEntity with _$IdeaEntity {
   @JsonSerializable(explicitToJson: true)
   const factory IdeaEntity({
     required String id,

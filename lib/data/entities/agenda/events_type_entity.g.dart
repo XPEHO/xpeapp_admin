@@ -6,16 +6,14 @@ part of 'events_type_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$EventsTypeEntityImpl _$$EventsTypeEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$EventsTypeEntityImpl(
+_EventsTypeEntity _$EventsTypeEntityFromJson(Map<String, dynamic> json) =>
+    _EventsTypeEntity(
       id: json['id'] as String,
       label: json['label'] as String,
       colorCode: json['color_code'] as String,
     );
 
-Map<String, dynamic> _$$EventsTypeEntityImplToJson(
-        _$EventsTypeEntityImpl instance) =>
+Map<String, dynamic> _$EventsTypeEntityToJson(_EventsTypeEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'label': instance.label,

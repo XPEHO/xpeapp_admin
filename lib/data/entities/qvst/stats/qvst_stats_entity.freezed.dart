@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,124 +9,77 @@ part of 'qvst_stats_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-QvstStatsEntity _$QvstStatsEntityFromJson(Map<String, dynamic> json) {
-  return _QvstStatsEntity.fromJson(json);
-}
 
 /// @nodoc
 mixin _$QvstStatsEntity {
   @JsonKey(defaultValue: '')
-  String get campaignId => throw _privateConstructorUsedError;
+  String get campaignId;
   @JsonKey(defaultValue: '')
-  String get campaignName => throw _privateConstructorUsedError;
+  String get campaignName;
   @JsonKey(defaultValue: '')
-  String get campaignStatus => throw _privateConstructorUsedError;
-  DateTime? get startDate => throw _privateConstructorUsedError;
-  DateTime? get endDate => throw _privateConstructorUsedError;
-  List<QvstThemeEntity> get themes => throw _privateConstructorUsedError;
-  List<QvstQuestionEntity> get questions => throw _privateConstructorUsedError;
-  String? get action => throw _privateConstructorUsedError;
-
-  /// Serializes this QvstStatsEntity to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get campaignStatus;
+  DateTime? get startDate;
+  DateTime? get endDate;
+  List<QvstThemeEntity> get themes;
+  List<QvstQuestionEntity> get questions;
+  String? get action;
 
   /// Create a copy of QvstStatsEntity
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $QvstStatsEntityCopyWith<QvstStatsEntity> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $QvstStatsEntityCopyWith<$Res> {
-  factory $QvstStatsEntityCopyWith(
-          QvstStatsEntity value, $Res Function(QvstStatsEntity) then) =
-      _$QvstStatsEntityCopyWithImpl<$Res, QvstStatsEntity>;
-  @useResult
-  $Res call(
-      {@JsonKey(defaultValue: '') String campaignId,
-      @JsonKey(defaultValue: '') String campaignName,
-      @JsonKey(defaultValue: '') String campaignStatus,
-      DateTime? startDate,
-      DateTime? endDate,
-      List<QvstThemeEntity> themes,
-      List<QvstQuestionEntity> questions,
-      String? action});
-}
-
-/// @nodoc
-class _$QvstStatsEntityCopyWithImpl<$Res, $Val extends QvstStatsEntity>
-    implements $QvstStatsEntityCopyWith<$Res> {
-  _$QvstStatsEntityCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of QvstStatsEntity
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $QvstStatsEntityCopyWith<QvstStatsEntity> get copyWith =>
+      _$QvstStatsEntityCopyWithImpl<QvstStatsEntity>(
+          this as QvstStatsEntity, _$identity);
+
+  /// Serializes this QvstStatsEntity to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? campaignId = null,
-    Object? campaignName = null,
-    Object? campaignStatus = null,
-    Object? startDate = freezed,
-    Object? endDate = freezed,
-    Object? themes = null,
-    Object? questions = null,
-    Object? action = freezed,
-  }) {
-    return _then(_value.copyWith(
-      campaignId: null == campaignId
-          ? _value.campaignId
-          : campaignId // ignore: cast_nullable_to_non_nullable
-              as String,
-      campaignName: null == campaignName
-          ? _value.campaignName
-          : campaignName // ignore: cast_nullable_to_non_nullable
-              as String,
-      campaignStatus: null == campaignStatus
-          ? _value.campaignStatus
-          : campaignStatus // ignore: cast_nullable_to_non_nullable
-              as String,
-      startDate: freezed == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      endDate: freezed == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      themes: null == themes
-          ? _value.themes
-          : themes // ignore: cast_nullable_to_non_nullable
-              as List<QvstThemeEntity>,
-      questions: null == questions
-          ? _value.questions
-          : questions // ignore: cast_nullable_to_non_nullable
-              as List<QvstQuestionEntity>,
-      action: freezed == action
-          ? _value.action
-          : action // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is QvstStatsEntity &&
+            (identical(other.campaignId, campaignId) ||
+                other.campaignId == campaignId) &&
+            (identical(other.campaignName, campaignName) ||
+                other.campaignName == campaignName) &&
+            (identical(other.campaignStatus, campaignStatus) ||
+                other.campaignStatus == campaignStatus) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            const DeepCollectionEquality().equals(other.themes, themes) &&
+            const DeepCollectionEquality().equals(other.questions, questions) &&
+            (identical(other.action, action) || other.action == action));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      campaignId,
+      campaignName,
+      campaignStatus,
+      startDate,
+      endDate,
+      const DeepCollectionEquality().hash(themes),
+      const DeepCollectionEquality().hash(questions),
+      action);
+
+  @override
+  String toString() {
+    return 'QvstStatsEntity(campaignId: $campaignId, campaignName: $campaignName, campaignStatus: $campaignStatus, startDate: $startDate, endDate: $endDate, themes: $themes, questions: $questions, action: $action)';
   }
 }
 
 /// @nodoc
-abstract class _$$QvstStatsEntityImplCopyWith<$Res>
-    implements $QvstStatsEntityCopyWith<$Res> {
-  factory _$$QvstStatsEntityImplCopyWith(_$QvstStatsEntityImpl value,
-          $Res Function(_$QvstStatsEntityImpl) then) =
-      __$$QvstStatsEntityImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $QvstStatsEntityCopyWith<$Res> {
+  factory $QvstStatsEntityCopyWith(
+          QvstStatsEntity value, $Res Function(QvstStatsEntity) _then) =
+      _$QvstStatsEntityCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(defaultValue: '') String campaignId,
@@ -140,12 +93,12 @@ abstract class _$$QvstStatsEntityImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$QvstStatsEntityImplCopyWithImpl<$Res>
-    extends _$QvstStatsEntityCopyWithImpl<$Res, _$QvstStatsEntityImpl>
-    implements _$$QvstStatsEntityImplCopyWith<$Res> {
-  __$$QvstStatsEntityImplCopyWithImpl(
-      _$QvstStatsEntityImpl _value, $Res Function(_$QvstStatsEntityImpl) _then)
-      : super(_value, _then);
+class _$QvstStatsEntityCopyWithImpl<$Res>
+    implements $QvstStatsEntityCopyWith<$Res> {
+  _$QvstStatsEntityCopyWithImpl(this._self, this._then);
+
+  final QvstStatsEntity _self;
+  final $Res Function(QvstStatsEntity) _then;
 
   /// Create a copy of QvstStatsEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -161,47 +114,255 @@ class __$$QvstStatsEntityImplCopyWithImpl<$Res>
     Object? questions = null,
     Object? action = freezed,
   }) {
-    return _then(_$QvstStatsEntityImpl(
+    return _then(_self.copyWith(
       campaignId: null == campaignId
-          ? _value.campaignId
+          ? _self.campaignId
           : campaignId // ignore: cast_nullable_to_non_nullable
               as String,
       campaignName: null == campaignName
-          ? _value.campaignName
+          ? _self.campaignName
           : campaignName // ignore: cast_nullable_to_non_nullable
               as String,
       campaignStatus: null == campaignStatus
-          ? _value.campaignStatus
+          ? _self.campaignStatus
           : campaignStatus // ignore: cast_nullable_to_non_nullable
               as String,
       startDate: freezed == startDate
-          ? _value.startDate
+          ? _self.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       endDate: freezed == endDate
-          ? _value.endDate
+          ? _self.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       themes: null == themes
-          ? _value._themes
+          ? _self.themes
           : themes // ignore: cast_nullable_to_non_nullable
               as List<QvstThemeEntity>,
       questions: null == questions
-          ? _value._questions
+          ? _self.questions
           : questions // ignore: cast_nullable_to_non_nullable
               as List<QvstQuestionEntity>,
       action: freezed == action
-          ? _value.action
+          ? _self.action
           : action // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [QvstStatsEntity].
+extension QvstStatsEntityPatterns on QvstStatsEntity {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_QvstStatsEntity value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _QvstStatsEntity() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_QvstStatsEntity value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstStatsEntity():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_QvstStatsEntity value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstStatsEntity() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(defaultValue: '') String campaignId,
+            @JsonKey(defaultValue: '') String campaignName,
+            @JsonKey(defaultValue: '') String campaignStatus,
+            DateTime? startDate,
+            DateTime? endDate,
+            List<QvstThemeEntity> themes,
+            List<QvstQuestionEntity> questions,
+            String? action)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _QvstStatsEntity() when $default != null:
+        return $default(
+            _that.campaignId,
+            _that.campaignName,
+            _that.campaignStatus,
+            _that.startDate,
+            _that.endDate,
+            _that.themes,
+            _that.questions,
+            _that.action);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(defaultValue: '') String campaignId,
+            @JsonKey(defaultValue: '') String campaignName,
+            @JsonKey(defaultValue: '') String campaignStatus,
+            DateTime? startDate,
+            DateTime? endDate,
+            List<QvstThemeEntity> themes,
+            List<QvstQuestionEntity> questions,
+            String? action)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstStatsEntity():
+        return $default(
+            _that.campaignId,
+            _that.campaignName,
+            _that.campaignStatus,
+            _that.startDate,
+            _that.endDate,
+            _that.themes,
+            _that.questions,
+            _that.action);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            @JsonKey(defaultValue: '') String campaignId,
+            @JsonKey(defaultValue: '') String campaignName,
+            @JsonKey(defaultValue: '') String campaignStatus,
+            DateTime? startDate,
+            DateTime? endDate,
+            List<QvstThemeEntity> themes,
+            List<QvstQuestionEntity> questions,
+            String? action)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstStatsEntity() when $default != null:
+        return $default(
+            _that.campaignId,
+            _that.campaignName,
+            _that.campaignStatus,
+            _that.startDate,
+            _that.endDate,
+            _that.themes,
+            _that.questions,
+            _that.action);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
-class _$QvstStatsEntityImpl implements _QvstStatsEntity {
-  const _$QvstStatsEntityImpl(
+class _QvstStatsEntity implements QvstStatsEntity {
+  const _QvstStatsEntity(
       {@JsonKey(defaultValue: '') required this.campaignId,
       @JsonKey(defaultValue: '') required this.campaignName,
       @JsonKey(defaultValue: '') required this.campaignStatus,
@@ -212,9 +373,8 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
       this.action})
       : _themes = themes,
         _questions = questions;
-
-  factory _$QvstStatsEntityImpl.fromJson(Map<String, dynamic> json) =>
-      _$$QvstStatsEntityImplFromJson(json);
+  factory _QvstStatsEntity.fromJson(Map<String, dynamic> json) =>
+      _$QvstStatsEntityFromJson(json);
 
   @override
   @JsonKey(defaultValue: '')
@@ -248,16 +408,26 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
   @override
   final String? action;
 
+  /// Create a copy of QvstStatsEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'QvstStatsEntity(campaignId: $campaignId, campaignName: $campaignName, campaignStatus: $campaignStatus, startDate: $startDate, endDate: $endDate, themes: $themes, questions: $questions, action: $action)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$QvstStatsEntityCopyWith<_QvstStatsEntity> get copyWith =>
+      __$QvstStatsEntityCopyWithImpl<_QvstStatsEntity>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$QvstStatsEntityToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$QvstStatsEntityImpl &&
+            other is _QvstStatsEntity &&
             (identical(other.campaignId, campaignId) ||
                 other.campaignId == campaignId) &&
             (identical(other.campaignName, campaignName) ||
@@ -286,61 +456,88 @@ class _$QvstStatsEntityImpl implements _QvstStatsEntity {
       const DeepCollectionEquality().hash(_questions),
       action);
 
-  /// Create a copy of QvstStatsEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$QvstStatsEntityImplCopyWith<_$QvstStatsEntityImpl> get copyWith =>
-      __$$QvstStatsEntityImplCopyWithImpl<_$QvstStatsEntityImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$QvstStatsEntityImplToJson(
-      this,
-    );
+  String toString() {
+    return 'QvstStatsEntity(campaignId: $campaignId, campaignName: $campaignName, campaignStatus: $campaignStatus, startDate: $startDate, endDate: $endDate, themes: $themes, questions: $questions, action: $action)';
   }
 }
 
-abstract class _QvstStatsEntity implements QvstStatsEntity {
-  const factory _QvstStatsEntity(
-      {@JsonKey(defaultValue: '') required final String campaignId,
-      @JsonKey(defaultValue: '') required final String campaignName,
-      @JsonKey(defaultValue: '') required final String campaignStatus,
-      final DateTime? startDate,
-      final DateTime? endDate,
-      required final List<QvstThemeEntity> themes,
-      required final List<QvstQuestionEntity> questions,
-      final String? action}) = _$QvstStatsEntityImpl;
+/// @nodoc
+abstract mixin class _$QvstStatsEntityCopyWith<$Res>
+    implements $QvstStatsEntityCopyWith<$Res> {
+  factory _$QvstStatsEntityCopyWith(
+          _QvstStatsEntity value, $Res Function(_QvstStatsEntity) _then) =
+      __$QvstStatsEntityCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(defaultValue: '') String campaignId,
+      @JsonKey(defaultValue: '') String campaignName,
+      @JsonKey(defaultValue: '') String campaignStatus,
+      DateTime? startDate,
+      DateTime? endDate,
+      List<QvstThemeEntity> themes,
+      List<QvstQuestionEntity> questions,
+      String? action});
+}
 
-  factory _QvstStatsEntity.fromJson(Map<String, dynamic> json) =
-      _$QvstStatsEntityImpl.fromJson;
+/// @nodoc
+class __$QvstStatsEntityCopyWithImpl<$Res>
+    implements _$QvstStatsEntityCopyWith<$Res> {
+  __$QvstStatsEntityCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(defaultValue: '')
-  String get campaignId;
-  @override
-  @JsonKey(defaultValue: '')
-  String get campaignName;
-  @override
-  @JsonKey(defaultValue: '')
-  String get campaignStatus;
-  @override
-  DateTime? get startDate;
-  @override
-  DateTime? get endDate;
-  @override
-  List<QvstThemeEntity> get themes;
-  @override
-  List<QvstQuestionEntity> get questions;
-  @override
-  String? get action;
+  final _QvstStatsEntity _self;
+  final $Res Function(_QvstStatsEntity) _then;
 
   /// Create a copy of QvstStatsEntity
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$QvstStatsEntityImplCopyWith<_$QvstStatsEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? campaignId = null,
+    Object? campaignName = null,
+    Object? campaignStatus = null,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
+    Object? themes = null,
+    Object? questions = null,
+    Object? action = freezed,
+  }) {
+    return _then(_QvstStatsEntity(
+      campaignId: null == campaignId
+          ? _self.campaignId
+          : campaignId // ignore: cast_nullable_to_non_nullable
+              as String,
+      campaignName: null == campaignName
+          ? _self.campaignName
+          : campaignName // ignore: cast_nullable_to_non_nullable
+              as String,
+      campaignStatus: null == campaignStatus
+          ? _self.campaignStatus
+          : campaignStatus // ignore: cast_nullable_to_non_nullable
+              as String,
+      startDate: freezed == startDate
+          ? _self.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      endDate: freezed == endDate
+          ? _self.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      themes: null == themes
+          ? _self._themes
+          : themes // ignore: cast_nullable_to_non_nullable
+              as List<QvstThemeEntity>,
+      questions: null == questions
+          ? _self._questions
+          : questions // ignore: cast_nullable_to_non_nullable
+              as List<QvstQuestionEntity>,
+      action: freezed == action
+          ? _self.action
+          : action // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
+
+// dart format on

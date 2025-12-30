@@ -5,7 +5,7 @@ part 'qvst_campaign_entity.freezed.dart';
 part 'qvst_campaign_entity.g.dart';
 
 @Freezed()
-class QvstCampaignEntity with _$QvstCampaignEntity {
+abstract class QvstCampaignEntity with _$QvstCampaignEntity {
   const factory QvstCampaignEntity({
     required String id,
     required String name,

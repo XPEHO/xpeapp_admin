@@ -4,7 +4,7 @@ part 'qvst_resume_entity.freezed.dart';
 part 'qvst_resume_entity.g.dart';
 
 @Freezed()
-class QvstResumeEntity with _$QvstResumeEntity {
+abstract class QvstResumeEntity with _$QvstResumeEntity {
   const factory QvstResumeEntity({
     required String id,
     required String theme,

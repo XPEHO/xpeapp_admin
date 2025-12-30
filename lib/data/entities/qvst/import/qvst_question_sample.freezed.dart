@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,161 +9,34 @@ part of 'qvst_question_sample.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-QvstQuestionSample _$QvstQuestionSampleFromJson(Map<String, dynamic> json) {
-  return _QvstQuestionSample.fromJson(json);
-}
 
 /// @nodoc
 mixin _$QvstQuestionSample {
   @JsonKey(name: 'id_theme')
-  String get idTheme => throw _privateConstructorUsedError;
+  String get idTheme;
   @JsonKey(name: 'question')
-  String get question => throw _privateConstructorUsedError;
+  String get question;
   @JsonKey(name: 'response_repo')
-  String get responseRepo => throw _privateConstructorUsedError;
-
-  /// Serializes this QvstQuestionSample to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get responseRepo;
 
   /// Create a copy of QvstQuestionSample
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $QvstQuestionSampleCopyWith<QvstQuestionSample> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$QvstQuestionSampleCopyWithImpl<QvstQuestionSample>(
+          this as QvstQuestionSample, _$identity);
 
-/// @nodoc
-abstract class $QvstQuestionSampleCopyWith<$Res> {
-  factory $QvstQuestionSampleCopyWith(
-          QvstQuestionSample value, $Res Function(QvstQuestionSample) then) =
-      _$QvstQuestionSampleCopyWithImpl<$Res, QvstQuestionSample>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'id_theme') String idTheme,
-      @JsonKey(name: 'question') String question,
-      @JsonKey(name: 'response_repo') String responseRepo});
-}
-
-/// @nodoc
-class _$QvstQuestionSampleCopyWithImpl<$Res, $Val extends QvstQuestionSample>
-    implements $QvstQuestionSampleCopyWith<$Res> {
-  _$QvstQuestionSampleCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of QvstQuestionSample
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? idTheme = null,
-    Object? question = null,
-    Object? responseRepo = null,
-  }) {
-    return _then(_value.copyWith(
-      idTheme: null == idTheme
-          ? _value.idTheme
-          : idTheme // ignore: cast_nullable_to_non_nullable
-              as String,
-      question: null == question
-          ? _value.question
-          : question // ignore: cast_nullable_to_non_nullable
-              as String,
-      responseRepo: null == responseRepo
-          ? _value.responseRepo
-          : responseRepo // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$QvstQuestionSampleImplCopyWith<$Res>
-    implements $QvstQuestionSampleCopyWith<$Res> {
-  factory _$$QvstQuestionSampleImplCopyWith(_$QvstQuestionSampleImpl value,
-          $Res Function(_$QvstQuestionSampleImpl) then) =
-      __$$QvstQuestionSampleImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'id_theme') String idTheme,
-      @JsonKey(name: 'question') String question,
-      @JsonKey(name: 'response_repo') String responseRepo});
-}
-
-/// @nodoc
-class __$$QvstQuestionSampleImplCopyWithImpl<$Res>
-    extends _$QvstQuestionSampleCopyWithImpl<$Res, _$QvstQuestionSampleImpl>
-    implements _$$QvstQuestionSampleImplCopyWith<$Res> {
-  __$$QvstQuestionSampleImplCopyWithImpl(_$QvstQuestionSampleImpl _value,
-      $Res Function(_$QvstQuestionSampleImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of QvstQuestionSample
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? idTheme = null,
-    Object? question = null,
-    Object? responseRepo = null,
-  }) {
-    return _then(_$QvstQuestionSampleImpl(
-      idTheme: null == idTheme
-          ? _value.idTheme
-          : idTheme // ignore: cast_nullable_to_non_nullable
-              as String,
-      question: null == question
-          ? _value.question
-          : question // ignore: cast_nullable_to_non_nullable
-              as String,
-      responseRepo: null == responseRepo
-          ? _value.responseRepo
-          : responseRepo // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$QvstQuestionSampleImpl implements _QvstQuestionSample {
-  _$QvstQuestionSampleImpl(
-      {@JsonKey(name: 'id_theme') required this.idTheme,
-      @JsonKey(name: 'question') required this.question,
-      @JsonKey(name: 'response_repo') required this.responseRepo});
-
-  factory _$QvstQuestionSampleImpl.fromJson(Map<String, dynamic> json) =>
-      _$$QvstQuestionSampleImplFromJson(json);
-
-  @override
-  @JsonKey(name: 'id_theme')
-  final String idTheme;
-  @override
-  @JsonKey(name: 'question')
-  final String question;
-  @override
-  @JsonKey(name: 'response_repo')
-  final String responseRepo;
-
-  @override
-  String toString() {
-    return 'QvstQuestionSample(idTheme: $idTheme, question: $question, responseRepo: $responseRepo)';
-  }
+  /// Serializes this QvstQuestionSample to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$QvstQuestionSampleImpl &&
+            other is QvstQuestionSample &&
             (identical(other.idTheme, idTheme) || other.idTheme == idTheme) &&
             (identical(other.question, question) ||
                 other.question == question) &&
@@ -175,47 +48,330 @@ class _$QvstQuestionSampleImpl implements _QvstQuestionSample {
   @override
   int get hashCode => Object.hash(runtimeType, idTheme, question, responseRepo);
 
-  /// Create a copy of QvstQuestionSample
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$QvstQuestionSampleImplCopyWith<_$QvstQuestionSampleImpl> get copyWith =>
-      __$$QvstQuestionSampleImplCopyWithImpl<_$QvstQuestionSampleImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$QvstQuestionSampleImplToJson(
-      this,
-    );
+  String toString() {
+    return 'QvstQuestionSample(idTheme: $idTheme, question: $question, responseRepo: $responseRepo)';
   }
 }
 
-abstract class _QvstQuestionSample implements QvstQuestionSample {
-  factory _QvstQuestionSample(
-          {@JsonKey(name: 'id_theme') required final String idTheme,
-          @JsonKey(name: 'question') required final String question,
-          @JsonKey(name: 'response_repo') required final String responseRepo}) =
-      _$QvstQuestionSampleImpl;
+/// @nodoc
+abstract mixin class $QvstQuestionSampleCopyWith<$Res> {
+  factory $QvstQuestionSampleCopyWith(
+          QvstQuestionSample value, $Res Function(QvstQuestionSample) _then) =
+      _$QvstQuestionSampleCopyWithImpl;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id_theme') String idTheme,
+      @JsonKey(name: 'question') String question,
+      @JsonKey(name: 'response_repo') String responseRepo});
+}
 
-  factory _QvstQuestionSample.fromJson(Map<String, dynamic> json) =
-      _$QvstQuestionSampleImpl.fromJson;
+/// @nodoc
+class _$QvstQuestionSampleCopyWithImpl<$Res>
+    implements $QvstQuestionSampleCopyWith<$Res> {
+  _$QvstQuestionSampleCopyWithImpl(this._self, this._then);
+
+  final QvstQuestionSample _self;
+  final $Res Function(QvstQuestionSample) _then;
+
+  /// Create a copy of QvstQuestionSample
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? idTheme = null,
+    Object? question = null,
+    Object? responseRepo = null,
+  }) {
+    return _then(_self.copyWith(
+      idTheme: null == idTheme
+          ? _self.idTheme
+          : idTheme // ignore: cast_nullable_to_non_nullable
+              as String,
+      question: null == question
+          ? _self.question
+          : question // ignore: cast_nullable_to_non_nullable
+              as String,
+      responseRepo: null == responseRepo
+          ? _self.responseRepo
+          : responseRepo // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [QvstQuestionSample].
+extension QvstQuestionSamplePatterns on QvstQuestionSample {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_QvstQuestionSample value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionSample() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_QvstQuestionSample value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionSample():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_QvstQuestionSample value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionSample() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: 'id_theme') String idTheme,
+            @JsonKey(name: 'question') String question,
+            @JsonKey(name: 'response_repo') String responseRepo)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionSample() when $default != null:
+        return $default(_that.idTheme, _that.question, _that.responseRepo);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: 'id_theme') String idTheme,
+            @JsonKey(name: 'question') String question,
+            @JsonKey(name: 'response_repo') String responseRepo)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionSample():
+        return $default(_that.idTheme, _that.question, _that.responseRepo);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            @JsonKey(name: 'id_theme') String idTheme,
+            @JsonKey(name: 'question') String question,
+            @JsonKey(name: 'response_repo') String responseRepo)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionSample() when $default != null:
+        return $default(_that.idTheme, _that.question, _that.responseRepo);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _QvstQuestionSample implements QvstQuestionSample {
+  _QvstQuestionSample(
+      {@JsonKey(name: 'id_theme') required this.idTheme,
+      @JsonKey(name: 'question') required this.question,
+      @JsonKey(name: 'response_repo') required this.responseRepo});
+  factory _QvstQuestionSample.fromJson(Map<String, dynamic> json) =>
+      _$QvstQuestionSampleFromJson(json);
 
   @override
   @JsonKey(name: 'id_theme')
-  String get idTheme;
+  final String idTheme;
   @override
   @JsonKey(name: 'question')
-  String get question;
+  final String question;
   @override
   @JsonKey(name: 'response_repo')
-  String get responseRepo;
+  final String responseRepo;
 
   /// Create a copy of QvstQuestionSample
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$QvstQuestionSampleImplCopyWith<_$QvstQuestionSampleImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$QvstQuestionSampleCopyWith<_QvstQuestionSample> get copyWith =>
+      __$QvstQuestionSampleCopyWithImpl<_QvstQuestionSample>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$QvstQuestionSampleToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _QvstQuestionSample &&
+            (identical(other.idTheme, idTheme) || other.idTheme == idTheme) &&
+            (identical(other.question, question) ||
+                other.question == question) &&
+            (identical(other.responseRepo, responseRepo) ||
+                other.responseRepo == responseRepo));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, idTheme, question, responseRepo);
+
+  @override
+  String toString() {
+    return 'QvstQuestionSample(idTheme: $idTheme, question: $question, responseRepo: $responseRepo)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$QvstQuestionSampleCopyWith<$Res>
+    implements $QvstQuestionSampleCopyWith<$Res> {
+  factory _$QvstQuestionSampleCopyWith(
+          _QvstQuestionSample value, $Res Function(_QvstQuestionSample) _then) =
+      __$QvstQuestionSampleCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id_theme') String idTheme,
+      @JsonKey(name: 'question') String question,
+      @JsonKey(name: 'response_repo') String responseRepo});
+}
+
+/// @nodoc
+class __$QvstQuestionSampleCopyWithImpl<$Res>
+    implements _$QvstQuestionSampleCopyWith<$Res> {
+  __$QvstQuestionSampleCopyWithImpl(this._self, this._then);
+
+  final _QvstQuestionSample _self;
+  final $Res Function(_QvstQuestionSample) _then;
+
+  /// Create a copy of QvstQuestionSample
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? idTheme = null,
+    Object? question = null,
+    Object? responseRepo = null,
+  }) {
+    return _then(_QvstQuestionSample(
+      idTheme: null == idTheme
+          ? _self.idTheme
+          : idTheme // ignore: cast_nullable_to_non_nullable
+              as String,
+      question: null == question
+          ? _self.question
+          : question // ignore: cast_nullable_to_non_nullable
+              as String,
+      responseRepo: null == responseRepo
+          ? _self.responseRepo
+          : responseRepo // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+// dart format on
