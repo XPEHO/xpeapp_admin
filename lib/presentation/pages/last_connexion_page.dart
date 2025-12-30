@@ -58,9 +58,9 @@ class _LastConnexionPageState extends ConsumerState<LastConnexionPage> {
           body: ListView(
             children: [
               const SizedBox(height: 12),
-              Center(
+              const Center(
                   child: Text('Dernières connexions des utilisateurs',
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 24, fontWeight: FontWeight.normal))),
               Center(
                   child: subtitleWidget(
@@ -86,6 +86,9 @@ class _LastConnexionPageState extends ConsumerState<LastConnexionPage> {
                           AgendaSummaryTile(
                             title: user.userNicename,
                             leadingIcon: Icons.access_time,
+                            trailingIcon: isExpanded
+                                ? Icons.expand_less
+                                : Icons.expand_more,
                             onTap: () {
                               setState(() {
                                 _expanded[key] = !isExpanded;
