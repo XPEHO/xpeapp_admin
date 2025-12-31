@@ -8,12 +8,14 @@ part of 'last_connexion_user.dart';
 
 _LastConnexionUser _$LastConnexionUserFromJson(Map<String, dynamic> json) =>
     _LastConnexionUser(
-      userNicename: json['user_nicename'] as String,
       lastConnexion: DateTime.parse(json['last_connection'] as String),
+      firstname: json['first_name'] as String,
+      lastname: json['last_name'] as String,
     );
 
 Map<String, dynamic> _$LastConnexionUserToJson(_LastConnexionUser instance) =>
     <String, dynamic>{
-      'user_nicename': instance.userNicename,
       'last_connection': instance.lastConnexion.toIso8601String(),
+      'first_name': instance.firstname,
+      'last_name': instance.lastname,
     };

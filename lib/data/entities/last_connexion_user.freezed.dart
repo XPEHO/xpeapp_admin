@@ -14,10 +14,12 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$LastConnexionUser {
-  @JsonKey(name: 'user_nicename')
-  String get userNicename;
   @JsonKey(name: 'last_connection')
   DateTime get lastConnexion;
+  @JsonKey(name: 'first_name')
+  String get firstname;
+  @JsonKey(name: 'last_name')
+  String get lastname;
 
   /// Create a copy of LastConnexionUser
   /// with the given fields replaced by the non-null parameter values.
@@ -35,19 +37,22 @@ mixin _$LastConnexionUser {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is LastConnexionUser &&
-            (identical(other.userNicename, userNicename) ||
-                other.userNicename == userNicename) &&
             (identical(other.lastConnexion, lastConnexion) ||
-                other.lastConnexion == lastConnexion));
+                other.lastConnexion == lastConnexion) &&
+            (identical(other.firstname, firstname) ||
+                other.firstname == firstname) &&
+            (identical(other.lastname, lastname) ||
+                other.lastname == lastname));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, userNicename, lastConnexion);
+  int get hashCode =>
+      Object.hash(runtimeType, lastConnexion, firstname, lastname);
 
   @override
   String toString() {
-    return 'LastConnexionUser(userNicename: $userNicename, lastConnexion: $lastConnexion)';
+    return 'LastConnexionUser(lastConnexion: $lastConnexion, firstname: $firstname, lastname: $lastname)';
   }
 }
 
@@ -58,8 +63,9 @@ abstract mixin class $LastConnexionUserCopyWith<$Res> {
       _$LastConnexionUserCopyWithImpl;
   @useResult
   $Res call(
-      {@JsonKey(name: 'user_nicename') String userNicename,
-      @JsonKey(name: 'last_connection') DateTime lastConnexion});
+      {@JsonKey(name: 'last_connection') DateTime lastConnexion,
+      @JsonKey(name: 'first_name') String firstname,
+      @JsonKey(name: 'last_name') String lastname});
 }
 
 /// @nodoc
@@ -75,18 +81,23 @@ class _$LastConnexionUserCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userNicename = null,
     Object? lastConnexion = null,
+    Object? firstname = null,
+    Object? lastname = null,
   }) {
     return _then(_self.copyWith(
-      userNicename: null == userNicename
-          ? _self.userNicename
-          : userNicename // ignore: cast_nullable_to_non_nullable
-              as String,
       lastConnexion: null == lastConnexion
           ? _self.lastConnexion
           : lastConnexion // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      firstname: null == firstname
+          ? _self.firstname
+          : firstname // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastname: null == lastname
+          ? _self.lastname
+          : lastname // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -184,15 +195,17 @@ extension LastConnexionUserPatterns on LastConnexionUser {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(@JsonKey(name: 'user_nicename') String userNicename,
-            @JsonKey(name: 'last_connection') DateTime lastConnexion)?
+    TResult Function(
+            @JsonKey(name: 'last_connection') DateTime lastConnexion,
+            @JsonKey(name: 'first_name') String firstname,
+            @JsonKey(name: 'last_name') String lastname)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _LastConnexionUser() when $default != null:
-        return $default(_that.userNicename, _that.lastConnexion);
+        return $default(_that.lastConnexion, _that.firstname, _that.lastname);
       case _:
         return orElse();
     }
@@ -213,14 +226,16 @@ extension LastConnexionUserPatterns on LastConnexionUser {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(@JsonKey(name: 'user_nicename') String userNicename,
-            @JsonKey(name: 'last_connection') DateTime lastConnexion)
+    TResult Function(
+            @JsonKey(name: 'last_connection') DateTime lastConnexion,
+            @JsonKey(name: 'first_name') String firstname,
+            @JsonKey(name: 'last_name') String lastname)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LastConnexionUser():
-        return $default(_that.userNicename, _that.lastConnexion);
+        return $default(_that.lastConnexion, _that.firstname, _that.lastname);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -240,14 +255,16 @@ extension LastConnexionUserPatterns on LastConnexionUser {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(@JsonKey(name: 'user_nicename') String userNicename,
-            @JsonKey(name: 'last_connection') DateTime lastConnexion)?
+    TResult? Function(
+            @JsonKey(name: 'last_connection') DateTime lastConnexion,
+            @JsonKey(name: 'first_name') String firstname,
+            @JsonKey(name: 'last_name') String lastname)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LastConnexionUser() when $default != null:
-        return $default(_that.userNicename, _that.lastConnexion);
+        return $default(_that.lastConnexion, _that.firstname, _that.lastname);
       case _:
         return null;
     }
@@ -259,17 +276,21 @@ extension LastConnexionUserPatterns on LastConnexionUser {
 @JsonSerializable(explicitToJson: true)
 class _LastConnexionUser implements LastConnexionUser {
   const _LastConnexionUser(
-      {@JsonKey(name: 'user_nicename') required this.userNicename,
-      @JsonKey(name: 'last_connection') required this.lastConnexion});
+      {@JsonKey(name: 'last_connection') required this.lastConnexion,
+      @JsonKey(name: 'first_name') required this.firstname,
+      @JsonKey(name: 'last_name') required this.lastname});
   factory _LastConnexionUser.fromJson(Map<String, dynamic> json) =>
       _$LastConnexionUserFromJson(json);
 
   @override
-  @JsonKey(name: 'user_nicename')
-  final String userNicename;
-  @override
   @JsonKey(name: 'last_connection')
   final DateTime lastConnexion;
+  @override
+  @JsonKey(name: 'first_name')
+  final String firstname;
+  @override
+  @JsonKey(name: 'last_name')
+  final String lastname;
 
   /// Create a copy of LastConnexionUser
   /// with the given fields replaced by the non-null parameter values.
@@ -291,19 +312,22 @@ class _LastConnexionUser implements LastConnexionUser {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _LastConnexionUser &&
-            (identical(other.userNicename, userNicename) ||
-                other.userNicename == userNicename) &&
             (identical(other.lastConnexion, lastConnexion) ||
-                other.lastConnexion == lastConnexion));
+                other.lastConnexion == lastConnexion) &&
+            (identical(other.firstname, firstname) ||
+                other.firstname == firstname) &&
+            (identical(other.lastname, lastname) ||
+                other.lastname == lastname));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, userNicename, lastConnexion);
+  int get hashCode =>
+      Object.hash(runtimeType, lastConnexion, firstname, lastname);
 
   @override
   String toString() {
-    return 'LastConnexionUser(userNicename: $userNicename, lastConnexion: $lastConnexion)';
+    return 'LastConnexionUser(lastConnexion: $lastConnexion, firstname: $firstname, lastname: $lastname)';
   }
 }
 
@@ -316,8 +340,9 @@ abstract mixin class _$LastConnexionUserCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'user_nicename') String userNicename,
-      @JsonKey(name: 'last_connection') DateTime lastConnexion});
+      {@JsonKey(name: 'last_connection') DateTime lastConnexion,
+      @JsonKey(name: 'first_name') String firstname,
+      @JsonKey(name: 'last_name') String lastname});
 }
 
 /// @nodoc
@@ -333,18 +358,23 @@ class __$LastConnexionUserCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? userNicename = null,
     Object? lastConnexion = null,
+    Object? firstname = null,
+    Object? lastname = null,
   }) {
     return _then(_LastConnexionUser(
-      userNicename: null == userNicename
-          ? _self.userNicename
-          : userNicename // ignore: cast_nullable_to_non_nullable
-              as String,
       lastConnexion: null == lastConnexion
           ? _self.lastConnexion
           : lastConnexion // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      firstname: null == firstname
+          ? _self.firstname
+          : firstname // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastname: null == lastname
+          ? _self.lastname
+          : lastname // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }

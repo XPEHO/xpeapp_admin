@@ -78,13 +78,15 @@ class _LastConnexionPageState extends ConsumerState<LastConnexionPage> {
                   ...entry.value.map((user) {
                     final formattedDate = DateFormat('dd/MM/yyyy à HH:mm')
                         .format(user.lastConnexion);
-                    final key = '${entry.key}_${user.userNicename}';
+                    final key =
+                        '${entry.key}_${user.firstname}_${user.lastname}';
                     final isExpanded = _expanded[key] ?? false;
                     return AgendaCard(
                       child: Column(
                         children: [
                           AgendaSummaryTile(
-                            title: user.userNicename,
+                            title:
+                                '${capitalize(user.firstname)} ${capitalize(user.lastname)}',
                             leadingIcon: Icons.access_time,
                             trailingIcon: isExpanded
                                 ? Icons.expand_less
@@ -122,4 +124,7 @@ class _LastConnexionPageState extends ConsumerState<LastConnexionPage> {
       },
     );
   }
+
+  String capitalize(String s) =>
+      s.isNotEmpty ? s[0].toUpperCase() + s.substring(1).toLowerCase() : s;
 }

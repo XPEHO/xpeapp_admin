@@ -151,14 +151,14 @@ class HomePage extends ConsumerWidget {
           return const NewslettersPage();
         case 2:
           return const FeatureFlippingPage();
-        case 6:
-          return const LastConnexionPage();
         case 3:
           return const QvstContentHome();
         case 4:
           return const AgendaPage();
         case 5:
           return const IdeaBoxPage();
+        case 6:
+          return const LastConnexionPage();
         default:
           return const SizedBox();
       }
@@ -171,7 +171,8 @@ class HomePage extends ConsumerWidget {
         menuSelected.id == menuFeatureFlipping ||
         menuSelected.id == menuQvst ||
         menuSelected.id == menuAgenda ||
-        menuSelected.id == menuIdeaBox) {
+        menuSelected.id == menuIdeaBox ||
+        menuSelected.id == menuLastConnexion) {
       return null;
     }
 

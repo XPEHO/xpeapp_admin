@@ -7,8 +7,9 @@ part 'last_connexion_user.g.dart';
 abstract class LastConnexionUser with _$LastConnexionUser {
   @JsonSerializable(explicitToJson: true)
   const factory LastConnexionUser({
-    @JsonKey(name: 'user_nicename') required String userNicename,
     @JsonKey(name: 'last_connection') required DateTime lastConnexion,
+    @JsonKey(name: 'first_name') required String firstname,
+    @JsonKey(name: 'last_name') required String lastname,
   }) = _LastConnexionUser;
 
   factory LastConnexionUser.fromJson(Map<String, dynamic> json) =>

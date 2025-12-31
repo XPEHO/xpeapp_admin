@@ -23,8 +23,9 @@ void main() {
     test('returns list of LastConnexionUser on success', () async {
       final mockJson = [
         {
-          'user_nicename': 'test_user',
           'last_connection': '2025-12-30T15:49:23',
+          'first_name': 'test_user',
+          'last_name': 'user_lastname',
         },
       ];
       final response = Response(
@@ -38,7 +39,8 @@ void main() {
 
       final result = await service.getAllLastConnections();
       expect(result, isA<List<LastConnexionUser>>());
-      expect(result.first.userNicename, 'test_user');
+      expect(result.first.firstname, 'test_user');
+      expect(result.first.lastname, 'user_lastname');
       expect(result.first.lastConnexion.year, 2025);
     });
 
