@@ -4,7 +4,7 @@ import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/menu_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/agenda_page.dart';
 import 'package:xpeapp_admin/presentation/pages/feature_flipping/feature_flipping_page.dart';
-import 'package:xpeapp_admin/presentation/pages/last_connexion_page.dart';
+import 'package:xpeapp_admin/presentation/pages/last_connection_page.dart';
 import 'package:xpeapp_admin/presentation/pages/idea_box/idea_box_page.dart';
 import 'package:xpeapp_admin/presentation/pages/newsletters/newsletters_page.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_home.dart';
@@ -158,7 +158,7 @@ class HomePage extends ConsumerWidget {
         case 5:
           return const IdeaBoxPage();
         case 6:
-          return const LastConnexionPage();
+          return const LastConnectionPage();
         default:
           return const SizedBox();
       }

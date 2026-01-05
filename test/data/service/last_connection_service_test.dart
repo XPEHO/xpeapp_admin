@@ -1,17 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:xpeapp_admin/data/service/last_connection_service.dart';
 import 'package:xpeapp_admin/data/entities/last_connection_user.dart';
 import 'package:mockito/mockito.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:xpeapp_admin/data/service/last_connection_service.dart';
 
-import 'last_connexion_service_test.mocks.dart';
+import 'last_connection_service_test.mocks.dart';
 
 @GenerateMocks([BackendApi])
 void main() {
-  group('LastConnexionService', () {
+  group('LastConnectionService', () {
     late MockBackendApi mockApi;
     late LastConnectionService service;
 
@@ -20,7 +20,7 @@ void main() {
       service = LastConnectionService(mockApi);
     });
 
-    test('returns list of LastConnexionUser on success', () async {
+    test('returns list of LastConnectionUser on success', () async {
       final mockJson = [
         {
           'last_connection': '2025-12-30T15:49:23',

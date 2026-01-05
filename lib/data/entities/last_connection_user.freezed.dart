@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'last_connexion_user.dart';
+part of 'last_connection_user.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,7 +13,7 @@ part of 'last_connexion_user.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$LastConnexionUser {
+mixin _$LastConnectionUser {
   @JsonKey(name: 'last_connection')
   DateTime get lastConnexion;
   @JsonKey(name: 'first_name')
@@ -21,22 +21,22 @@ mixin _$LastConnexionUser {
   @JsonKey(name: 'last_name')
   String get lastname;
 
-  /// Create a copy of LastConnexionUser
+  /// Create a copy of LastConnectionUser
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $LastConnexionUserCopyWith<LastConnexionUser> get copyWith =>
-      _$LastConnexionUserCopyWithImpl<LastConnexionUser>(
-          this as LastConnexionUser, _$identity);
+  $LastConnectionUserCopyWith<LastConnectionUser> get copyWith =>
+      _$LastConnectionUserCopyWithImpl<LastConnectionUser>(
+          this as LastConnectionUser, _$identity);
 
-  /// Serializes this LastConnexionUser to a JSON map.
+  /// Serializes this LastConnectionUser to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is LastConnexionUser &&
+            other is LastConnectionUser &&
             (identical(other.lastConnexion, lastConnexion) ||
                 other.lastConnexion == lastConnexion) &&
             (identical(other.firstname, firstname) ||
@@ -52,15 +52,15 @@ mixin _$LastConnexionUser {
 
   @override
   String toString() {
-    return 'LastConnexionUser(lastConnexion: $lastConnexion, firstname: $firstname, lastname: $lastname)';
+    return 'LastConnectionUser(lastConnexion: $lastConnexion, firstname: $firstname, lastname: $lastname)';
   }
 }
 
 /// @nodoc
-abstract mixin class $LastConnexionUserCopyWith<$Res> {
-  factory $LastConnexionUserCopyWith(
-          LastConnexionUser value, $Res Function(LastConnexionUser) _then) =
-      _$LastConnexionUserCopyWithImpl;
+abstract mixin class $LastConnectionUserCopyWith<$Res> {
+  factory $LastConnectionUserCopyWith(
+          LastConnectionUser value, $Res Function(LastConnectionUser) _then) =
+      _$LastConnectionUserCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'last_connection') DateTime lastConnexion,
@@ -69,14 +69,14 @@ abstract mixin class $LastConnexionUserCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$LastConnexionUserCopyWithImpl<$Res>
-    implements $LastConnexionUserCopyWith<$Res> {
-  _$LastConnexionUserCopyWithImpl(this._self, this._then);
+class _$LastConnectionUserCopyWithImpl<$Res>
+    implements $LastConnectionUserCopyWith<$Res> {
+  _$LastConnectionUserCopyWithImpl(this._self, this._then);
 
-  final LastConnexionUser _self;
-  final $Res Function(LastConnexionUser) _then;
+  final LastConnectionUser _self;
+  final $Res Function(LastConnectionUser) _then;
 
-  /// Create a copy of LastConnexionUser
+  /// Create a copy of LastConnectionUser
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -102,8 +102,8 @@ class _$LastConnexionUserCopyWithImpl<$Res>
   }
 }
 
-/// Adds pattern-matching-related methods to [LastConnexionUser].
-extension LastConnexionUserPatterns on LastConnexionUser {
+/// Adds pattern-matching-related methods to [LastConnectionUser].
+extension LastConnectionUserPatterns on LastConnectionUser {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -118,12 +118,12 @@ extension LastConnexionUserPatterns on LastConnexionUser {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_LastConnexionUser value)? $default, {
+    TResult Function(_LastConnectionUser value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _LastConnexionUser() when $default != null:
+      case _LastConnectionUser() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -145,11 +145,11 @@ extension LastConnexionUserPatterns on LastConnexionUser {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_LastConnexionUser value) $default,
+    TResult Function(_LastConnectionUser value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _LastConnexionUser():
+      case _LastConnectionUser():
         return $default(_that);
       case _:
         throw StateError('Unexpected subclass');
@@ -170,11 +170,11 @@ extension LastConnexionUserPatterns on LastConnexionUser {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_LastConnexionUser value)? $default,
+    TResult? Function(_LastConnectionUser value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _LastConnexionUser() when $default != null:
+      case _LastConnectionUser() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -204,7 +204,7 @@ extension LastConnexionUserPatterns on LastConnexionUser {
   }) {
     final _that = this;
     switch (_that) {
-      case _LastConnexionUser() when $default != null:
+      case _LastConnectionUser() when $default != null:
         return $default(_that.lastConnexion, _that.firstname, _that.lastname);
       case _:
         return orElse();
@@ -234,7 +234,7 @@ extension LastConnexionUserPatterns on LastConnexionUser {
   ) {
     final _that = this;
     switch (_that) {
-      case _LastConnexionUser():
+      case _LastConnectionUser():
         return $default(_that.lastConnexion, _that.firstname, _that.lastname);
       case _:
         throw StateError('Unexpected subclass');
@@ -263,7 +263,7 @@ extension LastConnexionUserPatterns on LastConnexionUser {
   ) {
     final _that = this;
     switch (_that) {
-      case _LastConnexionUser() when $default != null:
+      case _LastConnectionUser() when $default != null:
         return $default(_that.lastConnexion, _that.firstname, _that.lastname);
       case _:
         return null;
@@ -274,13 +274,13 @@ extension LastConnexionUserPatterns on LastConnexionUser {
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _LastConnexionUser implements LastConnexionUser {
-  const _LastConnexionUser(
+class _LastConnectionUser implements LastConnectionUser {
+  const _LastConnectionUser(
       {@JsonKey(name: 'last_connection') required this.lastConnexion,
       @JsonKey(name: 'first_name') required this.firstname,
       @JsonKey(name: 'last_name') required this.lastname});
-  factory _LastConnexionUser.fromJson(Map<String, dynamic> json) =>
-      _$LastConnexionUserFromJson(json);
+  factory _LastConnectionUser.fromJson(Map<String, dynamic> json) =>
+      _$LastConnectionUserFromJson(json);
 
   @override
   @JsonKey(name: 'last_connection')
@@ -292,17 +292,17 @@ class _LastConnexionUser implements LastConnexionUser {
   @JsonKey(name: 'last_name')
   final String lastname;
 
-  /// Create a copy of LastConnexionUser
+  /// Create a copy of LastConnectionUser
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$LastConnexionUserCopyWith<_LastConnexionUser> get copyWith =>
-      __$LastConnexionUserCopyWithImpl<_LastConnexionUser>(this, _$identity);
+  _$LastConnectionUserCopyWith<_LastConnectionUser> get copyWith =>
+      __$LastConnectionUserCopyWithImpl<_LastConnectionUser>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$LastConnexionUserToJson(
+    return _$LastConnectionUserToJson(
       this,
     );
   }
@@ -311,7 +311,7 @@ class _LastConnexionUser implements LastConnexionUser {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _LastConnexionUser &&
+            other is _LastConnectionUser &&
             (identical(other.lastConnexion, lastConnexion) ||
                 other.lastConnexion == lastConnexion) &&
             (identical(other.firstname, firstname) ||
@@ -327,16 +327,16 @@ class _LastConnexionUser implements LastConnexionUser {
 
   @override
   String toString() {
-    return 'LastConnexionUser(lastConnexion: $lastConnexion, firstname: $firstname, lastname: $lastname)';
+    return 'LastConnectionUser(lastConnexion: $lastConnexion, firstname: $firstname, lastname: $lastname)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$LastConnexionUserCopyWith<$Res>
-    implements $LastConnexionUserCopyWith<$Res> {
-  factory _$LastConnexionUserCopyWith(
-          _LastConnexionUser value, $Res Function(_LastConnexionUser) _then) =
-      __$LastConnexionUserCopyWithImpl;
+abstract mixin class _$LastConnectionUserCopyWith<$Res>
+    implements $LastConnectionUserCopyWith<$Res> {
+  factory _$LastConnectionUserCopyWith(
+          _LastConnectionUser value, $Res Function(_LastConnectionUser) _then) =
+      __$LastConnectionUserCopyWithImpl;
   @override
   @useResult
   $Res call(
@@ -346,14 +346,14 @@ abstract mixin class _$LastConnexionUserCopyWith<$Res>
 }
 
 /// @nodoc
-class __$LastConnexionUserCopyWithImpl<$Res>
-    implements _$LastConnexionUserCopyWith<$Res> {
-  __$LastConnexionUserCopyWithImpl(this._self, this._then);
+class __$LastConnectionUserCopyWithImpl<$Res>
+    implements _$LastConnectionUserCopyWith<$Res> {
+  __$LastConnectionUserCopyWithImpl(this._self, this._then);
 
-  final _LastConnexionUser _self;
-  final $Res Function(_LastConnexionUser) _then;
+  final _LastConnectionUser _self;
+  final $Res Function(_LastConnectionUser) _then;
 
-  /// Create a copy of LastConnexionUser
+  /// Create a copy of LastConnectionUser
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -362,7 +362,7 @@ class __$LastConnexionUserCopyWithImpl<$Res>
     Object? firstname = null,
     Object? lastname = null,
   }) {
-    return _then(_LastConnexionUser(
+    return _then(_LastConnectionUser(
       lastConnexion: null == lastConnexion
           ? _self.lastConnexion
           : lastConnexion // ignore: cast_nullable_to_non_nullable

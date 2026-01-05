@@ -57,7 +57,7 @@ dev_dependencies:
 flutter_launcher_icons:
   web:
     generate: true
-    image_path: "assets/images/logo_xpeappAdmin.jpg"
+    image_path: "assets/images/logo_xpeapp.png"
     background_color: "#A0CE4E"
     theme_color: "#A0CE4E"
 
