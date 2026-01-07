@@ -11,6 +11,7 @@ abstract class EventsEntity with _$EventsEntity {
   const factory EventsEntity({
     String? id,
     required DateTime date,
+    DateTime? endDate,
     @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
     TimeOfDay? startTime,
     @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)

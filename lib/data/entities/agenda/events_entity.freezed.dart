@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$EventsEntity {
   String? get id;
   DateTime get date;
+  DateTime? get endDate;
   @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
   TimeOfDay? get startTime;
   @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
@@ -44,6 +45,7 @@ mixin _$EventsEntity {
             other is EventsEntity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.date, date) || other.date == date) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
@@ -56,12 +58,12 @@ mixin _$EventsEntity {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, date, startTime, endTime,
-      title, location, typeId, topic);
+  int get hashCode => Object.hash(runtimeType, id, date, endDate, startTime,
+      endTime, title, location, typeId, topic);
 
   @override
   String toString() {
-    return 'EventsEntity(id: $id, date: $date, startTime: $startTime, endTime: $endTime, title: $title, location: $location, typeId: $typeId, topic: $topic)';
+    return 'EventsEntity(id: $id, date: $date, endDate: $endDate, startTime: $startTime, endTime: $endTime, title: $title, location: $location, typeId: $typeId, topic: $topic)';
   }
 }
 
@@ -74,6 +76,7 @@ abstract mixin class $EventsEntityCopyWith<$Res> {
   $Res call(
       {String? id,
       DateTime date,
+      DateTime? endDate,
       @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
       TimeOfDay? startTime,
       @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
@@ -98,6 +101,7 @@ class _$EventsEntityCopyWithImpl<$Res> implements $EventsEntityCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? date = null,
+    Object? endDate = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
     Object? title = null,
@@ -114,6 +118,10 @@ class _$EventsEntityCopyWithImpl<$Res> implements $EventsEntityCopyWith<$Res> {
           ? _self.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      endDate: freezed == endDate
+          ? _self.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       startTime: freezed == startTime
           ? _self.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -238,6 +246,7 @@ extension EventsEntityPatterns on EventsEntity {
     TResult Function(
             String? id,
             DateTime date,
+            DateTime? endDate,
             @JsonKey(
                 name: 'start_time',
                 fromJson: _fromJsonTime,
@@ -256,8 +265,16 @@ extension EventsEntityPatterns on EventsEntity {
     final _that = this;
     switch (_that) {
       case _EventsEntity() when $default != null:
-        return $default(_that.id, _that.date, _that.startTime, _that.endTime,
-            _that.title, _that.location, _that.typeId, _that.topic);
+        return $default(
+            _that.id,
+            _that.date,
+            _that.endDate,
+            _that.startTime,
+            _that.endTime,
+            _that.title,
+            _that.location,
+            _that.typeId,
+            _that.topic);
       case _:
         return orElse();
     }
@@ -281,6 +298,7 @@ extension EventsEntityPatterns on EventsEntity {
     TResult Function(
             String? id,
             DateTime date,
+            DateTime? endDate,
             @JsonKey(
                 name: 'start_time',
                 fromJson: _fromJsonTime,
@@ -298,8 +316,16 @@ extension EventsEntityPatterns on EventsEntity {
     final _that = this;
     switch (_that) {
       case _EventsEntity():
-        return $default(_that.id, _that.date, _that.startTime, _that.endTime,
-            _that.title, _that.location, _that.typeId, _that.topic);
+        return $default(
+            _that.id,
+            _that.date,
+            _that.endDate,
+            _that.startTime,
+            _that.endTime,
+            _that.title,
+            _that.location,
+            _that.typeId,
+            _that.topic);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -322,6 +348,7 @@ extension EventsEntityPatterns on EventsEntity {
     TResult? Function(
             String? id,
             DateTime date,
+            DateTime? endDate,
             @JsonKey(
                 name: 'start_time',
                 fromJson: _fromJsonTime,
@@ -339,8 +366,16 @@ extension EventsEntityPatterns on EventsEntity {
     final _that = this;
     switch (_that) {
       case _EventsEntity() when $default != null:
-        return $default(_that.id, _that.date, _that.startTime, _that.endTime,
-            _that.title, _that.location, _that.typeId, _that.topic);
+        return $default(
+            _that.id,
+            _that.date,
+            _that.endDate,
+            _that.startTime,
+            _that.endTime,
+            _that.title,
+            _that.location,
+            _that.typeId,
+            _that.topic);
       case _:
         return null;
     }
@@ -354,6 +389,7 @@ class _EventsEntity implements EventsEntity {
   const _EventsEntity(
       {this.id,
       required this.date,
+      this.endDate,
       @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
       this.startTime,
       @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
@@ -369,6 +405,8 @@ class _EventsEntity implements EventsEntity {
   final String? id;
   @override
   final DateTime date;
+  @override
+  final DateTime? endDate;
   @override
   @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
   final TimeOfDay? startTime;
@@ -407,6 +445,7 @@ class _EventsEntity implements EventsEntity {
             other is _EventsEntity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.date, date) || other.date == date) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
@@ -419,12 +458,12 @@ class _EventsEntity implements EventsEntity {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, date, startTime, endTime,
-      title, location, typeId, topic);
+  int get hashCode => Object.hash(runtimeType, id, date, endDate, startTime,
+      endTime, title, location, typeId, topic);
 
   @override
   String toString() {
-    return 'EventsEntity(id: $id, date: $date, startTime: $startTime, endTime: $endTime, title: $title, location: $location, typeId: $typeId, topic: $topic)';
+    return 'EventsEntity(id: $id, date: $date, endDate: $endDate, startTime: $startTime, endTime: $endTime, title: $title, location: $location, typeId: $typeId, topic: $topic)';
   }
 }
 
@@ -439,6 +478,7 @@ abstract mixin class _$EventsEntityCopyWith<$Res>
   $Res call(
       {String? id,
       DateTime date,
+      DateTime? endDate,
       @JsonKey(name: 'start_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
       TimeOfDay? startTime,
       @JsonKey(name: 'end_time', fromJson: _fromJsonTime, toJson: _toJsonTime)
@@ -464,6 +504,7 @@ class __$EventsEntityCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? date = null,
+    Object? endDate = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
     Object? title = null,
@@ -480,6 +521,10 @@ class __$EventsEntityCopyWithImpl<$Res>
           ? _self.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      endDate: freezed == endDate
+          ? _self.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       startTime: freezed == startTime
           ? _self.startTime
           : startTime // ignore: cast_nullable_to_non_nullable

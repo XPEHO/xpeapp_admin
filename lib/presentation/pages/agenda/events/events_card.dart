@@ -85,6 +85,14 @@ class EventsCardState extends ConsumerState<EventsCard> {
                         color: Colors.black54,
                       ),
                     ),
+                  if (widget.events.endDate != null)
+                    Text(
+                      'Date de fin: ${DateFormat('dd/MM/yyyy').format(widget.events.endDate!)}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black54,
+                      ),
+                    ),
                   if (formattedStartTime != null)
                     Text(
                       'Heure de début: $formattedStartTime',

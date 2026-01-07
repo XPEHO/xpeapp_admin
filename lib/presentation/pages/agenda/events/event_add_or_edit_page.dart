@@ -37,11 +37,13 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
   final TextEditingController startTimeController = TextEditingController();
   final TextEditingController endTimeController = TextEditingController();
   DateTime? selectedDate;
+  DateTime? selectedEndDate;
   TimeOfDay? selectedStartTime;
   TimeOfDay? selectedEndTime;
   bool isDateSelected = false;
   String? selectedEventType;
   bool isButtonEnabled = false;
+  bool noTimeMode = false;
 
   @override
   void initState() {
@@ -62,6 +64,7 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
           ? getTimeStringFromTimeOfDay(widget.event!.endTime!)
           : '';
       selectedDate = widget.event!.date;
+      selectedEndDate = widget.event!.endDate;
       selectedEventType = widget.event?.typeId;
       isDateSelected = selectedDate != null;
     }
@@ -73,6 +76,17 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
       isButtonEnabled = titleController.text.isNotEmpty &&
           selectedDate != null &&
           selectedEventType != null;
+
+      // If no time is set, enable noTimeMode
+      noTimeMode = selectedDate != null &&
+          selectedEndDate != null &&
+          (startTimeController.text.isEmpty && endTimeController.text.isEmpty);
+      if (noTimeMode) {
+        startTimeController.text = '';
+        endTimeController.text = '';
+        selectedStartTime = null;
+        selectedEndTime = null;
+      }
     });
   }
 
@@ -196,52 +210,70 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                   });
                 },
               ),
-              labelText: 'Date : *',
+              labelText: 'Date de début : *',
             ),
             const SizedBox(height: 20),
-            const AgendaFormLabel(
-              text: 'Heure de début : ',
-              color: Colors.black,
-            ),
-            const SizedBox(height: 20),
-            AgendaFormField(
-              controller: startTimeController,
-              hintText: 'Heure de début',
-              readOnly: true,
-              onTap: () => showTimePickerForEvent(
+            AgendaFormDatePicker(
+              selectedDate: selectedEndDate,
+              onDateSelected: () => showDatePickerForEvent(
                 context: context,
-                isStartTime: true,
-                onTimeSelected: (time) {
+                selectedDate: selectedEndDate,
+                onDateSelected: (date) {
                   setState(() {
-                    selectedStartTime = time;
-                    startTimeController.text =
-                        time != null ? getTimeStringFromTimeOfDay(time) : '';
+                    selectedEndDate = date;
+                    _onFieldChanged();
                   });
                 },
               ),
+              labelText: 'Date de fin :',
             ),
             const SizedBox(height: 20),
-            const AgendaFormLabel(
-              text: 'Choisissez une heure de fin : ',
-              color: Colors.black,
-            ),
-            const SizedBox(height: 20),
-            AgendaFormField(
-              controller: endTimeController,
-              hintText: 'Heure de fin',
-              readOnly: true,
-              onTap: () => showTimePickerForEvent(
-                context: context,
-                isStartTime: false,
-                onTimeSelected: (time) {
-                  setState(() {
-                    selectedEndTime = time;
-                    endTimeController.text =
-                        time != null ? getTimeStringFromTimeOfDay(time) : '';
-                  });
-                },
+            if (!noTimeMode) ...[
+              const AgendaFormLabel(
+                text: 'Heure de début : ',
+                color: Colors.black,
               ),
-            ),
+              const SizedBox(height: 20),
+              AgendaFormField(
+                controller: startTimeController,
+                hintText: 'Heure de début',
+                readOnly: true,
+                onTap: () => showTimePickerForEvent(
+                  context: context,
+                  isStartTime: true,
+                  onTimeSelected: (time) {
+                    setState(() {
+                      selectedStartTime = time;
+                      startTimeController.text =
+                          time != null ? getTimeStringFromTimeOfDay(time) : '';
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+              const AgendaFormLabel(
+                text: 'Choisissez une heure de fin : ',
+                color: Colors.black,
+              ),
+              const SizedBox(height: 20),
+              AgendaFormField(
+                controller: endTimeController,
+                hintText: 'Heure de fin',
+                readOnly: true,
+                onTap: () => showTimePickerForEvent(
+                  context: context,
+                  isStartTime: false,
+                  onTimeSelected: (time) {
+                    setState(() {
+                      selectedEndTime = time;
+                      endTimeController.text =
+                          time != null ? getTimeStringFromTimeOfDay(time) : '';
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
             const SizedBox(height: 20),
             AgendaFormElevatedButton(
               isEnabled: isButtonEnabled,
@@ -251,11 +283,15 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
                     id: widget.event?.id,
                     title: titleController.text,
                     date: selectedDate!,
+                    endDate: selectedEndDate,
                     topic: descriptionController.text,
                     location: locationController.text,
-                    startTime:
-                        getTimeOfDayFromTimeString(startTimeController.text),
-                    endTime: getTimeOfDayFromTimeString(endTimeController.text),
+                    startTime: noTimeMode
+                        ? null
+                        : getTimeOfDayFromTimeString(startTimeController.text),
+                    endTime: noTimeMode
+                        ? null
+                        : getTimeOfDayFromTimeString(endTimeController.text),
                     typeId: selectedEventType!,
                   );
 
