@@ -28,6 +28,7 @@ import 'package:xpeapp_admin/data/service/file_service.dart' as _i9;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeHttpResponse_0<T> extends _i1.SmartFake
     implements _i2.HttpResponse<T> {
@@ -788,6 +789,23 @@ class MockBackendApi extends _i1.Mock implements _i4.BackendApi {
               id,
               body,
             ],
+          ),
+        )),
+      ) as _i5.Future<_i2.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i2.HttpResponse<dynamic>> getLastConnexionUsers() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getLastConnexionUsers,
+          [],
+        ),
+        returnValue: _i5.Future<_i2.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #getLastConnexionUsers,
+            [],
           ),
         )),
       ) as _i5.Future<_i2.HttpResponse<dynamic>>);

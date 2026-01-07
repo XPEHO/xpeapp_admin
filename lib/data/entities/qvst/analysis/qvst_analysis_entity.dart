@@ -5,7 +5,7 @@ part 'qvst_analysis_entity.freezed.dart';
 part 'qvst_analysis_entity.g.dart';
 
 @freezed
-class QvstAnalysisEntity with _$QvstAnalysisEntity {
+abstract class QvstAnalysisEntity with _$QvstAnalysisEntity {
   const factory QvstAnalysisEntity({
     @JsonKey(name: 'campaign_id') int? campaignId,
     @JsonKey(name: 'campaign_name', defaultValue: '')
@@ -40,7 +40,7 @@ class QvstAnalysisEntity with _$QvstAnalysisEntity {
 }
 
 @freezed
-class GlobalStatsEntity with _$GlobalStatsEntity {
+abstract class GlobalStatsEntity with _$GlobalStatsEntity {
   const factory GlobalStatsEntity({
     @JsonKey(name: 'total_respondents') int? totalRespondents,
     @JsonKey(name: 'total_questions') int? totalQuestions,
@@ -54,7 +54,7 @@ class GlobalStatsEntity with _$GlobalStatsEntity {
 }
 
 @freezed
-class GlobalDistributionEntity with _$GlobalDistributionEntity {
+abstract class GlobalDistributionEntity with _$GlobalDistributionEntity {
   const factory GlobalDistributionEntity({
     int? score,
     int? count,
@@ -65,7 +65,7 @@ class GlobalDistributionEntity with _$GlobalDistributionEntity {
 }
 
 @freezed
-class ThemeAnalysisEntity with _$ThemeAnalysisEntity {
+abstract class ThemeAnalysisEntity with _$ThemeAnalysisEntity {
   const factory ThemeAnalysisEntity({
     @JsonKey(name: 'theme_id', defaultValue: '') @Default('') String themeId,
     @JsonKey(name: 'theme_name', defaultValue: '')
@@ -83,7 +83,7 @@ class ThemeAnalysisEntity with _$ThemeAnalysisEntity {
 }
 
 @freezed
-class QuestionAnalysisEntity with _$QuestionAnalysisEntity {
+abstract class QuestionAnalysisEntity with _$QuestionAnalysisEntity {
   const factory QuestionAnalysisEntity({
     @JsonKey(name: 'question_id', defaultValue: '')
     @Default('')
@@ -107,7 +107,7 @@ class QuestionAnalysisEntity with _$QuestionAnalysisEntity {
 }
 
 @freezed
-class AnswerDistributionEntity with _$AnswerDistributionEntity {
+abstract class AnswerDistributionEntity with _$AnswerDistributionEntity {
   const factory AnswerDistributionEntity({
     @JsonKey(name: 'id', defaultValue: '') @Default('') String answerId,
     @JsonKey(name: 'answer', defaultValue: '') @Default('') String answerText,
@@ -120,7 +120,7 @@ class AnswerDistributionEntity with _$AnswerDistributionEntity {
 }
 
 @freezed
-class AtRiskEmployeeEntity with _$AtRiskEmployeeEntity {
+abstract class AtRiskEmployeeEntity with _$AtRiskEmployeeEntity {
   const factory AtRiskEmployeeEntity({
     @JsonKey(name: 'anonymous_user_id', defaultValue: '')
     @Default('')

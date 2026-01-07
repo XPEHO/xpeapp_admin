@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,126 +9,79 @@ part of 'qvst_question_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-QvstQuestionEntity _$QvstQuestionEntityFromJson(Map<String, dynamic> json) {
-  return _QvstQuestionEntity.fromJson(json);
-}
 
 /// @nodoc
 mixin _$QvstQuestionEntity {
   @JsonKey(name: 'question_id')
-  String? get id => throw _privateConstructorUsedError;
-  String get question => throw _privateConstructorUsedError;
-  String? get theme => throw _privateConstructorUsedError;
+  String? get id;
+  String get question;
+  String? get theme;
   @JsonKey(name: 'theme_id')
-  String? get idTheme => throw _privateConstructorUsedError;
+  String? get idTheme;
   @JsonKey(name: 'answer_repo_id')
-  String? get answerRepoId => throw _privateConstructorUsedError;
-  int? get numberAsked => throw _privateConstructorUsedError;
+  String? get answerRepoId;
+  int? get numberAsked;
   @JsonSerializable(explicitToJson: true)
-  List<QvstAnswerEntity> get answers => throw _privateConstructorUsedError;
+  List<QvstAnswerEntity> get answers;
   @JsonKey(name: 'is_reversed')
-  bool get isReversed => throw _privateConstructorUsedError;
-
-  /// Serializes this QvstQuestionEntity to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  bool get isReversed;
 
   /// Create a copy of QvstQuestionEntity
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $QvstQuestionEntityCopyWith<QvstQuestionEntity> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $QvstQuestionEntityCopyWith<$Res> {
-  factory $QvstQuestionEntityCopyWith(
-          QvstQuestionEntity value, $Res Function(QvstQuestionEntity) then) =
-      _$QvstQuestionEntityCopyWithImpl<$Res, QvstQuestionEntity>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'question_id') String? id,
-      String question,
-      String? theme,
-      @JsonKey(name: 'theme_id') String? idTheme,
-      @JsonKey(name: 'answer_repo_id') String? answerRepoId,
-      int? numberAsked,
-      @JsonSerializable(explicitToJson: true) List<QvstAnswerEntity> answers,
-      @JsonKey(name: 'is_reversed') bool isReversed});
-}
-
-/// @nodoc
-class _$QvstQuestionEntityCopyWithImpl<$Res, $Val extends QvstQuestionEntity>
-    implements $QvstQuestionEntityCopyWith<$Res> {
-  _$QvstQuestionEntityCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of QvstQuestionEntity
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $QvstQuestionEntityCopyWith<QvstQuestionEntity> get copyWith =>
+      _$QvstQuestionEntityCopyWithImpl<QvstQuestionEntity>(
+          this as QvstQuestionEntity, _$identity);
+
+  /// Serializes this QvstQuestionEntity to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = freezed,
-    Object? question = null,
-    Object? theme = freezed,
-    Object? idTheme = freezed,
-    Object? answerRepoId = freezed,
-    Object? numberAsked = freezed,
-    Object? answers = null,
-    Object? isReversed = null,
-  }) {
-    return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      question: null == question
-          ? _value.question
-          : question // ignore: cast_nullable_to_non_nullable
-              as String,
-      theme: freezed == theme
-          ? _value.theme
-          : theme // ignore: cast_nullable_to_non_nullable
-              as String?,
-      idTheme: freezed == idTheme
-          ? _value.idTheme
-          : idTheme // ignore: cast_nullable_to_non_nullable
-              as String?,
-      answerRepoId: freezed == answerRepoId
-          ? _value.answerRepoId
-          : answerRepoId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      numberAsked: freezed == numberAsked
-          ? _value.numberAsked
-          : numberAsked // ignore: cast_nullable_to_non_nullable
-              as int?,
-      answers: null == answers
-          ? _value.answers
-          : answers // ignore: cast_nullable_to_non_nullable
-              as List<QvstAnswerEntity>,
-      isReversed: null == isReversed
-          ? _value.isReversed
-          : isReversed // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is QvstQuestionEntity &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.question, question) ||
+                other.question == question) &&
+            (identical(other.theme, theme) || other.theme == theme) &&
+            (identical(other.idTheme, idTheme) || other.idTheme == idTheme) &&
+            (identical(other.answerRepoId, answerRepoId) ||
+                other.answerRepoId == answerRepoId) &&
+            (identical(other.numberAsked, numberAsked) ||
+                other.numberAsked == numberAsked) &&
+            const DeepCollectionEquality().equals(other.answers, answers) &&
+            (identical(other.isReversed, isReversed) ||
+                other.isReversed == isReversed));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      question,
+      theme,
+      idTheme,
+      answerRepoId,
+      numberAsked,
+      const DeepCollectionEquality().hash(answers),
+      isReversed);
+
+  @override
+  String toString() {
+    return 'QvstQuestionEntity(id: $id, question: $question, theme: $theme, idTheme: $idTheme, answerRepoId: $answerRepoId, numberAsked: $numberAsked, answers: $answers, isReversed: $isReversed)';
   }
 }
 
 /// @nodoc
-abstract class _$$QvstQuestionEntityImplCopyWith<$Res>
-    implements $QvstQuestionEntityCopyWith<$Res> {
-  factory _$$QvstQuestionEntityImplCopyWith(_$QvstQuestionEntityImpl value,
-          $Res Function(_$QvstQuestionEntityImpl) then) =
-      __$$QvstQuestionEntityImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $QvstQuestionEntityCopyWith<$Res> {
+  factory $QvstQuestionEntityCopyWith(
+          QvstQuestionEntity value, $Res Function(QvstQuestionEntity) _then) =
+      _$QvstQuestionEntityCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'question_id') String? id,
@@ -142,12 +95,12 @@ abstract class _$$QvstQuestionEntityImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$QvstQuestionEntityImplCopyWithImpl<$Res>
-    extends _$QvstQuestionEntityCopyWithImpl<$Res, _$QvstQuestionEntityImpl>
-    implements _$$QvstQuestionEntityImplCopyWith<$Res> {
-  __$$QvstQuestionEntityImplCopyWithImpl(_$QvstQuestionEntityImpl _value,
-      $Res Function(_$QvstQuestionEntityImpl) _then)
-      : super(_value, _then);
+class _$QvstQuestionEntityCopyWithImpl<$Res>
+    implements $QvstQuestionEntityCopyWith<$Res> {
+  _$QvstQuestionEntityCopyWithImpl(this._self, this._then);
+
+  final QvstQuestionEntity _self;
+  final $Res Function(QvstQuestionEntity) _then;
 
   /// Create a copy of QvstQuestionEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -163,47 +116,258 @@ class __$$QvstQuestionEntityImplCopyWithImpl<$Res>
     Object? answers = null,
     Object? isReversed = null,
   }) {
-    return _then(_$QvstQuestionEntityImpl(
+    return _then(_self.copyWith(
       id: freezed == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
       question: null == question
-          ? _value.question
+          ? _self.question
           : question // ignore: cast_nullable_to_non_nullable
               as String,
       theme: freezed == theme
-          ? _value.theme
+          ? _self.theme
           : theme // ignore: cast_nullable_to_non_nullable
               as String?,
       idTheme: freezed == idTheme
-          ? _value.idTheme
+          ? _self.idTheme
           : idTheme // ignore: cast_nullable_to_non_nullable
               as String?,
       answerRepoId: freezed == answerRepoId
-          ? _value.answerRepoId
+          ? _self.answerRepoId
           : answerRepoId // ignore: cast_nullable_to_non_nullable
               as String?,
       numberAsked: freezed == numberAsked
-          ? _value.numberAsked
+          ? _self.numberAsked
           : numberAsked // ignore: cast_nullable_to_non_nullable
               as int?,
       answers: null == answers
-          ? _value._answers
+          ? _self.answers
           : answers // ignore: cast_nullable_to_non_nullable
               as List<QvstAnswerEntity>,
       isReversed: null == isReversed
-          ? _value.isReversed
+          ? _self.isReversed
           : isReversed // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [QvstQuestionEntity].
+extension QvstQuestionEntityPatterns on QvstQuestionEntity {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_QvstQuestionEntity value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionEntity() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_QvstQuestionEntity value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionEntity():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_QvstQuestionEntity value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionEntity() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: 'question_id') String? id,
+            String question,
+            String? theme,
+            @JsonKey(name: 'theme_id') String? idTheme,
+            @JsonKey(name: 'answer_repo_id') String? answerRepoId,
+            int? numberAsked,
+            @JsonSerializable(explicitToJson: true)
+            List<QvstAnswerEntity> answers,
+            @JsonKey(name: 'is_reversed') bool isReversed)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionEntity() when $default != null:
+        return $default(
+            _that.id,
+            _that.question,
+            _that.theme,
+            _that.idTheme,
+            _that.answerRepoId,
+            _that.numberAsked,
+            _that.answers,
+            _that.isReversed);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: 'question_id') String? id,
+            String question,
+            String? theme,
+            @JsonKey(name: 'theme_id') String? idTheme,
+            @JsonKey(name: 'answer_repo_id') String? answerRepoId,
+            int? numberAsked,
+            @JsonSerializable(explicitToJson: true)
+            List<QvstAnswerEntity> answers,
+            @JsonKey(name: 'is_reversed') bool isReversed)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionEntity():
+        return $default(
+            _that.id,
+            _that.question,
+            _that.theme,
+            _that.idTheme,
+            _that.answerRepoId,
+            _that.numberAsked,
+            _that.answers,
+            _that.isReversed);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            @JsonKey(name: 'question_id') String? id,
+            String question,
+            String? theme,
+            @JsonKey(name: 'theme_id') String? idTheme,
+            @JsonKey(name: 'answer_repo_id') String? answerRepoId,
+            int? numberAsked,
+            @JsonSerializable(explicitToJson: true)
+            List<QvstAnswerEntity> answers,
+            @JsonKey(name: 'is_reversed') bool isReversed)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstQuestionEntity() when $default != null:
+        return $default(
+            _that.id,
+            _that.question,
+            _that.theme,
+            _that.idTheme,
+            _that.answerRepoId,
+            _that.numberAsked,
+            _that.answers,
+            _that.isReversed);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
-class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
-  _$QvstQuestionEntityImpl(
+class _QvstQuestionEntity implements QvstQuestionEntity {
+  _QvstQuestionEntity(
       {@JsonKey(name: 'question_id') this.id,
       required this.question,
       this.theme,
@@ -214,9 +378,8 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
       final List<QvstAnswerEntity> answers = const [],
       @JsonKey(name: 'is_reversed') this.isReversed = false})
       : _answers = answers;
-
-  factory _$QvstQuestionEntityImpl.fromJson(Map<String, dynamic> json) =>
-      _$$QvstQuestionEntityImplFromJson(json);
+  factory _QvstQuestionEntity.fromJson(Map<String, dynamic> json) =>
+      _$QvstQuestionEntityFromJson(json);
 
   @override
   @JsonKey(name: 'question_id')
@@ -247,16 +410,26 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
   @JsonKey(name: 'is_reversed')
   final bool isReversed;
 
+  /// Create a copy of QvstQuestionEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'QvstQuestionEntity(id: $id, question: $question, theme: $theme, idTheme: $idTheme, answerRepoId: $answerRepoId, numberAsked: $numberAsked, answers: $answers, isReversed: $isReversed)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$QvstQuestionEntityCopyWith<_QvstQuestionEntity> get copyWith =>
+      __$QvstQuestionEntityCopyWithImpl<_QvstQuestionEntity>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$QvstQuestionEntityToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$QvstQuestionEntityImpl &&
+            other is _QvstQuestionEntity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.question, question) ||
                 other.question == question) &&
@@ -284,65 +457,88 @@ class _$QvstQuestionEntityImpl implements _QvstQuestionEntity {
       const DeepCollectionEquality().hash(_answers),
       isReversed);
 
-  /// Create a copy of QvstQuestionEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$QvstQuestionEntityImplCopyWith<_$QvstQuestionEntityImpl> get copyWith =>
-      __$$QvstQuestionEntityImplCopyWithImpl<_$QvstQuestionEntityImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$QvstQuestionEntityImplToJson(
-      this,
-    );
+  String toString() {
+    return 'QvstQuestionEntity(id: $id, question: $question, theme: $theme, idTheme: $idTheme, answerRepoId: $answerRepoId, numberAsked: $numberAsked, answers: $answers, isReversed: $isReversed)';
   }
 }
 
-abstract class _QvstQuestionEntity implements QvstQuestionEntity {
-  factory _QvstQuestionEntity(
-          {@JsonKey(name: 'question_id') final String? id,
-          required final String question,
-          final String? theme,
-          @JsonKey(name: 'theme_id') final String? idTheme,
-          @JsonKey(name: 'answer_repo_id') final String? answerRepoId,
-          final int? numberAsked,
-          @JsonSerializable(explicitToJson: true)
-          final List<QvstAnswerEntity> answers,
-          @JsonKey(name: 'is_reversed') final bool isReversed}) =
-      _$QvstQuestionEntityImpl;
+/// @nodoc
+abstract mixin class _$QvstQuestionEntityCopyWith<$Res>
+    implements $QvstQuestionEntityCopyWith<$Res> {
+  factory _$QvstQuestionEntityCopyWith(
+          _QvstQuestionEntity value, $Res Function(_QvstQuestionEntity) _then) =
+      __$QvstQuestionEntityCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'question_id') String? id,
+      String question,
+      String? theme,
+      @JsonKey(name: 'theme_id') String? idTheme,
+      @JsonKey(name: 'answer_repo_id') String? answerRepoId,
+      int? numberAsked,
+      @JsonSerializable(explicitToJson: true) List<QvstAnswerEntity> answers,
+      @JsonKey(name: 'is_reversed') bool isReversed});
+}
 
-  factory _QvstQuestionEntity.fromJson(Map<String, dynamic> json) =
-      _$QvstQuestionEntityImpl.fromJson;
+/// @nodoc
+class __$QvstQuestionEntityCopyWithImpl<$Res>
+    implements _$QvstQuestionEntityCopyWith<$Res> {
+  __$QvstQuestionEntityCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(name: 'question_id')
-  String? get id;
-  @override
-  String get question;
-  @override
-  String? get theme;
-  @override
-  @JsonKey(name: 'theme_id')
-  String? get idTheme;
-  @override
-  @JsonKey(name: 'answer_repo_id')
-  String? get answerRepoId;
-  @override
-  int? get numberAsked;
-  @override
-  @JsonSerializable(explicitToJson: true)
-  List<QvstAnswerEntity> get answers;
-  @override
-  @JsonKey(name: 'is_reversed')
-  bool get isReversed;
+  final _QvstQuestionEntity _self;
+  final $Res Function(_QvstQuestionEntity) _then;
 
   /// Create a copy of QvstQuestionEntity
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$QvstQuestionEntityImplCopyWith<_$QvstQuestionEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = freezed,
+    Object? question = null,
+    Object? theme = freezed,
+    Object? idTheme = freezed,
+    Object? answerRepoId = freezed,
+    Object? numberAsked = freezed,
+    Object? answers = null,
+    Object? isReversed = null,
+  }) {
+    return _then(_QvstQuestionEntity(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      question: null == question
+          ? _self.question
+          : question // ignore: cast_nullable_to_non_nullable
+              as String,
+      theme: freezed == theme
+          ? _self.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as String?,
+      idTheme: freezed == idTheme
+          ? _self.idTheme
+          : idTheme // ignore: cast_nullable_to_non_nullable
+              as String?,
+      answerRepoId: freezed == answerRepoId
+          ? _self.answerRepoId
+          : answerRepoId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      numberAsked: freezed == numberAsked
+          ? _self.numberAsked
+          : numberAsked // ignore: cast_nullable_to_non_nullable
+              as int?,
+      answers: null == answers
+          ? _self._answers
+          : answers // ignore: cast_nullable_to_non_nullable
+              as List<QvstAnswerEntity>,
+      isReversed: null == isReversed
+          ? _self.isReversed
+          : isReversed // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
+
+// dart format on

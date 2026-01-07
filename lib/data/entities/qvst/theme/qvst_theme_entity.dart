@@ -4,7 +4,7 @@ part 'qvst_theme_entity.freezed.dart';
 part 'qvst_theme_entity.g.dart';
 
 @Freezed()
-class QvstThemeEntity with _$QvstThemeEntity {
+abstract class QvstThemeEntity with _$QvstThemeEntity {
   factory QvstThemeEntity({
     @JsonKey(defaultValue: '') required String id,
     @JsonKey(defaultValue: '') required String name,

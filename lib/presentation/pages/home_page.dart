@@ -4,6 +4,7 @@ import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/menu_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/agenda_page.dart';
 import 'package:xpeapp_admin/presentation/pages/feature_flipping/feature_flipping_page.dart';
+import 'package:xpeapp_admin/presentation/pages/last_connection_page.dart';
 import 'package:xpeapp_admin/presentation/pages/idea_box/idea_box_page.dart';
 import 'package:xpeapp_admin/presentation/pages/newsletters/newsletters_page.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_home.dart';
@@ -156,6 +157,8 @@ class HomePage extends ConsumerWidget {
           return const AgendaPage();
         case 5:
           return const IdeaBoxPage();
+        case 6:
+          return const LastConnectionPage();
         default:
           return const SizedBox();
       }
@@ -168,7 +171,8 @@ class HomePage extends ConsumerWidget {
         menuSelected.id == menuFeatureFlipping ||
         menuSelected.id == menuQvst ||
         menuSelected.id == menuAgenda ||
-        menuSelected.id == menuIdeaBox) {
+        menuSelected.id == menuIdeaBox ||
+        menuSelected.id == menuLastConnexion) {
       return null;
     }
 

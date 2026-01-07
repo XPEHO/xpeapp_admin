@@ -6,9 +6,8 @@ part of 'qvst_stats_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$QvstStatsEntityImpl _$$QvstStatsEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$QvstStatsEntityImpl(
+_QvstStatsEntity _$QvstStatsEntityFromJson(Map<String, dynamic> json) =>
+    _QvstStatsEntity(
       campaignId: json['campaignId'] as String? ?? '',
       campaignName: json['campaignName'] as String? ?? '',
       campaignStatus: json['campaignStatus'] as String? ?? '',
@@ -27,8 +26,7 @@ _$QvstStatsEntityImpl _$$QvstStatsEntityImplFromJson(
       action: json['action'] as String?,
     );
 
-Map<String, dynamic> _$$QvstStatsEntityImplToJson(
-        _$QvstStatsEntityImpl instance) =>
+Map<String, dynamic> _$QvstStatsEntityToJson(_QvstStatsEntity instance) =>
     <String, dynamic>{
       'campaignId': instance.campaignId,
       'campaignName': instance.campaignName,

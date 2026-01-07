@@ -6,9 +6,8 @@ part of 'qvst_analysis_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$QvstAnalysisEntityImpl _$$QvstAnalysisEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$QvstAnalysisEntityImpl(
+_QvstAnalysisEntity _$QvstAnalysisEntityFromJson(Map<String, dynamic> json) =>
+    _QvstAnalysisEntity(
       campaignId: (json['campaign_id'] as num?)?.toInt(),
       campaignName: json['campaign_name'] as String? ?? '',
       campaignStatus: json['campaign_status'] as String? ?? '',
@@ -54,8 +53,7 @@ _$QvstAnalysisEntityImpl _$$QvstAnalysisEntityImplFromJson(
           const [],
     );
 
-Map<String, dynamic> _$$QvstAnalysisEntityImplToJson(
-        _$QvstAnalysisEntityImpl instance) =>
+Map<String, dynamic> _$QvstAnalysisEntityToJson(_QvstAnalysisEntity instance) =>
     <String, dynamic>{
       'campaign_id': instance.campaignId,
       'campaign_name': instance.campaignName,
@@ -71,9 +69,8 @@ Map<String, dynamic> _$$QvstAnalysisEntityImplToJson(
       'at_risk_employees': instance.atRiskEmployees,
     };
 
-_$GlobalStatsEntityImpl _$$GlobalStatsEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$GlobalStatsEntityImpl(
+_GlobalStatsEntity _$GlobalStatsEntityFromJson(Map<String, dynamic> json) =>
+    _GlobalStatsEntity(
       totalRespondents: (json['total_respondents'] as num?)?.toInt(),
       totalQuestions: (json['total_questions'] as num?)?.toInt(),
       averageSatisfaction: (json['average_satisfaction'] as num?)?.toDouble(),
@@ -81,8 +78,7 @@ _$GlobalStatsEntityImpl _$$GlobalStatsEntityImplFromJson(
       atRiskCount: (json['at_risk_count'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$GlobalStatsEntityImplToJson(
-        _$GlobalStatsEntityImpl instance) =>
+Map<String, dynamic> _$GlobalStatsEntityToJson(_GlobalStatsEntity instance) =>
     <String, dynamic>{
       'total_respondents': instance.totalRespondents,
       'total_questions': instance.totalQuestions,
@@ -91,23 +87,22 @@ Map<String, dynamic> _$$GlobalStatsEntityImplToJson(
       'at_risk_count': instance.atRiskCount,
     };
 
-_$GlobalDistributionEntityImpl _$$GlobalDistributionEntityImplFromJson(
+_GlobalDistributionEntity _$GlobalDistributionEntityFromJson(
         Map<String, dynamic> json) =>
-    _$GlobalDistributionEntityImpl(
+    _GlobalDistributionEntity(
       score: (json['score'] as num?)?.toInt(),
       count: (json['count'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$GlobalDistributionEntityImplToJson(
-        _$GlobalDistributionEntityImpl instance) =>
+Map<String, dynamic> _$GlobalDistributionEntityToJson(
+        _GlobalDistributionEntity instance) =>
     <String, dynamic>{
       'score': instance.score,
       'count': instance.count,
     };
 
-_$ThemeAnalysisEntityImpl _$$ThemeAnalysisEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ThemeAnalysisEntityImpl(
+_ThemeAnalysisEntity _$ThemeAnalysisEntityFromJson(Map<String, dynamic> json) =>
+    _ThemeAnalysisEntity(
       themeId: json['theme_id'] as String? ?? '',
       themeName: json['theme_name'] as String? ?? '',
       averageScore: (json['average_score'] as num?)?.toDouble(),
@@ -119,8 +114,8 @@ _$ThemeAnalysisEntityImpl _$$ThemeAnalysisEntityImplFromJson(
       totalQuestions: (json['total_questions'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$ThemeAnalysisEntityImplToJson(
-        _$ThemeAnalysisEntityImpl instance) =>
+Map<String, dynamic> _$ThemeAnalysisEntityToJson(
+        _ThemeAnalysisEntity instance) =>
     <String, dynamic>{
       'theme_id': instance.themeId,
       'theme_name': instance.themeName,
@@ -131,9 +126,9 @@ Map<String, dynamic> _$$ThemeAnalysisEntityImplToJson(
       'total_questions': instance.totalQuestions,
     };
 
-_$QuestionAnalysisEntityImpl _$$QuestionAnalysisEntityImplFromJson(
+_QuestionAnalysisEntity _$QuestionAnalysisEntityFromJson(
         Map<String, dynamic> json) =>
-    _$QuestionAnalysisEntityImpl(
+    _QuestionAnalysisEntity(
       questionId: json['question_id'] as String? ?? '',
       questionText: json['question_text'] as String? ?? '',
       themeId: json['theme_id'] as String?,
@@ -150,8 +145,8 @@ _$QuestionAnalysisEntityImpl _$$QuestionAnalysisEntityImplFromJson(
           const [],
     );
 
-Map<String, dynamic> _$$QuestionAnalysisEntityImplToJson(
-        _$QuestionAnalysisEntityImpl instance) =>
+Map<String, dynamic> _$QuestionAnalysisEntityToJson(
+        _QuestionAnalysisEntity instance) =>
     <String, dynamic>{
       'question_id': instance.questionId,
       'question_text': instance.questionText,
@@ -164,17 +159,17 @@ Map<String, dynamic> _$$QuestionAnalysisEntityImplToJson(
       'answers': instance.answers,
     };
 
-_$AnswerDistributionEntityImpl _$$AnswerDistributionEntityImplFromJson(
+_AnswerDistributionEntity _$AnswerDistributionEntityFromJson(
         Map<String, dynamic> json) =>
-    _$AnswerDistributionEntityImpl(
+    _AnswerDistributionEntity(
       answerId: json['id'] as String? ?? '',
       answerText: json['answer'] as String? ?? '',
       score: json['value'] as String?,
       count: (json['numberAnswered'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$AnswerDistributionEntityImplToJson(
-        _$AnswerDistributionEntityImpl instance) =>
+Map<String, dynamic> _$AnswerDistributionEntityToJson(
+        _AnswerDistributionEntity instance) =>
     <String, dynamic>{
       'id': instance.answerId,
       'answer': instance.answerText,
@@ -182,9 +177,9 @@ Map<String, dynamic> _$$AnswerDistributionEntityImplToJson(
       'numberAnswered': instance.count,
     };
 
-_$AtRiskEmployeeEntityImpl _$$AtRiskEmployeeEntityImplFromJson(
+_AtRiskEmployeeEntity _$AtRiskEmployeeEntityFromJson(
         Map<String, dynamic> json) =>
-    _$AtRiskEmployeeEntityImpl(
+    _AtRiskEmployeeEntity(
       anonymousUserId: json['anonymous_user_id'] as String? ?? '',
       satisfactionPercentage:
           (json['satisfaction_percentage'] as num?)?.toDouble(),
@@ -197,8 +192,8 @@ _$AtRiskEmployeeEntityImpl _$$AtRiskEmployeeEntityImplFromJson(
       openAnswer: json['open_answer'] as String?,
     );
 
-Map<String, dynamic> _$$AtRiskEmployeeEntityImplToJson(
-        _$AtRiskEmployeeEntityImpl instance) =>
+Map<String, dynamic> _$AtRiskEmployeeEntityToJson(
+        _AtRiskEmployeeEntity instance) =>
     <String, dynamic>{
       'anonymous_user_id': instance.anonymousUserId,
       'satisfaction_percentage': instance.satisfactionPercentage,

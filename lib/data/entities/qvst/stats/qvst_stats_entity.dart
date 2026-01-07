@@ -6,7 +6,7 @@ part 'qvst_stats_entity.freezed.dart';
 part 'qvst_stats_entity.g.dart';
 
 @Freezed()
-class QvstStatsEntity with _$QvstStatsEntity {
+abstract class QvstStatsEntity with _$QvstStatsEntity {
   const factory QvstStatsEntity({
     @JsonKey(defaultValue: '') required String campaignId,
     @JsonKey(defaultValue: '') required String campaignName,

@@ -5,7 +5,7 @@ part 'qvst_question_sample.freezed.dart';
 part 'qvst_question_sample.g.dart';
 
 @Freezed()
-class QvstQuestionSample with _$QvstQuestionSample {
+abstract class QvstQuestionSample with _$QvstQuestionSample {
   factory QvstQuestionSample(
           {@JsonKey(name: 'id_theme') required String idTheme,
           @JsonKey(name: 'question') required String question,

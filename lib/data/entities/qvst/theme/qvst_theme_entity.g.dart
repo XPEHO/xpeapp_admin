@@ -6,15 +6,13 @@ part of 'qvst_theme_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$QvstThemeEntityImpl _$$QvstThemeEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$QvstThemeEntityImpl(
+_QvstThemeEntity _$QvstThemeEntityFromJson(Map<String, dynamic> json) =>
+    _QvstThemeEntity(
       id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$QvstThemeEntityImplToJson(
-        _$QvstThemeEntityImpl instance) =>
+Map<String, dynamic> _$QvstThemeEntityToJson(_QvstThemeEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

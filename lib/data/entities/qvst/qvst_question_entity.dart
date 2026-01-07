@@ -7,7 +7,7 @@ part 'qvst_question_entity.freezed.dart';
 part 'qvst_question_entity.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: true)
-class QvstQuestionEntity with _$QvstQuestionEntity {
+abstract class QvstQuestionEntity with _$QvstQuestionEntity {
   factory QvstQuestionEntity({
     @JsonKey(name: 'question_id') String? id,
     required String question,

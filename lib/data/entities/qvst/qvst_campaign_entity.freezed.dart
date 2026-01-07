@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,117 +9,72 @@ part of 'qvst_campaign_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-QvstCampaignEntity _$QvstCampaignEntityFromJson(Map<String, dynamic> json) {
-  return _QvstCampaignEntity.fromJson(json);
-}
 
 /// @nodoc
 mixin _$QvstCampaignEntity {
-  String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  List<QvstThemeEntity> get themes => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
+  String get id;
+  String get name;
+  List<QvstThemeEntity> get themes;
+  String get status;
   @JsonKey(name: 'start_date')
-  String get startDate => throw _privateConstructorUsedError;
+  String get startDate;
   @JsonKey(name: 'end_date')
-  String get endDate => throw _privateConstructorUsedError;
+  String get endDate;
   @JsonKey(name: 'participation_rate')
-  String get participationRate => throw _privateConstructorUsedError;
-
-  /// Serializes this QvstCampaignEntity to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get participationRate;
 
   /// Create a copy of QvstCampaignEntity
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $QvstCampaignEntityCopyWith<QvstCampaignEntity> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $QvstCampaignEntityCopyWith<$Res> {
-  factory $QvstCampaignEntityCopyWith(
-          QvstCampaignEntity value, $Res Function(QvstCampaignEntity) then) =
-      _$QvstCampaignEntityCopyWithImpl<$Res, QvstCampaignEntity>;
-  @useResult
-  $Res call(
-      {String id,
-      String name,
-      List<QvstThemeEntity> themes,
-      String status,
-      @JsonKey(name: 'start_date') String startDate,
-      @JsonKey(name: 'end_date') String endDate,
-      @JsonKey(name: 'participation_rate') String participationRate});
-}
-
-/// @nodoc
-class _$QvstCampaignEntityCopyWithImpl<$Res, $Val extends QvstCampaignEntity>
-    implements $QvstCampaignEntityCopyWith<$Res> {
-  _$QvstCampaignEntityCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of QvstCampaignEntity
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $QvstCampaignEntityCopyWith<QvstCampaignEntity> get copyWith =>
+      _$QvstCampaignEntityCopyWithImpl<QvstCampaignEntity>(
+          this as QvstCampaignEntity, _$identity);
+
+  /// Serializes this QvstCampaignEntity to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? themes = null,
-    Object? status = null,
-    Object? startDate = null,
-    Object? endDate = null,
-    Object? participationRate = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      themes: null == themes
-          ? _value.themes
-          : themes // ignore: cast_nullable_to_non_nullable
-              as List<QvstThemeEntity>,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      startDate: null == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      endDate: null == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      participationRate: null == participationRate
-          ? _value.participationRate
-          : participationRate // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is QvstCampaignEntity &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other.themes, themes) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.participationRate, participationRate) ||
+                other.participationRate == participationRate));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      const DeepCollectionEquality().hash(themes),
+      status,
+      startDate,
+      endDate,
+      participationRate);
+
+  @override
+  String toString() {
+    return 'QvstCampaignEntity(id: $id, name: $name, themes: $themes, status: $status, startDate: $startDate, endDate: $endDate, participationRate: $participationRate)';
   }
 }
 
 /// @nodoc
-abstract class _$$QvstCampaignEntityImplCopyWith<$Res>
-    implements $QvstCampaignEntityCopyWith<$Res> {
-  factory _$$QvstCampaignEntityImplCopyWith(_$QvstCampaignEntityImpl value,
-          $Res Function(_$QvstCampaignEntityImpl) then) =
-      __$$QvstCampaignEntityImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $QvstCampaignEntityCopyWith<$Res> {
+  factory $QvstCampaignEntityCopyWith(
+          QvstCampaignEntity value, $Res Function(QvstCampaignEntity) _then) =
+      _$QvstCampaignEntityCopyWithImpl;
   @useResult
   $Res call(
       {String id,
@@ -132,12 +87,12 @@ abstract class _$$QvstCampaignEntityImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$QvstCampaignEntityImplCopyWithImpl<$Res>
-    extends _$QvstCampaignEntityCopyWithImpl<$Res, _$QvstCampaignEntityImpl>
-    implements _$$QvstCampaignEntityImplCopyWith<$Res> {
-  __$$QvstCampaignEntityImplCopyWithImpl(_$QvstCampaignEntityImpl _value,
-      $Res Function(_$QvstCampaignEntityImpl) _then)
-      : super(_value, _then);
+class _$QvstCampaignEntityCopyWithImpl<$Res>
+    implements $QvstCampaignEntityCopyWith<$Res> {
+  _$QvstCampaignEntityCopyWithImpl(this._self, this._then);
+
+  final QvstCampaignEntity _self;
+  final $Res Function(QvstCampaignEntity) _then;
 
   /// Create a copy of QvstCampaignEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -152,43 +107,227 @@ class __$$QvstCampaignEntityImplCopyWithImpl<$Res>
     Object? endDate = null,
     Object? participationRate = null,
   }) {
-    return _then(_$QvstCampaignEntityImpl(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       themes: null == themes
-          ? _value._themes
+          ? _self.themes
           : themes // ignore: cast_nullable_to_non_nullable
               as List<QvstThemeEntity>,
       status: null == status
-          ? _value.status
+          ? _self.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
       startDate: null == startDate
-          ? _value.startDate
+          ? _self.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
               as String,
       endDate: null == endDate
-          ? _value.endDate
+          ? _self.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as String,
       participationRate: null == participationRate
-          ? _value.participationRate
+          ? _self.participationRate
           : participationRate // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [QvstCampaignEntity].
+extension QvstCampaignEntityPatterns on QvstCampaignEntity {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_QvstCampaignEntity value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _QvstCampaignEntity() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_QvstCampaignEntity value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstCampaignEntity():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_QvstCampaignEntity value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstCampaignEntity() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            String id,
+            String name,
+            List<QvstThemeEntity> themes,
+            String status,
+            @JsonKey(name: 'start_date') String startDate,
+            @JsonKey(name: 'end_date') String endDate,
+            @JsonKey(name: 'participation_rate') String participationRate)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _QvstCampaignEntity() when $default != null:
+        return $default(_that.id, _that.name, _that.themes, _that.status,
+            _that.startDate, _that.endDate, _that.participationRate);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            String id,
+            String name,
+            List<QvstThemeEntity> themes,
+            String status,
+            @JsonKey(name: 'start_date') String startDate,
+            @JsonKey(name: 'end_date') String endDate,
+            @JsonKey(name: 'participation_rate') String participationRate)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstCampaignEntity():
+        return $default(_that.id, _that.name, _that.themes, _that.status,
+            _that.startDate, _that.endDate, _that.participationRate);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            String id,
+            String name,
+            List<QvstThemeEntity> themes,
+            String status,
+            @JsonKey(name: 'start_date') String startDate,
+            @JsonKey(name: 'end_date') String endDate,
+            @JsonKey(name: 'participation_rate') String participationRate)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _QvstCampaignEntity() when $default != null:
+        return $default(_that.id, _that.name, _that.themes, _that.status,
+            _that.startDate, _that.endDate, _that.participationRate);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
-class _$QvstCampaignEntityImpl implements _QvstCampaignEntity {
-  const _$QvstCampaignEntityImpl(
+class _QvstCampaignEntity implements QvstCampaignEntity {
+  const _QvstCampaignEntity(
       {required this.id,
       required this.name,
       required final List<QvstThemeEntity> themes,
@@ -197,9 +336,8 @@ class _$QvstCampaignEntityImpl implements _QvstCampaignEntity {
       @JsonKey(name: 'end_date') required this.endDate,
       @JsonKey(name: 'participation_rate') required this.participationRate})
       : _themes = themes;
-
-  factory _$QvstCampaignEntityImpl.fromJson(Map<String, dynamic> json) =>
-      _$$QvstCampaignEntityImplFromJson(json);
+  factory _QvstCampaignEntity.fromJson(Map<String, dynamic> json) =>
+      _$QvstCampaignEntityFromJson(json);
 
   @override
   final String id;
@@ -225,16 +363,26 @@ class _$QvstCampaignEntityImpl implements _QvstCampaignEntity {
   @JsonKey(name: 'participation_rate')
   final String participationRate;
 
+  /// Create a copy of QvstCampaignEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'QvstCampaignEntity(id: $id, name: $name, themes: $themes, status: $status, startDate: $startDate, endDate: $endDate, participationRate: $participationRate)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$QvstCampaignEntityCopyWith<_QvstCampaignEntity> get copyWith =>
+      __$QvstCampaignEntityCopyWithImpl<_QvstCampaignEntity>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$QvstCampaignEntityToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$QvstCampaignEntityImpl &&
+            other is _QvstCampaignEntity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._themes, _themes) &&
@@ -258,59 +406,82 @@ class _$QvstCampaignEntityImpl implements _QvstCampaignEntity {
       endDate,
       participationRate);
 
-  /// Create a copy of QvstCampaignEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$QvstCampaignEntityImplCopyWith<_$QvstCampaignEntityImpl> get copyWith =>
-      __$$QvstCampaignEntityImplCopyWithImpl<_$QvstCampaignEntityImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$QvstCampaignEntityImplToJson(
-      this,
-    );
+  String toString() {
+    return 'QvstCampaignEntity(id: $id, name: $name, themes: $themes, status: $status, startDate: $startDate, endDate: $endDate, participationRate: $participationRate)';
   }
 }
 
-abstract class _QvstCampaignEntity implements QvstCampaignEntity {
-  const factory _QvstCampaignEntity(
-      {required final String id,
-      required final String name,
-      required final List<QvstThemeEntity> themes,
-      required final String status,
-      @JsonKey(name: 'start_date') required final String startDate,
-      @JsonKey(name: 'end_date') required final String endDate,
-      @JsonKey(name: 'participation_rate')
-      required final String participationRate}) = _$QvstCampaignEntityImpl;
+/// @nodoc
+abstract mixin class _$QvstCampaignEntityCopyWith<$Res>
+    implements $QvstCampaignEntityCopyWith<$Res> {
+  factory _$QvstCampaignEntityCopyWith(
+          _QvstCampaignEntity value, $Res Function(_QvstCampaignEntity) _then) =
+      __$QvstCampaignEntityCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String name,
+      List<QvstThemeEntity> themes,
+      String status,
+      @JsonKey(name: 'start_date') String startDate,
+      @JsonKey(name: 'end_date') String endDate,
+      @JsonKey(name: 'participation_rate') String participationRate});
+}
 
-  factory _QvstCampaignEntity.fromJson(Map<String, dynamic> json) =
-      _$QvstCampaignEntityImpl.fromJson;
+/// @nodoc
+class __$QvstCampaignEntityCopyWithImpl<$Res>
+    implements _$QvstCampaignEntityCopyWith<$Res> {
+  __$QvstCampaignEntityCopyWithImpl(this._self, this._then);
 
-  @override
-  String get id;
-  @override
-  String get name;
-  @override
-  List<QvstThemeEntity> get themes;
-  @override
-  String get status;
-  @override
-  @JsonKey(name: 'start_date')
-  String get startDate;
-  @override
-  @JsonKey(name: 'end_date')
-  String get endDate;
-  @override
-  @JsonKey(name: 'participation_rate')
-  String get participationRate;
+  final _QvstCampaignEntity _self;
+  final $Res Function(_QvstCampaignEntity) _then;
 
   /// Create a copy of QvstCampaignEntity
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$QvstCampaignEntityImplCopyWith<_$QvstCampaignEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? themes = null,
+    Object? status = null,
+    Object? startDate = null,
+    Object? endDate = null,
+    Object? participationRate = null,
+  }) {
+    return _then(_QvstCampaignEntity(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      themes: null == themes
+          ? _self._themes
+          : themes // ignore: cast_nullable_to_non_nullable
+              as List<QvstThemeEntity>,
+      status: null == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String,
+      startDate: null == startDate
+          ? _self.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as String,
+      endDate: null == endDate
+          ? _self.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as String,
+      participationRate: null == participationRate
+          ? _self.participationRate
+          : participationRate // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
+
+// dart format on

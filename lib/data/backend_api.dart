@@ -202,4 +202,7 @@ abstract class BackendApi {
     @Path("id") String id,
     @Body() Map<String, dynamic> body,
   );
+
+  @GET('xpeho/v1/user:last-connection')
+  Future<HttpResponse> getLastConnexionUsers();
 }

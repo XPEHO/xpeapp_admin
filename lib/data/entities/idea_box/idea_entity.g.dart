@@ -6,8 +6,7 @@ part of 'idea_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$IdeaEntityImpl _$$IdeaEntityImplFromJson(Map<String, dynamic> json) =>
-    _$IdeaEntityImpl(
+_IdeaEntity _$IdeaEntityFromJson(Map<String, dynamic> json) => _IdeaEntity(
       id: json['id'] as String,
       description: json['description'] as String,
       context: json['context'] as String,
@@ -15,7 +14,7 @@ _$IdeaEntityImpl _$$IdeaEntityImplFromJson(Map<String, dynamic> json) =>
       status: json['status'] as String,
     );
 
-Map<String, dynamic> _$$IdeaEntityImplToJson(_$IdeaEntityImpl instance) =>
+Map<String, dynamic> _$IdeaEntityToJson(_IdeaEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'description': instance.description,

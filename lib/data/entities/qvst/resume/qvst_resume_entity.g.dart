@@ -6,9 +6,8 @@ part of 'qvst_resume_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$QvstResumeEntityImpl _$$QvstResumeEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$QvstResumeEntityImpl(
+_QvstResumeEntity _$QvstResumeEntityFromJson(Map<String, dynamic> json) =>
+    _QvstResumeEntity(
       id: json['id'] as String,
       theme: json['theme'] as String,
       question: json['question'] as String,
@@ -17,8 +16,7 @@ _$QvstResumeEntityImpl _$$QvstResumeEntityImplFromJson(
       maxValueAnswer: json['maxValueAnswer'] as String,
     );
 
-Map<String, dynamic> _$$QvstResumeEntityImplToJson(
-        _$QvstResumeEntityImpl instance) =>
+Map<String, dynamic> _$QvstResumeEntityToJson(_QvstResumeEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'theme': instance.theme,

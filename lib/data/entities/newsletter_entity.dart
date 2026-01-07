@@ -6,7 +6,7 @@ part 'newsletter_entity.freezed.dart';
 part 'newsletter_entity.g.dart';
 
 @Freezed()
-class NewsletterEntity with _$NewsletterEntity {
+abstract class NewsletterEntity with _$NewsletterEntity {
   // ignore: invalid_annotation_target
   @JsonSerializable(explicitToJson: true)
   const factory NewsletterEntity({
