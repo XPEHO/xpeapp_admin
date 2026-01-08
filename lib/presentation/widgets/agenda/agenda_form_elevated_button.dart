@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xpeapp_admin/data/colors.dart';
+import 'package:yaki_ui/yaki_ui.dart';
 
 class AgendaFormElevatedButton extends StatelessWidget {
   final bool isEnabled;
@@ -16,14 +16,11 @@ class AgendaFormElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 30, bottom: 30, left: 50),
-      width: 200,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: kDefaultXpehoColor,
-        ),
+      margin: const EdgeInsets.only(top: 30, bottom: 100),
+      width: MediaQuery.of(context).size.width * 0.5,
+      child: Button.secondary(
+        text: buttonText,
         onPressed: isEnabled ? onPressed : null,
-        child: Text(buttonText),
       ),
     );
   }
