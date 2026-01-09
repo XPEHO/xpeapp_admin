@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/menu_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/agenda/agenda_page.dart';
@@ -42,7 +43,7 @@ class HomePage extends ConsumerWidget {
                         // Sign out
                         ref.watch(loginProvider).signOut(),
                         // Redirect to login page
-                        Navigator.pushNamed(context, '/')
+                        context.go('/')
                       },
                       icon: const Icon(
                         Icons.logout,
@@ -183,7 +184,7 @@ class HomePage extends ConsumerWidget {
         onPressed: () {
           switch (menuSelected.id) {
             case menuNewsletter:
-              Navigator.pushNamed(context, '/newsletter/add');
+              context.push('/newsletter/add');
               break;
             default:
               break;

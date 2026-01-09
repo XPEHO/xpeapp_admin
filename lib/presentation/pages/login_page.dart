@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
 import 'package:xpeapp_admin/presentation/widgets/app_loader.dart';
@@ -115,10 +116,7 @@ class LoginPage extends ConsumerWidget {
 
       // Naviguez vers la page d'accueil en réinitialisant le menu
       ref.read(menuSelectedProvider.notifier).reset();
-      Navigator.pushNamed(
-        context,
-        '/home',
-      );
+      context.go('/home');
     } catch (error) {
       // En cas d'erreur, désactivez également le loader
       ref.read(loaderStateProvider.notifier).hideLoader();

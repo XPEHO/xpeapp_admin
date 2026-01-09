@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/colors.dart';
@@ -279,7 +280,7 @@ class _NewsletterAddOrEditPageState
                                       await updateNewsletter(newsletterEntity);
                                     }
                                     // Redirect to the previous page
-                                    Navigator.pop(context);
+                                    context.pop();
                                   }
                                 }
                               : null,

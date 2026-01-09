@@ -32,15 +32,17 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({
     super.key,
   });
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+
+    return MaterialApp.router(
       title: 'XpeApp Admin',
       locale: const Locale('fr'),
       supportedLocales: const [
@@ -57,7 +59,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      routes: routes,
+      routerConfig: router,
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/env/extensions/string.dart';
 
@@ -36,13 +37,7 @@ class QvstContentPage extends ConsumerWidget {
                   elevation: 10,
                   color: Colors.white,
                   child: ListTile(
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      '/qvst/detail',
-                      arguments: {
-                        'id': question.id,
-                      },
-                    ),
+                    onTap: () => context.push('/qvst/detail/${question.id}'),
                     title: Text(
                       question.question.cleanText(),
                       style: const TextStyle(

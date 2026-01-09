@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class AuthGuard extends ConsumerWidget {
@@ -17,7 +18,7 @@ class AuthGuard extends ConsumerWidget {
       // Redirect to login page if not authenticated and sign out
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.read(userProvider.notifier).signOut();
-        Navigator.pushReplacementNamed(context, '/');
+        context.go('/');
       });
 
       // Clear QVST menu
