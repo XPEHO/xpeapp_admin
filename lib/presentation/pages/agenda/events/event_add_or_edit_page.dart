@@ -117,19 +117,18 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
             const SizedBox(height: 10),
             eventTypes.when(
               data: (types) {
-                if (types.isNotEmpty && selectedEventType == null) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    setState(() {
-                      selectedEventType = types.first.id;
-                    });
-                    _onFieldChanged();
+                final selectedType = types.isNotEmpty
+                    ? types.firstWhere(
+                        (type) => type.id == selectedEventType,
+                        orElse: () => types.first,
+                      )
+                    : null;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  setState(() {
+                    selectedEventType = selectedType?.id;
                   });
-                }
-
-                final selectedType = types.firstWhere(
-                  (type) => type.id == selectedEventType,
-                  orElse: () => types.first,
-                );
+                  _onFieldChanged();
+                });
                 return DropdownButton<EventsTypeEntity>(
                   value: selectedType,
                   hint: const Text('Sélectionnez un type d\'événement'),
