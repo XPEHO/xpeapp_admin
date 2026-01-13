@@ -94,7 +94,6 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
   @override
   Widget build(BuildContext context) {
     final eventTypes = ref.watch(agendaEventsTypeProvider);
-    EventsTypeEntity? selectedType;
 
     return Scaffold(
       appBar: AppBar(
@@ -118,12 +117,19 @@ class _EventAddOrEditPageState extends ConsumerState<EventAddOrEditPage> {
             const SizedBox(height: 10),
             eventTypes.when(
               data: (types) {
-                if (selectedEventType != null && types.isNotEmpty) {
-                  selectedType = types.cast<EventsTypeEntity?>().firstWhere(
-                        (type) => type?.id == selectedEventType,
-                        orElse: () => null,
-                      );
+                if (types.isNotEmpty && selectedEventType == null) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    setState(() {
+                      selectedEventType = types.first.id;
+                    });
+                    _onFieldChanged();
+                  });
                 }
+
+                final selectedType = types.firstWhere(
+                  (type) => type.id == selectedEventType,
+                  orElse: () => types.first,
+                );
                 return DropdownButton<EventsTypeEntity>(
                   value: selectedType,
                   hint: const Text('Sélectionnez un type d\'événement'),
