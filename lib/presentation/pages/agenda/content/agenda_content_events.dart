@@ -108,6 +108,7 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
                           id: event.id,
                           title: event.title,
                           date: event.date,
+                          endDate: event.endDate,
                           location: event.location,
                           startTime: event.startTime,
                           endTime: event.endTime,
