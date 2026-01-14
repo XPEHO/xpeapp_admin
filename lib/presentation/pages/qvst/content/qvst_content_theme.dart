@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_table_view.dart';
@@ -162,10 +163,7 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
             child: FloatingActionButton(
               onPressed: () {
                 ref.watch(qvstThemesSelectionProvider.notifier).setTheme(theme);
-                Navigator.pushNamed(
-                  context,
-                  '/qvst/add',
-                );
+                context.push('/qvst/add');
               },
               backgroundColor: kDefaultXpehoColor,
               child: const Icon(

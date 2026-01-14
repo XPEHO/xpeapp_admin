@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 
@@ -13,11 +14,7 @@ class NewsletterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.pushNamed(
-        context,
-        '/newsletter/detail',
-        arguments: newsletter.id,
-      ),
+      onTap: () => context.push('/newsletter/detail/${newsletter.id}'),
       child: Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 20,

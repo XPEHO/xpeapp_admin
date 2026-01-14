@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/presentation/widgets/newsletter_card.dart';
 
@@ -10,24 +11,36 @@ void main() {
     (tester) async {
       final dateTesting = DateTime(2021, 10, 10);
       final newsletter = NewsletterEntity(
-        id: 'id',
+        id: 'test-id',
         date: Timestamp.fromDate(dateTesting),
         summary: 'summary',
         pdfUrl: 'pdfUrl',
         publicationDate: Timestamp.fromDate(dateTesting),
       );
-      await tester.pumpWidget(
-        MaterialApp(
-          routes: {
-            '/newsletter/detail': (context) => const Scaffold(
-                  body: Text('/newsletter/detail'),
-                ),
-          },
-          home: Scaffold(
-            body: NewsletterCard(
-              newsletter: newsletter,
+
+      final router = GoRouter(
+        initialLocation: '/',
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, state) => Scaffold(
+              body: NewsletterCard(
+                newsletter: newsletter,
+              ),
             ),
           ),
+          GoRoute(
+            path: '/newsletter/detail/:id',
+            builder: (context, state) => const Scaffold(
+              body: Text('/newsletter/detail'),
+            ),
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        MaterialApp.router(
+          routerConfig: router,
         ),
       );
 

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:xpeapp_admin/data/entities/newsletter_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/template/scaffold_template.dart';
@@ -34,14 +35,13 @@ class NewsletterDetailPage extends ConsumerWidget {
           return ScaffoldTemplate(
             appBarTitle: 'Contenu de la newsletter',
             appBarLeading: IconButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => context.pop(),
               icon: const Icon(Icons.arrow_back),
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () => Navigator.pushNamed(
-                context,
+              onPressed: () => context.push(
                 '/newsletter/edit',
-                arguments: newsletter,
+                extra: newsletter,
               ),
               backgroundColor: Colors.grey,
               child: const Icon(

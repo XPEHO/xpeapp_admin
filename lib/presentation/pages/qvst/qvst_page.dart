@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_campaign.dart';
@@ -38,7 +39,7 @@ class _QvstPageState extends ConsumerState<QvstPage> {
                       Align(
                         alignment: Alignment.topLeft,
                         child: IconButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => context.pop(),
                           icon: const Icon(
                             Icons.home,
                             color: Colors.white,
