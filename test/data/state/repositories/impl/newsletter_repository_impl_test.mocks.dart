@@ -1288,17 +1288,18 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);
 
   @override
-  _i5.Future<_i6.HttpResponse<dynamic>> getAllQvst() => (super.noSuchMethod(
+  _i5.Future<_i6.HttpResponse<dynamic>> getAllQvst(bool? includeNoLongerUsed) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getAllQvst,
-          [],
+          [includeNoLongerUsed],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
             _FakeHttpResponse_13<dynamic>(
           this,
           Invocation.method(
             #getAllQvst,
-            [],
+            [includeNoLongerUsed],
           ),
         )),
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);
@@ -1339,18 +1340,26 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
 
   @override
   _i5.Future<_i6.HttpResponse<dynamic>> getAllQvstQuestionsByThemeId(
-          String? id) =>
+    String? id,
+    bool? includeNoLongerUsed,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllQvstQuestionsByThemeId,
-          [id],
+          [
+            id,
+            includeNoLongerUsed,
+          ],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
             _FakeHttpResponse_13<dynamic>(
           this,
           Invocation.method(
             #getAllQvstQuestionsByThemeId,
-            [id],
+            [
+              id,
+              includeNoLongerUsed,
+            ],
           ),
         )),
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);
@@ -1402,6 +1411,24 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           Invocation.method(
             #getQvstAnswersRepo,
             [],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> addQvstAnswersRepo(
+          Map<String, dynamic>? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addQvstAnswersRepo,
+          [body],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #addQvstAnswersRepo,
+            [body],
           ),
         )),
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);
@@ -1507,6 +1534,23 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           Invocation.method(
             #importQvstFile,
             [body],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
+  _i5.Future<_i6.HttpResponse<dynamic>> exportQvstQuestions() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #exportQvstQuestions,
+          [],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #exportQvstQuestions,
+            [],
           ),
         )),
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);

@@ -40,8 +40,6 @@ class QvstFloatingActionButtons extends ConsumerWidget {
               _buildExportButton(context, ref),
             if (data.campaignStatus.isArchived || data.campaignStatus.isClosed)
               const SizedBox(width: 10),
-            _buildResetQuestionsButton(context, ref),
-            const SizedBox(width: 10),
             if (tabIndex == 1) _buildFilterButton(),
             if (tabIndex == 1) const SizedBox(width: 10),
             _buildRefreshButton(ref),
@@ -59,18 +57,6 @@ class QvstFloatingActionButtons extends ConsumerWidget {
         onPressed: () => _handleExportCSV(context, ref),
         backgroundColor: kDefaultXpehoColor,
         child: const Icon(Icons.file_download, color: Colors.white),
-      ),
-    );
-  }
-
-  Widget _buildResetQuestionsButton(BuildContext context, WidgetRef ref) {
-    return Tooltip(
-      message: "Réinitialiser les questions inversées",
-      child: FloatingActionButton(
-        heroTag: "reset_questions_button",
-        onPressed: () => _handleResetQuestions(context, ref),
-        backgroundColor: Colors.orange,
-        child: const Icon(Icons.clear_all, color: Colors.white),
       ),
     );
   }
@@ -114,16 +100,6 @@ class QvstFloatingActionButtons extends ConsumerWidget {
         SnackBar(content: Text("$e")),
       );
     }
-  }
-
-  void _handleResetQuestions(BuildContext context, WidgetRef ref) {
-    ref.read(reversedQuestionsProvider.notifier).state = {};
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Questions inversées réinitialisées"),
-        duration: Duration(seconds: 2),
-      ),
-    );
   }
 
   void _handleRefresh(WidgetRef ref) {

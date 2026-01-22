@@ -89,6 +89,7 @@ class QvstImportQuestionFileDialogState
                     );
                     Navigator.pop(context);
                     ref.invalidate(qvstQuestionsListProvider);
+                    ref.invalidate(qvstQuestionsByThemesListProvider);
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

@@ -53,7 +53,7 @@ void main() {
   group('Qvst service test', () {
     group('getAllQvst()', () {
       test('Success', () async {
-        when(mockBackendApi.getAllQvst()).thenAnswer((_) async {
+        when(mockBackendApi.getAllQvst(true)).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
               [
@@ -86,7 +86,7 @@ void main() {
       });
 
       test('Failed', () async {
-        when(mockBackendApi.getAllQvst()).thenAnswer((_) async {
+        when(mockBackendApi.getAllQvst(true)).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
               [],
@@ -300,7 +300,7 @@ void main() {
           ]
         };
 
-        when(mockBackendApi.getAllQvstQuestionsByThemeId(id)).thenAnswer(
+        when(mockBackendApi.getAllQvstQuestionsByThemeId(id, true)).thenAnswer(
           (_) async {
             return Future.value(
               HttpResponse(
@@ -322,7 +322,7 @@ void main() {
       });
 
       test('Failed', () async {
-        when(mockBackendApi.getAllQvstQuestionsByThemeId(id)).thenAnswer(
+        when(mockBackendApi.getAllQvstQuestionsByThemeId(id, true)).thenAnswer(
           (_) async {
             return Future.value(
               HttpResponse(

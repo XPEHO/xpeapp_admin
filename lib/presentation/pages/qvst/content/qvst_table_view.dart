@@ -89,15 +89,29 @@ class QvstTableView extends ConsumerWidget {
                     ),
                   ),
                   TableCell(
-                    child: IconButton(
-                      onPressed: () => _showConfirmDialog(
-                        context,
-                        question,
-                        ref: ref,
-                      ),
-                      icon: const Icon(
-                        Icons.delete,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          tooltip: 'Editer',
+                          onPressed: () => _showEditDialog(
+                            context,
+                            question,
+                            ref: ref,
+                          ),
+                          icon: const Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () => _showConfirmDialog(
+                            context,
+                            question,
+                            ref: ref,
+                          ),
+                          icon: const Icon(
+                            Icons.delete,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -171,6 +185,9 @@ class QvstTableView extends ConsumerWidget {
             ? qvstQuestionsByThemesListProvider(themeId!)
             : qvstQuestionsListProvider,
       );
+      if (e.idTheme != null) {
+        ref.invalidate(qvstQuestionsByThemesListProvider(e.idTheme!));
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -178,5 +195,130 @@ class QvstTableView extends ConsumerWidget {
         ),
       );
     }
+  }
+
+  void _showEditDialog(
+    BuildContext context,
+    QvstQuestionEntity question, {
+    WidgetRef? ref,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        bool reversed = question.noLongerUsedBool;
+        bool obsolete = question.noLongerUsedBool;
+        final textController = TextEditingController(text: question.question);
+        bool saving = false;
+        return StatefulBuilder(
+          builder: (context, setState) => AlertDialog(
+            title: const Text('Modifier la question'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: textController,
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                    labelText: 'Intitulé',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                CheckboxListTile(
+                  title: const Text('Question inversée'),
+                  value: reversed,
+                  onChanged: (v) => setState(() => reversed = v ?? false),
+                  controlAffinity: ListTileControlAffinity.leading,
+                ),
+                CheckboxListTile(
+                  title: const Text('Question obsolète'),
+                  value: obsolete,
+                  onChanged: (v) => setState(() => obsolete = v ?? false),
+                  controlAffinity: ListTileControlAffinity.leading,
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: saving ? null : () => Navigator.pop(context),
+                child: const Text('Annuler'),
+              ),
+              TextButton(
+                onPressed: saving
+                    ? null
+                    : () async {
+                        if (ref == null) return;
+                        if (question.id == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('ID de question manquant'),
+                            ),
+                          );
+                          return;
+                        }
+                        final newText = textController.text.trim();
+                        if (newText.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Le libellé ne peut pas être vide'),
+                            ),
+                          );
+                          return;
+                        }
+                        setState(() => saving = true);
+                        try {
+                          await ref
+                              .read(qvstServiceProvider)
+                              .updateQvstQuestion(
+                                questionId: question.id!,
+                                reversedQuestion: reversed,
+                                noLongerUsed: obsolete,
+                                questionText: newText,
+                              );
+                          ref.invalidate(qvstQuestionsListProvider);
+                          if (themeId != null) {
+                            ref.invalidate(
+                                qvstQuestionsByThemesListProvider(themeId!));
+                          }
+                          if (question.idTheme != null) {
+                            ref.invalidate(qvstQuestionsByThemesListProvider(
+                                question.idTheme!));
+                          }
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Question mise à jour'),
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Erreur: ${e.toString()}'),
+                              ),
+                            );
+                          }
+                        } finally {
+                          if (context.mounted) {
+                            setState(() => saving = false);
+                          }
+                        }
+                      },
+                child: saving
+                    ? const SizedBox(
+                        height: 16,
+                        width: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Enregistrer'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

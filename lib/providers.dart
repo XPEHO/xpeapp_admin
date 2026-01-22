@@ -188,7 +188,16 @@ final qvstThemesListProvider =
 
 final qvstQuestionsByThemesListProvider =
     FutureProvider.family<List<QvstQuestionEntity>, String>((ref, id) async {
-  return ref.watch(qvstServiceProvider).getAllQvstQuestionsByThemeId(id);
+  return ref
+      .watch(qvstServiceProvider)
+      .getAllQvstQuestionsByThemeId(id, includeNoLongerUsed: false);
+});
+
+final qvstQuestionsByThemesIncludingObsoleteProvider =
+    FutureProvider.family<List<QvstQuestionEntity>, String>((ref, id) async {
+  return ref
+      .watch(qvstServiceProvider)
+      .getAllQvstQuestionsByThemeId(id, includeNoLongerUsed: true);
 });
 
 final qvstThemesSelectionProvider =

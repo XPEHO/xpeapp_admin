@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
+import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_add_response_repo.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_content_update_response_repo.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
 import 'package:xpeapp_admin/providers.dart';
@@ -22,6 +23,19 @@ class QvstContentResponses extends ConsumerWidget {
             backgroundColor: Colors.white,
           ),
           backgroundColor: Colors.white,
+          floatingActionButton: Tooltip(
+            message: 'Ajouter un référentiel',
+            child: FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const QvstContentAddResponseRepo(),
+                );
+              },
+              backgroundColor: kDefaultXpehoColor,
+              child: const Icon(Icons.add, color: Colors.white),
+            ),
+          ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,

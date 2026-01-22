@@ -19,4 +19,14 @@ class BackendApiBase {
       },
     );
   }
+
+  Future<http.Response> exportQvstQuestionsCsv(String token) async {
+    final url = '${baseUrl}xpeho/v1/qvst:export';
+    return await http.get(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+  }
 }
