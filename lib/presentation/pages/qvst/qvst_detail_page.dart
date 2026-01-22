@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/providers.dart';
 
@@ -160,7 +161,7 @@ class QvstDetailPage extends ConsumerWidget {
           content: Text(content),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => context.pop(),
               child: const Text('Annuler'),
             ),
             TextButton(
@@ -172,8 +173,8 @@ class QvstDetailPage extends ConsumerWidget {
                   ref.invalidate(qvstQuestionsListProvider);
                   ref.read(loaderStateProvider.notifier).hideLoader();
                   if (!context.mounted) return;
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
+                  context.pop();
+                  context.pop();
                 } else {
                   ref.read(loaderStateProvider.notifier).hideLoader();
                   if (!context.mounted) return;

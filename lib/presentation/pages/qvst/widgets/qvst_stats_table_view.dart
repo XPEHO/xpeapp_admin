@@ -7,9 +7,11 @@ import 'package:xpeapp_admin/presentation/pages/qvst/utils/qvst_stats_utils.dart
 
 class QvstStatsTableView extends ConsumerStatefulWidget {
   final QvstStatsEntity stats;
+  final String campaignId;
   const QvstStatsTableView({
     super.key,
     required this.stats,
+    required this.campaignId,
   });
 
   @override
@@ -17,19 +19,115 @@ class QvstStatsTableView extends ConsumerStatefulWidget {
 }
 
 class _QvstStatsTableViewState extends ConsumerState<QvstStatsTableView> {
+  final Set<String> _loadingReversed = {};
+  final Set<String> _loadingNoLongerUsed = {};
+
+  Future<void> _updateReversedQuestion(
+    QvstQuestionEntity question,
+    bool newValue,
+  ) async {
+    final questionId = question.id;
+    if (questionId == null) return;
+
+    setState(() => _loadingReversed.add(questionId));
+    try {
+      final qvstService = ref.read(qvstServiceProvider);
+      await qvstService.updateQvstQuestion(
+        questionId: questionId,
+        reversedQuestion: newValue,
+      );
+      // Rafraîchir les stats
+      ref.invalidate(qvstCampaignStatsProvider(widget.campaignId));
+      // Invalider les questions par thème pour rafraîchir la création de campagne
+      ref.invalidate(qvstQuestionsByThemesListProvider);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              newValue
+                  ? 'Question marquée comme inversée'
+                  : 'Question non inversée',
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erreur: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _loadingReversed.remove(questionId));
+      }
+    }
+  }
+
+  Future<void> _updateNoLongerUsed(
+    QvstQuestionEntity question,
+    bool newValue,
+  ) async {
+    final questionId = question.id;
+    if (questionId == null) return;
+
+    setState(() => _loadingNoLongerUsed.add(questionId));
+    try {
+      final qvstService = ref.read(qvstServiceProvider);
+      await qvstService.updateQvstQuestion(
+        questionId: questionId,
+        noLongerUsed: newValue,
+      );
+      // Rafraîchir les stats
+      ref.invalidate(qvstCampaignStatsProvider(widget.campaignId));
+      // Invalider les questions par thème pour rafraîchir la création de campagne
+      ref.invalidate(qvstQuestionsByThemesListProvider);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              newValue
+                  ? 'Question désactivée pour les futures campagnes'
+                  : 'Question réactivée pour les futures campagnes',
+            ),
+            backgroundColor: newValue ? Colors.orange : Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erreur: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _loadingNoLongerUsed.remove(questionId));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DataTable(
       horizontalMargin: 10,
+      columnSpacing: 20,
       columns: const [
         DataColumn(
           label: SizedBox(
-            width: 120,
+            width: 70,
             child: Text(
-              'Question inversée',
+              'Inversée',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
+                fontSize: 13,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -37,12 +135,25 @@ class _QvstStatsTableViewState extends ConsumerState<QvstStatsTableView> {
         ),
         DataColumn(
           label: SizedBox(
-            width: 300,
+            width: 70,
+            child: Text(
+              'Obsolète',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+        DataColumn(
+          label: SizedBox(
+            width: 350,
             child: Text(
               'Question',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
+                fontSize: 13,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -50,12 +161,12 @@ class _QvstStatsTableViewState extends ConsumerState<QvstStatsTableView> {
         ),
         DataColumn(
           label: SizedBox(
-            width: 120,
+            width: 80,
             child: Text(
-              '% satisfaction',
+              '% satisf.',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
+                fontSize: 13,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -63,12 +174,12 @@ class _QvstStatsTableViewState extends ConsumerState<QvstStatsTableView> {
         ),
         DataColumn(
           label: SizedBox(
-            width: 200,
+            width: 150,
             child: Text(
-              'Réponse la plus fréquente',
+              'Réponse fréquente',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
+                fontSize: 13,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -77,70 +188,128 @@ class _QvstStatsTableViewState extends ConsumerState<QvstStatsTableView> {
       ],
       rows: widget.stats.questions.map(
         (QvstQuestionEntity question) {
-          final questionKey = question.question;
-          final reversedQuestions = ref.watch(reversedQuestionsProvider);
-          final isReversed = reversedQuestions[questionKey] ?? false;
+          final isReversed = question.reversedQuestionBool;
+          final isNoLongerUsed = question.noLongerUsedBool;
+          final questionId = question.id ?? '';
+          final isLoadingReversed = _loadingReversed.contains(questionId);
+          final isLoadingNoLongerUsed =
+              _loadingNoLongerUsed.contains(questionId);
 
           return DataRow(
             cells: [
-              DataCell(
-                Row(
-                  children: [
-                    Checkbox(
-                      value: isReversed,
-                      onChanged: (bool? value) {
-                        final currentMap = ref.read(reversedQuestionsProvider);
-                        ref.read(reversedQuestionsProvider.notifier).state = {
-                          ...currentMap,
-                          questionKey: value ?? false,
-                        };
-                      },
-                    ),
-                    if (isReversed)
-                      const Icon(
-                        Icons.swap_horiz,
-                        color: Colors.orange,
-                        size: 20,
-                      ),
-                  ],
-                ),
-              ),
-              DataCell(
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  child: Text(
-                    question.question,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ),
-              DataCell(
-                Text(
-                  QvstStatsUtils.getPercentOfQuestion(question.answers,
-                      isReversed: isReversed),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    color: isReversed ? Colors.orange : Colors.black,
-                  ),
-                ),
-              ),
-              DataCell(
-                Text(
-                  QvstStatsUtils.getAnswerMoreFrequent(question.answers),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                  ),
-                ),
-              ),
+              _buildReversedCell(question, isReversed, isLoadingReversed),
+              _buildObsoleteCell(
+                  question, isNoLongerUsed, isLoadingNoLongerUsed),
+              _buildQuestionCell(context, question, isNoLongerUsed),
+              _buildSatisfactionCell(question, isReversed),
+              _buildFrequentAnswerCell(question),
             ],
           );
         },
       ).toList(),
+    );
+  }
+
+  DataCell _buildReversedCell(
+      QvstQuestionEntity question, bool isReversed, bool isLoading) {
+    return DataCell(
+      Row(
+        children: [
+          if (isLoading)
+            const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          else
+            Checkbox(
+              value: isReversed,
+              onChanged: (bool? value) {
+                _updateReversedQuestion(question, value ?? false);
+              },
+            ),
+          if (isReversed)
+            const Icon(
+              Icons.swap_horiz,
+              color: Colors.orange,
+              size: 20,
+            ),
+        ],
+      ),
+    );
+  }
+
+  DataCell _buildObsoleteCell(
+      QvstQuestionEntity question, bool isNoLongerUsed, bool isLoading) {
+    return DataCell(
+      Row(
+        children: [
+          if (isLoading)
+            const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          else
+            Checkbox(
+              value: isNoLongerUsed,
+              onChanged: (bool? value) {
+                _updateNoLongerUsed(question, value ?? false);
+              },
+            ),
+          if (isNoLongerUsed)
+            const Icon(
+              Icons.block,
+              color: Colors.red,
+              size: 20,
+            ),
+        ],
+      ),
+    );
+  }
+
+  DataCell _buildQuestionCell(
+      BuildContext context, QvstQuestionEntity question, bool isNoLongerUsed) {
+    return DataCell(
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.25,
+        child: Text(
+          question.question,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+            decoration: isNoLongerUsed ? TextDecoration.lineThrough : null,
+            color: isNoLongerUsed ? Colors.grey : Colors.black,
+          ),
+        ),
+      ),
+    );
+  }
+
+  DataCell _buildSatisfactionCell(
+      QvstQuestionEntity question, bool isReversed) {
+    return DataCell(
+      Text(
+        QvstStatsUtils.getPercentOfQuestion(question.answers,
+            isReversed: isReversed),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 13,
+          color: isReversed ? Colors.orange : Colors.black,
+        ),
+      ),
+    );
+  }
+
+  DataCell _buildFrequentAnswerCell(QvstQuestionEntity question) {
+    return DataCell(
+      Text(
+        QvstStatsUtils.getAnswerMoreFrequent(question.answers),
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 13,
+        ),
+      ),
     );
   }
 }

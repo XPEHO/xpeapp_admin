@@ -51,9 +51,62 @@ void main() {
   );
 
   group('Qvst service test', () {
+    group('addQvstAnswersRepo', () {
+      Map<String, dynamic> map = {
+        "id": "1",
+        "repoName": "repoName",
+        "answers": [
+          {"id": "1", "answer": "answer", "value": "value"},
+        ]
+      };
+      final repo = QvstAnswerRepoEntity.fromJson(map);
+      test('Success', () async {
+        when(
+          mockBackendApi.addQvstAnswersRepo(
+            repo.toJson(),
+          ),
+        ).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 201,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        final result = await service.addQvstAnswersRepo(
+          repo,
+        );
+
+        expect(result, true);
+      });
+
+      test('Failed', () async {
+        when(
+          mockBackendApi.addQvstAnswersRepo(
+            repo.toJson(),
+          ),
+        ).thenAnswer((_) async {
+          return Future.value(
+            HttpResponse(
+              {},
+              Response(
+                statusCode: 500,
+                requestOptions: RequestOptions(path: ''),
+              ),
+            ),
+          );
+        });
+
+        expect(() => service.addQvstAnswersRepo(repo), throwsException);
+      });
+    });
     group('getAllQvst()', () {
       test('Success', () async {
-        when(mockBackendApi.getAllQvst()).thenAnswer((_) async {
+        when(mockBackendApi.getAllQvst(true)).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
               [
@@ -86,7 +139,7 @@ void main() {
       });
 
       test('Failed', () async {
-        when(mockBackendApi.getAllQvst()).thenAnswer((_) async {
+        when(mockBackendApi.getAllQvst(true)).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
               [],
@@ -300,7 +353,7 @@ void main() {
           ]
         };
 
-        when(mockBackendApi.getAllQvstQuestionsByThemeId(id)).thenAnswer(
+        when(mockBackendApi.getAllQvstQuestionsByThemeId(id, true)).thenAnswer(
           (_) async {
             return Future.value(
               HttpResponse(
@@ -316,13 +369,15 @@ void main() {
 
         final result = await service.getAllQvstQuestionsByThemeId(
           id,
+          includeNoLongerUsed: true,
         );
 
         expect(result.length, 1);
       });
 
       test('Failed', () async {
-        when(mockBackendApi.getAllQvstQuestionsByThemeId(id)).thenAnswer(
+        // Ajout du stub pour l'appel avec (id, false)
+        when(mockBackendApi.getAllQvstQuestionsByThemeId(id, false)).thenAnswer(
           (_) async {
             return Future.value(
               HttpResponse(
@@ -675,7 +730,9 @@ void main() {
           name: 'test.csv',
           size: 100,
           bytes: utf8.encode(
-              'Id theme,Id question,Question,Réponse\n1,1,Question 1,Réponse 1\n1,2,Question 2,Réponse 2\n'),
+              'question_id,question_text,theme_id,theme_name,repo_id,repo_name,reversed_question,no_longer_used,number_asked\n'
+              '1,Question 1,1,Theme,1,Repo,0,0,1\n'
+              '2,Question 2,1,Theme,1,Repo,0,0,1\n'),
         );
 
         when(mockBackendApi.importQvstFile(any)).thenAnswer((_) async {
@@ -1091,6 +1148,49 @@ void main() {
             .first;
         expect(result.satisfactionPercentage, 20.0);
         expect(result.requiresAction, isTrue);
+      });
+    });
+    group('QvstService.getQvstCampaignAnalysisById', () {
+      late MockBackendApi mockBackendApi;
+      late QvstService service;
+
+      setUp(() {
+        mockBackendApi = MockBackendApi();
+        service = QvstService(
+          MockBackendApiBase(),
+          mockBackendApi,
+          MockFileService(),
+          '',
+        );
+      });
+
+      test('returns QvstAnalysisEntity on 200', () async {
+        when(mockBackendApi.getQvstCampaignAnalysisById('id')).thenAnswer(
+          (_) async => HttpResponse(
+            {
+              'campaign_id': 1,
+              'campaign_name': 'Test',
+              'campaign_status': 'active',
+              'questions_analysis': [],
+              'themes': []
+            },
+            Response(statusCode: 200, requestOptions: RequestOptions(path: '')),
+          ),
+        );
+        final result = await service.getQvstCampaignAnalysisById('id');
+        expect(result.campaignId, 1);
+        expect(result.campaignName, 'Test');
+      });
+
+      test('throws on non-200', () async {
+        when(mockBackendApi.getQvstCampaignAnalysisById('id')).thenAnswer(
+          (_) async => HttpResponse(
+            {},
+            Response(statusCode: 500, requestOptions: RequestOptions(path: '')),
+          ),
+        );
+        expect(() async => await service.getQvstCampaignAnalysisById('id'),
+            throwsException);
       });
     });
   });

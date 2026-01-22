@@ -26,7 +26,9 @@ abstract class BackendApi {
   );
 
   @GET("xpeho/v1/qvst")
-  Future<HttpResponse> getAllQvst();
+  Future<HttpResponse> getAllQvst(
+    @Query("include_no_longer_used") bool includeNoLongerUsed,
+  );
 
   @GET("xpeho/v1/qvst/{id}")
   Future<HttpResponse> getQvstById(
@@ -39,6 +41,7 @@ abstract class BackendApi {
   @GET("xpeho/v1/qvst/themes/{id}/questions")
   Future<HttpResponse> getAllQvstQuestionsByThemeId(
     @Path("id") String id,
+    @Query("include_no_longer_used") bool includeNoLongerUsed,
   );
 
   @POST("xpeho/v1/qvst:add")
@@ -53,6 +56,11 @@ abstract class BackendApi {
 
   @GET("xpeho/v1/qvst/answers_repo")
   Future<HttpResponse> getQvstAnswersRepo();
+
+  @POST("xpeho/v1/qvst/answers_repo:add")
+  Future<HttpResponse> addQvstAnswersRepo(
+    @Body() Map<String, dynamic> body,
+  );
 
   @POST("xpeho/v1/qvst/answers_repo/{id}:update")
   Future<HttpResponse> updateQvstAnswersRepo(
@@ -78,6 +86,9 @@ abstract class BackendApi {
   Future<HttpResponse> importQvstFile(
     @Body() Map<String, dynamic> body,
   );
+
+  @GET("xpeho/v1/qvst:export")
+  Future<HttpResponse> exportQvstQuestions();
 
   @GET("xpeho/v1/qvst/campaigns/{id}:stats")
   Future<HttpResponse> getQvstCampaignStatsById(

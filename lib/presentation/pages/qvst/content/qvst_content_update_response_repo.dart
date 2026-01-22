@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
@@ -121,7 +122,7 @@ class _QvstContentUpdateResponseRepoState
                 SizedBox(
                   width: 200,
                   child: Button.secondary(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => context.pop(),
                     text: 'Annuler',
                   ),
                 ),
@@ -159,7 +160,7 @@ class _QvstContentUpdateResponseRepoState
                         if (response) {
                           ref.invalidate(qvstAnswerRepoListProvider);
                           if (!context.mounted) return;
-                          Navigator.pop(context);
+                          context.pop();
                         } else {
                           debugPrint('Error');
                         }

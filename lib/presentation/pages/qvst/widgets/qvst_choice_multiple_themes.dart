@@ -77,6 +77,8 @@ class _QvstChoiceMultipleThemesState
                   title: Text(theme.name),
                   value: isSelected,
                   onChanged: (bool? value) {
+                    // Invalider les questions de ce thème pour forcer un nouvel appel API
+                    ref.invalidate(qvstQuestionsByThemesListProvider(theme.id));
                     ref
                         .read(qvstThemesSelectionProvider.notifier)
                         .toggleTheme(theme);

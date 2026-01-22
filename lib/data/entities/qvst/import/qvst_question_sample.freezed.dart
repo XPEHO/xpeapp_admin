@@ -14,12 +14,18 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$QvstQuestionSample {
+  @JsonKey(name: 'id')
+  String get id;
   @JsonKey(name: 'id_theme')
   String get idTheme;
   @JsonKey(name: 'question')
   String get question;
   @JsonKey(name: 'response_repo')
   String get responseRepo;
+  @JsonKey(name: 'reversed_question')
+  bool get reversedQuestion;
+  @JsonKey(name: 'no_longer_used')
+  bool get noLongerUsed;
 
   /// Create a copy of QvstQuestionSample
   /// with the given fields replaced by the non-null parameter values.
@@ -37,20 +43,26 @@ mixin _$QvstQuestionSample {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is QvstQuestionSample &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.idTheme, idTheme) || other.idTheme == idTheme) &&
             (identical(other.question, question) ||
                 other.question == question) &&
             (identical(other.responseRepo, responseRepo) ||
-                other.responseRepo == responseRepo));
+                other.responseRepo == responseRepo) &&
+            (identical(other.reversedQuestion, reversedQuestion) ||
+                other.reversedQuestion == reversedQuestion) &&
+            (identical(other.noLongerUsed, noLongerUsed) ||
+                other.noLongerUsed == noLongerUsed));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, idTheme, question, responseRepo);
+  int get hashCode => Object.hash(runtimeType, id, idTheme, question,
+      responseRepo, reversedQuestion, noLongerUsed);
 
   @override
   String toString() {
-    return 'QvstQuestionSample(idTheme: $idTheme, question: $question, responseRepo: $responseRepo)';
+    return 'QvstQuestionSample(id: $id, idTheme: $idTheme, question: $question, responseRepo: $responseRepo, reversedQuestion: $reversedQuestion, noLongerUsed: $noLongerUsed)';
   }
 }
 
@@ -61,9 +73,12 @@ abstract mixin class $QvstQuestionSampleCopyWith<$Res> {
       _$QvstQuestionSampleCopyWithImpl;
   @useResult
   $Res call(
-      {@JsonKey(name: 'id_theme') String idTheme,
+      {@JsonKey(name: 'id') String id,
+      @JsonKey(name: 'id_theme') String idTheme,
       @JsonKey(name: 'question') String question,
-      @JsonKey(name: 'response_repo') String responseRepo});
+      @JsonKey(name: 'response_repo') String responseRepo,
+      @JsonKey(name: 'reversed_question') bool reversedQuestion,
+      @JsonKey(name: 'no_longer_used') bool noLongerUsed});
 }
 
 /// @nodoc
@@ -79,11 +94,18 @@ class _$QvstQuestionSampleCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? idTheme = null,
     Object? question = null,
     Object? responseRepo = null,
+    Object? reversedQuestion = null,
+    Object? noLongerUsed = null,
   }) {
     return _then(_self.copyWith(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       idTheme: null == idTheme
           ? _self.idTheme
           : idTheme // ignore: cast_nullable_to_non_nullable
@@ -96,6 +118,14 @@ class _$QvstQuestionSampleCopyWithImpl<$Res>
           ? _self.responseRepo
           : responseRepo // ignore: cast_nullable_to_non_nullable
               as String,
+      reversedQuestion: null == reversedQuestion
+          ? _self.reversedQuestion
+          : reversedQuestion // ignore: cast_nullable_to_non_nullable
+              as bool,
+      noLongerUsed: null == noLongerUsed
+          ? _self.noLongerUsed
+          : noLongerUsed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -194,16 +224,20 @@ extension QvstQuestionSamplePatterns on QvstQuestionSample {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
+            @JsonKey(name: 'id') String id,
             @JsonKey(name: 'id_theme') String idTheme,
             @JsonKey(name: 'question') String question,
-            @JsonKey(name: 'response_repo') String responseRepo)?
+            @JsonKey(name: 'response_repo') String responseRepo,
+            @JsonKey(name: 'reversed_question') bool reversedQuestion,
+            @JsonKey(name: 'no_longer_used') bool noLongerUsed)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _QvstQuestionSample() when $default != null:
-        return $default(_that.idTheme, _that.question, _that.responseRepo);
+        return $default(_that.id, _that.idTheme, _that.question,
+            _that.responseRepo, _that.reversedQuestion, _that.noLongerUsed);
       case _:
         return orElse();
     }
@@ -225,15 +259,19 @@ extension QvstQuestionSamplePatterns on QvstQuestionSample {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
+            @JsonKey(name: 'id') String id,
             @JsonKey(name: 'id_theme') String idTheme,
             @JsonKey(name: 'question') String question,
-            @JsonKey(name: 'response_repo') String responseRepo)
+            @JsonKey(name: 'response_repo') String responseRepo,
+            @JsonKey(name: 'reversed_question') bool reversedQuestion,
+            @JsonKey(name: 'no_longer_used') bool noLongerUsed)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _QvstQuestionSample():
-        return $default(_that.idTheme, _that.question, _that.responseRepo);
+        return $default(_that.id, _that.idTheme, _that.question,
+            _that.responseRepo, _that.reversedQuestion, _that.noLongerUsed);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -254,15 +292,19 @@ extension QvstQuestionSamplePatterns on QvstQuestionSample {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
+            @JsonKey(name: 'id') String id,
             @JsonKey(name: 'id_theme') String idTheme,
             @JsonKey(name: 'question') String question,
-            @JsonKey(name: 'response_repo') String responseRepo)?
+            @JsonKey(name: 'response_repo') String responseRepo,
+            @JsonKey(name: 'reversed_question') bool reversedQuestion,
+            @JsonKey(name: 'no_longer_used') bool noLongerUsed)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _QvstQuestionSample() when $default != null:
-        return $default(_that.idTheme, _that.question, _that.responseRepo);
+        return $default(_that.id, _that.idTheme, _that.question,
+            _that.responseRepo, _that.reversedQuestion, _that.noLongerUsed);
       case _:
         return null;
     }
@@ -273,12 +315,18 @@ extension QvstQuestionSamplePatterns on QvstQuestionSample {
 @JsonSerializable()
 class _QvstQuestionSample implements QvstQuestionSample {
   _QvstQuestionSample(
-      {@JsonKey(name: 'id_theme') required this.idTheme,
+      {@JsonKey(name: 'id') required this.id,
+      @JsonKey(name: 'id_theme') required this.idTheme,
       @JsonKey(name: 'question') required this.question,
-      @JsonKey(name: 'response_repo') required this.responseRepo});
+      @JsonKey(name: 'response_repo') required this.responseRepo,
+      @JsonKey(name: 'reversed_question') required this.reversedQuestion,
+      @JsonKey(name: 'no_longer_used') required this.noLongerUsed});
   factory _QvstQuestionSample.fromJson(Map<String, dynamic> json) =>
       _$QvstQuestionSampleFromJson(json);
 
+  @override
+  @JsonKey(name: 'id')
+  final String id;
   @override
   @JsonKey(name: 'id_theme')
   final String idTheme;
@@ -288,6 +336,12 @@ class _QvstQuestionSample implements QvstQuestionSample {
   @override
   @JsonKey(name: 'response_repo')
   final String responseRepo;
+  @override
+  @JsonKey(name: 'reversed_question')
+  final bool reversedQuestion;
+  @override
+  @JsonKey(name: 'no_longer_used')
+  final bool noLongerUsed;
 
   /// Create a copy of QvstQuestionSample
   /// with the given fields replaced by the non-null parameter values.
@@ -309,20 +363,26 @@ class _QvstQuestionSample implements QvstQuestionSample {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _QvstQuestionSample &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.idTheme, idTheme) || other.idTheme == idTheme) &&
             (identical(other.question, question) ||
                 other.question == question) &&
             (identical(other.responseRepo, responseRepo) ||
-                other.responseRepo == responseRepo));
+                other.responseRepo == responseRepo) &&
+            (identical(other.reversedQuestion, reversedQuestion) ||
+                other.reversedQuestion == reversedQuestion) &&
+            (identical(other.noLongerUsed, noLongerUsed) ||
+                other.noLongerUsed == noLongerUsed));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, idTheme, question, responseRepo);
+  int get hashCode => Object.hash(runtimeType, id, idTheme, question,
+      responseRepo, reversedQuestion, noLongerUsed);
 
   @override
   String toString() {
-    return 'QvstQuestionSample(idTheme: $idTheme, question: $question, responseRepo: $responseRepo)';
+    return 'QvstQuestionSample(id: $id, idTheme: $idTheme, question: $question, responseRepo: $responseRepo, reversedQuestion: $reversedQuestion, noLongerUsed: $noLongerUsed)';
   }
 }
 
@@ -335,9 +395,12 @@ abstract mixin class _$QvstQuestionSampleCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'id_theme') String idTheme,
+      {@JsonKey(name: 'id') String id,
+      @JsonKey(name: 'id_theme') String idTheme,
       @JsonKey(name: 'question') String question,
-      @JsonKey(name: 'response_repo') String responseRepo});
+      @JsonKey(name: 'response_repo') String responseRepo,
+      @JsonKey(name: 'reversed_question') bool reversedQuestion,
+      @JsonKey(name: 'no_longer_used') bool noLongerUsed});
 }
 
 /// @nodoc
@@ -353,11 +416,18 @@ class __$QvstQuestionSampleCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
+    Object? id = null,
     Object? idTheme = null,
     Object? question = null,
     Object? responseRepo = null,
+    Object? reversedQuestion = null,
+    Object? noLongerUsed = null,
   }) {
     return _then(_QvstQuestionSample(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       idTheme: null == idTheme
           ? _self.idTheme
           : idTheme // ignore: cast_nullable_to_non_nullable
@@ -370,6 +440,14 @@ class __$QvstQuestionSampleCopyWithImpl<$Res>
           ? _self.responseRepo
           : responseRepo // ignore: cast_nullable_to_non_nullable
               as String,
+      reversedQuestion: null == reversedQuestion
+          ? _self.reversedQuestion
+          : reversedQuestion // ignore: cast_nullable_to_non_nullable
+              as bool,
+      noLongerUsed: null == noLongerUsed
+          ? _self.noLongerUsed
+          : noLongerUsed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }

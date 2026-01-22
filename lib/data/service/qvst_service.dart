@@ -159,7 +159,7 @@ class QvstService {
   }
 
   Future<List<QvstQuestionEntity>> getAllQvst() async {
-    final response = await _backendApi.getAllQvst();
+    final response = await _backendApi.getAllQvst(true);
     if (response.response.statusCode == 200) {
       final data = response.data as List<dynamic>;
       return data
@@ -200,8 +200,13 @@ class QvstService {
   }
 
   Future<List<QvstQuestionEntity>> getAllQvstQuestionsByThemeId(
-      String id) async {
-    final response = await _backendApi.getAllQvstQuestionsByThemeId(id);
+    String id, {
+    bool includeNoLongerUsed = false,
+  }) async {
+    final response = await _backendApi.getAllQvstQuestionsByThemeId(
+      id,
+      includeNoLongerUsed,
+    );
     if (response.response.statusCode == 200) {
       return (response.data as List<dynamic>)
           .map(
@@ -257,6 +262,20 @@ class QvstService {
       return true;
     } else {
       throw Exception('Erreur lors de la mise à jour des réponses');
+    }
+  }
+
+  Future<bool> addQvstAnswersRepo(
+    QvstAnswerRepoEntity qvstAnswerRepoEntity,
+  ) async {
+    final response = await _backendApi.addQvstAnswersRepo(
+      qvstAnswerRepoEntity.toJson(),
+    );
+    if (response.response.statusCode == 200 ||
+        response.response.statusCode == 201) {
+      return true;
+    } else {
+      throw Exception('Erreur lors de la création du référentiel');
     }
   }
 
@@ -353,6 +372,20 @@ class QvstService {
     }
   }
 
+  /// Exporte toutes les questions QVST en CSV
+  Future<void> exportAllQvstQuestions(String token) async {
+    final response = await _backendApiBase.exportQvstQuestionsCsv(token);
+
+    if (response.statusCode == 200) {
+      _fileService.downloadFile('text/csv', response.bodyBytes);
+    } else if (response.statusCode == 500) {
+      throw Exception('Erreur pas de données à exporter');
+    } else {
+      throw Exception(
+          'Erreur lors de l\'export des questions: ${response.body}');
+    }
+  }
+
   Future<QvstStatsEntity> getQvstCampaignStatsById(String id) async {
     final response = await _backendApi.getQvstCampaignStatsById(id);
     if (response.response.statusCode == 200) {
@@ -391,6 +424,32 @@ class QvstService {
       return true;
     } else {
       throw Exception('Erreur lors de la mise à jour du statut de la campagne');
+    }
+  }
+
+  /// Met à jour les propriétés d'une question QVST (reversed_question, no_longer_used)
+  Future<bool> updateQvstQuestion({
+    required String questionId,
+    bool? reversedQuestion,
+    bool? noLongerUsed,
+    String? questionText,
+  }) async {
+    final Map<String, dynamic> body = {};
+    if (reversedQuestion != null) {
+      body['reversed_question'] = reversedQuestion;
+    }
+    if (noLongerUsed != null) {
+      body['no_longer_used'] = noLongerUsed;
+    }
+    if (questionText != null) {
+      body['question'] = questionText;
+    }
+    final response = await _backendApi.updateQvst(questionId, body);
+    if (response.response.statusCode == 200 ||
+        response.response.statusCode == 201) {
+      return true;
+    } else {
+      throw Exception('Erreur lors de la mise à jour de la question');
     }
   }
 }

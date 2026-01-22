@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/theme/qvst_theme_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_choice_theme.dart';
@@ -31,7 +32,7 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
         icon: const Icon(Icons.arrow_back),
         onPressed: () {
           ref.watch(qvstThemesSelectionProvider.notifier).setTheme(null);
-          Navigator.of(context).pop();
+          context.pop();
         },
       ),
       child: Stack(
@@ -102,7 +103,7 @@ class _QvstAddPageState extends ConsumerState<QvstAddPage> {
                           ? null
                           : () => sendQvst(
                                 onSuccess: () {
-                                  Navigator.of(context).pop();
+                                  context.pop();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text('QVST ajouté'),

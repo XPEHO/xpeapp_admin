@@ -68,6 +68,7 @@ class QvstStatsTab extends ConsumerWidget {
                     ),
                     child: QvstStatsTableView(
                       stats: data,
+                      campaignId: campaignId,
                     ),
                   ),
                 ),

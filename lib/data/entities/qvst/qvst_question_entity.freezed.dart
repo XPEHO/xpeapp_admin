@@ -25,8 +25,12 @@ mixin _$QvstQuestionEntity {
   int? get numberAsked;
   @JsonSerializable(explicitToJson: true)
   List<QvstAnswerEntity> get answers;
-  @JsonKey(name: 'is_reversed')
-  bool get isReversed;
+  @JsonKey(name: 'reversed_question')
+  @BoolOrStringToStringConverter()
+  String get reversedQuestion;
+  @JsonKey(name: 'no_longer_used')
+  @BoolOrStringToStringConverter()
+  String get noLongerUsed;
 
   /// Create a copy of QvstQuestionEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -54,8 +58,10 @@ mixin _$QvstQuestionEntity {
             (identical(other.numberAsked, numberAsked) ||
                 other.numberAsked == numberAsked) &&
             const DeepCollectionEquality().equals(other.answers, answers) &&
-            (identical(other.isReversed, isReversed) ||
-                other.isReversed == isReversed));
+            (identical(other.reversedQuestion, reversedQuestion) ||
+                other.reversedQuestion == reversedQuestion) &&
+            (identical(other.noLongerUsed, noLongerUsed) ||
+                other.noLongerUsed == noLongerUsed));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -69,11 +75,12 @@ mixin _$QvstQuestionEntity {
       answerRepoId,
       numberAsked,
       const DeepCollectionEquality().hash(answers),
-      isReversed);
+      reversedQuestion,
+      noLongerUsed);
 
   @override
   String toString() {
-    return 'QvstQuestionEntity(id: $id, question: $question, theme: $theme, idTheme: $idTheme, answerRepoId: $answerRepoId, numberAsked: $numberAsked, answers: $answers, isReversed: $isReversed)';
+    return 'QvstQuestionEntity(id: $id, question: $question, theme: $theme, idTheme: $idTheme, answerRepoId: $answerRepoId, numberAsked: $numberAsked, answers: $answers, reversedQuestion: $reversedQuestion, noLongerUsed: $noLongerUsed)';
   }
 }
 
@@ -91,7 +98,12 @@ abstract mixin class $QvstQuestionEntityCopyWith<$Res> {
       @JsonKey(name: 'answer_repo_id') String? answerRepoId,
       int? numberAsked,
       @JsonSerializable(explicitToJson: true) List<QvstAnswerEntity> answers,
-      @JsonKey(name: 'is_reversed') bool isReversed});
+      @JsonKey(name: 'reversed_question')
+      @BoolOrStringToStringConverter()
+      String reversedQuestion,
+      @JsonKey(name: 'no_longer_used')
+      @BoolOrStringToStringConverter()
+      String noLongerUsed});
 }
 
 /// @nodoc
@@ -114,7 +126,8 @@ class _$QvstQuestionEntityCopyWithImpl<$Res>
     Object? answerRepoId = freezed,
     Object? numberAsked = freezed,
     Object? answers = null,
-    Object? isReversed = null,
+    Object? reversedQuestion = null,
+    Object? noLongerUsed = null,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -145,10 +158,14 @@ class _$QvstQuestionEntityCopyWithImpl<$Res>
           ? _self.answers
           : answers // ignore: cast_nullable_to_non_nullable
               as List<QvstAnswerEntity>,
-      isReversed: null == isReversed
-          ? _self.isReversed
-          : isReversed // ignore: cast_nullable_to_non_nullable
-              as bool,
+      reversedQuestion: null == reversedQuestion
+          ? _self.reversedQuestion
+          : reversedQuestion // ignore: cast_nullable_to_non_nullable
+              as String,
+      noLongerUsed: null == noLongerUsed
+          ? _self.noLongerUsed
+          : noLongerUsed // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -255,7 +272,12 @@ extension QvstQuestionEntityPatterns on QvstQuestionEntity {
             int? numberAsked,
             @JsonSerializable(explicitToJson: true)
             List<QvstAnswerEntity> answers,
-            @JsonKey(name: 'is_reversed') bool isReversed)?
+            @JsonKey(name: 'reversed_question')
+            @BoolOrStringToStringConverter()
+            String reversedQuestion,
+            @JsonKey(name: 'no_longer_used')
+            @BoolOrStringToStringConverter()
+            String noLongerUsed)?
         $default, {
     required TResult orElse(),
   }) {
@@ -270,7 +292,8 @@ extension QvstQuestionEntityPatterns on QvstQuestionEntity {
             _that.answerRepoId,
             _that.numberAsked,
             _that.answers,
-            _that.isReversed);
+            _that.reversedQuestion,
+            _that.noLongerUsed);
       case _:
         return orElse();
     }
@@ -300,7 +323,12 @@ extension QvstQuestionEntityPatterns on QvstQuestionEntity {
             int? numberAsked,
             @JsonSerializable(explicitToJson: true)
             List<QvstAnswerEntity> answers,
-            @JsonKey(name: 'is_reversed') bool isReversed)
+            @JsonKey(name: 'reversed_question')
+            @BoolOrStringToStringConverter()
+            String reversedQuestion,
+            @JsonKey(name: 'no_longer_used')
+            @BoolOrStringToStringConverter()
+            String noLongerUsed)
         $default,
   ) {
     final _that = this;
@@ -314,7 +342,8 @@ extension QvstQuestionEntityPatterns on QvstQuestionEntity {
             _that.answerRepoId,
             _that.numberAsked,
             _that.answers,
-            _that.isReversed);
+            _that.reversedQuestion,
+            _that.noLongerUsed);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -343,7 +372,12 @@ extension QvstQuestionEntityPatterns on QvstQuestionEntity {
             int? numberAsked,
             @JsonSerializable(explicitToJson: true)
             List<QvstAnswerEntity> answers,
-            @JsonKey(name: 'is_reversed') bool isReversed)?
+            @JsonKey(name: 'reversed_question')
+            @BoolOrStringToStringConverter()
+            String reversedQuestion,
+            @JsonKey(name: 'no_longer_used')
+            @BoolOrStringToStringConverter()
+            String noLongerUsed)?
         $default,
   ) {
     final _that = this;
@@ -357,7 +391,8 @@ extension QvstQuestionEntityPatterns on QvstQuestionEntity {
             _that.answerRepoId,
             _that.numberAsked,
             _that.answers,
-            _that.isReversed);
+            _that.reversedQuestion,
+            _that.noLongerUsed);
       case _:
         return null;
     }
@@ -366,7 +401,7 @@ extension QvstQuestionEntityPatterns on QvstQuestionEntity {
 
 /// @nodoc
 @JsonSerializable()
-class _QvstQuestionEntity implements QvstQuestionEntity {
+class _QvstQuestionEntity extends QvstQuestionEntity {
   _QvstQuestionEntity(
       {@JsonKey(name: 'question_id') this.id,
       required this.question,
@@ -376,8 +411,14 @@ class _QvstQuestionEntity implements QvstQuestionEntity {
       this.numberAsked,
       @JsonSerializable(explicitToJson: true)
       final List<QvstAnswerEntity> answers = const [],
-      @JsonKey(name: 'is_reversed') this.isReversed = false})
-      : _answers = answers;
+      @JsonKey(name: 'reversed_question')
+      @BoolOrStringToStringConverter()
+      this.reversedQuestion = '0',
+      @JsonKey(name: 'no_longer_used')
+      @BoolOrStringToStringConverter()
+      this.noLongerUsed = '0'})
+      : _answers = answers,
+        super._();
   factory _QvstQuestionEntity.fromJson(Map<String, dynamic> json) =>
       _$QvstQuestionEntityFromJson(json);
 
@@ -407,8 +448,13 @@ class _QvstQuestionEntity implements QvstQuestionEntity {
   }
 
   @override
-  @JsonKey(name: 'is_reversed')
-  final bool isReversed;
+  @JsonKey(name: 'reversed_question')
+  @BoolOrStringToStringConverter()
+  final String reversedQuestion;
+  @override
+  @JsonKey(name: 'no_longer_used')
+  @BoolOrStringToStringConverter()
+  final String noLongerUsed;
 
   /// Create a copy of QvstQuestionEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -440,8 +486,10 @@ class _QvstQuestionEntity implements QvstQuestionEntity {
             (identical(other.numberAsked, numberAsked) ||
                 other.numberAsked == numberAsked) &&
             const DeepCollectionEquality().equals(other._answers, _answers) &&
-            (identical(other.isReversed, isReversed) ||
-                other.isReversed == isReversed));
+            (identical(other.reversedQuestion, reversedQuestion) ||
+                other.reversedQuestion == reversedQuestion) &&
+            (identical(other.noLongerUsed, noLongerUsed) ||
+                other.noLongerUsed == noLongerUsed));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -455,11 +503,12 @@ class _QvstQuestionEntity implements QvstQuestionEntity {
       answerRepoId,
       numberAsked,
       const DeepCollectionEquality().hash(_answers),
-      isReversed);
+      reversedQuestion,
+      noLongerUsed);
 
   @override
   String toString() {
-    return 'QvstQuestionEntity(id: $id, question: $question, theme: $theme, idTheme: $idTheme, answerRepoId: $answerRepoId, numberAsked: $numberAsked, answers: $answers, isReversed: $isReversed)';
+    return 'QvstQuestionEntity(id: $id, question: $question, theme: $theme, idTheme: $idTheme, answerRepoId: $answerRepoId, numberAsked: $numberAsked, answers: $answers, reversedQuestion: $reversedQuestion, noLongerUsed: $noLongerUsed)';
   }
 }
 
@@ -479,7 +528,12 @@ abstract mixin class _$QvstQuestionEntityCopyWith<$Res>
       @JsonKey(name: 'answer_repo_id') String? answerRepoId,
       int? numberAsked,
       @JsonSerializable(explicitToJson: true) List<QvstAnswerEntity> answers,
-      @JsonKey(name: 'is_reversed') bool isReversed});
+      @JsonKey(name: 'reversed_question')
+      @BoolOrStringToStringConverter()
+      String reversedQuestion,
+      @JsonKey(name: 'no_longer_used')
+      @BoolOrStringToStringConverter()
+      String noLongerUsed});
 }
 
 /// @nodoc
@@ -502,7 +556,8 @@ class __$QvstQuestionEntityCopyWithImpl<$Res>
     Object? answerRepoId = freezed,
     Object? numberAsked = freezed,
     Object? answers = null,
-    Object? isReversed = null,
+    Object? reversedQuestion = null,
+    Object? noLongerUsed = null,
   }) {
     return _then(_QvstQuestionEntity(
       id: freezed == id
@@ -533,10 +588,14 @@ class __$QvstQuestionEntityCopyWithImpl<$Res>
           ? _self._answers
           : answers // ignore: cast_nullable_to_non_nullable
               as List<QvstAnswerEntity>,
-      isReversed: null == isReversed
-          ? _self.isReversed
-          : isReversed // ignore: cast_nullable_to_non_nullable
-              as bool,
+      reversedQuestion: null == reversedQuestion
+          ? _self.reversedQuestion
+          : reversedQuestion // ignore: cast_nullable_to_non_nullable
+              as String,
+      noLongerUsed: null == noLongerUsed
+          ? _self.noLongerUsed
+          : noLongerUsed // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
