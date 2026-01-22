@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/response_reference_widget.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/edit_question_dialog.dart';
@@ -157,7 +158,7 @@ class QvstTableView extends ConsumerWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             child: const Text('Annuler'),
           ),
           TextButton(
@@ -174,7 +175,7 @@ class QvstTableView extends ConsumerWidget {
     QvstQuestionEntity e,
     WidgetRef? ref,
   ) async {
-    Navigator.pop(context);
+    context.pop();
     if (ref == null) return;
     ref.read(loaderStateProvider.notifier).showLoader();
     final result = await ref.read(qvstServiceProvider).deleteQvst(e.id ?? '');

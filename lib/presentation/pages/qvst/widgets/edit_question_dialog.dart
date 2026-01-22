@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/providers.dart';
 
@@ -71,7 +72,7 @@ class _EditQuestionDialogState extends State<EditQuestionDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: saving ? null : () => Navigator.pop(context),
+          onPressed: saving ? null : () => context.pop(),
           child: const Text('Annuler'),
         ),
         TextButton(
@@ -113,6 +114,7 @@ class _EditQuestionDialogState extends State<EditQuestionDialog> {
             noLongerUsed: obsolete,
             questionText: newText,
           );
+      if (!mounted) return;
       ref.invalidate(qvstQuestionsListProvider);
       if (widget.themeId != null) {
         ref.invalidate(qvstQuestionsByThemesListProvider(widget.themeId!));
@@ -120,20 +122,17 @@ class _EditQuestionDialogState extends State<EditQuestionDialog> {
       if (question.idTheme != null) {
         ref.invalidate(qvstQuestionsByThemesListProvider(question.idTheme!));
       }
-      if (context.mounted) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Question mise à jour')),
-        );
-      }
+      context.pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Question mise à jour')),
+      );
     } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: ${e.toString()}')),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erreur: ${e.toString()}')),
+      );
     } finally {
-      if (context.mounted) {
+      if (mounted) {
         setState(() => saving = false);
       }
     }

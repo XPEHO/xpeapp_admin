@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_entity.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_repo_entity.dart';
@@ -183,7 +184,7 @@ class _QvstContentAddResponseRepoState
                     SizedBox(
                       width: 200,
                       child: Button.secondary(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () => context.pop(),
                         text: 'Annuler',
                       ),
                     ),
@@ -232,7 +233,7 @@ class _QvstContentAddResponseRepoState
       if (success) {
         ref.invalidate(qvstAnswerRepoListProvider);
         if (mounted) {
-          Navigator.pop(context);
+          context.pop();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Référentiel créé avec succès'),

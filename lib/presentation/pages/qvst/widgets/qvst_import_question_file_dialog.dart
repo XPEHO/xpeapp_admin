@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
@@ -66,7 +67,7 @@ class QvstImportQuestionFileDialogState
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
           child: const Text(
             'Annuler',
             style: TextStyle(
@@ -87,7 +88,7 @@ class QvstImportQuestionFileDialogState
                         content: Text('Fichier importé !'),
                       ),
                     );
-                    Navigator.pop(context);
+                    context.pop();
                     ref.invalidate(qvstQuestionsListProvider);
                     ref.invalidate(qvstQuestionsByThemesListProvider);
                   } catch (e) {
@@ -96,7 +97,7 @@ class QvstImportQuestionFileDialogState
                         content: Text(e.toString()),
                       ),
                     );
-                    Navigator.pop(context);
+                    context.pop();
                   }
                 }
               : null,
