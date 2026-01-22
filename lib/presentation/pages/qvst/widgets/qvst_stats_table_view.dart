@@ -197,95 +197,119 @@ class _QvstStatsTableViewState extends ConsumerState<QvstStatsTableView> {
 
           return DataRow(
             cells: [
-              DataCell(
-                Row(
-                  children: [
-                    if (isLoadingReversed)
-                      const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    else
-                      Checkbox(
-                        value: isReversed,
-                        onChanged: (bool? value) {
-                          _updateReversedQuestion(question, value ?? false);
-                        },
-                      ),
-                    if (isReversed)
-                      const Icon(
-                        Icons.swap_horiz,
-                        color: Colors.orange,
-                        size: 20,
-                      ),
-                  ],
-                ),
-              ),
-              DataCell(
-                Row(
-                  children: [
-                    if (isLoadingNoLongerUsed)
-                      const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    else
-                      Checkbox(
-                        value: isNoLongerUsed,
-                        onChanged: (bool? value) {
-                          _updateNoLongerUsed(question, value ?? false);
-                        },
-                      ),
-                    if (isNoLongerUsed)
-                      const Icon(
-                        Icons.block,
-                        color: Colors.red,
-                        size: 20,
-                      ),
-                  ],
-                ),
-              ),
-              DataCell(
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  child: Text(
-                    question.question,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
-                      decoration:
-                          isNoLongerUsed ? TextDecoration.lineThrough : null,
-                      color: isNoLongerUsed ? Colors.grey : Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-              DataCell(
-                Text(
-                  QvstStatsUtils.getPercentOfQuestion(question.answers,
-                      isReversed: isReversed),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    color: isReversed ? Colors.orange : Colors.black,
-                  ),
-                ),
-              ),
-              DataCell(
-                Text(
-                  QvstStatsUtils.getAnswerMoreFrequent(question.answers),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                  ),
-                ),
-              ),
+              _buildReversedCell(question, isReversed, isLoadingReversed),
+              _buildObsoleteCell(
+                  question, isNoLongerUsed, isLoadingNoLongerUsed),
+              _buildQuestionCell(context, question, isNoLongerUsed),
+              _buildSatisfactionCell(question, isReversed),
+              _buildFrequentAnswerCell(question),
             ],
           );
         },
       ).toList(),
+    );
+  }
+
+  DataCell _buildReversedCell(
+      QvstQuestionEntity question, bool isReversed, bool isLoading) {
+    return DataCell(
+      Row(
+        children: [
+          if (isLoading)
+            const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          else
+            Checkbox(
+              value: isReversed,
+              onChanged: (bool? value) {
+                _updateReversedQuestion(question, value ?? false);
+              },
+            ),
+          if (isReversed)
+            const Icon(
+              Icons.swap_horiz,
+              color: Colors.orange,
+              size: 20,
+            ),
+        ],
+      ),
+    );
+  }
+
+  DataCell _buildObsoleteCell(
+      QvstQuestionEntity question, bool isNoLongerUsed, bool isLoading) {
+    return DataCell(
+      Row(
+        children: [
+          if (isLoading)
+            const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          else
+            Checkbox(
+              value: isNoLongerUsed,
+              onChanged: (bool? value) {
+                _updateNoLongerUsed(question, value ?? false);
+              },
+            ),
+          if (isNoLongerUsed)
+            const Icon(
+              Icons.block,
+              color: Colors.red,
+              size: 20,
+            ),
+        ],
+      ),
+    );
+  }
+
+  DataCell _buildQuestionCell(
+      BuildContext context, QvstQuestionEntity question, bool isNoLongerUsed) {
+    return DataCell(
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.25,
+        child: Text(
+          question.question,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+            decoration: isNoLongerUsed ? TextDecoration.lineThrough : null,
+            color: isNoLongerUsed ? Colors.grey : Colors.black,
+          ),
+        ),
+      ),
+    );
+  }
+
+  DataCell _buildSatisfactionCell(
+      QvstQuestionEntity question, bool isReversed) {
+    return DataCell(
+      Text(
+        QvstStatsUtils.getPercentOfQuestion(question.answers,
+            isReversed: isReversed),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 13,
+          color: isReversed ? Colors.orange : Colors.black,
+        ),
+      ),
+    );
+  }
+
+  DataCell _buildFrequentAnswerCell(QvstQuestionEntity question) {
+    return DataCell(
+      Text(
+        QvstStatsUtils.getAnswerMoreFrequent(question.answers),
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 13,
+        ),
+      ),
     );
   }
 }
