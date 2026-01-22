@@ -1150,5 +1150,48 @@ void main() {
         expect(result.requiresAction, isTrue);
       });
     });
+    group('QvstService.getQvstCampaignAnalysisById', () {
+      late MockBackendApi mockBackendApi;
+      late QvstService service;
+
+      setUp(() {
+        mockBackendApi = MockBackendApi();
+        service = QvstService(
+          MockBackendApiBase(),
+          mockBackendApi,
+          MockFileService(),
+          '',
+        );
+      });
+
+      test('returns QvstAnalysisEntity on 200', () async {
+        when(mockBackendApi.getQvstCampaignAnalysisById('id')).thenAnswer(
+          (_) async => HttpResponse(
+            {
+              'campaign_id': 1,
+              'campaign_name': 'Test',
+              'campaign_status': 'active',
+              'questions_analysis': [],
+              'themes': []
+            },
+            Response(statusCode: 200, requestOptions: RequestOptions(path: '')),
+          ),
+        );
+        final result = await service.getQvstCampaignAnalysisById('id');
+        expect(result.campaignId, 1);
+        expect(result.campaignName, 'Test');
+      });
+
+      test('throws on non-200', () async {
+        when(mockBackendApi.getQvstCampaignAnalysisById('id')).thenAnswer(
+          (_) async => HttpResponse(
+            {},
+            Response(statusCode: 500, requestOptions: RequestOptions(path: '')),
+          ),
+        );
+        expect(() async => await service.getQvstCampaignAnalysisById('id'),
+            throwsException);
+      });
+    });
   });
 }
