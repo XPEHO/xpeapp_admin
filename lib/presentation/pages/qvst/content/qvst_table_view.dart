@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_question_entity.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/widgets/response_reference_widget.dart';
+import 'package:xpeapp_admin/presentation/pages/qvst/widgets/edit_question_dialog.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class QvstTableView extends ConsumerWidget {
@@ -89,15 +91,29 @@ class QvstTableView extends ConsumerWidget {
                     ),
                   ),
                   TableCell(
-                    child: IconButton(
-                      onPressed: () => _showConfirmDialog(
-                        context,
-                        question,
-                        ref: ref,
-                      ),
-                      icon: const Icon(
-                        Icons.delete,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          tooltip: 'Editer',
+                          onPressed: () => _showEditDialog(
+                            context,
+                            question,
+                            ref: ref,
+                          ),
+                          icon: const Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () => _showConfirmDialog(
+                            context,
+                            question,
+                            ref: ref,
+                          ),
+                          icon: const Icon(
+                            Icons.delete,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -142,7 +158,7 @@ class QvstTableView extends ConsumerWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             child: const Text('Annuler'),
           ),
           TextButton(
@@ -159,7 +175,7 @@ class QvstTableView extends ConsumerWidget {
     QvstQuestionEntity e,
     WidgetRef? ref,
   ) async {
-    Navigator.pop(context);
+    context.pop();
     if (ref == null) return;
     ref.read(loaderStateProvider.notifier).showLoader();
     final result = await ref.read(qvstServiceProvider).deleteQvst(e.id ?? '');
@@ -171,6 +187,9 @@ class QvstTableView extends ConsumerWidget {
             ? qvstQuestionsByThemesListProvider(themeId!)
             : qvstQuestionsListProvider,
       );
+      if (e.idTheme != null) {
+        ref.invalidate(qvstQuestionsByThemesListProvider(e.idTheme!));
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -178,5 +197,20 @@ class QvstTableView extends ConsumerWidget {
         ),
       );
     }
+  }
+
+  void _showEditDialog(
+    BuildContext context,
+    QvstQuestionEntity question, {
+    WidgetRef? ref,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) => EditQuestionDialog(
+        question: question,
+        ref: ref,
+        themeId: themeId,
+      ),
+    );
   }
 }

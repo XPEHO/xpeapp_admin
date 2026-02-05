@@ -1,3 +1,13 @@
+## 1.5.0
+
+_Feat_
+- Major overhaul of the QVST module: question state management (active/inactive), improved editing and import/export of questions
+- Refactored question editing logic into a dedicated dialog
+- Enhanced user experience for managing QVST answer repositories
+- Added new unit tests for QvstService and converters
+- Fixed and harmonized navigation (replaced Navigator.pop with context.pop)
+- Various UI/UX fixes and improvements on QVST pages
+
 ## 1.4.0
 
 _Feat_

@@ -18,7 +18,14 @@ _QvstQuestionEntity _$QvstQuestionEntityFromJson(Map<String, dynamic> json) =>
               ?.map((e) => QvstAnswerEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      isReversed: json['is_reversed'] as bool? ?? false,
+      reversedQuestion: json['reversed_question'] == null
+          ? '0'
+          : const BoolOrStringToStringConverter()
+              .fromJson(json['reversed_question']),
+      noLongerUsed: json['no_longer_used'] == null
+          ? '0'
+          : const BoolOrStringToStringConverter()
+              .fromJson(json['no_longer_used']),
     );
 
 Map<String, dynamic> _$QvstQuestionEntityToJson(_QvstQuestionEntity instance) =>
@@ -30,5 +37,8 @@ Map<String, dynamic> _$QvstQuestionEntityToJson(_QvstQuestionEntity instance) =>
       'answer_repo_id': instance.answerRepoId,
       'numberAsked': instance.numberAsked,
       'answers': instance.answers,
-      'is_reversed': instance.isReversed,
+      'reversed_question': const BoolOrStringToStringConverter()
+          .toJson(instance.reversedQuestion),
+      'no_longer_used':
+          const BoolOrStringToStringConverter().toJson(instance.noLongerUsed),
     };

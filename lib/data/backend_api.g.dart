@@ -91,9 +91,11 @@ class _BackendApi implements BackendApi {
   }
 
   @override
-  Future<HttpResponse<dynamic>> getAllQvst() async {
+  Future<HttpResponse<dynamic>> getAllQvst(bool includeNoLongerUsed) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'include_no_longer_used': includeNoLongerUsed,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<dynamic>>(
@@ -157,9 +159,14 @@ class _BackendApi implements BackendApi {
   }
 
   @override
-  Future<HttpResponse<dynamic>> getAllQvstQuestionsByThemeId(String id) async {
+  Future<HttpResponse<dynamic>> getAllQvstQuestionsByThemeId(
+    String id,
+    bool includeNoLongerUsed,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'include_no_longer_used': includeNoLongerUsed,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<dynamic>>(
@@ -234,6 +241,31 @@ class _BackendApi implements BackendApi {
           .compose(
             _dio.options,
             'xpeho/v1/qvst/answers_repo',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> addQvstAnswersRepo(
+    Map<String, dynamic> body,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _options = _setStreamType<HttpResponse<dynamic>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'xpeho/v1/qvst/answers_repo:add',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -358,6 +390,28 @@ class _BackendApi implements BackendApi {
           .compose(
             _dio.options,
             'xpeho/v1/qvst:import',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> exportQvstQuestions() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<dynamic>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'xpeho/v1/qvst:export',
             queryParameters: queryParameters,
             data: _data,
           )

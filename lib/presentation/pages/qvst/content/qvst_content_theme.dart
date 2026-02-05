@@ -21,7 +21,7 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
   Widget build(BuildContext context) {
     final questions = ref.watch(
       (widget.id != null)
-          ? qvstQuestionsByThemesListProvider(widget.id!)
+          ? qvstQuestionsByThemesIncludingObsoleteProvider(widget.id!)
           : qvstQuestionsListProvider,
     );
     final themeList = ref.watch(qvstThemesListProvider).asData?.value;
@@ -144,7 +144,8 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
               onPressed: () {
                 ref.invalidate(qvstThemesListProvider);
                 ref.invalidate(
-                  qvstQuestionsByThemesListProvider(theme?.id ?? ''),
+                  qvstQuestionsByThemesIncludingObsoleteProvider(
+                      theme?.id ?? ''),
                 );
                 ref.invalidate(qvstQuestionsListProvider);
               },
@@ -190,9 +191,48 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
                 color: Colors.white,
               ),
             ),
-          )
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Tooltip(
+            message: "Exporter toutes les questions",
+            child: FloatingActionButton(
+              onPressed: () => _handleExportQuestions(context, ref),
+              backgroundColor: kDefaultXpehoColor,
+              child: const Icon(
+                Icons.download,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> _handleExportQuestions(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    try {
+      final token = ref.read(userProvider)?.token?.token ?? '';
+      await ref.read(qvstServiceProvider).exportAllQvstQuestions(token);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Export des questions réussi'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erreur: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }

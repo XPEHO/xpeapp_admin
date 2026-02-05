@@ -1,7 +1,6 @@
-// ignore_for_file: invalid_annotation_target
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:xpeapp_admin/data/entities/qvst/qvst_answer_entity.dart';
+import 'package:xpeapp_admin/env/serializer/bool_string_converter.dart';
 
 part 'qvst_question_entity.freezed.dart';
 part 'qvst_question_entity.g.dart';
@@ -18,9 +17,21 @@ abstract class QvstQuestionEntity with _$QvstQuestionEntity {
     @JsonSerializable(explicitToJson: true)
     @Default([])
     List<QvstAnswerEntity> answers,
-    @JsonKey(name: 'is_reversed') @Default(false) bool isReversed,
+    @JsonKey(name: 'reversed_question')
+    @BoolOrStringToStringConverter()
+    @Default('0')
+    String reversedQuestion,
+    @JsonKey(name: 'no_longer_used')
+    @BoolOrStringToStringConverter()
+    @Default('0')
+    String noLongerUsed,
   }) = _QvstQuestionEntity;
+
+  const QvstQuestionEntity._();
 
   factory QvstQuestionEntity.fromJson(Map<String, dynamic> json) =>
       _$QvstQuestionEntityFromJson(json);
+
+  bool get reversedQuestionBool => reversedQuestion == '1';
+  bool get noLongerUsedBool => noLongerUsed == '1';
 }
