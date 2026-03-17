@@ -454,9 +454,13 @@ final ideaAddProvider =
 });
 
 final ideaUpdateStatusProvider =
-    FutureProvider.family<void, Map<String, String>>((ref, params) async {
+    FutureProvider.family<void, Map<String, String?>>((ref, params) async {
   final ideaService = ref.watch(ideaServiceProvider);
-  await ideaService.updateIdeaStatus(params['id']!, params['status']!);
+  await ideaService.updateIdeaStatus(
+    params['id']!,
+    params['status']!,
+    reason: params['reason'],
+  );
 });
 
 // Last Connexion

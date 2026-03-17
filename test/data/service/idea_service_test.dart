@@ -471,6 +471,31 @@ void main() {
         verify(mockBackendApi.updateIdeaStatus('1', {'status': 'approved'}))
             .called(1);
       });
+
+      test('updateIdeaStatus sends reason when provided', () async {
+        final httpResponse = HttpResponse(
+            null,
+            Response(
+              requestOptions: RequestOptions(path: '/ideas/1/status'),
+              statusCode: 204,
+            ));
+
+        when(mockBackendApi.updateIdeaStatus(any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        await ideaService.updateIdeaStatus(
+          '1',
+          'rejected',
+          reason: 'Pas aligné avec la roadmap actuelle',
+        );
+
+        verify(
+          mockBackendApi.updateIdeaStatus('1', {
+            'status': 'rejected',
+            'reason': 'Pas aligné avec la roadmap actuelle',
+          }),
+        ).called(1);
+      });
     });
   });
 }

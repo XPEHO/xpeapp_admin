@@ -10,6 +10,8 @@ abstract class IdeaEntity with _$IdeaEntity {
     required String id,
     required String description,
     required String context,
+    String? author,
+    String? reason,
     @JsonKey(name: 'created_at') required DateTime createdAt,
     required String status,
   }) = _IdeaEntity;

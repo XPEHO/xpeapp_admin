@@ -161,11 +161,12 @@ class IdeaBoxContentIdeasState extends ConsumerState<IdeaBoxContentIdeas> {
         ...ideas.map((idea) {
           return IdeaCard(
             idea: idea,
-            onStatusChanged: (newStatus) async {
+            onStatusChanged: (newStatus, reason) async {
               try {
                 await ref.read(ideaUpdateStatusProvider({
                   'id': idea.id,
                   'status': newStatus,
+                  'reason': reason,
                 }).future);
                 ref.invalidate(ideasProvider);
 
