@@ -19,7 +19,6 @@ void main() {
       expect(ideaEntity.id, "1");
       expect(ideaEntity.description, "This is a test idea");
       expect(ideaEntity.context, "Test context");
-      expect(ideaEntity.userId, "36");
       expect(ideaEntity.author, "Wordpress dev");
       expect(ideaEntity.status, "submitted");
       expect(ideaEntity.createdAt, DateTime.parse("2024-01-15T10:30:00Z"));
@@ -48,7 +47,6 @@ void main() {
         id: "3",
         description: "Another test idea",
         context: "Test context",
-        userId: "42",
         author: "Jane Doe",
         status: "completed",
         createdAt: DateTime.parse("2024-01-15T14:30:00Z"),
@@ -59,7 +57,6 @@ void main() {
       expect(json['id'], "3");
       expect(json['description'], "Another test idea");
       expect(json['context'], "Test context");
-      expect(json['user_id'], "42");
       expect(json['author'], "Jane Doe");
       expect(json['status'], "completed");
       expect(json['created_at'], "2024-01-15T14:30:00.000Z");
