@@ -55,8 +55,16 @@ class IdeaService {
     }
   }
 
-  Future<void> updateIdeaStatus(String id, String newStatus) async {
-    final response = await _api.updateIdeaStatus(id, {'status': newStatus});
+  Future<void> updateIdeaStatus(String id, String newStatus,
+      {String? reason}) async {
+    final body = <String, dynamic>{'status': newStatus};
+    final trimmedReason = reason?.trim();
+
+    if (trimmedReason != null && trimmedReason.isNotEmpty) {
+      body['reason'] = trimmedReason;
+    }
+
+    final response = await _api.updateIdeaStatus(id, body);
     if (response.response.statusCode != 204) {
       throw Exception('Erreur lors de la mise à jour du statut de l\'idée');
     }

@@ -10,6 +10,8 @@ _IdeaEntity _$IdeaEntityFromJson(Map<String, dynamic> json) => _IdeaEntity(
       id: json['id'] as String,
       description: json['description'] as String,
       context: json['context'] as String,
+      author: json['author'] as String?,
+      reason: json['reason'] as String?,
       createdAt: DateTime.parse(json['created_at'] as String),
       status: json['status'] as String,
     );
@@ -19,6 +21,8 @@ Map<String, dynamic> _$IdeaEntityToJson(_IdeaEntity instance) =>
       'id': instance.id,
       'description': instance.description,
       'context': instance.context,
+      'author': instance.author,
+      'reason': instance.reason,
       'created_at': instance.createdAt.toIso8601String(),
       'status': instance.status,
     };

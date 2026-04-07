@@ -1034,12 +1034,6 @@ void main() {
     });
 
     group('QvstService - applyReversedQuestions', () {
-      final service = QvstService(
-        BackendApiBase(baseUrl: ''),
-        BackendApi(Dio()),
-        FileService(),
-        '',
-      );
       final question = QuestionAnalysisEntity(
         questionId: 'q1',
         questionText: 'Q1',
@@ -1088,12 +1082,6 @@ void main() {
     });
 
     group('QvstService - calculateWeightedAverage', () {
-      final service = QvstService(
-        BackendApiBase(baseUrl: ''),
-        BackendApi(Dio()),
-        FileService(),
-        '',
-      );
       test('returns 0 for empty answers', () {
         expect(service.calculateWeightedAverage([]), 0);
       });
@@ -1107,12 +1095,6 @@ void main() {
     });
 
     group('QvstService - _applyQuestionInversion', () {
-      final service = QvstService(
-        BackendApiBase(baseUrl: ''),
-        BackendApi(Dio()),
-        FileService(),
-        '',
-      );
       test('returns same question if not reversed', () {
         final question = QuestionAnalysisEntity(
           questionId: 'q1',

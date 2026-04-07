@@ -17,6 +17,8 @@ mixin _$IdeaEntity {
   String get id;
   String get description;
   String get context;
+  String? get author;
+  String? get reason;
   @JsonKey(name: 'created_at')
   DateTime get createdAt;
   String get status;
@@ -40,6 +42,8 @@ mixin _$IdeaEntity {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.context, context) || other.context == context) &&
+            (identical(other.author, author) || other.author == author) &&
+            (identical(other.reason, reason) || other.reason == reason) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.status, status) || other.status == status));
@@ -47,12 +51,12 @@ mixin _$IdeaEntity {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, description, context, createdAt, status);
+  int get hashCode => Object.hash(
+      runtimeType, id, description, context, author, reason, createdAt, status);
 
   @override
   String toString() {
-    return 'IdeaEntity(id: $id, description: $description, context: $context, createdAt: $createdAt, status: $status)';
+    return 'IdeaEntity(id: $id, description: $description, context: $context, author: $author, reason: $reason, createdAt: $createdAt, status: $status)';
   }
 }
 
@@ -66,6 +70,8 @@ abstract mixin class $IdeaEntityCopyWith<$Res> {
       {String id,
       String description,
       String context,
+      String? author,
+      String? reason,
       @JsonKey(name: 'created_at') DateTime createdAt,
       String status});
 }
@@ -85,6 +91,8 @@ class _$IdeaEntityCopyWithImpl<$Res> implements $IdeaEntityCopyWith<$Res> {
     Object? id = null,
     Object? description = null,
     Object? context = null,
+    Object? author = freezed,
+    Object? reason = freezed,
     Object? createdAt = null,
     Object? status = null,
   }) {
@@ -101,6 +109,14 @@ class _$IdeaEntityCopyWithImpl<$Res> implements $IdeaEntityCopyWith<$Res> {
           ? _self.context
           : context // ignore: cast_nullable_to_non_nullable
               as String,
+      author: freezed == author
+          ? _self.author
+          : author // ignore: cast_nullable_to_non_nullable
+              as String?,
+      reason: freezed == reason
+          ? _self.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -206,8 +222,14 @@ extension IdeaEntityPatterns on IdeaEntity {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String id, String description, String context,
-            @JsonKey(name: 'created_at') DateTime createdAt, String status)?
+    TResult Function(
+            String id,
+            String description,
+            String context,
+            String? author,
+            String? reason,
+            @JsonKey(name: 'created_at') DateTime createdAt,
+            String status)?
         $default, {
     required TResult orElse(),
   }) {
@@ -215,7 +237,7 @@ extension IdeaEntityPatterns on IdeaEntity {
     switch (_that) {
       case _IdeaEntity() when $default != null:
         return $default(_that.id, _that.description, _that.context,
-            _that.createdAt, _that.status);
+            _that.author, _that.reason, _that.createdAt, _that.status);
       case _:
         return orElse();
     }
@@ -236,15 +258,21 @@ extension IdeaEntityPatterns on IdeaEntity {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String id, String description, String context,
-            @JsonKey(name: 'created_at') DateTime createdAt, String status)
+    TResult Function(
+            String id,
+            String description,
+            String context,
+            String? author,
+            String? reason,
+            @JsonKey(name: 'created_at') DateTime createdAt,
+            String status)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _IdeaEntity():
         return $default(_that.id, _that.description, _that.context,
-            _that.createdAt, _that.status);
+            _that.author, _that.reason, _that.createdAt, _that.status);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -264,15 +292,21 @@ extension IdeaEntityPatterns on IdeaEntity {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String id, String description, String context,
-            @JsonKey(name: 'created_at') DateTime createdAt, String status)?
+    TResult? Function(
+            String id,
+            String description,
+            String context,
+            String? author,
+            String? reason,
+            @JsonKey(name: 'created_at') DateTime createdAt,
+            String status)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _IdeaEntity() when $default != null:
         return $default(_that.id, _that.description, _that.context,
-            _that.createdAt, _that.status);
+            _that.author, _that.reason, _that.createdAt, _that.status);
       case _:
         return null;
     }
@@ -287,6 +321,8 @@ class _IdeaEntity implements IdeaEntity {
       {required this.id,
       required this.description,
       required this.context,
+      this.author,
+      this.reason,
       @JsonKey(name: 'created_at') required this.createdAt,
       required this.status});
   factory _IdeaEntity.fromJson(Map<String, dynamic> json) =>
@@ -298,6 +334,10 @@ class _IdeaEntity implements IdeaEntity {
   final String description;
   @override
   final String context;
+  @override
+  final String? author;
+  @override
+  final String? reason;
   @override
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
@@ -328,6 +368,8 @@ class _IdeaEntity implements IdeaEntity {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.context, context) || other.context == context) &&
+            (identical(other.author, author) || other.author == author) &&
+            (identical(other.reason, reason) || other.reason == reason) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.status, status) || other.status == status));
@@ -335,12 +377,12 @@ class _IdeaEntity implements IdeaEntity {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, description, context, createdAt, status);
+  int get hashCode => Object.hash(
+      runtimeType, id, description, context, author, reason, createdAt, status);
 
   @override
   String toString() {
-    return 'IdeaEntity(id: $id, description: $description, context: $context, createdAt: $createdAt, status: $status)';
+    return 'IdeaEntity(id: $id, description: $description, context: $context, author: $author, reason: $reason, createdAt: $createdAt, status: $status)';
   }
 }
 
@@ -356,6 +398,8 @@ abstract mixin class _$IdeaEntityCopyWith<$Res>
       {String id,
       String description,
       String context,
+      String? author,
+      String? reason,
       @JsonKey(name: 'created_at') DateTime createdAt,
       String status});
 }
@@ -375,6 +419,8 @@ class __$IdeaEntityCopyWithImpl<$Res> implements _$IdeaEntityCopyWith<$Res> {
     Object? id = null,
     Object? description = null,
     Object? context = null,
+    Object? author = freezed,
+    Object? reason = freezed,
     Object? createdAt = null,
     Object? status = null,
   }) {
@@ -391,6 +437,14 @@ class __$IdeaEntityCopyWithImpl<$Res> implements _$IdeaEntityCopyWith<$Res> {
           ? _self.context
           : context // ignore: cast_nullable_to_non_nullable
               as String,
+      author: freezed == author
+          ? _self.author
+          : author // ignore: cast_nullable_to_non_nullable
+              as String?,
+      reason: freezed == reason
+          ? _self.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
