@@ -26,26 +26,12 @@ class IdeaCardState extends ConsumerState<IdeaCard> {
 
   String? get _submittedByLabel {
     final author = widget.idea.author?.trim();
-
-    if ((author == null || author.isEmpty)) {
-      return null;
-    }
-
-    if (author.isNotEmpty) {
-      return author;
-    }
-
-    return author.isNotEmpty ? author : null;
+    return (author?.isNotEmpty ?? false) ? author : null;
   }
 
   String? get _reasonLabel {
     final reason = widget.idea.reason?.trim();
-
-    if (reason == null || reason.isEmpty) {
-      return null;
-    }
-
-    return reason;
+    return (reason?.isNotEmpty ?? false) ? reason : null;
   }
 
   @override
