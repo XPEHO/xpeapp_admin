@@ -79,7 +79,6 @@ class _MyAppState extends ConsumerState<MyApp> {
     try {
       await _pushService.initializeForAdmin(
         adminEmail: email,
-        vapidKey: ref.read(configProvider).firebaseWebPushVapidKey,
         onForegroundMessage: (message) {
           final title = message.notification?.title ?? 'Nouvelle idée';
           final body =

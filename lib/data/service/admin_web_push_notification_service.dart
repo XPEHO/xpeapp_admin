@@ -15,7 +15,6 @@ class AdminWebPushNotificationService {
 
   Future<void> initializeForAdmin({
     required String? adminEmail,
-    required String? vapidKey,
     required void Function(RemoteMessage message) onForegroundMessage,
     required void Function(RemoteMessage message) onMessageTap,
   }) async {
@@ -35,12 +34,7 @@ class AdminWebPushNotificationService {
       return;
     }
 
-    String? token;
-    if (vapidKey != null && vapidKey.isNotEmpty) {
-      token = await _messaging.getToken(vapidKey: vapidKey);
-    } else {
-      token = await _messaging.getToken();
-    }
+    final token = await _messaging.getToken();
 
     if (token != null && token.isNotEmpty) {
       await _upsertAdminWebToken(token, adminEmail);
