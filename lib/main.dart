@@ -9,6 +9,7 @@ import 'package:xpeapp_admin/data/service/config_service.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
 import 'package:xpeapp_admin/firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:xpeapp_admin/presentation/widgets/common/push_notification.dart';
 import 'package:xpeapp_admin/providers.dart';
 import 'package:xpeapp_admin/routes.dart';
 
@@ -48,7 +49,7 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   late final AdminWebPushNotificationService _pushService;
-  String? _initializedPushForEmail;
+  String? _initializedPushKey;
 
   @override
   void initState() {
@@ -56,6 +57,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     _pushService = AdminWebPushNotificationService(
       FirebaseMessaging.instance,
       ref.read(cloudFirestoreProvider),
+      ref.read(backendApiProvider),
     );
   }
 
@@ -64,33 +66,34 @@ class _MyAppState extends ConsumerState<MyApp> {
     GoRouter router,
   ) async {
     final email = user?.email;
+    final authToken = user?.token?.token;
 
     if (email == null || email.isEmpty) {
-      _initializedPushForEmail = null;
+      _initializedPushKey = null;
       return;
     }
 
-    if (_initializedPushForEmail == email) {
+    final hasAuthToken = authToken != null && authToken.isNotEmpty;
+    final initializationKey = '$email|auth:$hasAuthToken';
+
+    if (_initializedPushKey == initializationKey) {
       return;
     }
 
-    _initializedPushForEmail = email;
+    _initializedPushKey = initializationKey;
 
     try {
       await _pushService.initializeForAdmin(
         adminEmail: email,
+        adminAuthToken: authToken,
         onForegroundMessage: (message) {
           final title = message.notification?.title ?? 'Nouvelle idée';
           final body =
               message.notification?.body ?? 'Une nouvelle idée a été soumise';
-          _scaffoldMessengerKey.currentState?.showSnackBar(
-            SnackBar(
-              content: Text('$title\n$body'),
-              action: SnackBarAction(
-                label: 'Voir',
-                onPressed: () => _openIdeaBox(router),
-              ),
-            ),
+          PushNotification.showSimpleNotification(
+            title: title,
+            message: body,
+            onActionPressed: () => _openIdeaBox(router),
           );
         },
         onMessageTap: (message) {
@@ -100,7 +103,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         },
       );
     } catch (_) {
-      _initializedPushForEmail = null;
+      _initializedPushKey = null;
     }
   }
 
