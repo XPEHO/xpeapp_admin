@@ -1,27 +1,37 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
+import 'package:xpeapp_admin/data/service/messaging_wrapper.dart';
 import 'package:universal_html/html.dart' as html;
 
 class AdminWebPushNotificationService {
   static const String _topicName = 'admin_web_ideas';
-  static const String _webPushVapidKey = String.fromEnvironment(
-    'FIREBASE_WEB_PUSH_VAPID_KEY',
-    defaultValue: '',
-  );
+  static const String _vapidKeyEnv = 'FIREBASE_WEB_PUSH_VAPID_KEY';
 
-  final FirebaseMessaging _messaging;
   final FirebaseFirestore _firestore;
   final BackendApi _backendApi;
+  final MessagingWrapper _messaging;
+  final String Function() _readUserAgent;
+  final bool _isWeb;
+  final List<StreamSubscription<dynamic>> _subscriptions = [];
 
   bool _listenersAttached = false;
 
-  AdminWebPushNotificationService(
-    this._messaging,
-    this._firestore,
-    this._backendApi,
-  );
+  AdminWebPushNotificationService({
+    required FirebaseFirestore firestore,
+    required BackendApi backendApi,
+    required MessagingWrapper messaging,
+    String Function()? readUserAgent,
+    bool isWeb = kIsWeb,
+  })  : _firestore = firestore,
+        _backendApi = backendApi,
+        _messaging = messaging,
+        _isWeb = isWeb,
+        _readUserAgent =
+            readUserAgent ?? (() => html.window.navigator.userAgent);
 
   Future<void> initializeForAdmin({
     required String? adminEmail,
@@ -29,25 +39,19 @@ class AdminWebPushNotificationService {
     required void Function(RemoteMessage message) onForegroundMessage,
     required void Function(RemoteMessage message) onMessageTap,
   }) async {
-    if (!kIsWeb || adminEmail == null || adminEmail.isEmpty) {
+    if (!_isWeb || adminEmail == null || adminEmail.isEmpty) {
       return;
     }
 
-    final permission = await _messaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-      provisional: true,
-    );
+    final authorizationStatus = await _messaging.requestPermission();
 
-    if (permission.authorizationStatus != AuthorizationStatus.authorized &&
-        permission.authorizationStatus != AuthorizationStatus.provisional) {
+    if (authorizationStatus != AuthorizationStatus.authorized &&
+        authorizationStatus != AuthorizationStatus.provisional) {
       return;
     }
 
-    final token = await _messaging.getToken(
-      vapidKey: _webPushVapidKey.isEmpty ? null : _webPushVapidKey,
-    );
+    const vapidKey = String.fromEnvironment(_vapidKeyEnv, defaultValue: '');
+    final token = await _messaging.getToken(vapidKey.isEmpty ? null : vapidKey);
 
     if (token != null && token.isNotEmpty) {
       await _syncToken(token, adminEmail, adminAuthToken);
@@ -62,8 +66,8 @@ class AdminWebPushNotificationService {
   }
 
   void _attachMessageListeners(
-    String adminEmail,
-    String? adminAuthToken,
+    String email,
+    String? authToken,
     void Function(RemoteMessage message) onForegroundMessage,
     void Function(RemoteMessage message) onMessageTap,
   ) {
@@ -71,19 +75,30 @@ class AdminWebPushNotificationService {
 
     _listenersAttached = true;
 
-    FirebaseMessaging.onMessage.listen(onForegroundMessage);
+    _subscriptions.add(_messaging.onMessage.listen(onForegroundMessage));
 
-    FirebaseMessaging.onMessageOpenedApp.listen(onMessageTap);
+    _subscriptions.add(_messaging.onMessageOpenedApp.listen(onMessageTap));
 
     _messaging.getInitialMessage().then((message) {
       if (message != null) {
         onMessageTap(message);
       }
-    });
+    }).catchError((_) {});
 
-    _messaging.onTokenRefresh.listen((newToken) async {
-      await _syncToken(newToken, adminEmail, adminAuthToken);
-    });
+    _subscriptions.add(
+      _messaging.onTokenRefresh.listen((newToken) {
+        unawaited(_syncToken(newToken, email, authToken).catchError((_) {}));
+      }),
+    );
+  }
+
+  void dispose() {
+    for (final subscription in _subscriptions) {
+      unawaited(subscription.cancel());
+    }
+
+    _subscriptions.clear();
+    _listenersAttached = false;
   }
 
   Future<void> _syncToken(
@@ -123,22 +138,14 @@ class AdminWebPushNotificationService {
 
   Future<void> _upsertAdminWebToken(String token, String adminEmail) async {
     final document = _firestore.collection('admin_web_push_tokens').doc(token);
-    final existing = await document.get();
-
-    final payload = <String, dynamic>{
+    await document.set({
       'token': token,
       'email': adminEmail,
       'platform': 'web',
       'app': 'admin',
       'topic': _topicName,
-      'userAgent': html.window.navigator.userAgent,
+      'userAgent': _readUserAgent(),
       'updatedAt': FieldValue.serverTimestamp(),
-    };
-
-    if (!existing.exists) {
-      payload['createdAt'] = FieldValue.serverTimestamp();
-    }
-
-    await document.set(payload, SetOptions(merge: true));
+    }, SetOptions(merge: true));
   }
 }

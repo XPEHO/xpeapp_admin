@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/service/admin_users_service.dart';
 import 'package:xpeapp_admin/data/service/admin_web_push_notification_service.dart';
 import 'package:xpeapp_admin/data/service/config_service.dart';
+import 'package:xpeapp_admin/data/service/messaging_wrapper.dart';
 import 'package:xpeapp_admin/data/entities/xpeho_user.dart';
 import 'package:xpeapp_admin/firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -55,10 +56,16 @@ class _MyAppState extends ConsumerState<MyApp> {
   void initState() {
     super.initState();
     _pushService = AdminWebPushNotificationService(
-      FirebaseMessaging.instance,
-      ref.read(cloudFirestoreProvider),
-      ref.read(backendApiProvider),
+      firestore: ref.read(cloudFirestoreProvider),
+      backendApi: ref.read(backendApiProvider),
+      messaging: FirebaseMessagingWrapper(FirebaseMessaging.instance),
     );
+  }
+
+  @override
+  void dispose() {
+    _pushService.dispose();
+    super.dispose();
   }
 
   Future<void> _initializeWebPushIfNeeded(
