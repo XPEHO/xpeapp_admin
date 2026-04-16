@@ -136,25 +136,26 @@ class AgendaContentEventsState extends ConsumerState<AgendaContentEvents> {
       ),
       floatingActionButton: AgendaFloatingButtons(
         customTooltip: [
-          const SizedBox(width: 10),
-          Tooltip(
-            message: "Précédent",
-            child: FloatingActionButton(
-              onPressed: currentPage > 1
-                  ? () {
-                      setState(() {
-                        currentPage--;
-                      });
-                    }
-                  : null,
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
+          if (currentPage > 1 || ref.hasNextEventsPage(currentPage))
+            const SizedBox(width: 10),
+          if (currentPage > 1) ...[
+            Tooltip(
+              message: "Précédent",
+              child: FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    currentPage--;
+                  });
+                },
+                backgroundColor: kDefaultXpehoColor,
+                child: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
-          const SizedBox(width: 10),
+            if (ref.hasNextEventsPage(currentPage)) const SizedBox(width: 10),
+          ],
           ref.hasNextEventsPage(currentPage)
               ? Tooltip(
                   message: "Suivant",
