@@ -182,75 +182,102 @@ class IdeaCardState extends ConsumerState<IdeaCard> {
 
   Future<String?> _showReasonDialog(String status) async {
     final controller = TextEditingController();
+    String? errorText;
     final result = await showDialog<String?>(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
-          title: Text(
-              'Ajouter un mot (${IdeaUtils.getStatusInFrench(status).toLowerCase()})'),
-          content: Container(
-            width: 700,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.black, width: 1.5),
-            ),
-            child: TextFormField(
-              controller: controller,
-              minLines: 2,
-              maxLines: 4,
-              decoration: const InputDecoration(
-                hintText: 'Ex: Merci pour l\'idée, on la planifie pour avril',
-                hintStyle: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'SF Pro Rounded',
-                  color: Colors.black54,
+        return StatefulBuilder(
+          builder: (context, setState) {
+            void submitMessage() {
+              final trimmedMessage = controller.text.trim();
+
+              if (trimmedMessage.isEmpty) {
+                setState(() {
+                  errorText =
+                      'Veuillez saisir un message ou utiliser "Sans message".';
+                });
+                return;
+              }
+
+              Navigator.of(context).pop(trimmedMessage);
+            }
+
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+              title: Text(
+                  'Ajouter un mot (${IdeaUtils.getStatusInFrench(status).toLowerCase()})'),
+              content: Container(
+                width: 700,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
                 ),
-                fillColor: Colors.white,
-                filled: true,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.black, width: 1.5),
+                ),
+                child: TextFormField(
+                  controller: controller,
+                  minLines: 2,
+                  maxLines: 4,
+                  onChanged: (value) {
+                    if (errorText != null && value.trim().isNotEmpty) {
+                      setState(() {
+                        errorText = null;
+                      });
+                    }
+                  },
+                  decoration: InputDecoration(
+                    hintText:
+                        'Ex: Merci pour l\'idée, on la planifie pour avril',
+                    hintStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'SF Pro Rounded',
+                      color: Colors.black54,
+                    ),
+                    fillColor: Colors.white,
+                    filled: true,
+                    errorText: errorText,
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'SF Pro Rounded',
+                  ),
                 ),
               ),
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                fontFamily: 'SF Pro Rounded',
-              ),
-            ),
-          ),
-          actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          actions: [
-            SizedBox(
-              width: 110,
-              child: Button.secondary(
-                text: 'Annuler',
-                onPressed: () => Navigator.of(context).pop(null),
-              ),
-            ),
-            SizedBox(
-              width: 140,
-              child: Button.secondary(
-                text: 'Sans message',
-                onPressed: () => Navigator.of(context).pop(''),
-              ),
-            ),
-            SizedBox(
-              width: 110,
-              child: Button.secondary(
-                text: 'Valider',
-                onPressed: () =>
-                    Navigator.of(context).pop(controller.text.trim()),
-              ),
-            ),
-          ],
+              actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              actions: [
+                SizedBox(
+                  width: 110,
+                  child: Button.secondary(
+                    text: 'Annuler',
+                    onPressed: () => Navigator.of(context).pop(null),
+                  ),
+                ),
+                SizedBox(
+                  width: 140,
+                  child: Button.secondary(
+                    text: 'Sans message',
+                    onPressed: () => Navigator.of(context).pop(''),
+                  ),
+                ),
+                SizedBox(
+                  width: 110,
+                  child: Button.secondary(
+                    text: 'Valider',
+                    onPressed: submitMessage,
+                  ),
+                ),
+              ],
+            );
+          },
         );
       },
     );
