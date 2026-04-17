@@ -23,8 +23,8 @@ class PushNotification {
 
           return;
         }
-      } catch (_) {
-        // Browser notifications can fail silently depending on browser/OS policy.
+      } catch (error) {
+        debugPrint('PushNotification: browser notification failed: $error');
       }
     }
   }
