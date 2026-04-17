@@ -44,6 +44,14 @@
 <body>
   <script>
     window.addEventListener('load', function (ev) {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('/firebase-messaging-sw.js', {
+            scope: '/firebase-cloud-messaging-push-scope',
+          })
+          .catch(function (_) {});
+      }
+
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
