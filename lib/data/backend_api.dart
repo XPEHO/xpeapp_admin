@@ -25,6 +25,12 @@ abstract class BackendApi {
     @Body() Map<String, dynamic> body,
   );
 
+  @POST("xpeho/v1/notifications/admin-web/subscribe")
+  Future<HttpResponse> subscribeAdminWebNotificationTopic(
+    @Header("Authorization") String token,
+    @Body() Map<String, dynamic> body,
+  );
+
   @GET("xpeho/v1/qvst")
   Future<HttpResponse> getAllQvst(
     @Query("include_no_longer_used") bool includeNoLongerUsed,

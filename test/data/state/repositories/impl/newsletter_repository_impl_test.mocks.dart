@@ -1288,6 +1288,32 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
       ) as _i5.Future<_i6.HttpResponse<dynamic>>);
 
   @override
+  _i5.Future<_i6.HttpResponse<dynamic>> subscribeAdminWebNotificationTopic(
+    String? token,
+    Map<String, dynamic>? body,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #subscribeAdminWebNotificationTopic,
+          [
+            token,
+            body,
+          ],
+        ),
+        returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_13<dynamic>(
+          this,
+          Invocation.method(
+            #subscribeAdminWebNotificationTopic,
+            [
+              token,
+              body,
+            ],
+          ),
+        )),
+      ) as _i5.Future<_i6.HttpResponse<dynamic>>);
+
+  @override
   _i5.Future<_i6.HttpResponse<dynamic>> getAllQvst(bool? includeNoLongerUsed) =>
       (super.noSuchMethod(
         Invocation.method(
