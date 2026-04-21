@@ -44,7 +44,9 @@ class QvstImportQuestionFileDialogState
           Button.secondary(
             text: 'Choisir un fichier',
             onPressed: () async {
-              final result = await FilePicker.platform.pickFiles();
+              final result = await FilePicker.pickFiles(
+                withData: true,
+              );
 
               if (result != null) {
                 setState(() {
