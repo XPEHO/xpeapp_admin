@@ -947,6 +947,21 @@ class MockBackendApiBase extends _i1.Mock implements _i7.BackendApiBase {
           ),
         )),
       ) as _i5.Future<_i3.Response>);
+
+  @override
+  _i5.Future<_i3.Response> exportIdeasCsv(String? token) => (super.noSuchMethod(
+        Invocation.method(
+          #exportIdeasCsv,
+          [token],
+        ),
+        returnValue: _i5.Future<_i3.Response>.value(_FakeResponse_2(
+          this,
+          Invocation.method(
+            #exportIdeasCsv,
+            [token],
+          ),
+        )),
+      ) as _i5.Future<_i3.Response>);
 }
 
 /// A class which mocks [FileService].

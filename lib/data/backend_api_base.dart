@@ -29,4 +29,14 @@ class BackendApiBase {
       },
     );
   }
+
+  Future<http.Response> exportIdeasCsv(String token) async {
+    final url = '${baseUrl}xpeho/v1/ideas:export';
+    return await http.get(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+  }
 }

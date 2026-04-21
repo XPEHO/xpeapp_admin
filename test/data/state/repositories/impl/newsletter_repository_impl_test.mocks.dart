@@ -126,9 +126,20 @@ class _FakeFuture_8<T1> extends _i1.SmartFake implements _i5.Future<T1> {
         );
 }
 
-class _FakeFirebaseFirestore_9 extends _i1.SmartFake
+class _FakePipelineSource_9 extends _i1.SmartFake
+    implements _i4.PipelineSource {
+  _FakePipelineSource_9(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeFirebaseFirestore_10 extends _i1.SmartFake
     implements _i4.FirebaseFirestore {
-  _FakeFirebaseFirestore_9(
+  _FakeFirebaseFirestore_10(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -137,9 +148,9 @@ class _FakeFirebaseFirestore_9 extends _i1.SmartFake
         );
 }
 
-class _FakeAggregateQuery_10 extends _i1.SmartFake
+class _FakeAggregateQuery_11 extends _i1.SmartFake
     implements _i4.AggregateQuery {
-  _FakeAggregateQuery_10(
+  _FakeAggregateQuery_11(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -148,9 +159,9 @@ class _FakeAggregateQuery_10 extends _i1.SmartFake
         );
 }
 
-class _FakeDocumentSnapshot_11<T1 extends Object?> extends _i1.SmartFake
+class _FakeDocumentSnapshot_12<T1 extends Object?> extends _i1.SmartFake
     implements _i4.DocumentSnapshot<T1> {
-  _FakeDocumentSnapshot_11(
+  _FakeDocumentSnapshot_12(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -159,9 +170,9 @@ class _FakeDocumentSnapshot_11<T1 extends Object?> extends _i1.SmartFake
         );
 }
 
-class _FakeSnapshotMetadata_12 extends _i1.SmartFake
+class _FakeSnapshotMetadata_13 extends _i1.SmartFake
     implements _i4.SnapshotMetadata {
-  _FakeSnapshotMetadata_12(
+  _FakeSnapshotMetadata_13(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -170,9 +181,9 @@ class _FakeSnapshotMetadata_12 extends _i1.SmartFake
         );
 }
 
-class _FakeHttpResponse_13<T> extends _i1.SmartFake
+class _FakeHttpResponse_14<T> extends _i1.SmartFake
     implements _i6.HttpResponse<T> {
-  _FakeHttpResponse_13(
+  _FakeHttpResponse_14(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -506,6 +517,21 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
       ) as _i5.Future<void>);
 
   @override
+  _i4.PipelineSource pipeline() => (super.noSuchMethod(
+        Invocation.method(
+          #pipeline,
+          [],
+        ),
+        returnValue: _FakePipelineSource_9(
+          this,
+          Invocation.method(
+            #pipeline,
+            [],
+          ),
+        ),
+      ) as _i4.PipelineSource);
+
+  @override
   _i5.Future<void> setIndexConfigurationFromJSON(String? json) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -548,7 +574,7 @@ class MockCollectionReference<T extends Object?> extends _i1.Mock
   @override
   _i4.FirebaseFirestore get firestore => (super.noSuchMethod(
         Invocation.getter(#firestore),
-        returnValue: _FakeFirebaseFirestore_9(
+        returnValue: _FakeFirebaseFirestore_10(
           this,
           Invocation.getter(#firestore),
         ),
@@ -891,7 +917,7 @@ class MockCollectionReference<T extends Object?> extends _i1.Mock
           #count,
           [],
         ),
-        returnValue: _FakeAggregateQuery_10(
+        returnValue: _FakeAggregateQuery_11(
           this,
           Invocation.method(
             #count,
@@ -969,7 +995,7 @@ class MockCollectionReference<T extends Object?> extends _i1.Mock
             aggregateField30,
           ],
         ),
-        returnValue: _FakeAggregateQuery_10(
+        returnValue: _FakeAggregateQuery_11(
           this,
           Invocation.method(
             #aggregate,
@@ -1023,7 +1049,7 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
   @override
   _i4.FirebaseFirestore get firestore => (super.noSuchMethod(
         Invocation.getter(#firestore),
-        returnValue: _FakeFirebaseFirestore_9(
+        returnValue: _FakeFirebaseFirestore_10(
           this,
           Invocation.getter(#firestore),
         ),
@@ -1101,7 +1127,7 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
           [options],
         ),
         returnValue: _i5.Future<_i4.DocumentSnapshot<T>>.value(
-            _FakeDocumentSnapshot_11<T>(
+            _FakeDocumentSnapshot_12<T>(
           this,
           Invocation.method(
             #get,
@@ -1202,7 +1228,7 @@ class MockDocumentSnapshot<T extends Object?> extends _i1.Mock
   @override
   _i4.SnapshotMetadata get metadata => (super.noSuchMethod(
         Invocation.getter(#metadata),
-        returnValue: _FakeSnapshotMetadata_12(
+        returnValue: _FakeSnapshotMetadata_13(
           this,
           Invocation.getter(#metadata),
         ),
@@ -1243,7 +1269,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [body],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getToken,
@@ -1260,7 +1286,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [token],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #validateToken,
@@ -1278,7 +1304,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [body],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #sendNotification,
@@ -1301,7 +1327,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           ],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #subscribeAdminWebNotificationTopic,
@@ -1321,7 +1347,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [includeNoLongerUsed],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getAllQvst,
@@ -1338,7 +1364,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [id],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getQvstById,
@@ -1355,7 +1381,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getAllQvstThemes,
@@ -1378,7 +1404,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           ],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getAllQvstQuestionsByThemeId,
@@ -1398,7 +1424,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [body],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #addQvst,
@@ -1415,7 +1441,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [id],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #deleteQvst,
@@ -1432,7 +1458,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getQvstAnswersRepo,
@@ -1450,7 +1476,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [body],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #addQvstAnswersRepo,
@@ -1473,7 +1499,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           ],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #updateQvstAnswersRepo,
@@ -1493,7 +1519,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getAllQvstCampaigns,
@@ -1511,7 +1537,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [body],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #addQvstCampaign,
@@ -1534,7 +1560,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           ],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #updateQvst,
@@ -1555,7 +1581,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [body],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #importQvstFile,
@@ -1572,7 +1598,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #exportQvstQuestions,
@@ -1589,7 +1615,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [id],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getQvstCampaignStatsById,
@@ -1607,7 +1633,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [id],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getQvstCampaignAnalysisById,
@@ -1630,7 +1656,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           ],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #updateQvstCampaignStatus,
@@ -1650,7 +1676,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [page],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getAllEvents,
@@ -1667,7 +1693,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [id],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getEventById,
@@ -1684,7 +1710,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [body],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #addEvent,
@@ -1707,7 +1733,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           ],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #updateEvent,
@@ -1727,7 +1753,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [id],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #deleteEvent,
@@ -1744,7 +1770,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getAllEventsTypes,
@@ -1761,7 +1787,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [id],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getEventTypeById,
@@ -1779,7 +1805,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [body],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #addEventType,
@@ -1802,7 +1828,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           ],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #updateEventType,
@@ -1822,7 +1848,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [id],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #deleteEventType,
@@ -1839,7 +1865,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [page],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getAllBirthdays,
@@ -1856,7 +1882,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [id],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getBirthdayById,
@@ -1874,7 +1900,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [body],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #addBirthday,
@@ -1897,7 +1923,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           ],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #updateBirthday,
@@ -1917,7 +1943,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [id],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #deleteBirthday,
@@ -1934,7 +1960,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [formData],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #uploadImage,
@@ -1957,7 +1983,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           ],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getAllIdeas,
@@ -1977,7 +2003,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [id],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getIdeaById,
@@ -1994,7 +2020,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [body],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #addIdea,
@@ -2017,7 +2043,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           ],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #updateIdeaStatus,
@@ -2037,7 +2063,7 @@ class MockBackendApi extends _i1.Mock implements _i9.BackendApi {
           [],
         ),
         returnValue: _i5.Future<_i6.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_13<dynamic>(
+            _FakeHttpResponse_14<dynamic>(
           this,
           Invocation.method(
             #getLastConnexionUsers,

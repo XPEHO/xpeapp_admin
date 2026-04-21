@@ -4,7 +4,9 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:xpeapp_admin/data/backend_api.dart';
+import 'package:xpeapp_admin/data/backend_api_base.dart';
 import 'package:xpeapp_admin/data/entities/idea_box/idea_entity.dart';
+import 'package:xpeapp_admin/data/service/file_service.dart';
 import 'package:xpeapp_admin/data/service/idea_service.dart';
 
 import 'idea_service_test.mocks.dart';
@@ -12,11 +14,15 @@ import 'idea_service_test.mocks.dart';
 @GenerateMocks([BackendApi])
 void main() {
   late IdeaService ideaService;
+  late BackendApiBase backendApiBase;
   late MockBackendApi mockBackendApi;
+  late FileService fileService;
 
   setUpAll(() {
+    backendApiBase = BackendApiBase(baseUrl: 'https://example.com/');
     mockBackendApi = MockBackendApi();
-    ideaService = IdeaService(mockBackendApi);
+    fileService = FileService();
+    ideaService = IdeaService(backendApiBase, mockBackendApi, fileService);
   });
 
   group('IdeaService test', () {
