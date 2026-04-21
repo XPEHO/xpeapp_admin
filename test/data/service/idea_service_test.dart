@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:retrofit/retrofit.dart';
@@ -11,18 +12,19 @@ import 'package:xpeapp_admin/data/service/idea_service.dart';
 
 import 'idea_service_test.mocks.dart';
 
-@GenerateMocks([BackendApi])
+@GenerateMocks([BackendApiBase, BackendApi, FileService])
 void main() {
   late IdeaService ideaService;
-  late BackendApiBase backendApiBase;
+  late MockBackendApiBase mockBackendApiBase;
   late MockBackendApi mockBackendApi;
-  late FileService fileService;
+  late MockFileService mockFileService;
 
   setUpAll(() {
-    backendApiBase = BackendApiBase(baseUrl: 'https://example.com/');
+    mockBackendApiBase = MockBackendApiBase();
     mockBackendApi = MockBackendApi();
-    fileService = FileService();
-    ideaService = IdeaService(backendApiBase, mockBackendApi, fileService);
+    mockFileService = MockFileService();
+    ideaService =
+        IdeaService(mockBackendApiBase, mockBackendApi, mockFileService);
   });
 
   group('IdeaService test', () {
@@ -501,6 +503,57 @@ void main() {
             'reason': 'Pas aligné avec la roadmap actuelle',
           }),
         ).called(1);
+      });
+    });
+
+    group('exportIdeasCsv', () {
+      test('exportIdeasCsv downloads file when API returns 200', () async {
+        final successResponse = http.Response.bytes(
+          [1, 2, 3],
+          200,
+          headers: {'content-type': 'text/csv'},
+        );
+
+        when(mockBackendApiBase.exportIdeasCsv(any))
+            .thenAnswer((_) async => successResponse);
+        when(mockFileService.downloadFile(any, any)).thenReturn(null);
+
+        await ideaService.exportIdeasCsv('fake-token');
+
+        verify(mockBackendApiBase.exportIdeasCsv('fake-token')).called(1);
+        verify(mockFileService.downloadFile(
+                'text/csv', successResponse.bodyBytes))
+            .called(1);
+      });
+
+      test('exportIdeasCsv throws when API returns 500', () async {
+        final noDataResponse = http.Response('no data', 500);
+
+        when(mockBackendApiBase.exportIdeasCsv(any))
+            .thenAnswer((_) async => noDataResponse);
+
+        expect(
+          () async => await ideaService.exportIdeasCsv('fake-token'),
+          throwsException,
+        );
+
+        verify(mockBackendApiBase.exportIdeasCsv('fake-token')).called(1);
+        verifyNever(mockFileService.downloadFile(any, any));
+      });
+
+      test('exportIdeasCsv throws when API returns non-200/500', () async {
+        final errorResponse = http.Response('forbidden', 403);
+
+        when(mockBackendApiBase.exportIdeasCsv(any))
+            .thenAnswer((_) async => errorResponse);
+
+        expect(
+          () async => await ideaService.exportIdeasCsv('fake-token'),
+          throwsException,
+        );
+
+        verify(mockBackendApiBase.exportIdeasCsv('fake-token')).called(1);
+        verifyNever(mockFileService.downloadFile(any, any));
       });
     });
   });
