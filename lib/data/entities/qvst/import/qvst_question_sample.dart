@@ -19,7 +19,7 @@ abstract class QvstQuestionSample with _$QvstQuestionSample {
       _$QvstQuestionSampleFromJson(json);
 
   static QvstQuestionSample fromCsvLine(String csvLine) {
-    final values = const CsvToListConverter().convert(csvLine, eol: '\n')[0];
+    final values = const CsvDecoder().convert(csvLine).first;
 
     // CSV columns: [question_id, question_text, theme_id, theme_name, repo_id, repo_name, reversed_question, no_longer_used, number_asked]
     if (values.length < 8) {
