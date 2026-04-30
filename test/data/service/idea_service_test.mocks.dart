@@ -3,12 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i6;
+import 'dart:typed_data' as _i10;
 
-import 'package:dio/dio.dart' as _i5;
+import 'package:dio/dio.dart' as _i8;
+import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:retrofit/retrofit.dart' as _i2;
-import 'package:xpeapp_admin/data/backend_api.dart' as _i3;
+import 'package:mockito/src/dummies.dart' as _i5;
+import 'package:retrofit/retrofit.dart' as _i3;
+import 'package:xpeapp_admin/data/backend_api.dart' as _i7;
+import 'package:xpeapp_admin/data/backend_api_base.dart' as _i4;
+import 'package:xpeapp_admin/data/service/file_service.dart' as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -25,9 +30,8 @@ import 'package:xpeapp_admin/data/backend_api.dart' as _i3;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
-class _FakeHttpResponse_0<T> extends _i1.SmartFake
-    implements _i2.HttpResponse<T> {
-  _FakeHttpResponse_0(
+class _FakeClient_0 extends _i1.SmartFake implements _i2.Client {
+  _FakeClient_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -36,68 +40,172 @@ class _FakeHttpResponse_0<T> extends _i1.SmartFake
         );
 }
 
+class _FakeResponse_1 extends _i1.SmartFake implements _i2.Response {
+  _FakeResponse_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeHttpResponse_2<T> extends _i1.SmartFake
+    implements _i3.HttpResponse<T> {
+  _FakeHttpResponse_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+/// A class which mocks [BackendApiBase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockBackendApiBase extends _i1.Mock implements _i4.BackendApiBase {
+  MockBackendApiBase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.Client get httpClient => (super.noSuchMethod(
+        Invocation.getter(#httpClient),
+        returnValue: _FakeClient_0(
+          this,
+          Invocation.getter(#httpClient),
+        ),
+      ) as _i2.Client);
+
+  @override
+  String get baseUrl => (super.noSuchMethod(
+        Invocation.getter(#baseUrl),
+        returnValue: _i5.dummyValue<String>(
+          this,
+          Invocation.getter(#baseUrl),
+        ),
+      ) as String);
+
+  @override
+  _i6.Future<_i2.Response> fetchQvstStatsCsv(
+    String? campaignId,
+    String? token,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchQvstStatsCsv,
+          [
+            campaignId,
+            token,
+          ],
+        ),
+        returnValue: _i6.Future<_i2.Response>.value(_FakeResponse_1(
+          this,
+          Invocation.method(
+            #fetchQvstStatsCsv,
+            [
+              campaignId,
+              token,
+            ],
+          ),
+        )),
+      ) as _i6.Future<_i2.Response>);
+
+  @override
+  _i6.Future<_i2.Response> exportQvstQuestionsCsv(String? token) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #exportQvstQuestionsCsv,
+          [token],
+        ),
+        returnValue: _i6.Future<_i2.Response>.value(_FakeResponse_1(
+          this,
+          Invocation.method(
+            #exportQvstQuestionsCsv,
+            [token],
+          ),
+        )),
+      ) as _i6.Future<_i2.Response>);
+
+  @override
+  _i6.Future<_i2.Response> exportIdeasCsv(String? token) => (super.noSuchMethod(
+        Invocation.method(
+          #exportIdeasCsv,
+          [token],
+        ),
+        returnValue: _i6.Future<_i2.Response>.value(_FakeResponse_1(
+          this,
+          Invocation.method(
+            #exportIdeasCsv,
+            [token],
+          ),
+        )),
+      ) as _i6.Future<_i2.Response>);
+}
+
 /// A class which mocks [BackendApi].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
+class MockBackendApi extends _i1.Mock implements _i7.BackendApi {
   MockBackendApi() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getToken(Map<String, dynamic>? body) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getToken(Map<String, dynamic>? body) =>
       (super.noSuchMethod(
         Invocation.method(
           #getToken,
           [body],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getToken,
             [body],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> validateToken(String? token) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> validateToken(String? token) =>
       (super.noSuchMethod(
         Invocation.method(
           #validateToken,
           [token],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #validateToken,
             [token],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> sendNotification(
+  _i6.Future<_i3.HttpResponse<dynamic>> sendNotification(
           Map<String, dynamic>? body) =>
       (super.noSuchMethod(
         Invocation.method(
           #sendNotification,
           [body],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #sendNotification,
             [body],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> subscribeAdminWebNotificationTopic(
+  _i6.Future<_i3.HttpResponse<dynamic>> subscribeAdminWebNotificationTopic(
     String? token,
     Map<String, dynamic>? body,
   ) =>
@@ -109,8 +217,8 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             body,
           ],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #subscribeAdminWebNotificationTopic,
@@ -120,61 +228,61 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getAllQvst(bool? includeNoLongerUsed) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getAllQvst(bool? includeNoLongerUsed) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllQvst,
           [includeNoLongerUsed],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getAllQvst,
             [includeNoLongerUsed],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getQvstById(String? id) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getQvstById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getQvstById,
           [id],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getQvstById,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getAllQvstThemes() =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getAllQvstThemes() =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllQvstThemes,
           [],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getAllQvstThemes,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getAllQvstQuestionsByThemeId(
+  _i6.Future<_i3.HttpResponse<dynamic>> getAllQvstQuestionsByThemeId(
     String? id,
     bool? includeNoLongerUsed,
   ) =>
@@ -186,8 +294,8 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             includeNoLongerUsed,
           ],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getAllQvstQuestionsByThemeId,
@@ -197,79 +305,79 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> addQvst(Map<String, dynamic>? body) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> addQvst(Map<String, dynamic>? body) =>
       (super.noSuchMethod(
         Invocation.method(
           #addQvst,
           [body],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #addQvst,
             [body],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> deleteQvst(String? id) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> deleteQvst(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteQvst,
           [id],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #deleteQvst,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getQvstAnswersRepo() =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getQvstAnswersRepo() =>
       (super.noSuchMethod(
         Invocation.method(
           #getQvstAnswersRepo,
           [],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getQvstAnswersRepo,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> addQvstAnswersRepo(
+  _i6.Future<_i3.HttpResponse<dynamic>> addQvstAnswersRepo(
           Map<String, dynamic>? body) =>
       (super.noSuchMethod(
         Invocation.method(
           #addQvstAnswersRepo,
           [body],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #addQvstAnswersRepo,
             [body],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> updateQvstAnswersRepo(
+  _i6.Future<_i3.HttpResponse<dynamic>> updateQvstAnswersRepo(
     String? id,
     Map<String, dynamic>? body,
   ) =>
@@ -281,8 +389,8 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             body,
           ],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #updateQvstAnswersRepo,
@@ -292,45 +400,45 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getAllQvstCampaigns() =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getAllQvstCampaigns() =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllQvstCampaigns,
           [],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getAllQvstCampaigns,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> addQvstCampaign(
+  _i6.Future<_i3.HttpResponse<dynamic>> addQvstCampaign(
           Map<String, dynamic>? body) =>
       (super.noSuchMethod(
         Invocation.method(
           #addQvstCampaign,
           [body],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #addQvstCampaign,
             [body],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> updateQvst(
+  _i6.Future<_i3.HttpResponse<dynamic>> updateQvst(
     String? id,
     Map<String, dynamic>? body,
   ) =>
@@ -342,8 +450,8 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             body,
           ],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #updateQvst,
@@ -353,80 +461,80 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> importQvstFile(
+  _i6.Future<_i3.HttpResponse<dynamic>> importQvstFile(
           Map<String, dynamic>? body) =>
       (super.noSuchMethod(
         Invocation.method(
           #importQvstFile,
           [body],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #importQvstFile,
             [body],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> exportQvstQuestions() =>
+  _i6.Future<_i3.HttpResponse<dynamic>> exportQvstQuestions() =>
       (super.noSuchMethod(
         Invocation.method(
           #exportQvstQuestions,
           [],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #exportQvstQuestions,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getQvstCampaignStatsById(String? id) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getQvstCampaignStatsById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getQvstCampaignStatsById,
           [id],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getQvstCampaignStatsById,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getQvstCampaignAnalysisById(
+  _i6.Future<_i3.HttpResponse<dynamic>> getQvstCampaignAnalysisById(
           String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getQvstCampaignAnalysisById,
           [id],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getQvstCampaignAnalysisById,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> updateQvstCampaignStatus(
+  _i6.Future<_i3.HttpResponse<dynamic>> updateQvstCampaignStatus(
     String? id,
     Map<String, dynamic>? body,
   ) =>
@@ -438,8 +546,8 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             body,
           ],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #updateQvstCampaignStatus,
@@ -449,61 +557,61 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getAllEvents(int? page) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getAllEvents(int? page) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllEvents,
           [page],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getAllEvents,
             [page],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getEventById(String? id) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getEventById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getEventById,
           [id],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getEventById,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> addEvent(Map<String, dynamic>? body) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> addEvent(Map<String, dynamic>? body) =>
       (super.noSuchMethod(
         Invocation.method(
           #addEvent,
           [body],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #addEvent,
             [body],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> updateEvent(
+  _i6.Future<_i3.HttpResponse<dynamic>> updateEvent(
     String? id,
     Map<String, dynamic>? body,
   ) =>
@@ -515,8 +623,8 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             body,
           ],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #updateEvent,
@@ -526,79 +634,79 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> deleteEvent(String? id) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> deleteEvent(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteEvent,
           [id],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #deleteEvent,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getAllEventsTypes() =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getAllEventsTypes() =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllEventsTypes,
           [],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getAllEventsTypes,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getEventTypeById(String? id) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getEventTypeById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getEventTypeById,
           [id],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getEventTypeById,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> addEventType(
+  _i6.Future<_i3.HttpResponse<dynamic>> addEventType(
           Map<String, dynamic>? body) =>
       (super.noSuchMethod(
         Invocation.method(
           #addEventType,
           [body],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #addEventType,
             [body],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> updateEventType(
+  _i6.Future<_i3.HttpResponse<dynamic>> updateEventType(
     String? id,
     Map<String, dynamic>? body,
   ) =>
@@ -610,8 +718,8 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             body,
           ],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #updateEventType,
@@ -621,79 +729,79 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> deleteEventType(String? id) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> deleteEventType(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteEventType,
           [id],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #deleteEventType,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getAllBirthdays(int? page) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getAllBirthdays(int? page) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllBirthdays,
           [page],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getAllBirthdays,
             [page],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getBirthdayById(String? id) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getBirthdayById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getBirthdayById,
           [id],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getBirthdayById,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> addBirthday(
+  _i6.Future<_i3.HttpResponse<dynamic>> addBirthday(
           Map<String, dynamic>? body) =>
       (super.noSuchMethod(
         Invocation.method(
           #addBirthday,
           [body],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #addBirthday,
             [body],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> updateBirthday(
+  _i6.Future<_i3.HttpResponse<dynamic>> updateBirthday(
     String? id,
     Map<String, dynamic>? body,
   ) =>
@@ -705,8 +813,8 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             body,
           ],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #updateBirthday,
@@ -716,44 +824,44 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> deleteBirthday(String? id) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> deleteBirthday(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteBirthday,
           [id],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #deleteBirthday,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> uploadImage(_i5.FormData? formData) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> uploadImage(_i8.FormData? formData) =>
       (super.noSuchMethod(
         Invocation.method(
           #uploadImage,
           [formData],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #uploadImage,
             [formData],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getAllIdeas(
+  _i6.Future<_i3.HttpResponse<dynamic>> getAllIdeas(
     int? page,
     String? status,
   ) =>
@@ -765,8 +873,8 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             status,
           ],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getAllIdeas,
@@ -776,44 +884,44 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getIdeaById(String? id) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getIdeaById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getIdeaById,
           [id],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getIdeaById,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> addIdea(Map<String, dynamic>? body) =>
+  _i6.Future<_i3.HttpResponse<dynamic>> addIdea(Map<String, dynamic>? body) =>
       (super.noSuchMethod(
         Invocation.method(
           #addIdea,
           [body],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #addIdea,
             [body],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> updateIdeaStatus(
+  _i6.Future<_i3.HttpResponse<dynamic>> updateIdeaStatus(
     String? id,
     Map<String, dynamic>? body,
   ) =>
@@ -825,8 +933,8 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             body,
           ],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #updateIdeaStatus,
@@ -836,22 +944,47 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getLastConnexionUsers() =>
+  _i6.Future<_i3.HttpResponse<dynamic>> getLastConnexionUsers() =>
       (super.noSuchMethod(
         Invocation.method(
           #getLastConnexionUsers,
           [],
         ),
-        returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_0<dynamic>(
+        returnValue: _i6.Future<_i3.HttpResponse<dynamic>>.value(
+            _FakeHttpResponse_2<dynamic>(
           this,
           Invocation.method(
             #getLastConnexionUsers,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.HttpResponse<dynamic>>);
+      ) as _i6.Future<_i3.HttpResponse<dynamic>>);
+}
+
+/// A class which mocks [FileService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFileService extends _i1.Mock implements _i9.FileService {
+  MockFileService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void downloadFile(
+    String? data,
+    _i10.Uint8List? bytes,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #downloadFile,
+          [
+            data,
+            bytes,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
 }

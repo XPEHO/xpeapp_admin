@@ -430,8 +430,11 @@ final storageServiceProvider = Provider<StorageService>((ref) {
 
 // Idea Box
 final ideaServiceProvider = Provider<IdeaService>((ref) {
-  final api = ref.watch(backendApiProvider);
-  return IdeaService(api);
+  return IdeaService(
+    ref.watch(backendApiBaseProvider),
+    ref.watch(backendApiProvider),
+    ref.watch(fileServiceProvider),
+  );
 });
 
 // Editing provider

@@ -173,8 +173,19 @@ class _FakeFuture_12<T1> extends _i1.SmartFake implements _i7.Future<T1> {
         );
 }
 
-class _FakeToken_13 extends _i1.SmartFake implements _i8.Token {
-  _FakeToken_13(
+class _FakePipelineSource_13 extends _i1.SmartFake
+    implements _i6.PipelineSource {
+  _FakePipelineSource_13(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeToken_14 extends _i1.SmartFake implements _i8.Token {
+  _FakeToken_14(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -1062,6 +1073,21 @@ class MockFirebaseFirestore extends _i1.Mock implements _i6.FirebaseFirestore {
       ) as _i7.Future<void>);
 
   @override
+  _i6.PipelineSource pipeline() => (super.noSuchMethod(
+        Invocation.method(
+          #pipeline,
+          [],
+        ),
+        returnValue: _FakePipelineSource_13(
+          this,
+          Invocation.method(
+            #pipeline,
+            [],
+          ),
+        ),
+      ) as _i6.PipelineSource);
+
+  @override
   _i7.Future<void> setIndexConfigurationFromJSON(String? json) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1094,7 +1120,7 @@ class MockAuthService extends _i1.Mock implements _i11.AuthService {
             password,
           ],
         ),
-        returnValue: _i7.Future<_i8.Token>.value(_FakeToken_13(
+        returnValue: _i7.Future<_i8.Token>.value(_FakeToken_14(
           this,
           Invocation.method(
             #getToken,

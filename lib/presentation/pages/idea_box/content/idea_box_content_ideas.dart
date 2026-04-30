@@ -39,6 +39,18 @@ class IdeaBoxContentIdeasState extends ConsumerState<IdeaBoxContentIdeas> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Tooltip(
+            message: "Exporter toutes les idées",
+            child: FloatingActionButton(
+              onPressed: () => _handleExportIdeas(context, ref),
+              backgroundColor: kDefaultXpehoColor,
+              child: const Icon(
+                Icons.download,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Tooltip(
             message: "Recharger",
             child: FloatingActionButton(
               onPressed: () {
@@ -199,5 +211,27 @@ class IdeaBoxContentIdeasState extends ConsumerState<IdeaBoxContentIdeas> {
       subtitleText: 'Gérez les idées soumises par l\'équipe XPEHO',
       formFields: formFields,
     );
+  }
+
+  Future<void> _handleExportIdeas(BuildContext context, WidgetRef ref) async {
+    try {
+      final token = ref.read(userProvider)?.token?.token ?? '';
+      await ref.read(ideaServiceProvider).exportIdeasCsv(token);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Export des idées réussi'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erreur: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }
