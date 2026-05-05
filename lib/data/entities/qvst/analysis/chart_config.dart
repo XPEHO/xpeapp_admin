@@ -23,13 +23,8 @@ class QvstChartConfigs {
     ),
     ChartConfig(
       key: 'questionsAnalysis',
-      name: 'Toutes les questions',
+      name: 'Questions et satisfaction',
       icon: Icons.quiz,
-    ),
-    ChartConfig(
-      key: 'globalDistribution',
-      name: 'Répartition globale',
-      icon: Icons.pie_chart,
     ),
     ChartConfig(
       key: 'questionsDetailed',

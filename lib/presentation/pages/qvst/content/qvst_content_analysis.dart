@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xpeapp_admin/presentation/widgets/qvst/charts/at_risk_employees_widget.dart';
-import 'package:xpeapp_admin/presentation/widgets/qvst/charts/global_distribution_pie_chart.dart';
 import 'package:xpeapp_admin/presentation/widgets/qvst/charts/global_stats_card.dart';
-import 'package:xpeapp_admin/presentation/widgets/qvst/charts/questions_analysis_chart.dart';
 import 'package:xpeapp_admin/presentation/widgets/qvst/charts/questions_detailed_chart.dart';
+import 'package:xpeapp_admin/presentation/widgets/qvst/charts/questions_selection_pie_chart.dart';
 import 'package:xpeapp_admin/providers.dart';
 
 class QvstContentAnalysis extends ConsumerStatefulWidget {
@@ -62,7 +61,6 @@ class _QvstContentAnalysisState extends ConsumerState<QvstContentAnalysis> {
           children: [
             _buildGlobalStatsSection(adjustedData, chartsVisibility),
             _buildQuestionsAnalysisSection(adjustedData, chartsVisibility),
-            _buildGlobalDistributionSection(adjustedData, chartsVisibility),
             _buildQuestionsDetailedSection(adjustedData, chartsVisibility),
             _buildAtRiskEmployeesSection(adjustedData, chartsVisibility),
             const SizedBox(height: QvstContentAnalysis._bottomPadding),
@@ -107,32 +105,8 @@ class _QvstContentAnalysisState extends ConsumerState<QvstContentAnalysis> {
         Row(
           children: [
             Expanded(
-              child: QuestionsAnalysisChart(
+              child: QuestionsSelectionPieChart(
                 questionsAnalysis: adjustedData.questionsAnalysis,
-                title: 'Toutes les questions',
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: QvstContentAnalysis._sectionSpacing),
-      ],
-    );
-  }
-
-  Widget _buildGlobalDistributionSection(
-      dynamic adjustedData, Map<String, bool> chartsVisibility) {
-    if (!_isChartVisible('globalDistribution', chartsVisibility)) {
-      return const SizedBox.shrink();
-    }
-
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: GlobalDistributionPieChart(
-                distribution: adjustedData.globalDistribution ?? [],
-                answerLabels: _extractAnswerLabels(adjustedData),
               ),
             ),
           ],
@@ -171,20 +145,6 @@ class _QvstContentAnalysisState extends ConsumerState<QvstContentAnalysis> {
 
   bool _isChartVisible(String chartKey, Map<String, bool> chartsVisibility) {
     return chartsVisibility[chartKey] ?? true;
-  }
-
-  Map<int, String>? _extractAnswerLabels(dynamic adjustedData) {
-    if (adjustedData.questionsRequiringAction.isEmpty) return null;
-
-    final Map<int, String> labels = {};
-    for (final answer in adjustedData.questionsRequiringAction.first.answers) {
-      final scoreInt =
-          answer.score != null ? int.tryParse(answer.score!) : null;
-      if (scoreInt != null && answer.answerText.isNotEmpty) {
-        labels[scoreInt] = answer.answerText;
-      }
-    }
-    return labels.isEmpty ? null : labels;
   }
 
   Widget _buildErrorState(Object err, StackTrace stack) {
