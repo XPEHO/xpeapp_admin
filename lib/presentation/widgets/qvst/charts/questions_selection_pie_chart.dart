@@ -70,8 +70,6 @@ class _QuestionsSelectionPieChartState
         .where((q) => _selectedQuestionIds.contains(q.questionId))
         .toList();
 
-    final chartData = _buildChartData(selectedQuestions);
-
     return CollapsibleCard(
       title: 'Questions et satisfaction',
       leadingIcon: Icons.help_outline,
@@ -102,7 +100,7 @@ class _QuestionsSelectionPieChartState
           else
             RepaintBoundary(
               key: chartKey,
-              child: _buildPieChart(selectedQuestions, chartData),
+              child: _buildPieChart(selectedQuestions),
             ),
         ],
       ),
@@ -147,13 +145,7 @@ class _QuestionsSelectionPieChartState
     );
   }
 
-  Widget _buildPieChart(
-    List<QuestionAnalysisEntity> selectedQuestions,
-    List<_PieChartData> chartData,
-  ) {
-    final totalResponses =
-        chartData.fold<int>(0, (sum, item) => sum + item.count);
-
+  Widget _buildPieChart(List<QuestionAnalysisEntity> selectedQuestions) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -164,90 +156,141 @@ class _QuestionsSelectionPieChartState
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
-        SizedBox(
-          height: 380,
-          child: SfCircularChart(
-            legend: const Legend(
-              isVisible: true,
-              position: LegendPosition.bottom,
-              overflowMode: LegendItemOverflowMode.wrap,
-            ),
-            series: <CircularSeries>[
-              PieSeries<_PieChartData, String>(
-                dataSource: chartData,
-                xValueMapper: (data, _) => data.label,
-                yValueMapper: (data, _) => data.count,
-                pointColorMapper: (data, _) => data.color,
-                dataLabelSettings: const DataLabelSettings(
-                  isVisible: true,
-                  labelPosition: ChartDataLabelPosition.outside,
-                  connectorLineSettings: ConnectorLineSettings(
-                    type: ConnectorType.line,
-                  ),
-                ),
-                enableTooltip: true,
+
+        // Grid of pies: 2 columns
+        GridView.count(
+          shrinkWrap: true,
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 1,
+          physics: const NeverScrollableScrollPhysics(),
+          children: selectedQuestions.map((question) {
+            final data = _buildChartDataForQuestion(question);
+            final totalResponses = data.fold<int>(0, (s, d) => s + d.count);
+
+            return Card(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(color: Colors.grey.shade200),
               ),
-            ],
-            tooltipBehavior: TooltipBehavior(
-              enable: true,
-              builder: (raw, _, __, ___, ____) {
-                final data = raw as _PieChartData;
-                final pct = totalResponses == 0
-                    ? 0.0
-                    : (data.count / totalResponses) * 100;
-                return Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.black87,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    '${data.label}\n${data.count} réponses\n${QvstFormatters.formatPercentage(pct)}',
-                    style: const TextStyle(color: Colors.white, fontSize: 11),
-                  ),
-                );
-              },
-            ),
-          ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      question.questionText,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    Expanded(
+                      child: SfCircularChart(
+                        legend: const Legend(
+                          isVisible: false,
+                        ),
+                        series: <CircularSeries>[
+                          PieSeries<_PieChartData, String>(
+                            dataSource: data,
+                            xValueMapper: (d, _) => d.label,
+                            yValueMapper: (d, _) => d.count,
+                            pointColorMapper: (d, _) => d.color,
+                            dataLabelSettings: const DataLabelSettings(
+                              isVisible: true,
+                              labelPosition: ChartDataLabelPosition.outside,
+                              connectorLineSettings: ConnectorLineSettings(
+                                type: ConnectorType.line,
+                              ),
+                            ),
+                            enableTooltip: true,
+                          ),
+                        ],
+                        tooltipBehavior: TooltipBehavior(
+                          enable: true,
+                          builder: (raw, _, __, ___, ____) {
+                            final d = raw as _PieChartData;
+                            final pct = totalResponses == 0
+                                ? 0.0
+                                : (d.count / totalResponses) * 100;
+                            return Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.black87,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                '${d.label}\n${d.count} réponses\n${QvstFormatters.formatPercentage(pct)}',
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 11),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 8,
+                      runSpacing: 4,
+                      children: data.map((d) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: d.color,
+                                shape: BoxShape.rectangle,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              '${d.label} (${d.count})',
+                              style: const TextStyle(fontSize: 11),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
         ),
+
         const SizedBox(height: 12),
         const QvstInfoBanner(
           text:
-              'Camembert basé sur la sélection de questions (agrégation des réponses).',
+              'Galerie de camemberts par question. Les couleurs sont synchronisées par score.',
         ),
       ],
     );
   }
 
-  void _toggleQuestion(String questionId) {
-    setState(() {
-      if (_selectedQuestionIds.contains(questionId)) {
-        _selectedQuestionIds.remove(questionId);
-      } else {
-        _selectedQuestionIds.add(questionId);
-      }
-    });
-  }
-
-  List<_PieChartData> _buildChartData(
-      List<QuestionAnalysisEntity> selectedQuestions) {
+  List<_PieChartData> _buildChartDataForQuestion(
+      QuestionAnalysisEntity question) {
     final countsByScore = <int, int>{for (var i = 1; i <= _maxScore; i++) i: 0};
     final answerLabels = <int, String>{};
 
-    for (final question in selectedQuestions) {
-      for (final answer in question.answers) {
-        final score = answer.score != null ? int.tryParse(answer.score!) : null;
-        final count = answer.count;
+    for (final answer in question.answers) {
+      final score = answer.score != null ? int.tryParse(answer.score!) : null;
+      final count = answer.count;
 
-        if (score == null || count == null || score < 1 || score > _maxScore) {
-          continue;
-        }
+      if (score == null || count == null || score < 1 || score > _maxScore) {
+        continue;
+      }
 
-        countsByScore[score] = (countsByScore[score] ?? 0) + count;
+      countsByScore[score] = (countsByScore[score] ?? 0) + count;
 
-        if (answer.answerText.isNotEmpty && !answerLabels.containsKey(score)) {
-          answerLabels[score] = answer.answerText;
-        }
+      if (answer.answerText.isNotEmpty && !answerLabels.containsKey(score)) {
+        answerLabels[score] = answer.answerText;
       }
     }
 
@@ -259,6 +302,16 @@ class _QuestionsSelectionPieChartState
         color: QvstChartUtils.getColorForScore(score),
       );
     }).where((data) => data.count > 0).toList();
+  }
+
+  void _toggleQuestion(String questionId) {
+    setState(() {
+      if (_selectedQuestionIds.contains(questionId)) {
+        _selectedQuestionIds.remove(questionId);
+      } else {
+        _selectedQuestionIds.add(questionId);
+      }
+    });
   }
 }
 

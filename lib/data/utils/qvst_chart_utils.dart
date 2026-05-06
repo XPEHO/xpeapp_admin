@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class QvstChartUtils {
   static const List<Color> globalScoreColors = [
-    Color(0xFFD32F2F),
-    Color(0xFFF57C00),
-    Color(0xFF9E9E9E),
-    Color(0xFF8BC34A),
     Color(0xFF388E3C),
+    Color(0xFF8BC34A),
+    Color(0xFF9E9E9E),
+    Color(0xFFF57C00),
+    Color(0xFFD32F2F),
   ];
 
   static String getLabelForScore(int score, {Map<int, String>? labels}) {
