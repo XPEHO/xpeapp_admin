@@ -299,7 +299,7 @@ class _QuestionsSelectionPieChartState
       }
     }
 
-    // Générer les données triées par score décroissant (5→1) pour affichage dans le sens des aiguilles
+    // Generate data sorted by descending score (5→1) so segments are displayed clockwise
     final result = List.generate(_maxScore, (i) {
       final score = _maxScore - i; // Trier décroissant: 5, 4, 3, 2, 1
       return _PieChartData(

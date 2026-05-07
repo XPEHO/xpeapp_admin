@@ -8,26 +8,26 @@ class QvstChartUtils {
     return 'Note $score';
   }
 
-  /// Retourne la couleur pour un score, avec inversion si la question est inversée
-  /// Si reversed=false (question positive): vert → rouge (5 vert, 1 rouge)
-  /// Si reversed=true (question négative): rouge → vert (5 rouge, 1 vert = inversé)
+  /// Returns the color for a given score, with optional inversion for reversed questions.
+  /// When `isReversed` is false (positive question): mapping is green → red (score 5 = green, score 1 = red).
+  /// When `isReversed` is true (negative question): mapping is inverted so that favorable responses stay green.
   static Color getColorForScore(int score, {bool isReversed = false}) {
     if (score < 1 || score > 5) return Colors.grey;
 
     const Map<int, Color> positiveMapping = {
-      5: Color(0xFF388E3C), // Vert: Tout a fait
-      4: Color(0xFF8BC34A), // Vert clair
-      3: Color(0xFF9E9E9E), // Gris/Jaune: Neutre
+      5: Color(0xFF388E3C), // Green: Strongly agree / very positive
+      4: Color(0xFF8BC34A), // Light green
+      3: Color(0xFF9E9E9E), // Neutral (grey/yellow)
       2: Color(0xFFF57C00), // Orange
-      1: Color(0xFFD32F2F), // Rouge: Pas du tout
+      1: Color(0xFFD32F2F), // Red: Strongly disagree / very negative
     };
 
     const Map<int, Color> reversedMapping = {
-      5: Color(0xFFD32F2F), // Rouge: Tout à fait (mauvais dans ce contexte)
+      5: Color(0xFFD32F2F), // Red: high score is negative in this context
       4: Color(0xFFF57C00), // Orange
-      3: Color(0xFF9E9E9E), // Gris/Jaune: Neutre
-      2: Color(0xFF8BC34A), // Vert clair
-      1: Color(0xFF388E3C), // Vert: Pas du tout (bon dans ce contexte)
+      3: Color(0xFF9E9E9E), // Neutral
+      2: Color(0xFF8BC34A), // Light green
+      1: Color(0xFF388E3C), // Green: low score is positive in this context
     };
 
     final mapping = isReversed ? reversedMapping : positiveMapping;
