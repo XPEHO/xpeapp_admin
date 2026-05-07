@@ -15,7 +15,7 @@ class QvstChartUtils {
     if (score < 1 || score > 5) return Colors.grey;
 
     const Map<int, Color> positiveMapping = {
-      5: Color(0xFF388E3C), // Vert: Tout à fait
+      5: Color(0xFF388E3C), // Vert: Tout a fait
       4: Color(0xFF8BC34A), // Vert clair
       3: Color(0xFF9E9E9E), // Gris/Jaune: Neutre
       2: Color(0xFFF57C00), // Orange
