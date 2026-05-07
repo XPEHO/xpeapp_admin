@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 
 class QvstChartUtils {
-  static const List<Color> globalScoreColors = [
-    Color(0xFF388E3C),
-    Color(0xFF8BC34A),
-    Color(0xFF9E9E9E),
-    Color(0xFFF57C00),
-    Color(0xFFD32F2F),
-  ];
-
   static String getLabelForScore(int score, {Map<int, String>? labels}) {
     if (labels != null && labels.containsKey(score)) {
       return labels[score]!;
@@ -16,9 +8,30 @@ class QvstChartUtils {
     return 'Note $score';
   }
 
-  static Color getColorForScore(int score) {
+  /// Retourne la couleur pour un score, avec inversion si la question est inversée
+  /// Si reversed=false (question positive): vert → rouge (5 vert, 1 rouge)
+  /// Si reversed=true (question négative): rouge → vert (5 rouge, 1 vert = inversé)
+  static Color getColorForScore(int score, {bool isReversed = false}) {
     if (score < 1 || score > 5) return Colors.grey;
-    return globalScoreColors[score - 1];
+
+    const Map<int, Color> positiveMapping = {
+      5: Color(0xFF388E3C), // Vert: Tout à fait
+      4: Color(0xFF8BC34A), // Vert clair
+      3: Color(0xFF9E9E9E), // Gris/Jaune: Neutre
+      2: Color(0xFFF57C00), // Orange
+      1: Color(0xFFD32F2F), // Rouge: Pas du tout
+    };
+
+    const Map<int, Color> reversedMapping = {
+      5: Color(0xFFD32F2F), // Rouge: Tout à fait (mauvais dans ce contexte)
+      4: Color(0xFFF57C00), // Orange
+      3: Color(0xFF9E9E9E), // Gris/Jaune: Neutre
+      2: Color(0xFF8BC34A), // Vert clair
+      1: Color(0xFF388E3C), // Vert: Pas du tout (bon dans ce contexte)
+    };
+
+    final mapping = isReversed ? reversedMapping : positiveMapping;
+    return mapping[score] ?? Colors.grey;
   }
 
   static Color getSatisfactionColor(double satisfaction) {
