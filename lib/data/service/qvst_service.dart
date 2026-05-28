@@ -158,8 +158,8 @@ class QvstService {
     );
   }
 
-  Future<List<QvstQuestionEntity>> getAllQvst() async {
-    final response = await _backendApi.getAllQvst(true);
+  Future<List<QvstQuestionEntity>> getAllQvst({int? page}) async {
+    final response = await _backendApi.getAllQvst(page, true);
     if (response.response.statusCode == 200) {
       final data = response.data as List<dynamic>;
       return data
@@ -202,9 +202,11 @@ class QvstService {
   Future<List<QvstQuestionEntity>> getAllQvstQuestionsByThemeId(
     String id, {
     bool includeNoLongerUsed = false,
+    int? page,
   }) async {
     final response = await _backendApi.getAllQvstQuestionsByThemeId(
       id,
+      page,
       includeNoLongerUsed,
     );
     if (response.response.statusCode == 200) {

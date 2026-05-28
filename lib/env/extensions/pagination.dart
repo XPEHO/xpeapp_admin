@@ -35,4 +35,20 @@ extension PaginationWidgetRef on WidgetRef {
       error: (_, __) => false,
     );
   }
+
+  bool hasNextQvstQuestionsPage(int currentPage, {String? themeId}) {
+    final nextPageAsync = themeId == null
+        ? watch(qvstQuestionsListPaginatedProvider(currentPage + 1))
+        : watch(
+            qvstQuestionsByThemesIncludingObsoletePaginatedProvider(
+              (themeId: themeId, page: currentPage + 1),
+            ),
+          );
+
+    return nextPageAsync.when(
+      data: (questions) => questions.isNotEmpty,
+      loading: () => false,
+      error: (_, __) => false,
+    );
+  }
 }

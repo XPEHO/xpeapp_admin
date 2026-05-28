@@ -118,11 +118,16 @@ class _BackendApi implements BackendApi {
   }
 
   @override
-  Future<HttpResponse<dynamic>> getAllQvst(bool includeNoLongerUsed) async {
+  Future<HttpResponse<dynamic>> getAllQvst(
+    int? page,
+    bool includeNoLongerUsed,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
+      r'page': page,
       r'include_no_longer_used': includeNoLongerUsed,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<dynamic>>(
@@ -188,12 +193,15 @@ class _BackendApi implements BackendApi {
   @override
   Future<HttpResponse<dynamic>> getAllQvstQuestionsByThemeId(
     String id,
+    int? page,
     bool includeNoLongerUsed,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
+      r'page': page,
       r'include_no_longer_used': includeNoLongerUsed,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<dynamic>>(

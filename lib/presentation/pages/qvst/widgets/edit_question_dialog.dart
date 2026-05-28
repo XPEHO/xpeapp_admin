@@ -115,6 +115,8 @@ class _EditQuestionDialogState extends State<EditQuestionDialog> {
             questionText: newText,
           );
       if (!mounted) return;
+      ref.invalidate(qvstQuestionsListPaginatedProvider);
+      ref.invalidate(qvstQuestionsByThemesIncludingObsoletePaginatedProvider);
       ref.invalidate(qvstQuestionsListProvider);
       if (widget.themeId != null) {
         ref.invalidate(qvstQuestionsByThemesListProvider(widget.themeId!));

@@ -123,18 +123,27 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
       ) as _i4.Future<_i2.HttpResponse<dynamic>>);
 
   @override
-  _i4.Future<_i2.HttpResponse<dynamic>> getAllQvst(bool? includeNoLongerUsed) =>
+  _i4.Future<_i2.HttpResponse<dynamic>> getAllQvst(
+    int? page,
+    bool? includeNoLongerUsed,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllQvst,
-          [includeNoLongerUsed],
+          [
+            page,
+            includeNoLongerUsed,
+          ],
         ),
         returnValue: _i4.Future<_i2.HttpResponse<dynamic>>.value(
             _FakeHttpResponse_0<dynamic>(
           this,
           Invocation.method(
             #getAllQvst,
-            [includeNoLongerUsed],
+            [
+              page,
+              includeNoLongerUsed,
+            ],
           ),
         )),
       ) as _i4.Future<_i2.HttpResponse<dynamic>>);
@@ -176,6 +185,7 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
   @override
   _i4.Future<_i2.HttpResponse<dynamic>> getAllQvstQuestionsByThemeId(
     String? id,
+    int? page,
     bool? includeNoLongerUsed,
   ) =>
       (super.noSuchMethod(
@@ -183,6 +193,7 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
           #getAllQvstQuestionsByThemeId,
           [
             id,
+            page,
             includeNoLongerUsed,
           ],
         ),
@@ -193,6 +204,7 @@ class MockBackendApi extends _i1.Mock implements _i3.BackendApi {
             #getAllQvstQuestionsByThemeId,
             [
               id,
+              page,
               includeNoLongerUsed,
             ],
           ),
