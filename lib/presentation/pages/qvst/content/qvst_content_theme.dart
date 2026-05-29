@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
+import 'package:xpeapp_admin/env/extensions/pagination.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_table_view.dart';
-import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_import_question_file_dialog.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
 import 'package:xpeapp_admin/providers.dart';
 
@@ -17,20 +16,18 @@ class QvstContentTheme extends ConsumerStatefulWidget {
 }
 
 class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
+  int currentPage = 1;
+
   @override
   Widget build(BuildContext context) {
     final questions = ref.watch(
       (widget.id != null)
-          ? qvstQuestionsByThemesIncludingObsoleteProvider(widget.id!)
-          : qvstQuestionsListProvider,
+          ? qvstQuestionsByThemesIncludingObsoletePaginatedProvider(
+              (themeId: widget.id!, page: currentPage),
+            )
+          : qvstQuestionsListPaginatedProvider(currentPage),
     );
     final themeList = ref.watch(qvstThemesListProvider).asData?.value;
-    final theme = (widget.id != null)
-        ? themeList?.firstWhere(
-            (element) => element.id == widget.id!,
-            orElse: () => null as dynamic,
-          )
-        : null;
 
     return Scaffold(
       appBar: AppBar(
@@ -74,6 +71,9 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
                           value: widget.id,
                           hint: const Text('Sélectionnez un thème'),
                           onChanged: (value) {
+                            setState(() {
+                              currentPage = 1;
+                            });
                             ref.read(qvstMenuProvider.notifier).changeMenu(
                                   QvstMenu.theme,
                                   id: value,
@@ -98,6 +98,9 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
                           message: 'Supprimer le filtre',
                           child: IconButton(
                             onPressed: () {
+                              setState(() {
+                                currentPage = 1;
+                              });
                               ref.read(qvstMenuProvider.notifier).changeMenu(
                                     QvstMenu.theme,
                                   );
@@ -113,11 +116,23 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
                   const SizedBox(
                     height: 20,
                   ),
+                  Text(
+                    'Page $currentPage - toutes les questions',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Center(
                     child: questions.when(
                       data: (data) => (data.isNotEmpty)
                           ? QvstTableView(
                               themeId: widget.id,
+                              currentPage: currentPage,
                               questions: data,
                             )
                           : const Text(
@@ -136,18 +151,63 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
         ],
       ),
       floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          if (currentPage > 1) ...[
+            Tooltip(
+              message: 'Précédent',
+              child: FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    currentPage--;
+                  });
+                },
+                backgroundColor: kDefaultXpehoColor,
+                child: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+          ref.hasNextQvstQuestionsPage(
+            currentPage,
+            themeId: widget.id,
+          )
+              ? Tooltip(
+                  message: 'Suivant',
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        currentPage++;
+                      });
+                    },
+                    backgroundColor: kDefaultXpehoColor,
+                    child: const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink(),
+          const SizedBox(
+            width: 10,
+          ),
           Tooltip(
-            message: "Recharger les thèmes et questions",
+            message: 'Rafraîchir',
             child: FloatingActionButton(
               onPressed: () {
                 ref.invalidate(qvstThemesListProvider);
+                ref.invalidate(qvstQuestionsListPaginatedProvider);
                 ref.invalidate(
-                  qvstQuestionsByThemesIncludingObsoleteProvider(
-                      theme?.id ?? ''),
+                  qvstQuestionsByThemesIncludingObsoletePaginatedProvider,
                 );
                 ref.invalidate(qvstQuestionsListProvider);
+                ref.invalidate(qvstQuestionsByThemesIncludingObsoleteProvider);
               },
               backgroundColor: kDefaultXpehoColor,
               child: const Icon(
@@ -156,83 +216,8 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
               ),
             ),
           ),
-          const SizedBox(
-            width: 10,
-          ),
-          Tooltip(
-            message: "Ajouter une question",
-            child: FloatingActionButton(
-              onPressed: () {
-                ref.watch(qvstThemesSelectionProvider.notifier).setTheme(theme);
-                context.push('/qvst/add');
-              },
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Tooltip(
-            message: "Importer un fichier de questions",
-            child: FloatingActionButton(
-              onPressed: () {
-                showImportQuestionByCsvFileDialog(
-                  context,
-                  ref,
-                );
-              },
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.upload_file,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Tooltip(
-            message: "Exporter toutes les questions",
-            child: FloatingActionButton(
-              onPressed: () => _handleExportQuestions(context, ref),
-              backgroundColor: kDefaultXpehoColor,
-              child: const Icon(
-                Icons.download,
-                color: Colors.white,
-              ),
-            ),
-          ),
         ],
       ),
     );
-  }
-
-  Future<void> _handleExportQuestions(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
-    try {
-      final token = ref.read(userProvider)?.token?.token ?? '';
-      await ref.read(qvstServiceProvider).exportAllQvstQuestions(token);
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Export des questions réussi'),
-          backgroundColor: Colors.green,
-        ),
-      );
-    } catch (e) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Erreur: ${e.toString()}'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
   }
 }

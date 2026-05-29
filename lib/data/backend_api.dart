@@ -33,6 +33,7 @@ abstract class BackendApi {
 
   @GET("xpeho/v1/qvst")
   Future<HttpResponse> getAllQvst(
+    @Query("page") int? page,
     @Query("include_no_longer_used") bool includeNoLongerUsed,
   );
 
@@ -47,6 +48,7 @@ abstract class BackendApi {
   @GET("xpeho/v1/qvst/themes/{id}/questions")
   Future<HttpResponse> getAllQvstQuestionsByThemeId(
     @Path("id") String id,
+    @Query("page") int? page,
     @Query("include_no_longer_used") bool includeNoLongerUsed,
   );
 

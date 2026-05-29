@@ -176,6 +176,11 @@ final qvstQuestionsListProvider =
   return ref.watch(qvstServiceProvider).getAllQvst();
 });
 
+final qvstQuestionsListPaginatedProvider =
+    FutureProvider.family<List<QvstQuestionEntity>, int>((ref, page) async {
+  return ref.watch(qvstServiceProvider).getAllQvst(page: page);
+});
+
 final qvstQuestionProvider =
     FutureProvider.family<QvstQuestionEntity, String>((ref, id) async {
   return ref.watch(qvstServiceProvider).getQvstById(id);
@@ -199,6 +204,17 @@ final qvstQuestionsByThemesIncludingObsoleteProvider =
       .watch(qvstServiceProvider)
       .getAllQvstQuestionsByThemeId(id, includeNoLongerUsed: true);
 });
+
+final qvstQuestionsByThemesIncludingObsoletePaginatedProvider = FutureProvider
+    .family<List<QvstQuestionEntity>, ({String themeId, int page})>(
+  (ref, params) async {
+    return ref.watch(qvstServiceProvider).getAllQvstQuestionsByThemeId(
+          params.themeId,
+          includeNoLongerUsed: true,
+          page: params.page,
+        );
+  },
+);
 
 final qvstThemesSelectionProvider =
     StateNotifierProvider<QvstThemesNotifier, List<QvstThemeEntity>>((ref) {

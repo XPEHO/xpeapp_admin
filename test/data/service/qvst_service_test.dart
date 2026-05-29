@@ -106,7 +106,7 @@ void main() {
     });
     group('getAllQvst()', () {
       test('Success', () async {
-        when(mockBackendApi.getAllQvst(true)).thenAnswer((_) async {
+        when(mockBackendApi.getAllQvst(null, true)).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
               [
@@ -139,7 +139,7 @@ void main() {
       });
 
       test('Failed', () async {
-        when(mockBackendApi.getAllQvst(true)).thenAnswer((_) async {
+        when(mockBackendApi.getAllQvst(null, true)).thenAnswer((_) async {
           return Future.value(
             HttpResponse(
               [],
@@ -353,7 +353,8 @@ void main() {
           ]
         };
 
-        when(mockBackendApi.getAllQvstQuestionsByThemeId(id, true)).thenAnswer(
+        when(mockBackendApi.getAllQvstQuestionsByThemeId(id, null, true))
+            .thenAnswer(
           (_) async {
             return Future.value(
               HttpResponse(
@@ -377,7 +378,8 @@ void main() {
 
       test('Failed', () async {
         // Ajout du stub pour l'appel avec (id, false)
-        when(mockBackendApi.getAllQvstQuestionsByThemeId(id, false)).thenAnswer(
+        when(mockBackendApi.getAllQvstQuestionsByThemeId(id, null, false))
+            .thenAnswer(
           (_) async {
             return Future.value(
               HttpResponse(

@@ -8,11 +8,13 @@ import 'package:xpeapp_admin/providers.dart';
 
 class QvstTableView extends ConsumerWidget {
   final String? themeId;
+  final int currentPage;
   final List<QvstQuestionEntity> questions;
 
   const QvstTableView({
     super.key,
     this.themeId,
+    required this.currentPage,
     required this.questions,
   });
 
@@ -182,10 +184,19 @@ class QvstTableView extends ConsumerWidget {
     ref.read(loaderStateProvider.notifier).hideLoader();
     if (!context.mounted) return;
     if (result) {
+      ref.invalidate(qvstQuestionsListPaginatedProvider);
+      ref.invalidate(qvstQuestionsByThemesIncludingObsoletePaginatedProvider);
       ref.invalidate(
         (themeId != null)
             ? qvstQuestionsByThemesListProvider(themeId!)
             : qvstQuestionsListProvider,
+      );
+      ref.invalidate(
+        (themeId != null)
+            ? qvstQuestionsByThemesIncludingObsoletePaginatedProvider(
+                (themeId: themeId!, page: currentPage),
+              )
+            : qvstQuestionsListPaginatedProvider(currentPage),
       );
       if (e.idTheme != null) {
         ref.invalidate(qvstQuestionsByThemesListProvider(e.idTheme!));
