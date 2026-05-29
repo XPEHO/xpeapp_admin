@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:xpeapp_admin/data/entities/qvst/analysis/qvst_analysis_entity.dart';
 import 'package:xpeapp_admin/data/utils/qvst_chart_utils.dart';
 import 'package:xpeapp_admin/data/utils/qvst_ui_utils.dart';
 import 'package:xpeapp_admin/presentation/widgets/common/collapsible_card.dart';
 import 'package:xpeapp_admin/presentation/widgets/common/screenshot_button.dart';
+import 'package:xpeapp_admin/providers.dart';
 
-class QuestionsSelectionPieChart extends StatefulWidget {
+class QuestionsSelectionPieChart extends ConsumerStatefulWidget {
   final List<QuestionAnalysisEntity> questionsAnalysis;
 
   const QuestionsSelectionPieChart({
@@ -15,12 +17,12 @@ class QuestionsSelectionPieChart extends StatefulWidget {
   });
 
   @override
-  State<QuestionsSelectionPieChart> createState() =>
+  ConsumerState<QuestionsSelectionPieChart> createState() =>
       _QuestionsSelectionPieChartState();
 }
 
 class _QuestionsSelectionPieChartState
-    extends State<QuestionsSelectionPieChart> {
+    extends ConsumerState<QuestionsSelectionPieChart> {
   static const int _maxScore = 5;
   final Set<String> _selectedQuestionIds = <String>{};
 
@@ -49,6 +51,7 @@ class _QuestionsSelectionPieChartState
 
   @override
   Widget build(BuildContext context) {
+    final reversedQuestions = ref.watch(reversedQuestionsProvider);
     final chartKey = GlobalKey();
 
     if (widget.questionsAnalysis.isEmpty) {
@@ -100,7 +103,7 @@ class _QuestionsSelectionPieChartState
           else
             RepaintBoundary(
               key: chartKey,
-              child: _buildPieChart(selectedQuestions),
+              child: _buildPieChart(selectedQuestions, reversedQuestions),
             ),
         ],
       ),
@@ -145,7 +148,8 @@ class _QuestionsSelectionPieChartState
     );
   }
 
-  Widget _buildPieChart(List<QuestionAnalysisEntity> selectedQuestions) {
+  Widget _buildPieChart(List<QuestionAnalysisEntity> selectedQuestions,
+      Map<String, bool> reversedQuestions) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -166,7 +170,8 @@ class _QuestionsSelectionPieChartState
           childAspectRatio: 1,
           physics: const NeverScrollableScrollPhysics(),
           children: selectedQuestions.map((question) {
-            final data = _buildChartDataForQuestion(question);
+            final isReversed = reversedQuestions[question.questionId] ?? false;
+            final data = _buildChartDataForQuestion(question, isReversed);
             final totalResponses = data.fold<int>(0, (s, d) => s + d.count);
 
             return Card(
@@ -275,7 +280,7 @@ class _QuestionsSelectionPieChartState
   }
 
   List<_PieChartData> _buildChartDataForQuestion(
-      QuestionAnalysisEntity question) {
+      QuestionAnalysisEntity question, bool isReversed) {
     final countsByScore = <int, int>{for (var i = 1; i <= _maxScore; i++) i: 0};
     final answerLabels = <int, String>{};
 
@@ -294,14 +299,17 @@ class _QuestionsSelectionPieChartState
       }
     }
 
-    return List.generate(_maxScore, (i) {
-      final score = i + 1;
+    // Generate data sorted by descending score (5→1) so segments are displayed clockwise
+    final result = List.generate(_maxScore, (i) {
+      final score = _maxScore - i; // Trier décroissant: 5, 4, 3, 2, 1
       return _PieChartData(
         label: QvstChartUtils.getLabelForScore(score, labels: answerLabels),
         count: countsByScore[score] ?? 0,
-        color: QvstChartUtils.getColorForScore(score),
+        color: QvstChartUtils.getColorForScore(score, isReversed: isReversed),
       );
     }).where((data) => data.count > 0).toList();
+
+    return result;
   }
 
   void _toggleQuestion(String questionId) {

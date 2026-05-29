@@ -6,7 +6,6 @@ class AnalysisChartsVisibilityNotifier
       : super({
           'globalStats': true,
           'questionsAnalysis': true,
-          'globalDistribution': true,
           'questionsDetailed': true,
           'atRiskEmployees': true,
         });

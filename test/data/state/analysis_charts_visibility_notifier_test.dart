@@ -13,7 +13,6 @@ void main() {
       expect(notifier.state, {
         'globalStats': true,
         'questionsAnalysis': true,
-        'globalDistribution': true,
         'questionsDetailed': true,
         'atRiskEmployees': true,
       });
