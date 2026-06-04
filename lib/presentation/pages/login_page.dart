@@ -10,14 +10,44 @@ import 'package:xpeapp_admin/providers.dart';
 import 'package:yaki_ui/button.dart';
 import 'package:yaki_ui/input_text.dart';
 
-class LoginPage extends ConsumerWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends ConsumerState<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submitLogin() async {
+    final user = XpehoUser(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+
+    await _connexionLoading(
+      context: context,
+      user: user,
+      ref: ref,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final loaderState = ref.watch(loaderStateProvider);
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -50,7 +80,13 @@ class LoginPage extends ConsumerWidget {
                     child: InputText(
                       type: InputTextType.email,
                       label: 'Adresse email',
-                      controller: emailController,
+                      controller: _emailController,
+                      focusNode: _emailFocusNode,
+                      readOnly: false,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) {
+                        FocusScope.of(context).requestFocus(_passwordFocusNode);
+                      },
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -65,25 +101,18 @@ class LoginPage extends ConsumerWidget {
                     child: InputText(
                       type: InputTextType.password,
                       label: 'Mot de passe',
-                      controller: passwordController,
+                      controller: _passwordController,
+                      focusNode: _passwordFocusNode,
+                      readOnly: false,
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (_) => _submitLogin(),
                     ),
                   ),
                   const SizedBox(height: 20),
                   Button(
                     text: 'Se connecter',
                     color: kDefaultXpehoColor,
-                    onPressed: () async {
-                      final user = XpehoUser(
-                        email: emailController.text,
-                        password: passwordController.text,
-                      );
-
-                      await _connexionLoading(
-                        context: context,
-                        user: user,
-                        ref: ref,
-                      );
-                    },
+                    onPressed: _submitLogin,
                   ),
                 ],
               ),
