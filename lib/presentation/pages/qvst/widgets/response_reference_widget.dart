@@ -35,100 +35,107 @@ class _ResponseReferenceWidgetState
 
     return qvstAnswerSets.when(
       data: (data) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DropdownButtonHideUnderline(
-              child: DropdownButton<QvstAnswerRepoEntity>(
-                value: responseReferenceSelection,
-                onChanged: (QvstAnswerRepoEntity? newValue) =>
-                    _onChanged(newValue, responseReferenceSelection),
-                items: data
-                    .map<DropdownMenuItem<QvstAnswerRepoEntity>>(
-                      (QvstAnswerRepoEntity value) =>
-                          DropdownMenuItem<QvstAnswerRepoEntity>(
-                        value: value,
-                        child: Text(value.repoName),
-                      ),
-                    )
-                    .toList(),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: DropdownButton<QvstAnswerRepoEntity>(
+                  value: responseReferenceSelection,
+                  onChanged: (QvstAnswerRepoEntity? newValue) =>
+                      _onChanged(newValue, responseReferenceSelection),
+                  items: data
+                      .map<DropdownMenuItem<QvstAnswerRepoEntity>>(
+                        (QvstAnswerRepoEntity value) =>
+                            DropdownMenuItem<QvstAnswerRepoEntity>(
+                          value: value,
+                          child: Text(value.repoName,
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                      )
+                      .toList(),
+                  isExpanded: true,
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                if (responseReferenceSelection != null) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      backgroundColor: kDefaultXpehoColor,
-                      title: Text(
-                        responseReferenceSelection.repoName,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      content: Container(
-                        width: 300,
-                        height: 300,
-                        margin: const EdgeInsets.only(
-                          left: 20,
-                          right: 20,
+              IconButton(
+                onPressed: () {
+                  if (responseReferenceSelection != null) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        backgroundColor: kDefaultXpehoColor,
+                        title: Text(
+                          responseReferenceSelection.repoName,
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        child: ListView.builder(
-                          itemCount: responseReferenceSelection.answers.length,
-                          itemBuilder: (context, index) {
-                            QvstAnswerEntity answerEntity =
-                                responseReferenceSelection.answers[index];
-                            return ListTile(
-                              title: Text(
-                                "${answerEntity.answer} (${answerEntity.value})",
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => context.pop(),
-                          child: const Text(
-                            'Fermer',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
+                        content: Container(
+                          width: 300,
+                          height: 300,
+                          margin: const EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                          ),
+                          child: ListView.builder(
+                            itemCount:
+                                responseReferenceSelection.answers.length,
+                            itemBuilder: (context, index) {
+                              QvstAnswerEntity answerEntity =
+                                  responseReferenceSelection.answers[index];
+                              return ListTile(
+                                title: Text(
+                                  "${answerEntity.answer} (${answerEntity.value})",
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      ],
-                    ),
-                  );
-                }
-              },
-              icon: const Icon(
-                Icons.info,
-                color: Colors.black,
-              ),
-            ),
-            if (!_isSaved && responseReferenceSelection != null)
-              IconButton(
-                onPressed: () async {
-                  try {
-                    await ref.read(qvstServiceProvider).updateQvst(
-                      widget.qvstId,
-                      {'answer_repo_id': responseReferenceSelection.id},
-                    );
-                    setState(() {
-                      _isSaved = true;
-                    });
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Erreur : ${e.toString()}'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => context.pop(),
+                            child: const Text(
+                              'Fermer',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }
                 },
                 icon: const Icon(
-                  Icons.save,
+                  Icons.info,
                   color: Colors.black,
                 ),
               ),
-          ],
+              if (!_isSaved && responseReferenceSelection != null)
+                IconButton(
+                  onPressed: () async {
+                    try {
+                      await ref.read(qvstServiceProvider).updateQvst(
+                        widget.qvstId,
+                        {'answer_repo_id': responseReferenceSelection.id},
+                      );
+                      setState(() {
+                        _isSaved = true;
+                      });
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Erreur : ${e.toString()}'),
+                        ),
+                      );
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.save,
+                    color: Colors.black,
+                  ),
+                ),
+            ],
+          ),
         );
       },
       error: (error, stack) => Text(

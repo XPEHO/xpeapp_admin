@@ -31,6 +31,20 @@ class QvstTableView extends ConsumerWidget {
             color: Colors.black,
             width: 1,
           ),
+          columnWidths: themeId == null
+              ? const {
+                  0: FlexColumnWidth(2), // Thème
+                  1: FlexColumnWidth(3), // Question
+                  2: FixedColumnWidth(280), // Référentiel
+                  3: FlexColumnWidth(1), // Posé x fois
+                  4: FlexColumnWidth(1), // Action
+                }
+              : const {
+                  0: FlexColumnWidth(3), // Question
+                  1: FixedColumnWidth(280), // Référentiel
+                  2: FlexColumnWidth(1), // Posé x fois
+                  3: FlexColumnWidth(1), // Action
+                },
           children: [
             TableRow(
               children: [
