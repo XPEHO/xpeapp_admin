@@ -1,3 +1,8 @@
+## 1.5.1
+
+_Fix_
+- Fix the input was removed from the app.
+
 ## 1.5.0
 
 _Feat_
