@@ -732,9 +732,9 @@ void main() {
           name: 'test.csv',
           size: 100,
           bytes: utf8.encode(
-              'question_id,question_text,theme_id,theme_name,repo_id,repo_name,reversed_question,no_longer_used,number_asked\n'
-              '1,Question 1,1,Theme,1,Repo,0,0,1\n'
-              '2,Question 2,1,Theme,1,Repo,0,0,1\n'),
+              'id_question,id_theme,question,response_repo,reversed_question,no_longer_used\n'
+              '1,1,Question 1,1,0,0\n'
+              '2,1,Question 2,1,0,0\n'),
         );
 
         when(mockBackendApi.importQvstFile(any)).thenAnswer((_) async {
@@ -766,7 +766,7 @@ void main() {
           name: 'test.csv',
           size: 100,
           bytes: utf8.encode(
-              'Id theme,Id question,Question,Réponse\n1,1,Question 1,Réponse 1\n1,2,Question 2,Réponse 2\n'),
+              'Id theme,Question,Réponse\n1,Question 1,Réponse 1\n1,Question 2,Réponse 2\n'),
         );
 
         when(mockBackendApi.importQvstFile(any)).thenAnswer((_) async {
