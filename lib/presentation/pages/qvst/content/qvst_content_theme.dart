@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:xpeapp_admin/data/colors.dart';
 import 'package:xpeapp_admin/data/enum/qvst_menu.dart';
 import 'package:xpeapp_admin/env/extensions/pagination.dart';
 import 'package:xpeapp_admin/presentation/pages/qvst/content/qvst_table_view.dart';
+import 'package:xpeapp_admin/presentation/pages/qvst/widgets/qvst_import_question_file_dialog.dart';
 import 'package:xpeapp_admin/presentation/pages/template/subtitle.dart';
 import 'package:xpeapp_admin/providers.dart';
 
@@ -194,6 +196,38 @@ class _QvstContentThemeState extends ConsumerState<QvstContentTheme> {
                   ),
                 )
               : const SizedBox.shrink(),
+          const SizedBox(
+            width: 10,
+          ),
+          Tooltip(
+            message: 'Ajouter une question',
+            child: FloatingActionButton(
+              onPressed: () {
+                context.push('/qvst/add');
+              },
+              backgroundColor: kDefaultXpehoColor,
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Tooltip(
+            message: 'Importer des questions',
+            child: FloatingActionButton(
+              onPressed: () {
+                showImportQuestionByCsvFileDialog(context, ref);
+              },
+              backgroundColor: kDefaultXpehoColor,
+              child: const Icon(
+                Icons.note_add,
+                color: Colors.white,
+              ),
+            ),
+          ),
           const SizedBox(
             width: 10,
           ),
