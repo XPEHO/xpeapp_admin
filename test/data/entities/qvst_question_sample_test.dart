@@ -24,9 +24,8 @@ void main() {
     });
 
     test('fromCsvLine creates a valid instance', () {
-      // CSV columns: [question_id, question_text, theme_id, theme_name, repo_id, repo_name, reversed_question, no_longer_used, number_asked]
-      const csvLine =
-          'q1,What is your name?,theme1,Theme Name,repo1,Repo Name,0,0,1';
+      // Backend format: [id_question, id_theme, question, response_repo, reversed_question, no_longer_used]
+      const csvLine = 'q1,theme1,What is your name?,repo1,0,0';
 
       final sample = QvstQuestionSample.fromCsvLine(csvLine);
 
@@ -40,13 +39,27 @@ void main() {
 
     test('fromCsvLine creates a valid instance with comma in question', () {
       const csvLine =
-          'q2,"I would like to ask you, what is your name?",theme1,Theme Name,repo1,Repo Name,1,0,1';
+          'q2,theme1,"I would like to ask you, what is your name?",repo1,1,0';
 
       final sample = QvstQuestionSample.fromCsvLine(csvLine);
 
       expect(sample.id, 'q2');
       expect(sample.idTheme, 'theme1');
       expect(sample.question, 'I would like to ask you, what is your name?');
+      expect(sample.responseRepo, 'repo1');
+      expect(sample.reversedQuestion, true);
+      expect(sample.noLongerUsed, false);
+    });
+
+    test('fromCsvLine still supports legacy export format', () {
+      const csvLine =
+          'q3,What is your name?,theme1,Theme Name,repo1,Repo Name,yes,no,1';
+
+      final sample = QvstQuestionSample.fromCsvLine(csvLine);
+
+      expect(sample.id, 'q3');
+      expect(sample.idTheme, 'theme1');
+      expect(sample.question, 'What is your name?');
       expect(sample.responseRepo, 'repo1');
       expect(sample.reversedQuestion, true);
       expect(sample.noLongerUsed, false);
