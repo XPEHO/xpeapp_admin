@@ -35,7 +35,7 @@ dependencies:
   fake_cloud_firestore: ^4.0.0
   dio: ^5.9.0
   retrofit: ^4.9.1
-  file_picker: ^11.0.2
+  file_picker: ^13.1.0
   google_sign_in: ^7.2.0
   csv: ^8.0.0
   url_launcher_web: ^2.4.1
